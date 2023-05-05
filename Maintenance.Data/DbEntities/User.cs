@@ -7,7 +7,7 @@ namespace Maintenance.Data.DbEntities
     {
         public string FullName { get; set; }
         public UserType UserType { get; set; }
-        public string? ImageUrl { get; set; }
+        public string? ImageFilePath { get; set; }
         public DateTime CreatedAt { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }

@@ -25,5 +25,6 @@ namespace Maintenance.Core.Constants
         public const string InvalidPassword = "InvalidPassword";
         public const string DeleteSchedulNotAvailable = "DeleteSchedulNotAvailable";
         public const string OperationFailed = "OperationFailed";
+        public const string EmailAlreadyExists = "EmailAlreadyExists";
     }
 }

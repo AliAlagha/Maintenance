@@ -1,0 +1,56 @@
+﻿@model UpdateCustomerDto
+@{
+    ViewData["Title"] = Messages.Customers;
+    Layout = null;
+}
+
+<form asp-action="Edit" method="post" class="ajaxForm" tname="#kt_datatable" enctype="multipart/form-data">
+    <input asp-for="Id" type="hidden" />
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.Name</label>
+                <input asp-for="Name" placeholder="@string.Format(Messages.Enter,Messages.Name)" class="form-control form-control-solid" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.Email</label>
+                <input asp-for="Email" placeholder="@string.Format(Messages.Enter,Messages.Email)" class="form-control form-control-solid" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.PhoneNumber</label>
+                <input asp-for="PhoneNumber" placeholder="@string.Format(Messages.Enter,Messages.PhoneNumber)" class="form-control form-control-solid" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.Address</label>
+                <input asp-for="Address" placeholder="@string.Format(Messages.Enter,Messages.Address)" class="form-control form-control-solid" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
+        <button type="button" data-dismiss="modal" class="btn btn-light-primary font-weight-bold">@Messages.Cancel</button>
+    </div>
+</form>
+
+<script>
+    PageLoadActions();
+</script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
+

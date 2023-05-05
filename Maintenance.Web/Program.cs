@@ -2,6 +2,7 @@ using AutoMapper;
 using Maintenance.Data;
 using Maintenance.Data.DbEntities;
 using Maintenance.Infrastructure.AutoMapper;
+using Maintenance.Infrastructure.Extensions;
 using Maintenance.Infrastructure.Middlewares;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -45,6 +46,7 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromMinutes(1);//You can set Time   
 });
 
+builder.Services.AddLocalization();
 builder.Services.Configure<RequestLocalizationOptions>(opts =>
 {
     var supportedCulures = new List<CultureInfo> {
@@ -64,7 +66,7 @@ builder.Services.AddControllersWithViews()
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
 );
 
-//builder.Services.RegisterServices();
+builder.Services.RegisterServices();
 
 // Middlewares
 var app = builder.Build();
@@ -82,7 +84,6 @@ app.UseRouting();
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseRequestLocalization();
 
 //Start => Language - Configure
 var Options = app.Services.GetService<IOptions<RequestLocalizationOptions>>();

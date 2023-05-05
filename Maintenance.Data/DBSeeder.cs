@@ -55,7 +55,7 @@ namespace Maintenance.Data
                 {
                     FullName = "System Administrator",
                     UserName = "admin@test.com",
-                    Email = "admin@maintenance.com",
+                    Email = "admin@test.com",
                     UserType = UserType.Administrator,
                     IsActive = true,
                     EmailConfirmed = true,

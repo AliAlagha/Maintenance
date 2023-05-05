@@ -61,11 +61,56 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to حالة الحساب.
+        /// </summary>
+        public static string AccountStatus {
+            get {
+                return ResourceManager.GetString("AccountStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to العمليات.
+        /// </summary>
+        public static string Actions {
+            get {
+                return ResourceManager.GetString("Actions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to تفعيل.
         /// </summary>
         public static string Activate {
             get {
                 return ResourceManager.GetString("Activate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to فعال.
+        /// </summary>
+        public static string Activated {
+            get {
+                return ResourceManager.GetString("Activated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to العنوان.
+        /// </summary>
+        public static string Address {
+            get {
+                return ResourceManager.GetString("Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to مدير النظام.
+        /// </summary>
+        public static string Administrator {
+            get {
+                return ResourceManager.GetString("Administrator", resourceCulture);
             }
         }
         
@@ -106,6 +151,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to الألوان.
+        /// </summary>
+        public static string Colors {
+            get {
+                return ResourceManager.GetString("Colors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to الشركات.
         /// </summary>
         public static string Compaines {
@@ -120,6 +174,33 @@ namespace Maintenance.Core.Resources {
         public static string Confirm {
             get {
                 return ResourceManager.GetString("Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to إنشاء جديد.
+        /// </summary>
+        public static string Create {
+            get {
+                return ResourceManager.GetString("Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تاريخ الإضافة.
+        /// </summary>
+        public static string CreationDate {
+            get {
+                return ResourceManager.GetString("CreationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to العملاء.
+        /// </summary>
+        public static string Customers {
+            get {
+                return ResourceManager.GetString("Customers", resourceCulture);
             }
         }
         
@@ -142,6 +223,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to غير فعال.
+        /// </summary>
+        public static string DeActivated {
+            get {
+                return ResourceManager.GetString("DeActivated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to حذف.
         /// </summary>
         public static string Delete {
@@ -156,6 +246,15 @@ namespace Maintenance.Core.Resources {
         public static string DeleteConfirmationForModal {
             get {
                 return ResourceManager.GetString("DeleteConfirmationForModal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to الوصف.
+        /// </summary>
+        public static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
             }
         }
         
@@ -178,6 +277,24 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to البريد الإلكتروني موجود مسبقاً.
+        /// </summary>
+        public static string EmailAlreadyExists {
+            get {
+                return ResourceManager.GetString("EmailAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to أدخل {0}.
+        /// </summary>
+        public static string Enter {
+            get {
+                return ResourceManager.GetString("Enter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to أدخل بياناتك لتسجيل الدخول إلى حسابك:.
         /// </summary>
         public static string EnterLoginDetails {
@@ -196,11 +313,65 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to يرجى إدخال البيانات المطلوبة.
+        /// </summary>
+        public static string FillRequiredData {
+            get {
+                return ResourceManager.GetString("FillRequiredData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to الإسم الكامل.
+        /// </summary>
+        public static string FullName {
+            get {
+                return ResourceManager.GetString("FullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to الصورة.
+        /// </summary>
+        public static string Image {
+            get {
+                return ResourceManager.GetString("Image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to عرض بيانات {0} في النظام .
+        /// </summary>
+        public static string IndexSubTitle {
+            get {
+                return ResourceManager.GetString("IndexSubTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to البريد الإلكتروني غير صالح.
         /// </summary>
         public static string InvalidEmail {
             get {
                 return ResourceManager.GetString("InvalidEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to البيانات المدخلة غير صحيحة.
+        /// </summary>
+        public static string InvalidInput {
+            get {
+                return ResourceManager.GetString("InvalidInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to رقم الهاتف غير صالح.
+        /// </summary>
+        public static string InvalidPhone {
+            get {
+                return ResourceManager.GetString("InvalidPhone", resourceCulture);
             }
         }
         
@@ -286,6 +457,51 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to مدير الصيانة.
+        /// </summary>
+        public static string MaintenanceManager {
+            get {
+                return ResourceManager.GetString("MaintenanceManager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to فني الصيانة.
+        /// </summary>
+        public static string MaintenanceTechnician {
+            get {
+                return ResourceManager.GetString("MaintenanceTechnician", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to الإسم.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to كلمة المرور الجديدة.
+        /// </summary>
+        public static string NewPassword {
+            get {
+                return ResourceManager.GetString("NewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to كلمة المرور القديمة.
+        /// </summary>
+        public static string OldPassword {
+            get {
+                return ResourceManager.GetString("OldPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to فشل تنفيذ العملية.
         /// </summary>
         public static string OperationFailed {
@@ -300,6 +516,24 @@ namespace Maintenance.Core.Resources {
         public static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تم تحديث كلمة المرور بنجاح.
+        /// </summary>
+        public static string PasswordUpdatedSuccessfully {
+            get {
+                return ResourceManager.GetString("PasswordUpdatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to رقم الهاتف.
+        /// </summary>
+        public static string PhoneNumber {
+            get {
+                return ResourceManager.GetString("PhoneNumber", resourceCulture);
             }
         }
         
@@ -331,6 +565,24 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to بحث....
+        /// </summary>
+        public static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to اختر {0}.
+        /// </summary>
+        public static string Select {
+            get {
+                return ResourceManager.GetString("Select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to تسجيل الخروج.
         /// </summary>
         public static string SignOut {
@@ -358,6 +610,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to إرسال.
+        /// </summary>
+        public static string Submit {
+            get {
+                return ResourceManager.GetString("Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to تعديل.
         /// </summary>
         public static string Update {
@@ -372,6 +633,15 @@ namespace Maintenance.Core.Resources {
         public static string Users {
             get {
                 return ResourceManager.GetString("Users", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to نوع المستخدم.
+        /// </summary>
+        public static string UserType {
+            get {
+                return ResourceManager.GetString("UserType", resourceCulture);
             }
         }
         

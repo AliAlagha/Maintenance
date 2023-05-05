@@ -8,6 +8,10 @@ namespace Maintenance.Data.Extensions
         public static ModelBuilder ApplyConstraints(this ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserConstraints());
+            modelBuilder.ApplyConfiguration(new ColorConstraints());
+            modelBuilder.ApplyConfiguration(new CompanyConstraints());
+            modelBuilder.ApplyConfiguration(new CustomerConstraints());
+            modelBuilder.ApplyConfiguration(new ItemConstraints());
             return modelBuilder;
         }
     }

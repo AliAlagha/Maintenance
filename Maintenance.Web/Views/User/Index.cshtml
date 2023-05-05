@@ -1,0 +1,188 @@
+﻿@{
+    ViewData["Title"] = Messages.Users;
+}
+
+<!--begin::Card-->
+<div class="card card-custom">
+    <div class="card-header flex-wrap border-0 pt-6 pb-0">
+        <div class="card-title">
+            <h3 class="card-label">
+                @Messages.Users
+                <span class="d-block text-muted pt-2 font-size-sm">@string.Format(Messages.IndexSubTitle, Messages.Users)</span>
+            </h3>
+        </div>
+        <div class="card-toolbar">
+            <!--begin::Button-->
+            <a href="~/User/Create" title="@Messages.Create" class="PopUp btn btn-primary font-weight-bolder">
+                <span class="svg-icon svg-icon-md">
+                    <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <rect x="0" y="0" width="24" height="24" />
+                            <circle fill="#000000" cx="9" cy="15" r="6" />
+                            <path d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z" fill="#000000" opacity="0.3" />
+                        </g>
+                    </svg>
+                    <!--end::Svg Icon-->
+                </span>@Messages.Create
+            </a>
+            <!--end::Button-->
+        </div>
+    </div>
+    <div class="card-body">
+        <!--begin::Search Form-->
+        <div class="mb-7">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-xl-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-12 my-2 my-md-0">
+                            <div class="input-icon">
+                                <input type="text" class="form-control" placeholder="@Messages.Search" id="kt_datatable_search_query" />
+                                <span>
+                                    <i class="flaticon2-search-1 text-muted"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end: Search Form-->
+        <!--begin: Datatable-->
+        <div class="datatable table-striped datatable-head-custom" id="kt_datatable"></div>
+        <!--end: Datatable-->
+    </div>
+</div>
+<!--end::Card-->
+@section Scripts{
+    <script>
+        "use strict";
+        // Class definition
+        var KTDatatableAutoColumnHideDemo = function() {
+            // Private functions
+            // basic demo
+            var demo = function() {
+                var datatable = $('#kt_datatable').KTDatatable({
+                    // datasource definition
+                    data: {
+                        type: 'remote',
+                        source: {
+                            read: {
+                                url: '/User/GetAll',
+                            },
+                        },
+                        pageSize: 10,
+                        saveState: false,
+                        serverPaging: true,
+                        serverFiltering: true,
+                        serverSorting: true,
+                    },
+                    layout: {
+                        scroll: false
+                    },
+                    // column sorting
+                    sortable: true,
+                    pagination: true,
+                    search: {
+                        input: $('#kt_datatable_search_query'),
+                        key: 'generalSearch'
+                    },
+                    // columns definition
+                    columns: [
+                        {
+                            field: 'fullName',
+                            title: '@Messages.FullName',
+                            sortable: false,
+                            autoHide: false,
+                            width: 150
+                        },
+                        {
+                            field: 'imageFilePath',
+                            title: '@Messages.Image',
+                            width: 100,
+                            template: function(data) {
+                                var imageFilePath = data.imageFilePath;
+                                var output = '';
+                                if (imageFilePath != null) {
+                                    output = '<img src="/Images/' + imageFilePath + '" class="img-fluid">';
+                                }
+
+                                return output;
+                            },
+                        },
+                        {
+                            field: 'email',
+                            title: '@Messages.Email',
+                            sortable: false,
+                            width: 150
+                        },
+                        {
+                            field: 'phoneNumber',
+                            title: '@Messages.PhoneNumber',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'isActive',
+                            title: '@Messages.AccountStatus',
+                            sortable: false,
+                            width: 100,
+                            // callback function support for column rendering
+                            template: function(row) {
+                                var status = {
+                                    "false": { 'title': '@Messages.DeActivated', 'class': ' label-light-danger' },
+                                    "true": { 'title': '@Messages.Activated', 'class': ' label-light-success' },
+                                };
+                                return '<span class="label font-weight-bold label-lg ' + status[row.isActive].class + ' label-inline">' + status[row.isActive].title + '</span>';
+                            },
+                        },
+                        {
+                            field: 'createdAt',
+                            title: '@Messages.CreationDate',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'Actions',
+                            title: '@Messages.Actions',
+                            sortable: false,
+                            width: 160,
+                            overflow: 'visible',
+                            autoHide: false,
+                            template: function(data) {
+                                var result = '';
+                                result = result + '<a href="/User/ChangePassword/' + data.id + '" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.ChangePassword">' +
+                                    '    <span class="svg-icon svg-icon-md">' +
+                                    '        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
+                                    '            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
+                                    '                <rect x="0" y="0" width="24" height="24" />' +
+                                    '                <polygon fill="#000000" opacity="0.3" transform="translate(8.885842, 16.114158) rotate(-315.000000) translate(-8.885842, -16.114158) " points="6.89784488 10.6187476 6.76452164 19.4882481 8.88584198 21.6095684 11.0071623 19.4882481 9.59294876 18.0740345 10.9659914 16.7009919 9.55177787 15.2867783 11.0071623 13.8313939 10.8837471 10.6187476" />' +
+                                    '                <path d="M15.9852814,14.9852814 C12.6715729,14.9852814 9.98528137,12.2989899 9.98528137,8.98528137 C9.98528137,5.67157288 12.6715729,2.98528137 15.9852814,2.98528137 C19.2989899,2.98528137 21.9852814,5.67157288 21.9852814,8.98528137 C21.9852814,12.2989899 19.2989899,14.9852814 15.9852814,14.9852814 Z M16.1776695,9.07106781 C17.0060967,9.07106781 17.6776695,8.39949494 17.6776695,7.57106781 C17.6776695,6.74264069 17.0060967,6.07106781 16.1776695,6.07106781 C15.3492424,6.07106781 14.6776695,6.74264069 14.6776695,7.57106781 C14.6776695,8.39949494 15.3492424,9.07106781 16.1776695,9.07106781 Z" fill="#000000" transform="translate(15.985281, 8.985281) rotate(-315.000000) translate(-15.985281, -8.985281) " />' +
+                                    '            </g>' +
+                                    '        </svg>' +
+                                    '    </span>' +
+                                    '</a>';
+
+                                result = result + GetPopUpEditAction('/User/Edit/' + data.id);
+                                result = result + GetDeleteAction('/User/Delete/' + data.id);
+                                result = result + GetActivationToggleAction("User", data.id, data.isActive);
+
+                                return result;
+                            },
+                        }],
+                });
+            };
+            return {
+                // public functions
+                init: function() {
+                    demo();
+                },
+            };
+        }();
+        jQuery(document).ready(function() {
+            KTDatatableAutoColumnHideDemo.init();
+        });
+    </script>
+}
+
+

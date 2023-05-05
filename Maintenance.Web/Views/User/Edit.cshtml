@@ -1,0 +1,92 @@
+﻿@model UpdateUserDto
+@{
+    ViewData["Title"] = Messages.Users;
+    Layout = null;
+}
+
+
+<form asp-action="Edit" method="post" class="ajaxForm" tname="#kt_datatable" enctype="multipart/form-data">
+    <input asp-for="Id" type="hidden" />
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.FullName</label>
+                <input asp-for="FullName" placeholder="@string.Format(Messages.Enter,Messages.FullName)" class="form-control form-control-solid" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.PhoneNumber</label>
+                <input asp-for="PhoneNumber" placeholder="@string.Format(Messages.Enter,Messages.PhoneNumber)" class="form-control form-control-solid" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.Email</label>
+                <input asp-for="Email" placeholder="@string.Format(Messages.Enter,Messages.Email)" class="form-control form-control-solid" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.Password</label>
+                <input type="password" asp-for="Password" placeholder="@string.Format(Messages.Enter,Messages.Password)" class="form-control form-control-solid" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@string.Format(Messages.Select, Messages.UserType)</label>
+                <select asp-for="UserType" class="form-control form-control-solid">
+                    <option value="">-- @string.Format(Messages.Select, Messages.UserType) --</option>
+                    <option value="@UserType.Administrator">@Messages.Administrator</option>
+                    <option value="@UserType.MaintenanceManager">@Messages.MaintenanceManager</option>
+                    <option value="@UserType.MaintenanceTechnician">@Messages.MaintenanceTechnician</option>
+                </select>
+                <span asp-validation-for="UserType" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.Image</label>
+                <input asp-for="ImageFile" class="form-control form-control-solid" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group row">
+                <div class="col-9 col-form-label">
+                    <div class="checkbox-inline">
+                        <label class="checkbox checkbox-primary">
+                            <input type="checkbox" asp-for="IsActive" />
+                            <span></span>
+                            @Messages.Activate
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
+        <button type="button" data-dismiss="modal" class="btn btn-light-primary font-weight-bold">@Messages.Cancel</button>
+    </div>
+</form>
+
+<script>
+    PageLoadActions();
+</script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
+

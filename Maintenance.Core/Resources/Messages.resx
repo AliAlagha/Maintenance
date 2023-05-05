@@ -117,8 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccountStatus" xml:space="preserve">
+    <value>حالة الحساب</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>العمليات</value>
+  </data>
   <data name="Activate" xml:space="preserve">
     <value>تفعيل</value>
+  </data>
+  <data name="Activated" xml:space="preserve">
+    <value>فعال</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>العنوان</value>
+  </data>
+  <data name="Administrator" xml:space="preserve">
+    <value>مدير النظام</value>
   </data>
   <data name="AppName" xml:space="preserve">
     <value>نظام الصيانة</value>
@@ -132,11 +147,23 @@
   <data name="ChangePassword" xml:space="preserve">
     <value>تغيير كلمة المرور</value>
   </data>
+  <data name="Colors" xml:space="preserve">
+    <value>الألوان</value>
+  </data>
   <data name="Compaines" xml:space="preserve">
     <value>الشركات</value>
   </data>
   <data name="Confirm" xml:space="preserve">
     <value>تأكيد</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>إنشاء جديد</value>
+  </data>
+  <data name="CreationDate" xml:space="preserve">
+    <value>تاريخ الإضافة</value>
+  </data>
+  <data name="Customers" xml:space="preserve">
+    <value>العملاء</value>
   </data>
   <data name="Dashboard" xml:space="preserve">
     <value>لوحة التحكم</value>
@@ -144,11 +171,17 @@
   <data name="DeActivate" xml:space="preserve">
     <value>تعطيل</value>
   </data>
+  <data name="DeActivated" xml:space="preserve">
+    <value>غير فعال</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>حذف</value>
   </data>
   <data name="DeleteConfirmationForModal" xml:space="preserve">
     <value>هل أنت متأكد من استمرار العملية ؟</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>الوصف</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>التفاصيل</value>
@@ -156,14 +189,38 @@
   <data name="Email" xml:space="preserve">
     <value>البريد الإلكتروني</value>
   </data>
+  <data name="EmailAlreadyExists" xml:space="preserve">
+    <value>البريد الإلكتروني موجود مسبقاً</value>
+  </data>
+  <data name="Enter" xml:space="preserve">
+    <value>أدخل {0}</value>
+  </data>
   <data name="EnterLoginDetails" xml:space="preserve">
     <value>أدخل بياناتك لتسجيل الدخول إلى حسابك:</value>
   </data>
   <data name="EntityNotFound" xml:space="preserve">
     <value>العنصر غير موجود</value>
   </data>
+  <data name="FillRequiredData" xml:space="preserve">
+    <value>يرجى إدخال البيانات المطلوبة</value>
+  </data>
+  <data name="FullName" xml:space="preserve">
+    <value>الإسم الكامل</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>الصورة</value>
+  </data>
+  <data name="IndexSubTitle" xml:space="preserve">
+    <value>عرض بيانات {0} في النظام </value>
+  </data>
   <data name="InvalidEmail" xml:space="preserve">
     <value>البريد الإلكتروني غير صالح</value>
+  </data>
+  <data name="InvalidInput" xml:space="preserve">
+    <value>البيانات المدخلة غير صحيحة</value>
+  </data>
+  <data name="InvalidPhone" xml:space="preserve">
+    <value>رقم الهاتف غير صالح</value>
   </data>
   <data name="ItemActivatedSuccessfully" xml:space="preserve">
     <value>تم تفعيل العنصر بنجاح</value>
@@ -192,11 +249,32 @@
   <data name="LoginToMaintenanceApp" xml:space="preserve">
     <value>تسجيل الدخول إلى نظام الصيانة</value>
   </data>
+  <data name="MaintenanceManager" xml:space="preserve">
+    <value>مدير الصيانة</value>
+  </data>
+  <data name="MaintenanceTechnician" xml:space="preserve">
+    <value>فني الصيانة</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>الإسم</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>كلمة المرور الجديدة</value>
+  </data>
+  <data name="OldPassword" xml:space="preserve">
+    <value>كلمة المرور القديمة</value>
+  </data>
   <data name="OperationFailed" xml:space="preserve">
     <value>فشل تنفيذ العملية</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>كلمة المرور</value>
+  </data>
+  <data name="PasswordUpdatedSuccessfully" xml:space="preserve">
+    <value>تم تحديث كلمة المرور بنجاح</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>رقم الهاتف</value>
   </data>
   <data name="Profile" xml:space="preserve">
     <value>الملف الشخصي</value>
@@ -207,6 +285,12 @@
   <data name="RequiredField" xml:space="preserve">
     <value>حقل {0} مطلوب</value>
   </data>
+  <data name="Search" xml:space="preserve">
+    <value>بحث...</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>اختر {0}</value>
+  </data>
   <data name="SignOut" xml:space="preserve">
     <value>تسجيل الخروج</value>
   </data>
@@ -216,11 +300,17 @@
   <data name="String1" xml:space="preserve">
     <value />
   </data>
+  <data name="Submit" xml:space="preserve">
+    <value>إرسال</value>
+  </data>
   <data name="Update" xml:space="preserve">
     <value>تعديل</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>المستخدمين</value>
+  </data>
+  <data name="UserType" xml:space="preserve">
+    <value>نوع المستخدم</value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>تحذير</value>

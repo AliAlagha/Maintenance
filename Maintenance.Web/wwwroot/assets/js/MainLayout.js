@@ -13,9 +13,7 @@ $(".ajaxForm").ajaxForm({
         if (json.status == 1) {
             var tname = $('.ajaxForm').attr("tname");
             var fname = $('.ajaxForm').attr("fname");
-            debugger;
             if (tname != null) {
-                debugger;
                 RefreshData(tname);
             }
             if (fname != null) {
@@ -56,7 +54,6 @@ $(document).on("click", ".PopUp", function () {
 });
 
 $(document).on("click", ".Confirm", function () {
-    debugger;
     $("#Confirm").modal("show");
     $("#Confirm .btn-danger").attr("href", $(this).attr("href"));
     $("#Confirm .btn-danger").attr("tname", $(this).attr("tname"));
@@ -64,19 +61,14 @@ $(document).on("click", ".Confirm", function () {
 });
 
 $("#Confirm .btn-danger").click(function () {
-    debugger;
     var tname = $(this).attr("tname");
     var fname = $('.ajaxForm').attr("fname");
     var url = $(this).attr("href");
-    debugger;
     $.ajax({
         url: url,
         success: function (json) {
-            debugger;
             if (json.status == 1) {
-                debugger;
                 if (tname != null) {
-                    debugger;
                     $('#kt_datatable').KTDatatable().reload();
                 }
                 if (fname != null) {
@@ -151,10 +143,8 @@ function PageLoadActions() {
                 if (json.msg != null)
                     ShowMessage(json.msg);
                 if (json.redirect != null) {
-                    debugger;
                     setTimeout(() => { window.location = json.redirect; }, 5000)
                     // sleep(5000).then(() => { window.location = json.redirect; });
-                    debugger;
                 }
                 if (json.close == 1)
                     $("#PopUp").modal("hide");

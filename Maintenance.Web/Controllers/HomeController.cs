@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Maintenance.Infrastructure.Services.Colors;
+using Maintenance.Infrastructure.Services.Users;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace Maintenance.Web.Controllers
 {
     public class HomeController : BaseController
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IUserService userService) : base(userService)
         {
-            _logger = logger;
+            
         }
 
         public IActionResult Index()
