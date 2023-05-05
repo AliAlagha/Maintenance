@@ -2,6 +2,7 @@
 using Maintenance.Infrastructure.Services.Companies;
 using Maintenance.Infrastructure.Services.Customers;
 using Maintenance.Infrastructure.Services.Files;
+using Maintenance.Infrastructure.Services.handReceipts;
 using Maintenance.Infrastructure.Services.Items;
 using Maintenance.Infrastructure.Services.Users;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +19,7 @@ namespace Maintenance.Infrastructure.Extensions
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IItemService, ItemService>();
+            services.AddScoped<IHandReceiptService, HandReceiptService>();
             return services;
         }
     }

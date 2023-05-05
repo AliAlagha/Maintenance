@@ -1,0 +1,89 @@
+﻿@model CreateHandReceiptDto
+@{
+    ViewData["Title"] = Messages.HandReceipts;
+    Layout = null;
+}
+
+<form asp-action="Create" method="post" class="ajaxForm" tname="#kt_datatable" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.Date</label>
+                <input asp-for="Date" placeholder="@string.Format(Messages.Enter,Messages.Date)" class="form-control form-control-solid" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.ExistsOrNewCustomer</label>
+                <select asp-for="CreateCustomerType" id="SelectExistsOrNewCustomer" class="form-control form-control-solid">
+                    <option value="">-- @string.Format(Messages.Select, Messages.ExistsOrNewCustomer) --</option>
+                    <option value="@CreateCustomerType.Exists">@Messages.Exists</option>
+                    <option value="@CreateCustomerType.New">@Messages.New</option>
+                </select>
+                <span asp-validation-for="CreateCustomerType" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div id="ExistsCustomerRow" class="row" style="display: none;">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.Customer</label>
+                <select asp-for="CustomerId" id="SelectCustomer" class="form-control form-control-solid">
+                    <option value="">-- @string.Format(Messages.Select, Messages.Customer) --</option>
+                </select>
+                <span asp-validation-for="CustomerId" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div id="NewCustomerRow" class="row" style="display: none;">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.CustomerFullName</label>
+                <input asp-for="CustomerInfo.Name" placeholder="@string.Format(Messages.Enter,Messages.CustomerFullName)" class="form-control form-control-solid" />
+                <span asp-validation-for="CustomerInfo.Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.CustomerPhoneNumber</label>
+                <input asp-for="CustomerInfo.PhoneNumber" placeholder="@string.Format(Messages.Enter,Messages.CustomerPhoneNumber)" class="form-control form-control-solid" />
+                <span asp-validation-for="CustomerInfo.PhoneNumber" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
+        <button type="button" data-dismiss="modal" class="btn btn-light-primary font-weight-bold">@Messages.Cancel</button>
+    </div>
+</form>
+
+<script>
+    PageLoadActions();
+
+    $.ajax({
+        url: '/Customer/List',
+        dataType: "json",
+        success: function(data) {
+            $(data).each(function(index, value) {
+                $("#SelectCustomer").append($("<option></option>").val(value.id).html(value.name));
+            });
+        }
+    });
+
+    $('#SelectExistsOrNewCustomer').on('change', function() {
+        var selectedOption = this.value;
+        if (selectedOption == 'Exists') {
+            $('#NewCustomerRow').hide();
+            $('#ExistsCustomerRow').show();
+        } else if (selectedOption == 'New') {
+            $('#ExistsCustomerRow').hide();
+            $('#NewCustomerRow').show();
+        }
+    });
+</script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
+

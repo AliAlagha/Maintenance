@@ -23,5 +23,7 @@ namespace Maintenance.Data
         public DbSet<Company> Companies { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Item> Items { get; set; }
+        public DbSet<HandReceipt> HandReceipts { get; set; }
+        public DbSet<HandReceiptItem> HandReceiptItems { get; set; }
     }
 }

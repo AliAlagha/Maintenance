@@ -162,11 +162,23 @@
   <data name="CreationDate" xml:space="preserve">
     <value>تاريخ الإضافة</value>
   </data>
+  <data name="Customer" xml:space="preserve">
+    <value>العميل</value>
+  </data>
+  <data name="CustomerFullName" xml:space="preserve">
+    <value>اسم العميل</value>
+  </data>
+  <data name="CustomerPhoneNumber" xml:space="preserve">
+    <value>رقم هاتف العميل</value>
+  </data>
   <data name="Customers" xml:space="preserve">
     <value>العملاء</value>
   </data>
   <data name="Dashboard" xml:space="preserve">
     <value>لوحة التحكم</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>التاريخ</value>
   </data>
   <data name="DeActivate" xml:space="preserve">
     <value>تعطيل</value>
@@ -201,11 +213,20 @@
   <data name="EntityNotFound" xml:space="preserve">
     <value>العنصر غير موجود</value>
   </data>
+  <data name="Exists" xml:space="preserve">
+    <value>سابق</value>
+  </data>
+  <data name="ExistsOrNewCustomer" xml:space="preserve">
+    <value>عميل سابق / جديد</value>
+  </data>
   <data name="FillRequiredData" xml:space="preserve">
     <value>يرجى إدخال البيانات المطلوبة</value>
   </data>
   <data name="FullName" xml:space="preserve">
     <value>الإسم الكامل</value>
+  </data>
+  <data name="HandReceipts" xml:space="preserve">
+    <value>سندات استلام القطع</value>
   </data>
   <data name="Image" xml:space="preserve">
     <value>الصورة</value>
@@ -258,6 +279,9 @@
   <data name="Name" xml:space="preserve">
     <value>الإسم</value>
   </data>
+  <data name="New" xml:space="preserve">
+    <value>جديد</value>
+  </data>
   <data name="NewPassword" xml:space="preserve">
     <value>كلمة المرور الجديدة</value>
   </data>
@@ -302,6 +326,9 @@
   </data>
   <data name="Submit" xml:space="preserve">
     <value>إرسال</value>
+  </data>
+  <data name="TotalCollectedAmount" xml:space="preserve">
+    <value>المبلغ الإجمالي المحصل</value>
   </data>
   <data name="Update" xml:space="preserve">
     <value>تعديل</value>

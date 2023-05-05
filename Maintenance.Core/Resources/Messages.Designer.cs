@@ -196,6 +196,33 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to العميل.
+        /// </summary>
+        public static string Customer {
+            get {
+                return ResourceManager.GetString("Customer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to اسم العميل.
+        /// </summary>
+        public static string CustomerFullName {
+            get {
+                return ResourceManager.GetString("CustomerFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to رقم هاتف العميل.
+        /// </summary>
+        public static string CustomerPhoneNumber {
+            get {
+                return ResourceManager.GetString("CustomerPhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to العملاء.
         /// </summary>
         public static string Customers {
@@ -210,6 +237,15 @@ namespace Maintenance.Core.Resources {
         public static string Dashboard {
             get {
                 return ResourceManager.GetString("Dashboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to التاريخ.
+        /// </summary>
+        public static string Date {
+            get {
+                return ResourceManager.GetString("Date", resourceCulture);
             }
         }
         
@@ -313,6 +349,24 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to سابق.
+        /// </summary>
+        public static string Exists {
+            get {
+                return ResourceManager.GetString("Exists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to عميل سابق / جديد.
+        /// </summary>
+        public static string ExistsOrNewCustomer {
+            get {
+                return ResourceManager.GetString("ExistsOrNewCustomer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to يرجى إدخال البيانات المطلوبة.
         /// </summary>
         public static string FillRequiredData {
@@ -327,6 +381,15 @@ namespace Maintenance.Core.Resources {
         public static string FullName {
             get {
                 return ResourceManager.GetString("FullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to سندات استلام القطع.
+        /// </summary>
+        public static string HandReceipts {
+            get {
+                return ResourceManager.GetString("HandReceipts", resourceCulture);
             }
         }
         
@@ -484,6 +547,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to جديد.
+        /// </summary>
+        public static string New {
+            get {
+                return ResourceManager.GetString("New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to كلمة المرور الجديدة.
         /// </summary>
         public static string NewPassword {
@@ -615,6 +687,15 @@ namespace Maintenance.Core.Resources {
         public static string Submit {
             get {
                 return ResourceManager.GetString("Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to المبلغ الإجمالي المحصل.
+        /// </summary>
+        public static string TotalCollectedAmount {
+            get {
+                return ResourceManager.GetString("TotalCollectedAmount", resourceCulture);
             }
         }
         

@@ -39,6 +39,7 @@ namespace Maintenance.Infrastructure.AutoMapper
             CreateMap<CreateCustomerDto, Customer>();
             CreateMap<UpdateCustomerDto, Customer>();
             CreateMap<Customer, UpdateCustomerDto>();
+            CreateMap<CreateCustomerForHandReceiptDto, CreateCustomerDto>();
             #endregion
 
             #region Items
@@ -47,6 +48,12 @@ namespace Maintenance.Infrastructure.AutoMapper
             CreateMap<CreateItemDto, Item>();
             CreateMap<UpdateItemDto, Item>();
             CreateMap<Item, UpdateItemDto>();
+            #endregion
+
+            #region HandReceipts
+            CreateMap<HandReceipt, HandReceiptViewModel>()
+                .ForMember(x => x.Date, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")));
+            CreateMap<CreateHandReceiptDto, HandReceipt>();
             #endregion
         }
     }

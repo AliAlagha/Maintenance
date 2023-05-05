@@ -14,8 +14,10 @@ namespace Maintenance.Core.Dtos
         [EmailAddress(ErrorMessageResourceName = "InvalidEmail", ErrorMessageResourceType = typeof(Messages))]
         public string? Email { get; set; }
 
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Messages))]
+        [Display(Name = "PhoneNumber", ResourceType = typeof(Messages))]
         [Phone(ErrorMessageResourceName = "InvalidPhone", ErrorMessageResourceType = typeof(Messages))]
-        public string? PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
         public string? Address { get; set; }
     }
