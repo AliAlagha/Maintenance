@@ -1,7 +1,7 @@
 ﻿using Maintenance.Core.Dtos;
 using Maintenance.Core.Enums;
 using Maintenance.Core.Resources;
-using Maintenance.Infrastructure.Services.handReceipts;
+using Maintenance.Infrastructure.Services.HandReceipts;
 using Maintenance.Infrastructure.Services.Users;
 using Microsoft.AspNetCore.Mvc;
 
@@ -50,6 +50,48 @@ namespace Maintenance.Web.Controllers
             await _handReceiptService.Delete(id, UserId);
             return DeletedSuccessfully();
         }
+
+        // Items
+        public IActionResult Items(int handReceiptId)
+        {
+            return View(handReceiptId);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GetAllItems(Pagination pagination, QueryDto query
+            , int handReceiptId)
+        {
+            var response = await _handReceiptService.GetAllItems(pagination, query, handReceiptId);
+            return Json(response);
+        }
+
+        public IActionResult CreateHandReceiptItem(int handReceiptId)
+        {
+            var dto = new CreateHandReceiptItemDto
+            {
+                HandReceiptId = handReceiptId
+            };
+
+            return View(dto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateHandReceiptItem(CreateHandReceiptItemDto input)
+        {
+            if (ModelState.IsValid)
+            {
+                await _handReceiptService.CreateHandReceiptItem(input, UserId);
+                return CreatedSuccessfully();
+            }
+            return View(input);
+        }
+
+        public async Task<IActionResult> DeleteHandReceiptItem(int id)
+        {
+            await _handReceiptService.DeleteHandReceiptItem(id, UserId);
+            return DeletedSuccessfully();
+        }
+
     }
 }
 

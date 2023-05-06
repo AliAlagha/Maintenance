@@ -17,10 +17,10 @@ namespace Maintenance.Core.Dtos
         public int? ColorId { get; set; }
         public string? Description { get; set; }
         public double? SpecifiedCost { get; set; }
-        public bool NotifyCustomerOfTheCost { get; set; }
         public double? CostFrom { get; set; }
         public double? CostTo { get; set; }
         public bool Urgent { get; set; }
+        [DataType(DataType.Date)]
         public DateTime? WarrantyExpiryDate { get; set; }
     }
 }

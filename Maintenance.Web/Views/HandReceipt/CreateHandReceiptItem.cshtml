@@ -1,0 +1,129 @@
+﻿@model CreateHandReceiptItemDto
+@{
+    ViewData["Title"] = Messages.HandReceiptItems;
+    Layout = null;
+}
+
+<form asp-action="CreateHandReceiptItem" method="post" class="ajaxForm" tname="#kt_datatable" enctype="multipart/form-data">
+    <input type="hidden" asp-for="@Model.HandReceiptId" />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.Item</label>
+                <select asp-for="ItemId" id="SelectItem" class="form-control form-control-solid">
+                    <option value="">-- @string.Format(Messages.Select, Messages.Item) --</option>
+                </select>
+                <span asp-validation-for="ItemId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.Company</label>
+                <select asp-for="CompanyId" id="SelectCompany" class="form-control form-control-solid">
+                    <option value="">-- @string.Format(Messages.Select, Messages.Company) --</option>
+                </select>
+                <span asp-validation-for="CompanyId" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.Color</label>
+                <select asp-for="ColorId" id="SelectColor" class="form-control form-control-solid">
+                    <option value="">-- @string.Format(Messages.Select, Messages.Color) --</option>
+                </select>
+                <span asp-validation-for="ColorId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.Description</label>
+                <textarea asp-for="Description" placeholder="@string.Format(Messages.Enter,Messages.Description)" class="form-control form-control-solid"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.SpecifiedCost</label>
+                <input asp-for="SpecifiedCost" placeholder="@string.Format(Messages.Enter,Messages.SpecifiedCost)" class="form-control form-control-solid" />
+                <span asp-validation-for="SpecifiedCost" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.From</label>
+                <input asp-for="CostFrom" placeholder="@string.Format(Messages.Enter,Messages.From)" class="form-control form-control-solid" />
+                <span asp-validation-for="CostFrom" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>@Messages.To</label>
+                <input asp-for="CostTo" placeholder="@string.Format(Messages.Enter,Messages.To)" class="form-control form-control-solid" />
+                <span asp-validation-for="CostTo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>@Messages.WarrantyExpiryDate</label>
+                <input asp-for="WarrantyExpiryDate" placeholder="@string.Format(Messages.Enter,Messages.WarrantyExpiryDate)" class="form-control form-control-solid" />
+                <span asp-validation-for="WarrantyExpiryDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>@Messages.Urgent</label>
+                <input asp-for="Urgent" placeholder="@string.Format(Messages.Enter,Messages.Urgent)" class="form-control form-control-solid" />
+                <span asp-validation-for="Urgent" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
+        <button type="button" data-dismiss="modal" class="btn btn-light-primary font-weight-bold">@Messages.Cancel</button>
+    </div>
+</form>
+
+<script>
+    PageLoadActions();
+
+    $.ajax({
+        url: '/Item/List',
+        dataType: "json",
+        success: function(data) {
+            $(data).each(function(index, value) {
+                $("#SelectItem").append($("<option></option>").val(value.id).html(value.name));
+            });
+        }
+    });
+
+    $.ajax({
+        url: '/Company/List',
+        dataType: "json",
+        success: function(data) {
+            $(data).each(function(index, value) {
+                $("#SelectCompany").append($("<option></option>").val(value.id).html(value.name));
+            });
+        }
+    });
+
+    $.ajax({
+        url: '/Color/List',
+        dataType: "json",
+        success: function(data) {
+            $(data).each(function(index, value) {
+                $("#SelectColor").append($("<option></option>").val(value.id).html(value.name));
+            });
+        }
+    });
+</script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
+

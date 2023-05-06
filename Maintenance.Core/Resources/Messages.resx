@@ -141,11 +141,17 @@
   <data name="Approve" xml:space="preserve">
     <value>قبول</value>
   </data>
+  <data name="Barcode" xml:space="preserve">
+    <value>الباركود</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>إلغاء</value>
   </data>
   <data name="ChangePassword" xml:space="preserve">
     <value>تغيير كلمة المرور</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>اللون</value>
   </data>
   <data name="Colors" xml:space="preserve">
     <value>الألوان</value>
@@ -153,8 +159,14 @@
   <data name="Compaines" xml:space="preserve">
     <value>الشركات</value>
   </data>
+  <data name="Company" xml:space="preserve">
+    <value>الشركة</value>
+  </data>
   <data name="Confirm" xml:space="preserve">
     <value>تأكيد</value>
+  </data>
+  <data name="CostNotifiedToTheCustomer" xml:space="preserve">
+    <value>التكلفة التي تم إبلاغ العميل بها</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>إنشاء جديد</value>
@@ -222,8 +234,14 @@
   <data name="FillRequiredData" xml:space="preserve">
     <value>يرجى إدخال البيانات المطلوبة</value>
   </data>
+  <data name="From" xml:space="preserve">
+    <value>من</value>
+  </data>
   <data name="FullName" xml:space="preserve">
     <value>الإسم الكامل</value>
+  </data>
+  <data name="HandReceiptItems" xml:space="preserve">
+    <value>قطع سند الاستلام</value>
   </data>
   <data name="HandReceipts" xml:space="preserve">
     <value>سندات استلام القطع</value>
@@ -242,6 +260,9 @@
   </data>
   <data name="InvalidPhone" xml:space="preserve">
     <value>رقم الهاتف غير صالح</value>
+  </data>
+  <data name="Item" xml:space="preserve">
+    <value>القطعة</value>
   </data>
   <data name="ItemActivatedSuccessfully" xml:space="preserve">
     <value>تم تفعيل العنصر بنجاح</value>
@@ -285,6 +306,15 @@
   <data name="NewPassword" xml:space="preserve">
     <value>كلمة المرور الجديدة</value>
   </data>
+  <data name="No" xml:space="preserve">
+    <value>لا</value>
+  </data>
+  <data name="NotifyCustomerOfTheCost" xml:space="preserve">
+    <value>يتطلب إبلاغ العميل بالتكلفة؟</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>الرقم</value>
+  </data>
   <data name="OldPassword" xml:space="preserve">
     <value>كلمة المرور القديمة</value>
   </data>
@@ -318,20 +348,26 @@
   <data name="SignOut" xml:space="preserve">
     <value>تسجيل الخروج</value>
   </data>
+  <data name="SpecifiedCost" xml:space="preserve">
+    <value>التكلفة المحددة</value>
+  </data>
   <data name="Statistics" xml:space="preserve">
     <value>الإحصائيات</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value />
-  </data>
   <data name="Submit" xml:space="preserve">
     <value>إرسال</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>إلى</value>
   </data>
   <data name="TotalCollectedAmount" xml:space="preserve">
     <value>المبلغ الإجمالي المحصل</value>
   </data>
   <data name="Update" xml:space="preserve">
     <value>تعديل</value>
+  </data>
+  <data name="Urgent" xml:space="preserve">
+    <value>مستعجل</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>المستخدمين</value>
@@ -342,7 +378,13 @@
   <data name="Warning" xml:space="preserve">
     <value>تحذير</value>
   </data>
+  <data name="WarrantyExpiryDate" xml:space="preserve">
+    <value>تاريخ انتهاء الضمان</value>
+  </data>
   <data name="Welcome" xml:space="preserve">
     <value>مرحباً</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>نعم</value>
   </data>
 </root>

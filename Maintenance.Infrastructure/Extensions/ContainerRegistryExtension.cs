@@ -2,7 +2,7 @@
 using Maintenance.Infrastructure.Services.Companies;
 using Maintenance.Infrastructure.Services.Customers;
 using Maintenance.Infrastructure.Services.Files;
-using Maintenance.Infrastructure.Services.handReceipts;
+using Maintenance.Infrastructure.Services.HandReceipts;
 using Maintenance.Infrastructure.Services.Items;
 using Maintenance.Infrastructure.Services.Users;
 using Microsoft.Extensions.DependencyInjection;

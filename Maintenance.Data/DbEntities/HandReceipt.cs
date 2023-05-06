@@ -13,6 +13,6 @@ namespace Maintenance.Data.DbEntities
         public Customer Customer { get; set; }
         public DateTime Date { get; set; }
         public double? TotalCollectedAmount { get; set; }
-        public List<HandReceiptItem> handReceiptItems { get; set; }
+        public List<HandReceiptItem> HandReceiptItems { get; set; }
     }
 }

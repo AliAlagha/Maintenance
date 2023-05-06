@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Maintenance.Core.Dtos;
+using Maintenance.Core.Resources;
 using Maintenance.Core.ViewModels;
 using Maintenance.Data.DbEntities;
 
@@ -54,6 +55,14 @@ namespace Maintenance.Infrastructure.AutoMapper
             CreateMap<HandReceipt, HandReceiptViewModel>()
                 .ForMember(x => x.Date, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")));
             CreateMap<CreateHandReceiptDto, HandReceipt>();
+            #endregion
+
+            #region HandReceiptItems
+            CreateMap<HandReceiptItem, HandReceiptItemViewModel>()
+                .ForMember(x => x.WarrantyExpiryDate, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")))
+                .ForMember(x => x.NotifyCustomerOfTheCost, x => x.MapFrom(x => x.NotifyCustomerOfTheCost ? Messages.Yes : Messages.No))
+                .ForMember(x => x.Urgent, x => x.MapFrom(x => x.Urgent ? Messages.Yes : Messages.No));
+            CreateMap<CreateHandReceiptItemDto, HandReceiptItem>();
             #endregion
         }
     }

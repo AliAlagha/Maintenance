@@ -1,5 +1,7 @@
-﻿@{
-    ViewData["Title"] = Messages.HandReceipts;
+﻿@model int
+
+@{
+    ViewData["Title"] = Messages.HandReceiptItems;
 }
 
 <!--begin::Card-->
@@ -7,13 +9,13 @@
     <div class="card-header flex-wrap border-0 pt-6 pb-0">
         <div class="card-title">
             <h3 class="card-label">
-                @Messages.HandReceipts
-                <span class="d-block text-muted pt-2 font-size-sm">@string.Format(Messages.IndexSubTitle, Messages.HandReceipts)</span>
+                @Messages.HandReceiptItems
+                <span class="d-block text-muted pt-2 font-size-sm">@string.Format(Messages.IndexSubTitle, Messages.HandReceiptItems)</span>
             </h3>
         </div>
         <div class="card-toolbar">
             <!--begin::Button-->
-            <a href="~/HandReceipt/Create" title="@Messages.Create" class="PopUp btn btn-primary font-weight-bolder">
+            <a href="~/HandReceipt/CreateHandReceiptItem?HandReceiptId=@Model" title="@Messages.Create" class="PopUp btn btn-primary font-weight-bolder">
                 <span class="svg-icon svg-icon-md">
                     <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -30,24 +32,6 @@
         </div>
     </div>
     <div class="card-body">
-        <!--begin::Search Form-->
-        <div class="mb-7">
-            <div class="row align-items-center">
-                <div class="col-lg-4 col-xl-4">
-                    <div class="row align-items-center">
-                        <div class="col-md-12 my-2 my-md-0">
-                            <div class="input-icon">
-                                <input type="text" class="form-control" placeholder="@Messages.Search" id="kt_datatable_search_query" />
-                                <span>
-                                    <i class="flaticon2-search-1 text-muted"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--end: Search Form-->
         <!--begin: Datatable-->
         <div class="datatable table-striped datatable-head-custom" id="kt_datatable"></div>
         <!--end: Datatable-->
@@ -68,7 +52,10 @@
                         type: 'remote',
                         source: {
                             read: {
-                                url: '/HandReceipt/GetAll',
+                                url: '/HandReceipt/GetAllItems',
+                                params: {
+                                    HandReceiptId: @Model
+                                }
                             },
                         },
                         pageSize: 10,
@@ -90,34 +77,75 @@
                     // columns definition
                     columns: [
                         {
-                            field: 'id',
-                            title: '@Messages.Number',
+                            field: 'item',
+                            title: '@Messages.Item',
                             sortable: false,
                             autoHide: false,
-                            width: 150
+                            width: 100
                         },
                         {
-                            field: 'customer.name',
-                            title: '@Messages.CustomerFullName',
-                            sortable: false,
-                            autoHide: false,
-                            width: 150
-                        },
-                        {
-                            field: 'customer.phoneNumber',
-                            title: '@Messages.CustomerPhoneNumber',
-                            sortable: false,
-                            width: 150
-                        },
-                        {
-                            field: 'totalCollectedAmount',
-                            title: '@Messages.TotalCollectedAmount',
+                            field: 'company',
+                            title: '@Messages.Company',
                             sortable: false,
                             width: 100
                         },
                         {
-                            field: 'date',
-                            title: '@Messages.Date',
+                            field: 'color',
+                            title: '@Messages.Color',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'description',
+                            title: '@Messages.Description',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'specifiedCost',
+                            title: '@Messages.SpecifiedCost',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'notifyCustomerOfTheCost',
+                            title: '@Messages.NotifyCustomerOfTheCost',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'costNotifiedToTheCustomer',
+                            title: '@Messages.CostNotifiedToTheCustomer',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'costFrom',
+                            title: '@Messages.From',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'costTo',
+                            title: '@Messages.To',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'urgent',
+                            title: '@Messages.Urgent',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'itemBarcode',
+                            title: '@Messages.Barcode',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'warrantyExpiryDate',
+                            title: '@Messages.WarrantyExpiryDate',
                             sortable: false,
                             width: 100
                         },
@@ -130,19 +158,7 @@
                             autoHide: false,
                             template: function(data) {
                                 var result = '';
-                                result = result + '<a href="/HandReceipt/Items?HandReceiptId=' + data.id + '" class="btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Items">' +
-                                    '    <span class="svg-icon svg-icon-md">' +
-                                    '        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
-                                    '            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
-                                    '                <polygon points="0 0 24 0 24 24 0 24"/>' +
-                                    '                <path d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>' +
-                                    '                <rect fill="#000000" x="6" y="11" width="9" height="2" rx="1"/>' +
-                                    '                <rect fill="#000000" x="6" y="15" width="5" height="2" rx="1"/>' +
-                                    '            </g>' +
-                                    '        </svg>' +
-                                    '    </span>' +
-                                    '</a>';
-                                result = result + GetDeleteAction('/HandReceipt/Delete/' + data.id);
+                                result = result + GetDeleteAction('/HandReceipt/DeleteHandReceiptItem/' + data.id);
 
                                 return result;
                             },
