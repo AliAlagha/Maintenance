@@ -12,7 +12,7 @@ namespace Maintenance.Core.Dtos
         [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Messages))]
         [Display(Name = "Date", ResourceType = typeof(Messages))]
         [DataType(DataType.Date)]
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
         [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Messages))]
         [Display(Name = "Items", ResourceType = typeof(Messages))]

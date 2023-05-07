@@ -1,0 +1,192 @@
+﻿@model int
+
+@{
+    ViewData["Title"] = Messages.ReturnHandReceiptItems;
+}
+
+<!--begin::Card-->
+<div class="card card-custom">
+    <div class="card-header flex-wrap border-0 pt-6 pb-0">
+        <div class="card-title">
+            <h3 class="card-label">
+                @Messages.ReturnHandReceiptItems
+                <span class="d-block text-muted pt-2 font-size-sm">@string.Format(Messages.IndexSubTitle, Messages.ReturnHandReceiptItems)</span>
+            </h3>
+        </div>
+        <div class="card-toolbar">
+            <!--begin::Button-->
+            <a href="~/HandReceipt/CreateHandReceiptItem?HandReceiptId=@Model" title="@Messages.Create" class="PopUp btn btn-primary font-weight-bolder mr-2">
+                <span class="svg-icon svg-icon-md">
+                    <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <rect x="0" y="0" width="24" height="24" />
+                            <circle fill="#000000" cx="9" cy="15" r="6" />
+                            <path d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z" fill="#000000" opacity="0.3" />
+                        </g>
+                    </svg>
+                    <!--end::Svg Icon-->
+                </span>@Messages.Create
+            </a>
+            <!--end::Button-->
+            <!--begin::Button-->
+            <a href="~/ReturnHandReceipt/DeliveryOfAllItems?Id=@Model" title="@Messages.DeliverAll" class="PopUp btn btn-secondary font-weight-bolder">
+                @Messages.DeliverAll
+            </a>
+            <!--end::Button-->
+        </div>
+    </div>
+    <div class="card-body">
+        <!--begin::Search Form-->
+        <div class="mb-7">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-xl-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-12 my-2 my-md-0">
+                            <div class="input-icon">
+                                <input type="text" class="form-control" placeholder="@Messages.Search" id="kt_datatable_search_query" />
+                                <span>
+                                    <i class="flaticon2-search-1 text-muted"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end: Search Form-->
+        <!--begin: Datatable-->
+        <div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable"></div>
+        <!--end: Datatable-->
+    </div>
+</div>
+
+<!--end::Card-->
+@section Scripts{
+    <script>
+        "use strict";
+        // Class definition
+        var KTDatatableAutoColumnHideDemo = function() {
+            // Private functions
+            // basic demo
+            var demo = function() {
+                var datatable = $('#kt_datatable').KTDatatable({
+                    // datasource definition
+                    data: {
+                        type: 'remote',
+                        source: {
+                            read: {
+                                url: '/ReturnHandReceipt/GetAllItems',
+                                params: {
+                                    HandReceiptId: @Model
+                                                                                                                                        }
+                            },
+                        },
+                        pageSize: 10,
+                        saveState: false,
+                        serverPaging: true,
+                        serverFiltering: true,
+                        serverSorting: true,
+                    },
+                    layout: {
+                        scroll: true,
+                    },
+                    rows: {
+                        autoHide: false
+                    },
+                    // column sorting
+                    sortable: true,
+                    pagination: true,
+                    search: {
+                        input: $('#kt_datatable_search_query'),
+                        key: 'generalSearch'
+                    },
+                    // columns definition
+                    columns: [
+                        {
+                            field: 'item',
+                            title: '@Messages.Item',
+                            sortable: false,
+                            autoHide: false,
+                            width: 100
+                        },
+                        {
+                            field: 'itemBarcode',
+                            title: '@Messages.Barcode',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'company',
+                            title: '@Messages.Company',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'color',
+                            title: '@Messages.Color',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'description',
+                            title: '@Messages.Description',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'warrantyExpiryDate',
+                            title: '@Messages.WarrantyExpiryDate',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'returnReason',
+                            title: '@Messages.ReturnReason',
+                            sortable: false,
+                            width: 300
+                        },
+                        {
+                            field: 'Actions',
+                            title: '@Messages.Actions',
+                            sortable: false,
+                            width: 120,
+                            overflow: 'visible',
+                            autoHide: false,
+                            template: function(data) {
+                                var result = '';
+
+                                if (!data.delivered && data.deliveryDate == null) {
+                                    result = result + '<a href="/ReturnHandReceipt/ReturnHandReceiptItemDelivery/' + data.id + '" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Delivery">' +
+                                        '    <span class="svg-icon svg-icon-md">' +
+                                        '        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
+                                        '            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
+                                        '                <polygon points="0 0 24 0 24 24 0 24" />' +
+                                        '                <path d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z M10.875,15.75 C11.1145833,15.75 11.3541667,15.6541667 11.5458333,15.4625 L15.3791667,11.6291667 C15.7625,11.2458333 15.7625,10.6708333 15.3791667,10.2875 C14.9958333,9.90416667 14.4208333,9.90416667 14.0375,10.2875 L10.875,13.45 L9.62916667,12.2041667 C9.29375,11.8208333 8.67083333,11.8208333 8.2875,12.2041667 C7.90416667,12.5875 7.90416667,13.1625 8.2875,13.5458333 L10.2041667,15.4625 C10.3958333,15.6541667 10.6354167,15.75 10.875,15.75 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />' +
+                                        '                <path d="M10.875,15.75 C10.6354167,15.75 10.3958333,15.6541667 10.2041667,15.4625 L8.2875,13.5458333 C7.90416667,13.1625 7.90416667,12.5875 8.2875,12.2041667 C8.67083333,11.8208333 9.29375,11.8208333 9.62916667,12.2041667 L10.875,13.45 L14.0375,10.2875 C14.4208333,9.90416667 14.9958333,9.90416667 15.3791667,10.2875 C15.7625,10.6708333 15.7625,11.2458333 15.3791667,11.6291667 L11.5458333,15.4625 C11.3541667,15.6541667 11.1145833,15.75 10.875,15.75 Z" fill="#000000" />' +
+                                        '            </g>' +
+                                        '        </svg>' +
+                                        '    </span>' +
+                                        '</a>';
+                                }
+                                result = result + GetDeleteAction('/ReturnHandReceipt/DeleteReturnHandReceiptItem/' + data.id);
+
+                                return result;
+                            },
+                        }],
+                });
+            };
+            return {
+                // public functions
+                init: function() {
+                    demo();
+                },
+            };
+        }();
+        jQuery(document).ready(function() {
+            KTDatatableAutoColumnHideDemo.init();
+        });
+    </script>
+        }
+
+

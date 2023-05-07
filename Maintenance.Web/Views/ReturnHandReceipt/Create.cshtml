@@ -1,0 +1,149 @@
+﻿@model CreateReturnHandReceiptDto
+@{
+    ViewData["Title"] = Messages.ReturnHandReceipts;
+
+    var handReceiptItemsJson = JsonConvert.SerializeObject(@Model.ReturnHandReceiptItems);
+}
+
+<div class="card card-custom">
+    <div class="card-header flex-wrap border-0 pt-6 pb-0">
+        <div class="card-title">
+            <h3 class="card-label">
+                @Messages.ReturnHandReceipt
+                <span class="d-block text-muted pt-2 font-size-sm">@Messages.FillRequiredData</span>
+            </h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="mb-7">
+            <form id="CreateForm" asp-action="Create" method="post" class="ajaxForm" tname="#kt_datatable" enctype="multipart/form-data">
+                <input asp-for="HandReciptId" type="hidden" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>@Messages.Date</label>
+                            <input asp-for="Date" placeholder="@string.Format(Messages.Enter,Messages.Date)" class="form-control form-control-solid" />
+                            <span asp-validation-for="Date" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!--begin: Datatable-->
+                <div class="datatable datatable-head-custom" id="kt_datatable"></div>
+                <!--end: Datatable-->
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-light-primary font-weight-bold">@Messages.Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var handReceiptItems = JSON.parse('@Html.Raw(handReceiptItemsJson)');
+
+        "use strict";
+        // Class definition
+
+        var KTDatatableRecordSelectionDemo = function() {
+            // Private functions
+
+            var options = {
+                // datasource definition
+                data: {
+                    type: 'local',
+                    source: handReceiptItems,
+                },
+
+                // layout definition
+                layout: {
+                    scroll: false, // enable/disable datatable scroll both horizontal and
+                    footer: false // display/hide footer
+                },
+
+                // column sorting
+                sortable: true,
+
+                pagination: false,
+
+                // columns definition
+                columns: [{
+                    field: 'Id',
+                    title: '#',
+                    sortable: false,
+                    width: 20,
+                    selector: true,
+                    textAlign: 'center',
+                },
+                {
+                    field: 'Item',
+                    title: '@Messages.Item',
+                },
+                {
+                    field: 'ItemBarcode',
+                    title: '@Messages.Barcode',
+                },
+                {
+                    field: 'Company',
+                    title: '@Messages.Company',
+                },
+                {
+                    field: 'ReturnReasonInput',
+                    title: '@Messages.ReturnReason',
+                    template: function(data) {
+                        var res = '';
+                        res = res + '<input type="text" name="ReturnHandReceiptItems[' + data.Index + '].ReturnReason" placeholder="@string.Format(Messages.Enter,Messages.ReturnReason)" class="form-control form-control-solid" />';
+                        res = res + '<input type="hidden" name="ReturnHandReceiptItems[' + data.Index + '].Id" value="' + data.Id + '" />';
+                        res = res + '<input type="hidden" id="is-selected-' + data.Id + '" name="ReturnHandReceiptItems[' + data.Index + '].IsSelected" value="false" />';
+                        return res;
+                    }
+                }],
+            };
+
+            // basic demo
+            var localSelectorDemo = function() {
+                // enable extension
+                options.extensions = {
+                    // boolean or object (extension options)
+                    checkbox: true,
+                };
+
+                options.search = {
+                    input: $('#kt_datatable_search_query'),
+                    key: 'generalSearch'
+                };
+
+                var datatable = $('#kt_datatable').KTDatatable(options);
+
+                datatable.on(
+                    'datatable-on-check datatable-on-uncheck',
+                    function(e) {
+                        var ids = datatable.rows('.datatable-row-active').
+                            nodes().
+                            find('.checkbox > [type="checkbox"]').
+                            map(function(i, chk) {
+                                var selectedItemId = $(chk).val();
+                                $('#is-selected-' + selectedItemId).val('true');
+                            });
+                    });
+            };
+
+            return {
+                // public functions
+                init: function() {
+                    localSelectorDemo();
+                },
+            };
+        }();
+
+        jQuery(document).ready(function() {
+            KTDatatableRecordSelectionDemo.init();
+        });
+    </script>
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}

@@ -63,9 +63,23 @@ namespace Maintenance.Infrastructure.AutoMapper
                 .ForMember(x => x.WarrantyExpiryDate, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")))
                 .ForMember(x => x.NotifyCustomerOfTheCost, x => x.MapFrom(x => x.NotifyCustomerOfTheCost ? Messages.Yes : Messages.No))
                 .ForMember(x => x.Urgent, x => x.MapFrom(x => x.Urgent ? Messages.Yes : Messages.No))
-                .ForMember(x => x.CollectionDate, x => x.MapFrom(x => x.CollectionDate != null ? x.CollectionDate.Value.ToString("yyyy-MM-dd"):null))
-                .ForMember(x => x.DeliveryDate, x => x.MapFrom(x => x.DeliveryDate != null ? x.DeliveryDate.Value.ToString("yyyy-MM-dd"): null));
+                .ForMember(x => x.CollectionDate, x => x.MapFrom(x => x.CollectionDate != null ? x.CollectionDate.Value.ToString("yyyy-MM-dd") : null))
+                .ForMember(x => x.DeliveryDate, x => x.MapFrom(x => x.DeliveryDate != null ? x.DeliveryDate.Value.ToString("yyyy-MM-dd") : null));
             CreateMap<CreateHandReceiptItemDto, HandReceiptItem>();
+            #endregion
+
+            #region ReturnHandReceipts
+            CreateMap<ReturnHandReceipt, ReturnHandReceiptViewModel>()
+                .ForMember(x => x.Date, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")));
+            CreateMap<CreateReturnHandReceiptDto, ReturnHandReceipt>();
+            #endregion
+
+            #region HandReceiptItems
+            CreateMap<ReturnHandReceiptItem, ReturnHandReceiptItemViewModel>()
+                .ForMember(x => x.WarrantyExpiryDate, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")))
+                .ForMember(x => x.DeliveryDate, x => x.MapFrom(x => x.DeliveryDate != null ? x.DeliveryDate.Value.ToString("yyyy-MM-dd") : null));
+            CreateMap<CreateReturnHandReceiptItemDto, ReturnHandReceiptItem>();
+            CreateMap<HandReceiptItem, CreateReturnHandReceiptItemDto>();
             #endregion
         }
     }

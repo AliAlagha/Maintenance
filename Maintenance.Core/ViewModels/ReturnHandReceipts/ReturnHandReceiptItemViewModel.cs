@@ -17,5 +17,7 @@ namespace Maintenance.Core.ViewModels
         public string ItemBarcode { get; set; }
         public DateTime? WarrantyExpiryDate { get; set; }
         public string? ReturnReason { get; set; }
+        public bool Delivered { get; set; }
+        public DateTime? DeliveryDate { get; set; }
     }
 }

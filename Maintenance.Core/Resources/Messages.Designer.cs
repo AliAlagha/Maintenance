@@ -502,6 +502,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to رقم سند الاستلام.
+        /// </summary>
+        public static string HandReceiptNumber {
+            get {
+                return ResourceManager.GetString("HandReceiptNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to سندات استلام القطع.
         /// </summary>
         public static string HandReceipts {
@@ -786,6 +795,42 @@ namespace Maintenance.Core.Resources {
         public static string RequiredField {
             get {
                 return ResourceManager.GetString("RequiredField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to مرتجع سند إستلام.
+        /// </summary>
+        public static string ReturnHandReceipt {
+            get {
+                return ResourceManager.GetString("ReturnHandReceipt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to قطع مرتجع سند الاستلام.
+        /// </summary>
+        public static string ReturnHandReceiptItems {
+            get {
+                return ResourceManager.GetString("ReturnHandReceiptItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to مرتجع سندات الاستلام.
+        /// </summary>
+        public static string ReturnHandReceipts {
+            get {
+                return ResourceManager.GetString("ReturnHandReceipts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to سبب الإرجاع.
+        /// </summary>
+        public static string ReturnReason {
+            get {
+                return ResourceManager.GetString("ReturnReason", resourceCulture);
             }
         }
         

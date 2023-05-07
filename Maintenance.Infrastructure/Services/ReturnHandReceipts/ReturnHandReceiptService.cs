@@ -65,7 +65,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             foreach (var returnHandReceiptItem in input.ReturnHandReceiptItems)
             {
                 var handReceiptItem = handReceipt.HandReceiptItems
-                    .Single(x => x.Id == returnHandReceiptItem.ReturnHandReceiptItemId);
+                    .Single(x => x.Id == returnHandReceiptItem.Id);
 
                 var newReturnHandReceiptItem = new ReturnHandReceiptItem
                 {
@@ -187,6 +187,39 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             }
 
             await _db.SaveChangesAsync();
+        }
+
+        public async Task<CreateReturnHandReceiptDto> GetHandReceiptInfo(int id)
+        {
+            var handReceipt = await _db.HandReceipts
+                .Include(x => x.HandReceiptItems)
+                .SingleOrDefaultAsync(x => x.Id == id);
+            if (handReceipt == null)
+                throw new EntityNotFoundException();
+
+            var itemDtos = new List<CreateReturnHandReceiptItemDto>();
+            
+            for (int i = 0; i < handReceipt.HandReceiptItems.Count; i++)
+            {
+                var handReceiptItem = handReceipt.HandReceiptItems[i];
+                itemDtos.Add(new CreateReturnHandReceiptItemDto
+                {
+                    Index = i,
+                    Id = handReceiptItem.Id,
+                    Item  = handReceiptItem.Item,
+                    ItemBarcode = handReceiptItem.ItemBarcode,
+                    Company = handReceiptItem.Company
+                });
+            }
+
+
+            var dto = new CreateReturnHandReceiptDto
+            {
+                HandReciptId = handReceipt.Id,
+                ReturnHandReceiptItems = itemDtos
+            };
+
+            return dto;
         }
 
     }

@@ -15,5 +15,6 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
         Task DeleteReturnHandReceiptItem(int id, string userId);
         Task ReturnHandReceiptItemDelivery(HandReceiptItemDeliveryDto dto, string userId);
         Task DeliveryOfAllItems(DeliveryOfAllItemsDto dto, string userId);
+        Task<CreateReturnHandReceiptDto> GetHandReceiptInfo(int id);
     }
 }

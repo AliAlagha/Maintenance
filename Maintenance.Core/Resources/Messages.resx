@@ -264,6 +264,9 @@
   <data name="HandReceiptItems" xml:space="preserve">
     <value>قطع سند الاستلام</value>
   </data>
+  <data name="HandReceiptNumber" xml:space="preserve">
+    <value>رقم سند الاستلام</value>
+  </data>
   <data name="HandReceipts" xml:space="preserve">
     <value>سندات استلام القطع</value>
   </data>
@@ -359,6 +362,18 @@
   </data>
   <data name="RequiredField" xml:space="preserve">
     <value>حقل {0} مطلوب</value>
+  </data>
+  <data name="ReturnHandReceipt" xml:space="preserve">
+    <value>مرتجع سند إستلام</value>
+  </data>
+  <data name="ReturnHandReceiptItems" xml:space="preserve">
+    <value>قطع مرتجع سند الاستلام</value>
+  </data>
+  <data name="ReturnHandReceipts" xml:space="preserve">
+    <value>مرتجع سندات الاستلام</value>
+  </data>
+  <data name="ReturnReason" xml:space="preserve">
+    <value>سبب الإرجاع</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>بحث...</value>
