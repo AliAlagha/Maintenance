@@ -53,7 +53,8 @@ namespace Maintenance.Infrastructure.AutoMapper
 
             #region HandReceipts
             CreateMap<HandReceipt, HandReceiptViewModel>()
-                .ForMember(x => x.Date, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")));
+                .ForMember(x => x.Date, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")))
+                .ForMember(x => x.TotalCollectedAmount, x => x.MapFrom(x => x.HandReceiptItems.Sum(x => x.CollectedAmount)));
             CreateMap<CreateHandReceiptDto, HandReceipt>();
             #endregion
 
@@ -61,7 +62,9 @@ namespace Maintenance.Infrastructure.AutoMapper
             CreateMap<HandReceiptItem, HandReceiptItemViewModel>()
                 .ForMember(x => x.WarrantyExpiryDate, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")))
                 .ForMember(x => x.NotifyCustomerOfTheCost, x => x.MapFrom(x => x.NotifyCustomerOfTheCost ? Messages.Yes : Messages.No))
-                .ForMember(x => x.Urgent, x => x.MapFrom(x => x.Urgent ? Messages.Yes : Messages.No));
+                .ForMember(x => x.Urgent, x => x.MapFrom(x => x.Urgent ? Messages.Yes : Messages.No))
+                .ForMember(x => x.CollectionDate, x => x.MapFrom(x => x.CollectionDate != null ? x.CollectionDate.Value.ToString("yyyy-MM-dd"):null))
+                .ForMember(x => x.DeliveryDate, x => x.MapFrom(x => x.DeliveryDate != null ? x.DeliveryDate.Value.ToString("yyyy-MM-dd"): null));
             CreateMap<CreateHandReceiptItemDto, HandReceiptItem>();
             #endregion
         }

@@ -15,7 +15,7 @@
         </div>
         <div class="card-toolbar">
             <!--begin::Button-->
-            <a href="~/HandReceipt/CreateHandReceiptItem?HandReceiptId=@Model" title="@Messages.Create" class="PopUp btn btn-primary font-weight-bolder">
+            <a href="~/HandReceipt/CreateHandReceiptItem?HandReceiptId=@Model" title="@Messages.Create" class="PopUp btn btn-primary font-weight-bolder mr-2">
                 <span class="svg-icon svg-icon-md">
                     <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -29,14 +29,38 @@
                 </span>@Messages.Create
             </a>
             <!--end::Button-->
+            <!--begin::Button-->
+            <a href="~/HandReceipt/DeliveryOfAllItems?Id=@Model" title="@Messages.DeliverAll" class="PopUp btn btn-secondary font-weight-bolder">
+                @Messages.DeliverAll
+            </a>
+            <!--end::Button-->
         </div>
     </div>
     <div class="card-body">
+        <!--begin::Search Form-->
+        <div class="mb-7">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-xl-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-12 my-2 my-md-0">
+                            <div class="input-icon">
+                                <input type="text" class="form-control" placeholder="@Messages.Search" id="kt_datatable_search_query" />
+                                <span>
+                                    <i class="flaticon2-search-1 text-muted"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end: Search Form-->
         <!--begin: Datatable-->
-        <div class="datatable table-striped datatable-head-custom" id="kt_datatable"></div>
+        <div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable"></div>
         <!--end: Datatable-->
     </div>
 </div>
+
 <!--end::Card-->
 @section Scripts{
     <script>
@@ -55,7 +79,7 @@
                                 url: '/HandReceipt/GetAllItems',
                                 params: {
                                     HandReceiptId: @Model
-                                }
+                                                                                                                                        }
                             },
                         },
                         pageSize: 10,
@@ -65,7 +89,10 @@
                         serverSorting: true,
                     },
                     layout: {
-                        scroll: false
+                        scroll: true,
+                    },
+                    rows: {
+                        autoHide: false
                     },
                     // column sorting
                     sortable: true,
@@ -81,6 +108,12 @@
                             title: '@Messages.Item',
                             sortable: false,
                             autoHide: false,
+                            width: 100
+                        },
+                        {
+                            field: 'itemBarcode',
+                            title: '@Messages.Barcode',
+                            sortable: false,
                             width: 100
                         },
                         {
@@ -138,14 +171,39 @@
                             width: 100
                         },
                         {
-                            field: 'itemBarcode',
-                            title: '@Messages.Barcode',
+                            field: 'warrantyExpiryDate',
+                            title: '@Messages.WarrantyExpiryDate',
                             sortable: false,
                             width: 100
                         },
                         {
-                            field: 'warrantyExpiryDate',
-                            title: '@Messages.WarrantyExpiryDate',
+                            field: 'collectedAmount',
+                            title: '@Messages.CollectedAmount',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'collectionDate',
+                            title: '@Messages.CollectionDate',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'delivered',
+                            title: '@Messages.Delivered',
+                            sortable: false,
+                            width: 100,
+                            template: function(data) {
+                                if (data.delivered) {
+                                    return "@Messages.Yes";
+                                } else {
+                                    return "@Messages.No";
+                                }
+                            }
+                        },
+                        {
+                            field: 'deliveryDate',
+                            title: '@Messages.DeliveryDate',
                             sortable: false,
                             width: 100
                         },
@@ -158,6 +216,33 @@
                             autoHide: false,
                             template: function(data) {
                                 var result = '';
+                                if (data.collectedMoney == null && data.collectionDate == null) {
+                                    result = result + '<a href="/HandReceipt/CollectMoneyForHandReceiptItem/' + data.id + '" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.CollectingMoney">' +
+                                        '    <span class="svg-icon svg-icon-md">' +
+                                        '        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
+                                        '            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
+                                        '                <rect x="0" y="0" width="24" height="24" />' +
+                                        '                <path d="M2,6 L21,6 C21.5522847,6 22,6.44771525 22,7 L22,17 C22,17.5522847 21.5522847,18 21,18 L2,18 C1.44771525,18 1,17.5522847 1,17 L1,7 C1,6.44771525 1.44771525,6 2,6 Z M11.5,16 C13.709139,16 15.5,14.209139 15.5,12 C15.5,9.790861 13.709139,8 11.5,8 C9.290861,8 7.5,9.790861 7.5,12 C7.5,14.209139 9.290861,16 11.5,16 Z" fill="#000000" opacity="0.3" transform="translate(11.500000, 12.000000) rotate(-345.000000) translate(-11.500000, -12.000000) " />' +
+                                        '                <path d="M2,6 L21,6 C21.5522847,6 22,6.44771525 22,7 L22,17 C22,17.5522847 21.5522847,18 21,18 L2,18 C1.44771525,18 1,17.5522847 1,17 L1,7 C1,6.44771525 1.44771525,6 2,6 Z M11.5,16 C13.709139,16 15.5,14.209139 15.5,12 C15.5,9.790861 13.709139,8 11.5,8 C9.290861,8 7.5,9.790861 7.5,12 C7.5,14.209139 9.290861,16 11.5,16 Z M11.5,14 C12.6045695,14 13.5,13.1045695 13.5,12 C13.5,10.8954305 12.6045695,10 11.5,10 C10.3954305,10 9.5,10.8954305 9.5,12 C9.5,13.1045695 10.3954305,14 11.5,14 Z" fill="#000000" />' +
+                                        '            </g>' +
+                                        '        </svg>' +
+                                        '    </span>' +
+                                        '</a>';
+                                }
+
+                                if (!data.delivered && data.deliveryDate == null) {
+                                    result = result + '<a href="/HandReceipt/HandReceiptItemDelivery/' + data.id + '" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Delivery">' +
+                                        '    <span class="svg-icon svg-icon-md">' +
+                                        '        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
+                                        '            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
+                                        '                <polygon points="0 0 24 0 24 24 0 24" />' +
+                                        '                <path d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z M10.875,15.75 C11.1145833,15.75 11.3541667,15.6541667 11.5458333,15.4625 L15.3791667,11.6291667 C15.7625,11.2458333 15.7625,10.6708333 15.3791667,10.2875 C14.9958333,9.90416667 14.4208333,9.90416667 14.0375,10.2875 L10.875,13.45 L9.62916667,12.2041667 C9.29375,11.8208333 8.67083333,11.8208333 8.2875,12.2041667 C7.90416667,12.5875 7.90416667,13.1625 8.2875,13.5458333 L10.2041667,15.4625 C10.3958333,15.6541667 10.6354167,15.75 10.875,15.75 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />' +
+                                        '                <path d="M10.875,15.75 C10.6354167,15.75 10.3958333,15.6541667 10.2041667,15.4625 L8.2875,13.5458333 C7.90416667,13.1625 7.90416667,12.5875 8.2875,12.2041667 C8.67083333,11.8208333 9.29375,11.8208333 9.62916667,12.2041667 L10.875,13.45 L14.0375,10.2875 C14.4208333,9.90416667 14.9958333,9.90416667 15.3791667,10.2875 C15.7625,10.6708333 15.7625,11.2458333 15.3791667,11.6291667 L11.5458333,15.4625 C11.3541667,15.6541667 11.1145833,15.75 10.875,15.75 Z" fill="#000000" />' +
+                                        '            </g>' +
+                                        '        </svg>' +
+                                        '    </span>' +
+                                        '</a>';
+                                }
                                 result = result + GetDeleteAction('/HandReceipt/DeleteHandReceiptItem/' + data.id);
 
                                 return result;
@@ -176,6 +261,6 @@
             KTDatatableAutoColumnHideDemo.init();
         });
     </script>
-}
+        }
 
 

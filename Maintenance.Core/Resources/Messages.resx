@@ -150,6 +150,15 @@
   <data name="ChangePassword" xml:space="preserve">
     <value>تغيير كلمة المرور</value>
   </data>
+  <data name="CollectedAmount" xml:space="preserve">
+    <value>المبلغ المحصل</value>
+  </data>
+  <data name="CollectingMoney" xml:space="preserve">
+    <value>التحصيل</value>
+  </data>
+  <data name="CollectionDate" xml:space="preserve">
+    <value>تاريخ التحصيل</value>
+  </data>
   <data name="Color" xml:space="preserve">
     <value>اللون</value>
   </data>
@@ -203,6 +212,18 @@
   </data>
   <data name="DeleteConfirmationForModal" xml:space="preserve">
     <value>هل أنت متأكد من استمرار العملية ؟</value>
+  </data>
+  <data name="DeliverAll" xml:space="preserve">
+    <value>تسليم الكل</value>
+  </data>
+  <data name="Delivered" xml:space="preserve">
+    <value>تم التسليم</value>
+  </data>
+  <data name="Delivery" xml:space="preserve">
+    <value>التسليم</value>
+  </data>
+  <data name="DeliveryDate" xml:space="preserve">
+    <value>تاريخ التسليم</value>
   </data>
   <data name="Description" xml:space="preserve">
     <value>الوصف</value>

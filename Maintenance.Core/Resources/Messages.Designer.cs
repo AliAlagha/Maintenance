@@ -160,6 +160,33 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to المبلغ المحصل.
+        /// </summary>
+        public static string CollectedAmount {
+            get {
+                return ResourceManager.GetString("CollectedAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to التحصيل.
+        /// </summary>
+        public static string CollectingMoney {
+            get {
+                return ResourceManager.GetString("CollectingMoney", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تاريخ التحصيل.
+        /// </summary>
+        public static string CollectionDate {
+            get {
+                return ResourceManager.GetString("CollectionDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to اللون.
         /// </summary>
         public static string Color {
@@ -318,6 +345,42 @@ namespace Maintenance.Core.Resources {
         public static string DeleteConfirmationForModal {
             get {
                 return ResourceManager.GetString("DeleteConfirmationForModal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تسليم الكل.
+        /// </summary>
+        public static string DeliverAll {
+            get {
+                return ResourceManager.GetString("DeliverAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تم التسليم.
+        /// </summary>
+        public static string Delivered {
+            get {
+                return ResourceManager.GetString("Delivered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to التسليم.
+        /// </summary>
+        public static string Delivery {
+            get {
+                return ResourceManager.GetString("Delivery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تاريخ التسليم.
+        /// </summary>
+        public static string DeliveryDate {
+            get {
+                return ResourceManager.GetString("DeliveryDate", resourceCulture);
             }
         }
         

@@ -22,5 +22,9 @@ namespace Maintenance.Core.ViewModels
         public string Urgent { get; set; }
         public string ItemBarcode { get; set; }
         public string? WarrantyExpiryDate { get; set; }
+        public double? CollectedAmount { get; set; }
+        public string? CollectionDate { get; set; }
+        public bool Delivered { get; set; }
+        public string? DeliveryDate { get; set; }
     }
 }

@@ -1,0 +1,31 @@
+﻿@model HandReceiptItemDeliveryDto
+@{
+    ViewData["Title"] = Messages.HandReceiptItems;
+    Layout = null;
+}
+
+<form asp-action="HandReceiptItemDelivery" method="post" class="ajaxForm" tname="#kt_datatable" enctype="multipart/form-data">
+    <input type="hidden" asp-for="@Model.Id" />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.DeliveryDate</label>
+                <input asp-for="DeliveryDate" placeholder="@string.Format(Messages.Enter,Messages.DeliveryDate)" class="form-control form-control-solid" />
+                <span asp-validation-for="DeliveryDate" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
+        <button type="button" data-dismiss="modal" class="btn btn-light-primary font-weight-bold">@Messages.Cancel</button>
+    </div>
+</form>
+
+<script>
+    PageLoadActions();
+</script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
+

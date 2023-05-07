@@ -29,4 +29,11 @@
 	  <Folder Include="wwwroot\Images\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Update="Views\HandReceipt\CollectMoneyForHandReceiptItem.cshtml">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	</ItemGroup>
+
 </Project>

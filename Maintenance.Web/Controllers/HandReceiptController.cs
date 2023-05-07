@@ -92,6 +92,57 @@ namespace Maintenance.Web.Controllers
             return DeletedSuccessfully();
         }
 
+        public IActionResult CollectMoneyForHandReceiptItem(int id)
+        {
+            var dto = new CollectMoneyForHandReceiptItemDto { Id = id };
+            return View(dto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CollectMoneyForHandReceiptItem(CollectMoneyForHandReceiptItemDto input)
+        {
+            if (ModelState.IsValid)
+            {
+                await _handReceiptService.CollectMoneyForHandReceiptItem(input, UserId);
+                return UpdatedSuccessfully();
+            }
+            return View(input);
+        }
+
+        public IActionResult HandReceiptItemDelivery(int id)
+        {
+            var dto = new HandReceiptItemDeliveryDto { Id = id };
+            return View(dto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> HandReceiptItemDelivery(HandReceiptItemDeliveryDto input)
+        {
+            if (ModelState.IsValid)
+            {
+                await _handReceiptService.HandReceiptItemDelivery(input, UserId);
+                return UpdatedSuccessfully();
+            }
+            return View(input);
+        }
+
+        public IActionResult DeliveryOfAllItems(int id)
+        {
+            var dto = new DeliveryOfAllItemsDto { Id = id };
+            return View(dto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeliveryOfAllItems(DeliveryOfAllItemsDto input)
+        {
+            if (ModelState.IsValid)
+            {
+                await _handReceiptService.DeliveryOfAllItems(input, UserId);
+                return UpdatedSuccessfully();
+            }
+            return View(input);
+        }
+
     }
 }
 

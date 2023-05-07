@@ -27,7 +27,9 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
 
         public async Task<PagingResultViewModel<HandReceiptViewModel>> GetAll(Pagination pagination, QueryDto query)
         {
-            var dbQuery = _db.HandReceipts.Include(x => x.Customer)
+            var dbQuery = _db.HandReceipts
+                .Include(x => x.Customer)
+                .Include(x => x.HandReceiptItems)
                 .OrderByDescending(x => x.CreatedAt).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(query.GeneralSearch))
@@ -85,6 +87,12 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                 .Where(x => x.HandReceiptId == handReceiptId)
                 .OrderByDescending(x => x.CreatedAt).AsQueryable();
 
+            if (!string.IsNullOrWhiteSpace(query.GeneralSearch))
+            {
+                dbQuery = dbQuery.Where(x => x.Item.Contains(query.GeneralSearch)
+                    || x.ItemBarcode.Contains(query.GeneralSearch));
+            }
+
             return await dbQuery.ToPagedData<HandReceiptItemViewModel>(pagination, _mapper);
         }
 
@@ -138,8 +146,14 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
         private async Task<string> GenerateBarcode()
         {
             var barcode = RandomDigits(10);
-            var isBarcodeExists = await _db.HandReceiptItems.AnyAsync(x => x.ItemBarcode.Equals(barcode));
-            if (isBarcodeExists)
+            var isBarcodeExistsInHandReceipt = await _db.HandReceiptItems.AnyAsync(x => x.ItemBarcode.Equals(barcode));
+            if (isBarcodeExistsInHandReceipt)
+            {
+                await GenerateBarcode();
+            }
+
+            var isBarcodeExistsInReturnHandReceipt = await _db.ReturnHandReceiptItems.AnyAsync(x => x.ItemBarcode.Equals(barcode));
+            if (isBarcodeExistsInReturnHandReceipt)
             {
                 await GenerateBarcode();
             }
@@ -166,6 +180,57 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             handReceiptItem.UpdatedAt = DateTime.Now;
             handReceiptItem.UpdatedBy = userId;
             _db.HandReceiptItems.Update(handReceiptItem);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task CollectMoneyForHandReceiptItem(CollectMoneyForHandReceiptItemDto dto, string userId)
+        {
+            var handReceiptItem = await _db.HandReceiptItems
+                .SingleOrDefaultAsync(x => x.Id == dto.Id && x.CollectedAmount == null);
+            if (handReceiptItem == null)
+                throw new EntityNotFoundException();
+
+            handReceiptItem.CollectedAmount = dto.CollectedAmount;
+            handReceiptItem.CollectionDate = dto.CollectionDate;
+            handReceiptItem.UpdatedAt = DateTime.Now;
+            handReceiptItem.UpdatedBy = userId;
+            _db.HandReceiptItems.Update(handReceiptItem);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task HandReceiptItemDelivery(HandReceiptItemDeliveryDto dto, string userId)
+        {
+            var handReceiptItem = await _db.HandReceiptItems
+                .SingleOrDefaultAsync(x => x.Id == dto.Id && x.Delivered == false);
+            if (handReceiptItem == null)
+                throw new EntityNotFoundException();
+
+            handReceiptItem.Delivered = true;
+            handReceiptItem.DeliveryDate = dto.DeliveryDate;
+            handReceiptItem.UpdatedAt = DateTime.Now;
+            handReceiptItem.UpdatedBy = userId;
+            _db.HandReceiptItems.Update(handReceiptItem);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task DeliveryOfAllItems(DeliveryOfAllItemsDto dto, string userId)
+        {
+            var handReceipt = await _db.HandReceipts
+                .Include(x => x.HandReceiptItems.Where(x => !x.Delivered))
+                .SingleOrDefaultAsync(x => x.Id == dto.Id 
+                && !x.HandReceiptItems.All(x => x.Delivered));
+            if (handReceipt == null)
+                throw new EntityNotFoundException();
+
+            foreach (var handReceiptItem in handReceipt.HandReceiptItems)
+            {
+                handReceiptItem.Delivered = true;
+                handReceiptItem.DeliveryDate = dto.DeliveryDate;
+                handReceiptItem.UpdatedAt = DateTime.Now;
+                handReceiptItem.UpdatedBy = userId;
+                _db.HandReceiptItems.Update(handReceiptItem);
+            }
+
             await _db.SaveChangesAsync();
         }
 

@@ -20,6 +20,7 @@ namespace Maintenance.Infrastructure.Extensions
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IItemService, ItemService>();
             services.AddScoped<IHandReceiptService, HandReceiptService>();
+            services.AddScoped<IReturnHandReceiptService, ReturnHandReceiptService>();
             return services;
         }
     }
