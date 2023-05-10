@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Maintenance.Core.Dtos;
+using Maintenance.Core.Enums;
 using Maintenance.Core.Resources;
 using Maintenance.Core.ViewModels;
 using Maintenance.Data.DbEntities;
@@ -54,32 +55,42 @@ namespace Maintenance.Infrastructure.AutoMapper
             #region HandReceipts
             CreateMap<HandReceipt, HandReceiptViewModel>()
                 .ForMember(x => x.Date, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")))
-                .ForMember(x => x.TotalCollectedAmount, x => x.MapFrom(x => x.HandReceiptItems.Sum(x => x.CollectedAmount)));
+                .ForMember(x => x.TotalCollectedAmount, x => x.MapFrom(x => x.ReceiptItems.Sum(x => x.CollectedAmount)))
+                .ForMember(x => x.IsAllDelivered, x => x.MapFrom(x => x.ReceiptItems.All(x => x.MaintenanceRequestStatus 
+                == MaintenanceRequestStatus.Delivered)))
+                .ForMember(x => x.ItemBarcodes, x => x.MapFrom(x => string.Join(", "
+                , x.ReceiptItems.Select(x => x.ItemBarcode).ToList())));
             CreateMap<CreateHandReceiptDto, HandReceipt>();
             #endregion
 
             #region HandReceiptItems
-            CreateMap<HandReceiptItem, HandReceiptItemViewModel>()
-                .ForMember(x => x.WarrantyExpiryDate, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")))
+            CreateMap<ReceiptItem, HandReceiptItemViewModel>()
+                .ForMember(x => x.WarrantyExpiryDate, x => x.MapFrom(x => x.WarrantyExpiryDate != null
+                ? x.WarrantyExpiryDate.Value.ToString("yyyy-MM-dd") : null))
                 .ForMember(x => x.NotifyCustomerOfTheCost, x => x.MapFrom(x => x.NotifyCustomerOfTheCost ? Messages.Yes : Messages.No))
                 .ForMember(x => x.Urgent, x => x.MapFrom(x => x.Urgent ? Messages.Yes : Messages.No))
                 .ForMember(x => x.CollectionDate, x => x.MapFrom(x => x.CollectionDate != null ? x.CollectionDate.Value.ToString("yyyy-MM-dd") : null))
                 .ForMember(x => x.DeliveryDate, x => x.MapFrom(x => x.DeliveryDate != null ? x.DeliveryDate.Value.ToString("yyyy-MM-dd") : null));
-            CreateMap<CreateHandReceiptItemDto, HandReceiptItem>();
+            CreateMap<CreateHandReceiptItemDto, ReceiptItem>();
             #endregion
 
             #region ReturnHandReceipts
             CreateMap<ReturnHandReceipt, ReturnHandReceiptViewModel>()
-                .ForMember(x => x.Date, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")));
+                .ForMember(x => x.Date, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")))
+                .ForMember(x => x.IsAllDelivered, x => x.MapFrom(x => x.ReceiptItems.All(x => x.MaintenanceRequestStatus
+                == MaintenanceRequestStatus.Delivered)))
+                .ForMember(x => x.ItemBarcodes, x => x.MapFrom(x => string.Join(", "
+                , x.ReceiptItems.Select(x => x.ItemBarcode).ToList())));
             CreateMap<CreateReturnHandReceiptDto, ReturnHandReceipt>();
             #endregion
 
             #region HandReceiptItems
-            CreateMap<ReturnHandReceiptItem, ReturnHandReceiptItemViewModel>()
-                .ForMember(x => x.WarrantyExpiryDate, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")))
-                .ForMember(x => x.DeliveryDate, x => x.MapFrom(x => x.DeliveryDate != null ? x.DeliveryDate.Value.ToString("yyyy-MM-dd") : null));
-            CreateMap<CreateReturnHandReceiptItemDto, ReturnHandReceiptItem>();
-            CreateMap<HandReceiptItem, CreateReturnHandReceiptItemDto>();
+            CreateMap<ReceiptItem, ReturnHandReceiptItemViewModel>()
+                .ForMember(x => x.DeliveryDate, x => x.MapFrom(x => x.DeliveryDate != null
+                ? x.DeliveryDate.Value.ToString("yyyy-MM-dd")
+                : null));
+            CreateMap<CreateReturnHandReceiptItemDto, ReceiptItem>();
+            CreateMap<ReceiptItem, CreateReturnHandReceiptItemDto>();
             #endregion
 
             #region Branches
@@ -88,6 +99,14 @@ namespace Maintenance.Infrastructure.AutoMapper
             CreateMap<CreateBranchDto, Branch>();
             CreateMap<UpdateBranchDto, Branch>();
             CreateMap<Branch, UpdateBranchDto>();
+            #endregion
+
+            #region Maintenance
+            CreateMap<ReceiptItem, ReceiptItemForMaintenanceViewModel>()
+                .ForMember(x => x.WarrantyExpiryDate, x => x.MapFrom(x => x.WarrantyExpiryDate != null
+                ? x.WarrantyExpiryDate.Value.ToString("yyyy-MM-dd") : null))
+                .ForMember(x => x.NotifyCustomerOfTheCost, x => x.MapFrom(x => x.NotifyCustomerOfTheCost ? Messages.Yes : Messages.No))
+                .ForMember(x => x.Urgent, x => x.MapFrom(x => x.Urgent ? Messages.Yes : Messages.No));
             #endregion
         }
     }

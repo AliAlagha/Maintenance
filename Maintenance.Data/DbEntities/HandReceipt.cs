@@ -12,7 +12,7 @@ namespace Maintenance.Data.DbEntities
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
         public DateTime Date { get; set; }
-        public List<HandReceiptItem> HandReceiptItems { get; set; }
+        public List<ReceiptItem> ReceiptItems { get; set; }
         public List<ReturnHandReceipt> ReturnHandReceipts { get; set; }
     }
 }

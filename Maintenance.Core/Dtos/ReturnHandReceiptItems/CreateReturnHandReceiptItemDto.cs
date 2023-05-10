@@ -9,5 +9,6 @@ namespace Maintenance.Core.Dtos
 
         public string? ReturnReason { get; set; }
         public bool IsSelected { get; set; }
+        public string TechnicianId { get; set; }
     }
 }

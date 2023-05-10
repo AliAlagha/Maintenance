@@ -241,6 +241,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to متكمل.
+        /// </summary>
+        public static string Completed {
+            get {
+                return ResourceManager.GetString("Completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to تأكيد.
         /// </summary>
         public static string Confirm {
@@ -300,6 +309,15 @@ namespace Maintenance.Core.Resources {
         public static string CustomerPhoneNumber {
             get {
                 return ResourceManager.GetString("CustomerPhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to رفض العميل.
+        /// </summary>
+        public static string CustomerRefused {
+            get {
+                return ResourceManager.GetString("CustomerRefused", resourceCulture);
             }
         }
         
@@ -601,6 +619,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to أرقام القطع.
+        /// </summary>
+        public static string ItemBarcodes {
+            get {
+                return ResourceManager.GetString("ItemBarcodes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to تم إنشاء العنصر بنجاح.
         /// </summary>
         public static string ItemCreatedSuccessfully {
@@ -678,6 +705,15 @@ namespace Maintenance.Core.Resources {
         public static string MaintenanceManager {
             get {
                 return ResourceManager.GetString("MaintenanceManager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to سبب تعليق الصيانة.
+        /// </summary>
+        public static string MaintenanceSuspensionReason {
+            get {
+                return ResourceManager.GetString("MaintenanceSuspensionReason", resourceCulture);
             }
         }
         
@@ -898,11 +934,29 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to الحالة.
+        /// </summary>
+        public static string Status {
+            get {
+                return ResourceManager.GetString("Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to إرسال.
         /// </summary>
         public static string Submit {
             get {
                 return ResourceManager.GetString("Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to معلق.
+        /// </summary>
+        public static string Suspended {
+            get {
+                return ResourceManager.GetString("Suspended", resourceCulture);
             }
         }
         
@@ -970,11 +1024,29 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to الضمان منتهي.
+        /// </summary>
+        public static string WarrantyExpired {
+            get {
+                return ResourceManager.GetString("WarrantyExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to تاريخ انتهاء الضمان.
         /// </summary>
         public static string WarrantyExpiryDate {
             get {
                 return ResourceManager.GetString("WarrantyExpiryDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to الضمان ساري.
+        /// </summary>
+        public static string WarrantyValid {
+            get {
+                return ResourceManager.GetString("WarrantyValid", resourceCulture);
             }
         }
         

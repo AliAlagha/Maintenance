@@ -177,6 +177,9 @@
   <data name="Company" xml:space="preserve">
     <value>الشركة</value>
   </data>
+  <data name="Completed" xml:space="preserve">
+    <value>متكمل</value>
+  </data>
   <data name="Confirm" xml:space="preserve">
     <value>تأكيد</value>
   </data>
@@ -197,6 +200,9 @@
   </data>
   <data name="CustomerPhoneNumber" xml:space="preserve">
     <value>رقم هاتف العميل</value>
+  </data>
+  <data name="CustomerRefused" xml:space="preserve">
+    <value>رفض العميل</value>
   </data>
   <data name="Customers" xml:space="preserve">
     <value>العملاء</value>
@@ -297,6 +303,9 @@
   <data name="ItemActivatedSuccessfully" xml:space="preserve">
     <value>تم تفعيل العنصر بنجاح</value>
   </data>
+  <data name="ItemBarcodes" xml:space="preserve">
+    <value>أرقام القطع</value>
+  </data>
   <data name="ItemCreatedSuccessfully" xml:space="preserve">
     <value>تم إنشاء العنصر بنجاح</value>
   </data>
@@ -323,6 +332,9 @@
   </data>
   <data name="MaintenanceManager" xml:space="preserve">
     <value>مدير الصيانة</value>
+  </data>
+  <data name="MaintenanceSuspensionReason" xml:space="preserve">
+    <value>سبب تعليق الصيانة</value>
   </data>
   <data name="MaintenanceTechnician" xml:space="preserve">
     <value>فني الصيانة</value>
@@ -396,8 +408,14 @@
   <data name="Statistics" xml:space="preserve">
     <value>الإحصائيات</value>
   </data>
+  <data name="Status" xml:space="preserve">
+    <value>الحالة</value>
+  </data>
   <data name="Submit" xml:space="preserve">
     <value>إرسال</value>
+  </data>
+  <data name="Suspended" xml:space="preserve">
+    <value>معلق</value>
   </data>
   <data name="To" xml:space="preserve">
     <value>إلى</value>
@@ -420,8 +438,14 @@
   <data name="Warning" xml:space="preserve">
     <value>تحذير</value>
   </data>
+  <data name="WarrantyExpired" xml:space="preserve">
+    <value>الضمان منتهي</value>
+  </data>
   <data name="WarrantyExpiryDate" xml:space="preserve">
     <value>تاريخ انتهاء الضمان</value>
+  </data>
+  <data name="WarrantyValid" xml:space="preserve">
+    <value>الضمان ساري</value>
   </data>
   <data name="Welcome" xml:space="preserve">
     <value>مرحباً</value>

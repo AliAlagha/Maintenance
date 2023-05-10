@@ -138,6 +138,12 @@
                             width: 100
                         },
                         {
+                            field: 'technician.fullName',
+                            title: '@Messages.MaintenanceTechnician',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
                             field: 'specifiedCost',
                             title: '@Messages.SpecifiedCost',
                             sortable: false,
@@ -192,17 +198,10 @@
                             width: 100
                         },
                         {
-                            field: 'delivered',
-                            title: '@Messages.Delivered',
+                            field: 'maintenanceRequestStatusMessage',
+                            title: '@Messages.Status',
                             sortable: false,
-                            width: 100,
-                            template: function(data) {
-                                if (data.delivered) {
-                                    return "@Messages.Yes";
-                                } else {
-                                    return "@Messages.No";
-                                }
-                            }
+                            width: 100
                         },
                         {
                             field: 'deliveryDate',
@@ -233,7 +232,7 @@
                                         '</a>';
                                 }
 
-                                if (!data.delivered) {
+                                if (data.maintenanceRequestStatus != 5) {
                                     result = result + '<a href="/HandReceiptItem/DeliverItem?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model" class="btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Delivery">' +
                                         '    <span class="svg-icon svg-icon-md">' +
                                         '        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +

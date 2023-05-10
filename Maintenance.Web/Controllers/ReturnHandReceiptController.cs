@@ -47,6 +47,10 @@ namespace Maintenance.Web.Controllers
                 await _returnHandReceiptService.Create(input, UserId);
                 return RedirectToAction(nameof(Index));
             }
+
+            var itemVms = await _returnHandReceiptService.GetHandReceiptItemsForReturn(input.HandReceiptId);
+            ViewBag.HandReceiptItems = itemVms;
+
             return View(input);
         }
 

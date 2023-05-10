@@ -8,6 +8,8 @@ using Maintenance.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Maintenance.Infrastructure.Services.Customers;
 using Maintenance.Data.Extensions;
+using Maintenance.Core.Enums;
+using Maintenance.Core.Helpers;
 
 namespace Maintenance.Infrastructure.Services.HandReceipts
 {
@@ -28,14 +30,19 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             var dbQuery = _db.ReturnHandReceipts
                 .Include(x => x.HandReceipt)
                 .ThenInclude(x => x.Customer)
+                .Include(x => x.ReceiptItems)
                 .OrderByDescending(x => x.CreatedAt).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(query.GeneralSearch))
             {
                 dbQuery = dbQuery.Where(x => x.Id.ToString().Contains(query.GeneralSearch)
-                    || x.HandReceipt.Customer.Name.Contains(query.GeneralSearch)
-                    || x.HandReceipt.Customer.Email.Contains(query.GeneralSearch)
-                    || x.HandReceipt.Customer.PhoneNumber.Contains(query.GeneralSearch));
+                    || x.HandReceiptId.ToString().Contains(query.GeneralSearch)
+                    || x.ReceiptItems.Any(x => x.ItemBarcode.Contains(query.GeneralSearch)));
+            }
+
+            if (query.CustomerId.HasValue)
+            {
+                dbQuery = dbQuery.Where(x => x.HandReceipt.Customer.Id == query.CustomerId);
             }
 
             return await dbQuery.ToPagedData<ReturnHandReceiptViewModel>(pagination, _mapper);
@@ -44,9 +51,18 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
         public async Task<int> Create(CreateReturnHandReceiptDto input, string userId)
         {
             var handReceipt = await _db.HandReceipts
-                .Include(x => x.HandReceiptItems)
+                .Include(x => x.ReceiptItems)
                 .SingleOrDefaultAsync(x => x.Id == input.HandReceiptId);
             if (handReceipt == null)
+            {
+                throw new EntityNotFoundException();
+            }
+
+            var dtoTechnicianIds = input.Items.Select(x => x.TechnicianId).ToList();
+            var dbTechnicianIds = await _db.Users.Where(x => x.UserType 
+                == UserType.MaintenanceTechnician)
+                .Select(x => x.Id).ToListAsync();
+            if (!ListHelper<string>.ContainsAllItems(dbTechnicianIds, dtoTechnicianIds))
             {
                 throw new EntityNotFoundException();
             }
@@ -54,6 +70,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             var returnHandReceipt = _mapper.Map<ReturnHandReceipt>(input);
             await AddReturnHandReceiptItems(input, handReceipt, returnHandReceipt);
 
+            returnHandReceipt.CustomerId = handReceipt.CustomerId;
             returnHandReceipt.CreatedBy = userId;
             await _db.ReturnHandReceipts.AddAsync(returnHandReceipt);
             await _db.SaveChangesAsync();
@@ -65,11 +82,12 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             var selectedReturnHandReceiptItems = input.Items.Where(x => x.IsSelected).ToList();
             foreach (var returnHandReceiptItem in selectedReturnHandReceiptItems)
             {
-                var handReceiptItem = handReceipt.HandReceiptItems
+                var handReceiptItem = handReceipt.ReceiptItems
                     .Single(x => x.Id == returnHandReceiptItem.HandReceiptItemId);
 
-                var newReturnHandReceiptItem = new ReturnHandReceiptItem
+                var newReturnHandReceiptItem = new ReceiptItem
                 {
+                    CustomerId = handReceipt.CustomerId,
                     ReturnHandReceiptId = returnHandReceipt.Id,
                     Item = handReceiptItem.Item,
                     Color = handReceiptItem.Color,
@@ -77,10 +95,12 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                     Company = handReceiptItem.Company,
                     ItemBarcode = await GenerateBarcode(),
                     WarrantyExpiryDate = handReceiptItem.WarrantyExpiryDate,
-                    ReturnReason = returnHandReceiptItem.ReturnReason
+                    ReturnReason = returnHandReceiptItem.ReturnReason,
+                    ReceiptItemType = ReceiptItemType.Returned,
+                    TechnicianId = returnHandReceiptItem.TechnicianId
                 };
 
-                returnHandReceipt.ReturnHandReceiptItems.Add(newReturnHandReceiptItem);
+                returnHandReceipt.ReceiptItems.Add(newReturnHandReceiptItem);
             }
         }
 
@@ -100,16 +120,16 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
         public async Task<List<HandReceiptItemForReturnViewModel>> GetHandReceiptItemsForReturn(int handReceiptId)
         {
             var handReceipt = await _db.HandReceipts
-                .Include(x => x.HandReceiptItems)
+                .Include(x => x.ReceiptItems)
                 .SingleOrDefaultAsync(x => x.Id == handReceiptId);
             if (handReceipt == null)
                 throw new EntityNotFoundException();
 
             var itemVms = new List<HandReceiptItemForReturnViewModel>();
 
-            for (int i = 0; i < handReceipt.HandReceiptItems.Count; i++)
+            for (int i = 0; i < handReceipt.ReceiptItems.Count; i++)
             {
-                var handReceiptItem = handReceipt.HandReceiptItems[i];
+                var handReceiptItem = handReceipt.ReceiptItems[i];
                 itemVms.Add(new HandReceiptItemForReturnViewModel
                 {
                     Index = i,
@@ -127,14 +147,8 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
         private async Task<string> GenerateBarcode()
         {
             var barcode = RandomDigits(10);
-            var isBarcodeExistsInHandReceipt = await _db.HandReceiptItems.AnyAsync(x => x.ItemBarcode.Equals(barcode));
-            if (isBarcodeExistsInHandReceipt)
-            {
-                await GenerateBarcode();
-            }
-
-            var isBarcodeExistsInReturnHandReceipt = await _db.ReturnHandReceiptItems.AnyAsync(x => x.ItemBarcode.Equals(barcode));
-            if (isBarcodeExistsInReturnHandReceipt)
+            var isBarcodeExists = await _db.ReceiptItems.AnyAsync(x => x.ItemBarcode.Equals(barcode));
+            if (isBarcodeExists)
             {
                 await GenerateBarcode();
             }

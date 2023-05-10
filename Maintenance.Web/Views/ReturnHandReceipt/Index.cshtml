@@ -28,6 +28,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <select id="SelectCustomerFilter" class="form-control">
+                        <option value="">-- @string.Format(Messages.Select, Messages.Customer) --</option>
+                    </select>
+                </div>
             </div>
         </div>
         <!--end: Search Form-->
@@ -105,6 +110,25 @@
                             width: 100
                         },
                         {
+                            field: 'isAllDelivered',
+                            title: '@Messages.Delivered',
+                            sortable: false,
+                            width: 100,
+                            template: function(data) {
+                                if (data.isAllDelivered) {
+                                    return "@Messages.Yes";
+                                } else {
+                                    return "@Messages.No";
+                                }
+                            }
+                        },
+                        {
+                            field: 'itemBarcodes',
+                            title: '@Messages.ItemBarcodes',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
                             field: 'Actions',
                             title: '@Messages.Actions',
                             sortable: false,
@@ -131,6 +155,10 @@
                             },
                         }],
                 });
+
+                $('#SelectCustomerFilter').on('change', function() {
+                    datatable.search($(this).val().toLowerCase(), 'CustomerId');
+                });
             };
             return {
                 // public functions
@@ -142,6 +170,16 @@
         jQuery(document).ready(function() {
             KTDatatableAutoColumnHideDemo.init();
         });
+
+        $.ajax({
+        url: '/Customer/List',
+        dataType: "json",
+        success: function(data) {
+            $(data).each(function(index, value) {
+                $("#SelectCustomerFilter").append($("<option></option>").val(value.id).html(value.name));
+            });
+        }
+    });
     </script>
 }
 

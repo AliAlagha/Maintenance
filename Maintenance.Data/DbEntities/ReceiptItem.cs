@@ -7,11 +7,20 @@ using System.Threading.Tasks;
 
 namespace Maintenance.Data.DbEntities
 {
-    public class HandReceiptItem : BaseEntity
+    public class ReceiptItem : BaseEntity
     {
+        public ReceiptItem()
+        {
+            MaintenanceRequestStatus = MaintenanceRequestStatus.New;
+        }
+
         public int Id { get; set; }
-        public int HandReceiptId { get; set; }
+        public int? HandReceiptId { get; set; }
         public HandReceipt HandReceipt { get; set; }
+        public int? ReturnHandReceiptId { get; set; }
+        public ReturnHandReceipt ReturnHandHandReceipt { get; set; }
+        public int CustomerId { get; set; }
+        public Customer Customer { get; set; }
         public string Item { get; set; }
         public string Company { get; set; }
         public string? Color { get; set; }
@@ -26,9 +35,13 @@ namespace Maintenance.Data.DbEntities
         public DateTime? WarrantyExpiryDate { get; set; }
         public double? CollectedAmount { get; set; }
         public DateTime? CollectionDate { get; set; }
-        public bool Delivered { get; set; }
         public DateTime? DeliveryDate { get; set; }
         public MaintenanceRequestStatus MaintenanceRequestStatus { get; set; }
         public string? ReasonForRefusingMaintenance { get; set; }
+        public string? MaintenanceSuspensionReason { get; set; }
+        public string? ReturnReason { get; set; }
+        public ReceiptItemType ReceiptItemType { get; set; }
+        public string TechnicianId { get; set; }
+        public User Technician { get; set; }
     }
 }

@@ -8,6 +8,8 @@ using Maintenance.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Maintenance.Infrastructure.Services.Customers;
 using Maintenance.Data.Extensions;
+using Maintenance.Core.Enums;
+using Maintenance.Core.Resources;
 
 namespace Maintenance.Infrastructure.Services.HandReceipts
 {
@@ -29,15 +31,18 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
         {
             var dbQuery = _db.HandReceipts
                 .Include(x => x.Customer)
-                .Include(x => x.HandReceiptItems)
+                .Include(x => x.ReceiptItems)
                 .OrderByDescending(x => x.CreatedAt).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(query.GeneralSearch))
             {
                 dbQuery = dbQuery.Where(x => x.Id.ToString().Contains(query.GeneralSearch)
-                    || x.Customer.Name.Contains(query.GeneralSearch)
-                    || x.Customer.Email.Contains(query.GeneralSearch)
-                    || x.Customer.PhoneNumber.Contains(query.GeneralSearch));
+                    || x.ReceiptItems.Any(x => x.ItemBarcode.Contains(query.GeneralSearch)));
+            }
+
+            if (query.CustomerId.HasValue)
+            {
+                dbQuery = dbQuery.Where(x => x.CustomerId == query.CustomerId);
             }
 
             return await dbQuery.ToPagedData<HandReceiptViewModel>(pagination, _mapper);

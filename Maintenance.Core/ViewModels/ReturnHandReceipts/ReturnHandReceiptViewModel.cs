@@ -11,5 +11,7 @@ namespace Maintenance.Core.ViewModels
         public int Id { get; set; }
         public HandReceiptViewModel HandReceipt { get; set; }
         public string Date { get; set; }
+        public bool IsAllDelivered { get; set; }
+        public string ItemBarcodes { get; set; }
     }
 }
