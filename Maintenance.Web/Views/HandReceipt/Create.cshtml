@@ -8,13 +8,6 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label>@Messages.Date</label>
-                <input asp-for="Date" placeholder="@string.Format(Messages.Enter,Messages.Date)" class="form-control form-control-solid" />
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
                 <label>@Messages.ExistsOrNewCustomer</label>
                 <select asp-for="CreateCustomerType" id="SelectExistsOrNewCustomer" class="form-control form-control-solid">
                     <option value="">-- @string.Format(Messages.Select, Messages.ExistsOrNewCustomer) --</option>

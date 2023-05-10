@@ -22,6 +22,38 @@ namespace Maintenance.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("Maintenance.Data.DbEntities.Branch", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Branches");
+                });
+
             modelBuilder.Entity("Maintenance.Data.DbEntities.Color", b =>
                 {
                     b.Property<int>("Id")
@@ -163,9 +195,6 @@ namespace Maintenance.Data.Migrations
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
-                    b.Property<double?>("TotalCollectedAmount")
-                        .HasColumnType("float");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -304,12 +333,114 @@ namespace Maintenance.Data.Migrations
                     b.ToTable("Items");
                 });
 
+            modelBuilder.Entity("Maintenance.Data.DbEntities.ReturnHandReceipt", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("HandReceiptId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HandReceiptId");
+
+                    b.ToTable("ReturnHandReceipts");
+                });
+
+            modelBuilder.Entity("Maintenance.Data.DbEntities.ReturnHandReceiptItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Company")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Delivered")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("DeliveryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Item")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ItemBarcode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ReturnHandReceiptId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReturnReason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("WarrantyExpiryDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReturnHandReceiptId");
+
+                    b.ToTable("ReturnHandReceiptItems");
+                });
+
             modelBuilder.Entity("Maintenance.Data.DbEntities.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("BranchId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -385,6 +516,8 @@ namespace Maintenance.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -544,12 +677,43 @@ namespace Maintenance.Data.Migrations
             modelBuilder.Entity("Maintenance.Data.DbEntities.HandReceiptItem", b =>
                 {
                     b.HasOne("Maintenance.Data.DbEntities.HandReceipt", "HandReceipt")
-                        .WithMany("handReceiptItems")
+                        .WithMany("HandReceiptItems")
                         .HasForeignKey("HandReceiptId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("HandReceipt");
+                });
+
+            modelBuilder.Entity("Maintenance.Data.DbEntities.ReturnHandReceipt", b =>
+                {
+                    b.HasOne("Maintenance.Data.DbEntities.HandReceipt", "HandReceipt")
+                        .WithMany("ReturnHandReceipts")
+                        .HasForeignKey("HandReceiptId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("HandReceipt");
+                });
+
+            modelBuilder.Entity("Maintenance.Data.DbEntities.ReturnHandReceiptItem", b =>
+                {
+                    b.HasOne("Maintenance.Data.DbEntities.ReturnHandReceipt", "ReturnHandReceipt")
+                        .WithMany("ReturnHandReceiptItems")
+                        .HasForeignKey("ReturnHandReceiptId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ReturnHandReceipt");
+                });
+
+            modelBuilder.Entity("Maintenance.Data.DbEntities.User", b =>
+                {
+                    b.HasOne("Maintenance.Data.DbEntities.Branch", "Branch")
+                        .WithMany("Users")
+                        .HasForeignKey("BranchId");
+
+                    b.Navigation("Branch");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -603,9 +767,21 @@ namespace Maintenance.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Maintenance.Data.DbEntities.Branch", b =>
+                {
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("Maintenance.Data.DbEntities.HandReceipt", b =>
                 {
-                    b.Navigation("handReceiptItems");
+                    b.Navigation("HandReceiptItems");
+
+                    b.Navigation("ReturnHandReceipts");
+                });
+
+            modelBuilder.Entity("Maintenance.Data.DbEntities.ReturnHandReceipt", b =>
+                {
+                    b.Navigation("ReturnHandReceiptItems");
                 });
 #pragma warning restore 612, 618
         }

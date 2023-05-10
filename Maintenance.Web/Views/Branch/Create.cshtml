@@ -1,17 +1,16 @@
-﻿@model HandReceiptItemDeliveryDto
+﻿@model CreateBranchDto
 @{
-    ViewData["Title"] = Messages.HandReceiptItems;
+    ViewData["Title"] = Messages.Branches;
     Layout = null;
 }
 
-<form asp-action="HandReceiptItemDelivery" method="post" class="ajaxForm" tname="#kt_datatable" enctype="multipart/form-data">
-    <input type="hidden" asp-for="@Model.Id" />
+<form asp-action="Create" method="post" class="ajaxForm" tname="#kt_datatable" enctype="multipart/form-data">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="form-group">
-                <label>@Messages.DeliveryDate</label>
-                <input asp-for="DeliveryDate" placeholder="@string.Format(Messages.Enter,Messages.DeliveryDate)" class="form-control form-control-solid" />
-                <span asp-validation-for="DeliveryDate" class="text-danger"></span>
+                <label>@Messages.Name</label>
+                <input asp-for="Name" placeholder="@string.Format(Messages.Enter,Messages.Name)" class="form-control form-control-solid" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
         </div>
     </div>

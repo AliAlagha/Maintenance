@@ -45,6 +45,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <select id="SelectBranchFilter" class="form-control">
+                        <option value="">-- @string.Format(Messages.Select, Messages.Branch) --</option>
+                    </select>
+                </div>
             </div>
         </div>
         <!--end: Search Form-->
@@ -126,6 +131,27 @@
                             width: 100
                         },
                         {
+                            field: 'userType',
+                            title: '@Messages.UserType',
+                            sortable: false,
+                            width: 100,
+                            template: function(data) {
+                                if (data.userType == 1) {
+                                    return '@Messages.Administrator';
+                                } else if (data.userType == 2) {
+                                    return '@Messages.MaintenanceManager';
+                                } else if (data.userType == 3) {
+                                    return '@Messages.MaintenanceTechnician';
+                                }
+                            }
+                        },
+                        {
+                            field: 'branch.name',
+                            title: '@Messages.Branch',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
                             field: 'isActive',
                             title: '@Messages.AccountStatus',
                             sortable: false,
@@ -174,6 +200,10 @@
                             },
                         }],
                 });
+
+                $('#SelectBranchFilter').on('change', function() {
+                    datatable.search($(this).val().toLowerCase(), 'BranchId');
+                });
             };
             return {
                 // public functions
@@ -184,6 +214,16 @@
         }();
         jQuery(document).ready(function() {
             KTDatatableAutoColumnHideDemo.init();
+        });
+
+        $.ajax({
+            url: '/Branch/List',
+            dataType: "json",
+            success: function(data) {
+                $(data).each(function(index, value) {
+                    $("#SelectBranchFilter").append($("<option></option>").val(value.id).html(value.name));
+                });
+            }
         });
     </script>
 }

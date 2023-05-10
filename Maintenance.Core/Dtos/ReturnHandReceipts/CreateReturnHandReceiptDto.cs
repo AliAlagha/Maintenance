@@ -7,15 +7,10 @@ namespace Maintenance.Core.Dtos
 {
     public class CreateReturnHandReceiptDto
     {
-        public int HandReciptId { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Messages))]
-        [Display(Name = "Date", ResourceType = typeof(Messages))]
-        [DataType(DataType.Date)]
-        public DateTime? Date { get; set; }
+        public int HandReceiptId { get; set; }
 
         [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Messages))]
         [Display(Name = "Items", ResourceType = typeof(Messages))]
-        public List<CreateReturnHandReceiptItemDto> ReturnHandReceiptItems { get; set; }
+        public List<CreateReturnHandReceiptItemDto> Items { get; set; }
     }
 }

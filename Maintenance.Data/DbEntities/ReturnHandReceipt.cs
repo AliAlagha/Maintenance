@@ -14,7 +14,7 @@ namespace Maintenance.Data.DbEntities
         }
 
         public int Id { get; set; }
-        public int HandReciptId { get; set; }
+        public int HandReceiptId { get; set; }
         public HandReceipt HandReceipt { get; set; }
         public DateTime Date { get; set; }
         public List<ReturnHandReceiptItem> ReturnHandReceiptItems { get; set; }

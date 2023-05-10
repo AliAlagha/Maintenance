@@ -52,14 +52,23 @@
         </div>
         <div class="col-md-6">
             <div class="form-group">
+                <label>@string.Format(Messages.Select, Messages.Branch)</label>
+                <select asp-for="BranchId" id="SelectBranch" class="form-control form-control-solid">
+                    <option value="">-- @string.Format(Messages.Select, Messages.Branch) --</option>
+                </select>
+                <span asp-validation-for="BranchId" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
                 <label>@Messages.Image</label>
                 <input asp-for="ImageFile" class="form-control form-control-solid" />
                 <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-6">
             <div class="form-group row">
                 <div class="col-9 col-form-label">
                     <div class="checkbox-inline">
@@ -81,6 +90,16 @@
 
 <script>
     PageLoadActions();
+
+    $.ajax({
+        url: '/Branch/List',
+        dataType: "json",
+        success: function(data) {
+            $(data).each(function(index, value) {
+                $("#SelectBranch").append($("<option></option>").val(value.id).html(value.name));
+            });
+        }
+    });
 </script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

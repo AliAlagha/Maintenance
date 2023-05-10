@@ -10,6 +10,7 @@ namespace Maintenance.Core.ViewModels
         public string PhoneNumber { get; set; }
         public string ImageFilePath { get; set; }
         public UserType UserType { get; set; }
+        public BranchViewModel Branch { get; set; }
         public bool IsActive { get; set; }
         public string CreatedAt { get; set; }
     }

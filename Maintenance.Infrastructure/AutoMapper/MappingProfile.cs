@@ -81,6 +81,14 @@ namespace Maintenance.Infrastructure.AutoMapper
             CreateMap<CreateReturnHandReceiptItemDto, ReturnHandReceiptItem>();
             CreateMap<HandReceiptItem, CreateReturnHandReceiptItemDto>();
             #endregion
+
+            #region Branches
+            CreateMap<Branch, BranchViewModel>()
+                .ForMember(x => x.CreatedAt, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")));
+            CreateMap<CreateBranchDto, Branch>();
+            CreateMap<UpdateBranchDto, Branch>();
+            CreateMap<Branch, UpdateBranchDto>();
+            #endregion
         }
     }
 }

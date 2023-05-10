@@ -11,11 +11,6 @@ namespace Maintenance.Core.Dtos
         public CreateCustomerForHandReceiptDto? CustomerInfo { get; set; }
 
         [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Messages))]
-        [Display(Name = "Date", ResourceType = typeof(Messages))]
-        [DataType(DataType.Date)]
-        public DateTime Date { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Messages))]
         [Display(Name = "ExistsOrNewCustomer", ResourceType = typeof(Messages))]
         public CreateCustomerType CreateCustomerType { get; set; }
     }

@@ -4,21 +4,15 @@
     Layout = null;
 }
 
-<form asp-action="CollectMoneyForHandReceiptItem" method="post" class="ajaxForm" tname="#kt_datatable" enctype="multipart/form-data">
-    <input type="hidden" asp-for="@Model.Id" />
+<form asp-action="CollectMoney" method="post" class="ajaxForm" tname="#kt_datatable" enctype="multipart/form-data">
+    <input type="hidden" asp-for="@Model.HandReceiptItemId" />
+    <input type="hidden" asp-for="@Model.HandReceiptId" />
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
                 <label>@Messages.CollectedAmount</label>
                 <input asp-for="CollectedAmount" placeholder="@string.Format(Messages.Enter,Messages.CollectedAmount)" class="form-control form-control-solid" />
                 <span asp-validation-for="CollectedAmount" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>@Messages.CollectionDate</label>
-                <input asp-for="CollectionDate" placeholder="@string.Format(Messages.Enter,Messages.CollectionDate)" class="form-control form-control-solid" />
-                <span asp-validation-for="CollectionDate" class="text-danger"></span>
             </div>
         </div>
     </div>

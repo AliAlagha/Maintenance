@@ -45,7 +45,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
         {
             var handReceipt = await _db.HandReceipts
                 .Include(x => x.HandReceiptItems)
-                .SingleOrDefaultAsync(x => x.Id == input.HandReciptId);
+                .SingleOrDefaultAsync(x => x.Id == input.HandReceiptId);
             if (handReceipt == null)
             {
                 throw new EntityNotFoundException();
@@ -62,10 +62,11 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
 
         private async Task AddReturnHandReceiptItems(CreateReturnHandReceiptDto input, HandReceipt? handReceipt, ReturnHandReceipt returnHandReceipt)
         {
-            foreach (var returnHandReceiptItem in input.ReturnHandReceiptItems)
+            var selectedReturnHandReceiptItems = input.Items.Where(x => x.IsSelected).ToList();
+            foreach (var returnHandReceiptItem in selectedReturnHandReceiptItems)
             {
                 var handReceiptItem = handReceipt.HandReceiptItems
-                    .Single(x => x.Id == returnHandReceiptItem.Id);
+                    .Single(x => x.Id == returnHandReceiptItem.HandReceiptItemId);
 
                 var newReturnHandReceiptItem = new ReturnHandReceiptItem
                 {
@@ -96,23 +97,33 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             await _db.SaveChangesAsync();
         }
 
-        // Items
-        public async Task<PagingResultViewModel<ReturnHandReceiptItemViewModel>> GetAllItems(Pagination pagination
-            , QueryDto query, int returnHandReceiptId)
+        public async Task<List<HandReceiptItemForReturnViewModel>> GetHandReceiptItemsForReturn(int handReceiptId)
         {
-            var dbQuery = _db.ReturnHandReceiptItems
-                .Where(x => x.ReturnHandReceiptId == returnHandReceiptId)
-                .OrderByDescending(x => x.CreatedAt).AsQueryable();
+            var handReceipt = await _db.HandReceipts
+                .Include(x => x.HandReceiptItems)
+                .SingleOrDefaultAsync(x => x.Id == handReceiptId);
+            if (handReceipt == null)
+                throw new EntityNotFoundException();
 
-            if (!string.IsNullOrWhiteSpace(query.GeneralSearch))
+            var itemVms = new List<HandReceiptItemForReturnViewModel>();
+
+            for (int i = 0; i < handReceipt.HandReceiptItems.Count; i++)
             {
-                dbQuery = dbQuery.Where(x => x.Item.Contains(query.GeneralSearch)
-                    || x.ItemBarcode.Contains(query.GeneralSearch));
+                var handReceiptItem = handReceipt.HandReceiptItems[i];
+                itemVms.Add(new HandReceiptItemForReturnViewModel
+                {
+                    Index = i,
+                    Id = handReceiptItem.Id,
+                    Item = handReceiptItem.Item,
+                    ItemBarcode = handReceiptItem.ItemBarcode,
+                    Company = handReceiptItem.Company
+                });
             }
 
-            return await dbQuery.ToPagedData<ReturnHandReceiptItemViewModel>(pagination, _mapper);
+            return itemVms;
         }
 
+        // Heplers
         private async Task<string> GenerateBarcode()
         {
             var barcode = RandomDigits(10);
@@ -138,88 +149,6 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             for (int i = 0; i < length; i++)
                 s = string.Concat(s, random.Next(10).ToString());
             return s;
-        }
-
-        public async Task DeleteReturnHandReceiptItem(int id, string userId)
-        {
-            var returnHandReceiptItem = await _db.ReturnHandReceiptItems.SingleOrDefaultAsync(x => x.Id == id);
-            if (returnHandReceiptItem == null)
-                throw new EntityNotFoundException();
-
-            returnHandReceiptItem.IsDelete = true;
-            returnHandReceiptItem.UpdatedAt = DateTime.Now;
-            returnHandReceiptItem.UpdatedBy = userId;
-            _db.ReturnHandReceiptItems.Update(returnHandReceiptItem);
-            await _db.SaveChangesAsync();
-        }
-
-        public async Task ReturnHandReceiptItemDelivery(HandReceiptItemDeliveryDto dto, string userId)
-        {
-            var returnHandReceiptItem = await _db.ReturnHandReceiptItems
-                .SingleOrDefaultAsync(x => x.Id == dto.Id && x.Delivered == false);
-            if (returnHandReceiptItem == null)
-                throw new EntityNotFoundException();
-
-            returnHandReceiptItem.Delivered = true;
-            returnHandReceiptItem.DeliveryDate = dto.DeliveryDate;
-            returnHandReceiptItem.UpdatedAt = DateTime.Now;
-            returnHandReceiptItem.UpdatedBy = userId;
-            _db.ReturnHandReceiptItems.Update(returnHandReceiptItem);
-            await _db.SaveChangesAsync();
-        }
-
-        public async Task DeliveryOfAllItems(DeliveryOfAllItemsDto dto, string userId)
-        {
-            var returnHandReceipt = await _db.ReturnHandReceipts
-                .Include(x => x.ReturnHandReceiptItems.Where(x => !x.Delivered))
-                .SingleOrDefaultAsync(x => x.Id == dto.Id
-                && !x.ReturnHandReceiptItems.All(x => x.Delivered));
-            if (returnHandReceipt == null)
-                throw new EntityNotFoundException();
-
-            foreach (var returnHandReceiptItem in returnHandReceipt.ReturnHandReceiptItems)
-            {
-                returnHandReceiptItem.Delivered = true;
-                returnHandReceiptItem.DeliveryDate = dto.DeliveryDate;
-                returnHandReceiptItem.UpdatedAt = DateTime.Now;
-                returnHandReceiptItem.UpdatedBy = userId;
-                _db.ReturnHandReceiptItems.Update(returnHandReceiptItem);
-            }
-
-            await _db.SaveChangesAsync();
-        }
-
-        public async Task<CreateReturnHandReceiptDto> GetHandReceiptInfo(int id)
-        {
-            var handReceipt = await _db.HandReceipts
-                .Include(x => x.HandReceiptItems)
-                .SingleOrDefaultAsync(x => x.Id == id);
-            if (handReceipt == null)
-                throw new EntityNotFoundException();
-
-            var itemDtos = new List<CreateReturnHandReceiptItemDto>();
-            
-            for (int i = 0; i < handReceipt.HandReceiptItems.Count; i++)
-            {
-                var handReceiptItem = handReceipt.HandReceiptItems[i];
-                itemDtos.Add(new CreateReturnHandReceiptItemDto
-                {
-                    Index = i,
-                    Id = handReceiptItem.Id,
-                    Item  = handReceiptItem.Item,
-                    ItemBarcode = handReceiptItem.ItemBarcode,
-                    Company = handReceiptItem.Company
-                });
-            }
-
-
-            var dto = new CreateReturnHandReceiptDto
-            {
-                HandReciptId = handReceipt.Id,
-                ReturnHandReceiptItems = itemDtos
-            };
-
-            return dto;
         }
 
     }

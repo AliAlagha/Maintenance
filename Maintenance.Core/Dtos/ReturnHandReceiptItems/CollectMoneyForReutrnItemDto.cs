@@ -3,17 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Maintenance.Core.Dtos
 {
-    public class CollectMoneyForHandReceiptItemDto
+    public class CollectMoneyForReutrnItemDto
     {
-        public int Id { get; set; }
+        public int ReturnHandReceiptItemId { get; set; }
+        public int ReturnReceiptId { get; set; }
 
         [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Messages))]
         [Display(Name = "CollectedAmount", ResourceType = typeof(Messages))]
         public double? CollectedAmount { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Messages))]
-        [Display(Name = "Date", ResourceType = typeof(Messages))]
-        [DataType(DataType.Date)]
-        public DateTime? CollectionDate { get; set; }
     }
 }

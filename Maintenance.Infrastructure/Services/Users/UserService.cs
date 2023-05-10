@@ -31,13 +31,19 @@ namespace Maintenance.Infrastructure.Services.Users
 
         public async Task<ResponseDto> GetAll(Pagination pagination, QueryDto query)
         {
-            var dbQuery = _db.Users.OrderByDescending(x => x.CreatedAt).AsQueryable();
+            var dbQuery = _db.Users.Include(x => x.Branch)
+                .OrderByDescending(x => x.CreatedAt).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(query.GeneralSearch))
             {
                 dbQuery = dbQuery.Where(x => x.FullName.Contains(query.GeneralSearch)
                     || x.Email.Contains(query.GeneralSearch)
                     || x.PhoneNumber.Contains(query.GeneralSearch));
+            }
+
+            if (query.BranchId.HasValue)
+            {
+                dbQuery = dbQuery.Where(x => x.BranchId == query.BranchId);
             }
 
             var dataCount = dbQuery.Count();

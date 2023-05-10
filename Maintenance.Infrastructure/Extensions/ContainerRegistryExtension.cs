@@ -1,9 +1,12 @@
-﻿using Maintenance.Infrastructure.Services.Colors;
+﻿using Maintenance.Infrastructure.Services.Branches;
+using Maintenance.Infrastructure.Services.Colors;
 using Maintenance.Infrastructure.Services.Companies;
 using Maintenance.Infrastructure.Services.Customers;
 using Maintenance.Infrastructure.Services.Files;
+using Maintenance.Infrastructure.Services.HandReceiptItems;
 using Maintenance.Infrastructure.Services.HandReceipts;
 using Maintenance.Infrastructure.Services.Items;
+using Maintenance.Infrastructure.Services.ReturnHandReceiptItems;
 using Maintenance.Infrastructure.Services.Users;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,6 +24,9 @@ namespace Maintenance.Infrastructure.Extensions
             services.AddScoped<IItemService, ItemService>();
             services.AddScoped<IHandReceiptService, HandReceiptService>();
             services.AddScoped<IReturnHandReceiptService, ReturnHandReceiptService>();
+            services.AddScoped<IBranchService, BranchService>();
+            services.AddScoped<IHandReceiptItemService, HandReceiptItemService>();
+            services.AddScoped<IReturnHandReceiptItemService, ReturnHandReceiptItemService>();
             return services;
         }
     }

@@ -14,6 +14,8 @@ namespace Maintenance.Data.DbEntities
         public string? UpdatedBy { get; set; }
         public bool IsDelete { get; set; }
         public bool IsActive { get; set; }
+        public int? BranchId { get; set; }
+        public Branch Branch { get; set; }
 
         public User()
         {

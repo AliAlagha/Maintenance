@@ -15,9 +15,9 @@ namespace Maintenance.Core.ViewModels
         public string? Color { get; set; }
         public string? Description { get; set; }
         public string ItemBarcode { get; set; }
-        public DateTime? WarrantyExpiryDate { get; set; }
+        public string? WarrantyExpiryDate { get; set; }
         public string? ReturnReason { get; set; }
         public bool Delivered { get; set; }
-        public DateTime? DeliveryDate { get; set; }
+        public string? DeliveryDate { get; set; }
     }
 }

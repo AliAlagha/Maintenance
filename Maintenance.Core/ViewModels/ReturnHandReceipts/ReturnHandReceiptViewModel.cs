@@ -10,6 +10,6 @@ namespace Maintenance.Core.ViewModels
     {
         public int Id { get; set; }
         public HandReceiptViewModel HandReceipt { get; set; }
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
     }
 }

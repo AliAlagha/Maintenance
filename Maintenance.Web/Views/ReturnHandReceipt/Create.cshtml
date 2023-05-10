@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = Messages.ReturnHandReceipts;
 
-    var handReceiptItemsJson = JsonConvert.SerializeObject(@Model.ReturnHandReceiptItems);
+    var handReceiptItemsJson = JsonConvert.SerializeObject(ViewBag.HandReceiptItems);
 }
 
 <div class="card card-custom">
@@ -16,17 +16,8 @@
     </div>
     <div class="card-body">
         <div class="mb-7">
-            <form id="CreateForm" asp-action="Create" method="post" class="ajaxForm" tname="#kt_datatable" enctype="multipart/form-data">
-                <input asp-for="HandReciptId" type="hidden" />
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>@Messages.Date</label>
-                            <input asp-for="Date" placeholder="@string.Format(Messages.Enter,Messages.Date)" class="form-control form-control-solid" />
-                            <span asp-validation-for="Date" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
+            <form id="CreateForm" asp-action="Create" method="post" enctype="multipart/form-data">
+                <input asp-for="HandReceiptId" type="hidden" />
 
                 <!--begin: Datatable-->
                 <div class="datatable datatable-head-custom" id="kt_datatable"></div>
@@ -74,6 +65,7 @@
                     field: 'Id',
                     title: '#',
                     sortable: false,
+                    autoHide: false,
                     width: 20,
                     selector: true,
                     textAlign: 'center',
@@ -81,23 +73,34 @@
                 {
                     field: 'Item',
                     title: '@Messages.Item',
+                    sortable: false,
+                    autoHide: false,
+                    width: 100
                 },
                 {
                     field: 'ItemBarcode',
                     title: '@Messages.Barcode',
+                    sortable: false,
+                    autoHide: false,
+                    width: 100
                 },
                 {
                     field: 'Company',
                     title: '@Messages.Company',
+                    sortable: false,
+                    width: 100
                 },
                 {
                     field: 'ReturnReasonInput',
                     title: '@Messages.ReturnReason',
+                    sortable: false,
+                    autoHide: false,
+                    width: 400,
                     template: function(data) {
                         var res = '';
-                        res = res + '<input type="text" name="ReturnHandReceiptItems[' + data.Index + '].ReturnReason" placeholder="@string.Format(Messages.Enter,Messages.ReturnReason)" class="form-control form-control-solid" />';
-                        res = res + '<input type="hidden" name="ReturnHandReceiptItems[' + data.Index + '].Id" value="' + data.Id + '" />';
-                        res = res + '<input type="hidden" id="is-selected-' + data.Id + '" name="ReturnHandReceiptItems[' + data.Index + '].IsSelected" value="false" />';
+                        res = res + '<input type="text" name="Items[' + data.Index + '].ReturnReason" placeholder="@string.Format(Messages.Enter,Messages.ReturnReason)" class="form-control" />';
+                        res = res + '<input type="hidden" name="Items[' + data.Index + '].HandReceiptItemId" value="' + data.Id + '" />';
+                        res = res + '<input type="hidden" id="is-selected-' + data.Id + '" name="Items[' + data.Index + '].IsSelected" value="false" />';
                         return res;
                     }
                 }],

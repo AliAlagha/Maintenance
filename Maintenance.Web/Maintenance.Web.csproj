@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -27,13 +27,6 @@
 
 	<ItemGroup>
 	  <Folder Include="wwwroot\Images\" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Update="Views\HandReceipt\CollectMoneyForHandReceiptItem.cshtml">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-	  </Content>
 	</ItemGroup>
 
 </Project>

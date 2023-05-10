@@ -15,7 +15,7 @@
         </div>
         <div class="card-toolbar">
             <!--begin::Button-->
-            <a href="~/HandReceipt/CreateHandReceiptItem?HandReceiptId=@Model" title="@Messages.Create" class="PopUp btn btn-primary font-weight-bolder mr-2">
+            <a href="~/HandReceiptItem/Create?HandReceiptId=@Model" title="@Messages.Create" class="PopUp btn btn-primary font-weight-bolder mr-2">
                 <span class="svg-icon svg-icon-md">
                     <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -29,11 +29,14 @@
                 </span>@Messages.Create
             </a>
             <!--end::Button-->
-            <!--begin::Button-->
-            <a href="~/HandReceipt/DeliveryOfAllItems?Id=@Model" title="@Messages.DeliverAll" class="PopUp btn btn-secondary font-weight-bolder">
-                @Messages.DeliverAll
-            </a>
-            <!--end::Button-->
+            @if (!ViewBag.IsAllItemsDelivered)
+            {
+                <!--begin::Button-->
+                <a href="~/HandReceiptItem/DeliveryOfAllItems?HandReceiptId=@Model" title="@Messages.DeliverAll" class="btn btn-secondary font-weight-bolder">
+                    @Messages.DeliverAll
+                </a>
+                <!--end::Button-->
+            }
         </div>
     </div>
     <div class="card-body">
@@ -76,10 +79,10 @@
                         type: 'remote',
                         source: {
                             read: {
-                                url: '/HandReceipt/GetAllItems',
+                                url: '/HandReceiptItem/GetAll',
                                 params: {
                                     HandReceiptId: @Model
-                                                                                                                                        }
+                                        }
                             },
                         },
                         pageSize: 10,
@@ -216,8 +219,8 @@
                             autoHide: false,
                             template: function(data) {
                                 var result = '';
-                                if (data.collectedMoney == null && data.collectionDate == null) {
-                                    result = result + '<a href="/HandReceipt/CollectMoneyForHandReceiptItem/' + data.id + '" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.CollectingMoney">' +
+                                if (data.collectedAmount == null) {
+                                    result = result + '<a href="/HandReceiptItem/CollectMoney?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.CollectingMoney">' +
                                         '    <span class="svg-icon svg-icon-md">' +
                                         '        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
                                         '            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
@@ -230,8 +233,8 @@
                                         '</a>';
                                 }
 
-                                if (!data.delivered && data.deliveryDate == null) {
-                                    result = result + '<a href="/HandReceipt/HandReceiptItemDelivery/' + data.id + '" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Delivery">' +
+                                if (!data.delivered) {
+                                    result = result + '<a href="/HandReceiptItem/DeliverItem?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model" class="btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Delivery">' +
                                         '    <span class="svg-icon svg-icon-md">' +
                                         '        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
                                         '            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
@@ -243,7 +246,7 @@
                                         '    </span>' +
                                         '</a>';
                                 }
-                                result = result + GetDeleteAction('/HandReceipt/DeleteHandReceiptItem/' + data.id);
+                                result = result + GetDeleteAction('/HandReceiptItem/Delete?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model');
 
                                 return result;
                             },
