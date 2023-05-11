@@ -47,15 +47,6 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <label>@Messages.MaintenanceTechnician</label>
-                <select asp-for="TechnicianId" id="SelectTechnician" class="form-control form-control-solid">
-                    <option value="">-- @string.Format(Messages.Select, Messages.MaintenanceTechnician) --</option>
-                </select>
-                <span asp-validation-for="TechnicianId" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
                 <label>@Messages.SpecifiedCost</label>
                 <input asp-for="SpecifiedCost" placeholder="@string.Format(Messages.Enter,Messages.SpecifiedCost)" class="form-control form-control-solid" />
                 <span asp-validation-for="SpecifiedCost" class="text-danger"></span>
@@ -68,8 +59,6 @@
                 <span asp-validation-for="CostFrom" class="text-danger"></span>
             </div>
         </div>
-    </div>
-    <div class="row">
         <div class="col-md-4">
             <div class="form-group">
                 <label>@Messages.To</label>
@@ -77,11 +66,20 @@
                 <span asp-validation-for="CostTo" class="text-danger"></span>
             </div>
         </div>
+    </div>
+    <div class="row">
         <div class="col-md-4">
             <div class="form-group">
                 <label>@Messages.WarrantyExpiryDate</label>
                 <input asp-for="WarrantyExpiryDate" placeholder="@string.Format(Messages.Enter,Messages.WarrantyExpiryDate)" class="form-control form-control-solid" />
                 <span asp-validation-for="WarrantyExpiryDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>@Messages.NotifyCustomerOfTheCost</label>
+                <input asp-for="NotifyCustomerOfTheCost" placeholder="@string.Format(Messages.Enter,Messages.NotifyCustomerOfTheCost)" class="form-control form-control-solid" />
+                <span asp-validation-for="NotifyCustomerOfTheCost" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-4">
@@ -93,7 +91,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="submit" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
+        <button id="AddItemBtn" type="button" data-dismiss="modal" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
         <button type="button" data-dismiss="modal" class="btn btn-light-primary font-weight-bold">@Messages.Cancel</button>
     </div>
 </form>
@@ -101,47 +99,85 @@
 <script>
     PageLoadActions();
 
+    var itemsArr = [];
     $.ajax({
         url: '/Item/List',
         dataType: "json",
         success: function(data) {
             $(data).each(function(index, value) {
                 $("#SelectItem").append($("<option></option>").val(value.id).html(value.name));
+                itemsArr.push(value);
             });
         }
     });
 
+    var companiesArr = [];
     $.ajax({
         url: '/Company/List',
         dataType: "json",
         success: function(data) {
             $(data).each(function(index, value) {
                 $("#SelectCompany").append($("<option></option>").val(value.id).html(value.name));
+                companiesArr.push(value);
             });
         }
     });
 
+    var colorsArr = [];
     $.ajax({
         url: '/Color/List',
         dataType: "json",
         success: function(data) {
             $(data).each(function(index, value) {
                 $("#SelectColor").append($("<option></option>").val(value.id).html(value.name));
+                colorsArr.push(value);
             });
         }
     });
 
-    $.ajax({
-        url: '/User/List',
-        dataType: "json",
-        data:{
-            UserType: 3
-        },
-        success: function(data) {
-            $(data).each(function(index, value) {
-                $("#SelectTechnician").append($("<option></option>").val(value.id).html(value.name));
-            });
+    var handReceiptItemsArr = [];
+    $('#AddItemBtn').click(function() {
+        var itemId = $('#SelectItem').val();
+        var itemObj = itemsArr.find(obj => {
+            return obj.id == itemId;
+        });
+
+        var companyId = $('#SelectCompany').val();
+        var companyObj = companiesArr.find(obj => {
+            return obj.id == companyId;
+        });
+
+        var colorId = $('#SelectColor').val();
+        var colorObj = colorsArr.find(obj => {
+            return obj.id == colorId;
+        });
+
+        var description = $('#Description').val();
+        var specifiedCost = $('#SpecifiedCost').val();
+        var costFrom = $('#CostFrom').val();
+        var costTo = $('#CostTo').val();
+        var warrantyExpiryDate = $('#WarrantyExpiryDate').val();
+        var notifyCustomerOfTheCost = $('#NotifyCustomerOfTheCost').val();
+        var urgent = $('#Urgent').val();
+
+        var handReceiptItem =
+        {
+            ItemId: itemId,
+            Item: itemObj.name,
+            ColorId: colorId,
+            Color: colorObj.name,
+            CompanyId : companyId,
+            Company: companyObj.name,
+            Description: description,
+            SpecifiedCost: specifiedCost,
+            CostFrom : costFrom,
+            CostTo:costTo,
+            WarrantyExpiryDate:warrantyExpiryDate,
+            NotifyCustomerOfTheCost:notifyCustomerOfTheCost,
+            Urgent:urgent
         }
+
+        handReceiptItemsArr.push(handReceiptItem);
     });
 </script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>

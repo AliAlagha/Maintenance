@@ -22,9 +22,6 @@ namespace Maintenance.Core.Dtos
         public bool Urgent { get; set; }
         [DataType(DataType.Date)]
         public DateTime? WarrantyExpiryDate { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Messages))]
-        [Display(Name = "MaintenanceTechnician", ResourceType = typeof(Messages))]
-        public string TechnicianId { get; set; }
+        public bool NotifyCustomerOfTheCost { get; set; }
     }
 }

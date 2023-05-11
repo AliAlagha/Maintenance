@@ -13,5 +13,6 @@ namespace Maintenance.Core.Dtos
         [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Messages))]
         [Display(Name = "ExistsOrNewCustomer", ResourceType = typeof(Messages))]
         public CreateCustomerType CreateCustomerType { get; set; }
+        public List<CreateHandReceiptItemDto> Items { get; set; }
     }
 }

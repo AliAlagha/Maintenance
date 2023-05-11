@@ -28,7 +28,6 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
             , QueryDto query, int handReceiptId)
         {
             var dbQuery = _db.ReceiptItems
-                .Include(x => x.Technician)
                 .Where(x => x.HandReceiptId == handReceiptId)
                 .OrderByDescending(x => x.CreatedAt).AsQueryable();
 
@@ -113,13 +112,6 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                 throw new EntityNotFoundException();
             }
 
-            var technician = await _db.Users.SingleOrDefaultAsync(x => x.Id.Equals(input.TechnicianId)
-                && x.UserType == UserType.MaintenanceTechnician);
-            if (technician == null)
-            {
-                throw new EntityNotFoundException();
-            }
-
             if (input.ColorId != null)
             {
                 var color = await _db.Colors.SingleOrDefaultAsync(x => x.Id == input.ColorId);
@@ -129,11 +121,6 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                 }
 
                 handReceiptItem.Color = color.Name;
-            }
-
-            if (input.SpecifiedCost == null)
-            {
-                handReceiptItem.NotifyCustomerOfTheCost = true;
             }
 
             handReceiptItem.CustomerId = handReceipt.CustomerId;

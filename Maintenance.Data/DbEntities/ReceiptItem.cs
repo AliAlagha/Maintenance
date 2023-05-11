@@ -41,7 +41,7 @@ namespace Maintenance.Data.DbEntities
         public string? MaintenanceSuspensionReason { get; set; }
         public string? ReturnReason { get; set; }
         public ReceiptItemType ReceiptItemType { get; set; }
-        public string TechnicianId { get; set; }
+        public string? TechnicianId { get; set; }
         public User Technician { get; set; }
     }
 }
