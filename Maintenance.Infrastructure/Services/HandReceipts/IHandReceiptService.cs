@@ -5,7 +5,8 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
 {
     public interface IHandReceiptService
     {
-        Task<PagingResultViewModel<HandReceiptViewModel>> GetAll(Pagination pagination, QueryDto query);
+        Task<PagingResultViewModel<HandReceiptViewModel>> GetAll(Pagination pagination
+            , QueryDto query, string? barcode);
         Task<int?> Create(CreateHandReceiptDto input, string userId);
         Task Delete(int id, string userId);
     }

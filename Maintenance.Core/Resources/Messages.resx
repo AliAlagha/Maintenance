@@ -393,6 +393,9 @@
   <data name="ReturnReason" xml:space="preserve">
     <value>سبب الإرجاع</value>
   </data>
+  <data name="ScanBarcode" xml:space="preserve">
+    <value>مسح الباركود</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>بحث...</value>
   </data>

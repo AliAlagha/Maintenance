@@ -889,6 +889,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to مسح الباركود.
+        /// </summary>
+        public static string ScanBarcode {
+            get {
+                return ResourceManager.GetString("ScanBarcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to بحث....
         /// </summary>
         public static string Search {

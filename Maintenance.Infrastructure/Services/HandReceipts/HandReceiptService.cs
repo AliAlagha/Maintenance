@@ -27,7 +27,8 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             _customerService = customerService;
         }
 
-        public async Task<PagingResultViewModel<HandReceiptViewModel>> GetAll(Pagination pagination, QueryDto query)
+        public async Task<PagingResultViewModel<HandReceiptViewModel>> GetAll
+            (Pagination pagination, QueryDto query, string? barcode)
         {
             var dbQuery = _db.HandReceipts
                 .Include(x => x.Customer)
@@ -38,6 +39,11 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             {
                 dbQuery = dbQuery.Where(x => x.Id.ToString().Contains(query.GeneralSearch)
                     || x.ReceiptItems.Any(x => x.ItemBarcode.Contains(query.GeneralSearch)));
+            }
+
+            if (!string.IsNullOrWhiteSpace(barcode))
+            {
+                dbQuery = dbQuery.Where(x => x.ReceiptItems.Any(x => x.ItemBarcode.Contains(barcode)));
             }
 
             if (query.CustomerId.HasValue)

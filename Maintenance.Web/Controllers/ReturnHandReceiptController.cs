@@ -18,15 +18,16 @@ namespace Maintenance.Web.Controllers
             _returnHandReceiptService = returnHandReceiptService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string? barcode)
         {
+            ViewBag.Barcode = barcode;
             return View();
         }
 
         [HttpPost]
-        public async Task<JsonResult> GetAll(Pagination pagination, QueryDto query)
+        public async Task<JsonResult> GetAll(Pagination pagination, QueryDto query, string? barcode)
         {
-            var response = await _returnHandReceiptService.GetAll(pagination, query);
+            var response = await _returnHandReceiptService.GetAll(pagination, query, barcode);
             return Json(response);
         }
 
