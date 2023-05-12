@@ -68,6 +68,8 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                     handReceipt.CustomerId = await _customerService.Create(createCustomerDto, userId);
                 }
 
+                await AddHandReceiptItems(input.Items, handReceipt, userId);
+
                 handReceipt.Date = DateTime.Now;
                 handReceipt.CreatedBy = userId;
                 await _db.HandReceipts.AddAsync(handReceipt);
@@ -76,6 +78,66 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             });
 
             return id;
+        }
+
+        public async Task AddHandReceiptItems(List<CreateHandReceiptItemDto> itemDtos
+            ,HandReceipt handReceipt, string userId)
+        {
+            var dtoItemIds = itemDtos.Select(x => x.ItemId).ToList();
+            var dbItems = await _db.Items.Where(x => dtoItemIds.Contains(x.Id))
+                .ToListAsync();
+
+            var dtoCompanyIds = itemDtos.Select(x => x.CompanyId).ToList();
+            var dbCompanies = await _db.Companies.Where(x => dtoCompanyIds.Contains(x.Id))
+                .ToListAsync();
+
+            List<Color>? dbColors = null;
+            var dtoColorIds = itemDtos.Select(x => x.ColorId).ToList();
+            if (dtoColorIds.Any())
+            {
+                dbColors = await _db.Colors.Where(x => dtoColorIds.Contains(x.Id))
+                .ToListAsync();
+            }
+
+            foreach (var itemDto in itemDtos)
+            {
+                var handReceiptItem = _mapper.Map<ReceiptItem>(itemDto);
+
+                handReceiptItem.HandReceiptId = handReceipt.Id;
+                handReceiptItem.CustomerId = handReceipt.CustomerId;
+                handReceiptItem.Item = dbItems.Single(x => x.Id == itemDto.ItemId).Name;
+                handReceiptItem.Company = dbCompanies.Single(x => x.Id == itemDto.CompanyId).Name;
+                if (itemDto.ColorId != null)
+                {
+                    handReceiptItem.Color = dbColors.Single(x => x.Id == itemDto.ColorId).Name;
+                }
+                handReceiptItem.ItemBarcode = await GenerateBarcode();
+                handReceiptItem.ReceiptItemType = ReceiptItemType.New;
+                handReceiptItem.CreatedBy = userId;
+
+                handReceipt.ReceiptItems.Add(handReceiptItem);
+            }
+        }
+
+        private async Task<string> GenerateBarcode()
+        {
+            var barcode = RandomDigits(10);
+            var isBarcodeExists = await _db.ReceiptItems.AnyAsync(x => x.ItemBarcode.Equals(barcode));
+            if (isBarcodeExists)
+            {
+                await GenerateBarcode();
+            }
+
+            return barcode;
+        }
+
+        private string RandomDigits(int length)
+        {
+            var random = new Random();
+            string s = string.Empty;
+            for (int i = 0; i < length; i++)
+                s = string.Concat(s, random.Next(10).ToString());
+            return s;
         }
 
         public async Task Delete(int id, string userId)

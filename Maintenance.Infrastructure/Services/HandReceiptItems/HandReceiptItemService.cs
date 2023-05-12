@@ -90,6 +90,16 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
             };
         }
 
+        public async Task<UpdateHandReceiptItemDto> Get(int handReceiptItemId, int handReceiptId)
+        {
+            var handReceiptItem = await _db.ReceiptItems.SingleOrDefaultAsync(x => x.Id == handReceiptItemId
+            && x.HandReceiptId == handReceiptId);
+            if (handReceiptItem == null)
+                throw new EntityNotFoundException();
+
+            return _mapper.Map<UpdateHandReceiptItemDto>(handReceiptItem);
+        }
+
         public async Task<int> Create(CreateHandReceiptItemDto input, string userId)
         {
             var handReceiptItem = _mapper.Map<ReceiptItem>(input);
@@ -132,6 +142,23 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
             await _db.ReceiptItems.AddAsync(handReceiptItem);
             await _db.SaveChangesAsync();
             return handReceiptItem.Id;
+        }
+
+        public async Task Update(UpdateHandReceiptItemDto input, string userId)
+        {
+            var handReceiptItem = await _db.ReceiptItems.SingleOrDefaultAsync(x => x.Id == input.HandReceiptItemId
+            && x.HandReceiptId == input.HandReceiptId);
+            if (handReceiptItem == null)
+            {
+                throw new EntityNotFoundException();
+            }
+
+            _mapper.Map(input, handReceiptItem);
+
+            handReceiptItem.UpdatedAt = DateTime.Now;
+            handReceiptItem.UpdatedBy = userId;
+            _db.ReceiptItems.Update(handReceiptItem);
+            await _db.SaveChangesAsync();
         }
 
         private async Task<string> GenerateBarcode()

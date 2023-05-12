@@ -50,7 +50,24 @@ namespace Maintenance.Web.Controllers
             if (ModelState.IsValid)
             {
                 await _handReceiptItemService.Create(input, UserId);
-                return RedirectToAction(nameof(Index), new { handReceiptId = input.HandReceiptId });
+                return CreatedSuccessfully();
+            }
+            return View(input);
+        }
+
+        public IActionResult Edit(int handReceiptItemId, int handReceiptId)
+        {
+            var dto =_handReceiptItemService.Get(handReceiptItemId, handReceiptId);
+            return View(dto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(UpdateHandReceiptItemDto input)
+        {
+            if (ModelState.IsValid)
+            {
+                await _handReceiptItemService.Update(input, UserId);
+                return UpdatedSuccessfully();
             }
             return View(input);
         }

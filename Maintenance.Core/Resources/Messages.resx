@@ -129,6 +129,12 @@
   <data name="Activated" xml:space="preserve">
     <value>فعال</value>
   </data>
+  <data name="Add" xml:space="preserve">
+    <value>إنشاء {0}</value>
+  </data>
+  <data name="AddItemsMsg" xml:space="preserve">
+    <value>قم بإضافة قطع سند الاستلام</value>
+  </data>
   <data name="Address" xml:space="preserve">
     <value>العنوان</value>
   </data>
@@ -272,6 +278,9 @@
   </data>
   <data name="FullName" xml:space="preserve">
     <value>الإسم الكامل</value>
+  </data>
+  <data name="HandReceipt" xml:space="preserve">
+    <value>سند استلام القطع</value>
   </data>
   <data name="HandReceiptItems" xml:space="preserve">
     <value>قطع سند الاستلام</value>

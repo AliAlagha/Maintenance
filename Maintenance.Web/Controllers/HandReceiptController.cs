@@ -30,7 +30,32 @@ namespace Maintenance.Web.Controllers
             return Json(response);
         }
 
+        public IActionResult SelectCustomerType()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult SelectCustomerType(SelectCustomerTypeDto dto)
+        {
+            if (dto.CreateCustomerType == CreateCustomerType.Exists)
+            {
+                return RedirectToAction(nameof(Create));
+            }
+            else if (dto.CreateCustomerType == CreateCustomerType.New)
+            {
+                return RedirectToAction(nameof(CreateWithCustomer));
+            }
+
+            return View();
+        }
+
         public IActionResult Create()
+        {
+            return View();
+        }
+
+        public IActionResult CreateWithCustomer()
         {
             return View();
         }
@@ -40,9 +65,21 @@ namespace Maintenance.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                var isCustomerNotValid = input.CustomerId == null && (input.CustomerInfo == null
+                    || input.CustomerInfo.Name == null || input.CustomerInfo.PhoneNumber == null);
+
+                if (isCustomerNotValid || !input.Items.Any())
+                {
+                    ModelState.AddModelError("Required", string.Empty);
+                    ViewBag.IsFormValid = false;
+                    return View(input);
+                }
+
                 await _handReceiptService.Create(input, UserId);
-                return CreatedSuccessfully();
+                return RedirectToAction(nameof(Index));
             }
+
+            ViewBag.IsFormValid = false;
             return View(input);
         }
 

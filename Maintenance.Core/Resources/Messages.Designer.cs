@@ -97,6 +97,24 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to إنشاء {0}.
+        /// </summary>
+        public static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to قم بإضافة قطع سند الاستلام.
+        /// </summary>
+        public static string AddItemsMsg {
+            get {
+                return ResourceManager.GetString("AddItemsMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to العنوان.
         /// </summary>
         public static string Address {
@@ -525,6 +543,15 @@ namespace Maintenance.Core.Resources {
         public static string FullName {
             get {
                 return ResourceManager.GetString("FullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to سند استلام القطع.
+        /// </summary>
+        public static string HandReceipt {
+            get {
+                return ResourceManager.GetString("HandReceipt", resourceCulture);
             }
         }
         

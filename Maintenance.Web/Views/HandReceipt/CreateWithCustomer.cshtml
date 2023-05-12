@@ -20,18 +20,24 @@
                     @Messages.FillRequiredData
                 </div>
             }
-            <form id="CreateHandReceiptForm" asp-action="Create" method="post" enctype="multipart/form-data">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>@Messages.Customer</label>
-                            <select asp-for="CustomerId" id="SelectCustomer" class="form-control form-control-solid">
-                                <option value="">-- @string.Format(Messages.Select, Messages.Customer) --</option>
-                            </select>
-                            <span asp-validation-for="CustomerId" class="text-danger"></span>
+                            <label>@Messages.CustomerFullName</label>
+                            <input asp-for="CustomerInfo.Name" placeholder="@string.Format(Messages.Enter,Messages.CustomerFullName)" class="form-control form-control-solid" />
+                            <span asp-validation-for="CustomerInfo.Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>@Messages.CustomerPhoneNumber</label>
+                            <input asp-for="CustomerInfo.PhoneNumber" placeholder="@string.Format(Messages.Enter,Messages.CustomerPhoneNumber)" class="form-control form-control-solid" />
+                            <span asp-validation-for="CustomerInfo.PhoneNumber" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
+
                 <div class="row mt-4">
                     <div class="col-md-3">
                         <div class="form-group">
@@ -107,7 +113,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>@Messages.Item</label>
-                                <select id="SelectItem" name="ItemId" class="form-control form-control-solid">
+                                <select id="SelectItem" class="form-control form-control-solid">
                                     <option value="">-- @string.Format(Messages.Select, Messages.Item) --</option>
                                 </select>
                             </div>
@@ -115,7 +121,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>@Messages.Company</label>
-                                <select id="SelectCompany" name="CompanyId" class="form-control form-control-solid">
+                                <select id="SelectCompany" class="form-control form-control-solid">
                                     <option value="">-- @string.Format(Messages.Select, Messages.Company) --</option>
                                 </select>
                             </div>
@@ -125,7 +131,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>@Messages.Color</label>
-                                <select id="SelectColor" name="ColorId" class="form-control form-control-solid">
+                                <select id="SelectColor" class="form-control form-control-solid">
                                     <option value="">-- @string.Format(Messages.Select, Messages.Color) --</option>
                                 </select>
                             </div>
@@ -178,7 +184,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button id="AddItemBtn" type="button" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
+                        <button id="AddItemBtn" type="button" data-dismiss="modal" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
                         <button type="button" data-dismiss="modal" class="btn btn-light-primary font-weight-bold">@Messages.Cancel</button>
                     </div>
                 </form>
@@ -248,7 +254,8 @@
             }
         });
 
-        function GetDataFromModal() {
+
+        $('#AddItemBtn').click(function() {
             var itemId = $('#SelectItem').val();
             var itemObj = itemsArr.find(obj => {
                 return obj.id == itemId;
@@ -290,9 +297,8 @@
             }
 
             AddRow(handReceiptItem);
-            $("#AddItemModal").modal("hide");
             $("#AddItemForm").resetForm();
-        }
+        });
 
         function AddRow(itemObj) {
             $('#AddItemsMsg').hide();
@@ -320,13 +326,13 @@
             row += '<td>' + itemObj.description + '<input type="hidden" name="Items[' + newRowIndex + '].Description" value="' + itemObj.description + '"></td>';
             row += '<td>' + itemObj.specifiedCost + '<input type="hidden" name="Items[' + newRowIndex + '].SpecifiedCost" value="' + itemObj.specifiedCost + '"';
             row += ' min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"></td>';
-            row += '<td>' + notifyCustomerOfTheCost + '<input type="hidden" name="Items[' + newRowIndex + '].NotifyCustomerOfTheCost" value="' + itemObj.notifyCustomerOfTheCost + '"></td>';
             row += '<td>' + itemObj.costFrom + '<input type="hidden" name="Items[' + newRowIndex + '].CostFrom" value="' + itemObj.costFrom + '"';
             row += ' min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"></td>';
             row += '<td>' + itemObj.costTo + '<input type="hidden" name="Items[' + newRowIndex + '].CostTo" value="' + itemObj.costTo + '"';
             row += ' min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"></td>';
-            row += '<td>' + urgent + '<input type="hidden" name="Items[' + newRowIndex + '].Urgent" value="' + itemObj.urgent + '"></td>';
             row += '<td>' + itemObj.warrantyExpiryDate + '<input type="hidden" name="Items[' + newRowIndex + '].WarrantyExpiryDate" value="' + itemObj.warrantyExpiryDate + '"></td>';
+            row += '<td>' + notifyCustomerOfTheCost + '<input type="hidden" name="Items[' + newRowIndex + '].NotifyCustomerOfTheCost" value="' + itemObj.notifyCustomerOfTheCost + '"></td>';
+            row += '<td>' + urgent + '<input type="hidden" name="Items[' + newRowIndex + '].Urgent" value="' + itemObj.urgent + '"></td>';
             row += '<td><button type="button" class="btn btn-danger font-weight-bold delete-row delete-row-' + newRowIndex + '">@Messages.Delete</button></td>';
             row += '</tr>';
 
@@ -353,125 +359,6 @@
             }
         });
 
-        // Class definition
-        var KTFormControls = function() {
-            // Private functions
-            var _initDemo1 = function() {
-                var validator = FormValidation.formValidation(
-                    document.getElementById('AddItemForm'),
-                    {
-                        fields: {
-                            ItemId: {
-                                validators: {
-                                    notEmpty: {
-                                        message: '@string.Format(Messages.RequiredField, Messages.Item)'
-                                    }
-                                }
-                            },
-                            CompanyId: {
-                                validators: {
-                                    notEmpty: {
-                                        message: '@string.Format(Messages.RequiredField, Messages.Company)'
-                                    }
-                                }
-                            },
-                            ColorId: {
-                                validators: {
-                                    notEmpty: {
-                                        message: '@string.Format(Messages.RequiredField, Messages.Color)'
-                                    }
-                                }
-                            }
-                        },
-
-                        plugins: { //Learn more: https://formvalidation.io/guide/plugins
-                            trigger: new FormValidation.plugins.Trigger(),
-                            // Bootstrap Framework Integration
-                            bootstrap: new FormValidation.plugins.Bootstrap(),
-                            // Validate fields when clicking the Submit button
-                            //submitButton: new FormValidation.plugins.SubmitButton(),
-                            // Submit the form when all fields are valid
-                            //defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
-                        }
-                    }
-                );
-
-                // Submit button handler
-                const addItemBtn = document.getElementById('AddItemBtn');
-                addItemBtn.addEventListener('click', function(e) {
-                    // Prevent default button action
-                    e.preventDefault();
-
-                    // Validate form before submit
-                    if (validator) {
-                        validator.validate().then(function(status) {
-                            console.log('validated!');
-
-                            if (status == 'Valid') {
-                                GetDataFromModal();
-                            }
-                        });
-                    }
-                });
-            }
-
-            var _initDemo2 = function() {
-                FormValidation.formValidation(
-                    document.getElementById('CreateHandReceiptForm'),
-                    {
-                        fields: {
-                            CustomerId: {
-                                validators: {
-                                    notEmpty: {
-                                        message: '@string.Format(Messages.RequiredField, Messages.Customer)'
-                                    }
-                                }
-                            }
-                        },
-
-                        plugins: { //Learn more: https://formvalidation.io/guide/plugins
-                            trigger: new FormValidation.plugins.Trigger(),
-                            // Bootstrap Framework Integration
-                            bootstrap: new FormValidation.plugins.Bootstrap(),
-                            // Validate fields when clicking the Submit button
-                            submitButton: new FormValidation.plugins.SubmitButton(),
-                            // Submit the form when all fields are valid
-                            defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
-                        }
-                    }
-                );
-
-                // Submit button handler
-                const addItemBtn = document.getElementById('AddItemBtn');
-                addItemBtn.addEventListener('click', function(e) {
-                    // Prevent default button action
-                    e.preventDefault();
-
-                    // Validate form before submit
-                    if (validator) {
-                        validator.validate().then(function(status) {
-                            console.log('validated!');
-
-                            if (status == 'Valid') {
-                                GetDataFromModal();
-                            }
-                        });
-                    }
-                });
-            }
-
-            return {
-                // public functions
-                init: function() {
-                    _initDemo1();
-                    _initDemo2();
-                }
-            };
-        }();
-
-        jQuery(document).ready(function() {
-            KTFormControls.init();
-        });
     </script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

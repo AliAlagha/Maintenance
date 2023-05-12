@@ -11,8 +11,7 @@ namespace Maintenance.Core.Dtos
         public CreateCustomerForHandReceiptDto? CustomerInfo { get; set; }
 
         [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Messages))]
-        [Display(Name = "ExistsOrNewCustomer", ResourceType = typeof(Messages))]
-        public CreateCustomerType CreateCustomerType { get; set; }
+        [Display(Name = "Items", ResourceType = typeof(Messages))]
         public List<CreateHandReceiptItemDto> Items { get; set; }
     }
 }

@@ -4,7 +4,7 @@
     Layout = null;
 }
 
-<form asp-action="Create" method="post" enctype="multipart/form-data">
+<form asp-action="Create" method="post" class="ajaxForm" tname="#kt_datatable" enctype="multipart/form-data">
     <input type="hidden" asp-for="@Model.HandReceiptId" />
     <div class="row">
         <div class="col-md-6">
@@ -91,7 +91,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button id="AddItemBtn" type="button" data-dismiss="modal" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
+        <button type="submit" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
         <button type="button" data-dismiss="modal" class="btn btn-light-primary font-weight-bold">@Messages.Cancel</button>
     </div>
 </form>
@@ -133,51 +133,6 @@
                 colorsArr.push(value);
             });
         }
-    });
-
-    var handReceiptItemsArr = [];
-    $('#AddItemBtn').click(function() {
-        var itemId = $('#SelectItem').val();
-        var itemObj = itemsArr.find(obj => {
-            return obj.id == itemId;
-        });
-
-        var companyId = $('#SelectCompany').val();
-        var companyObj = companiesArr.find(obj => {
-            return obj.id == companyId;
-        });
-
-        var colorId = $('#SelectColor').val();
-        var colorObj = colorsArr.find(obj => {
-            return obj.id == colorId;
-        });
-
-        var description = $('#Description').val();
-        var specifiedCost = $('#SpecifiedCost').val();
-        var costFrom = $('#CostFrom').val();
-        var costTo = $('#CostTo').val();
-        var warrantyExpiryDate = $('#WarrantyExpiryDate').val();
-        var notifyCustomerOfTheCost = $('#NotifyCustomerOfTheCost').val();
-        var urgent = $('#Urgent').val();
-
-        var handReceiptItem =
-        {
-            ItemId: itemId,
-            Item: itemObj.name,
-            ColorId: colorId,
-            Color: colorObj.name,
-            CompanyId : companyId,
-            Company: companyObj.name,
-            Description: description,
-            SpecifiedCost: specifiedCost,
-            CostFrom : costFrom,
-            CostTo:costTo,
-            WarrantyExpiryDate:warrantyExpiryDate,
-            NotifyCustomerOfTheCost:notifyCustomerOfTheCost,
-            Urgent:urgent
-        }
-
-        handReceiptItemsArr.push(handReceiptItem);
     });
 </script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>

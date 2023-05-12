@@ -72,6 +72,8 @@ namespace Maintenance.Infrastructure.AutoMapper
                 .ForMember(x => x.CollectionDate, x => x.MapFrom(x => x.CollectionDate != null ? x.CollectionDate.Value.ToString("yyyy-MM-dd") : null))
                 .ForMember(x => x.DeliveryDate, x => x.MapFrom(x => x.DeliveryDate != null ? x.DeliveryDate.Value.ToString("yyyy-MM-dd") : null));
             CreateMap<CreateHandReceiptItemDto, ReceiptItem>();
+            CreateMap<UpdateHandReceiptItemDto, ReceiptItem>();
+            CreateMap<ReceiptItem, UpdateHandReceiptItemDto>();
             #endregion
 
             #region ReturnHandReceipts
