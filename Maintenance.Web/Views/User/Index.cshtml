@@ -13,7 +13,7 @@
         </div>
         <div class="card-toolbar">
             <!--begin::Button-->
-            <a href="~/User/Create" title="@Messages.Create" class="PopUp btn btn-primary font-weight-bolder">
+            <a href="~/User/Create" title="@string.Format(Messages.CreateTitle, Messages.User)" class="PopUp btn btn-primary font-weight-bolder">
                 <span class="svg-icon svg-icon-md">
                     <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -192,7 +192,7 @@
                                     '    </span>' +
                                     '</a>';
 
-                                result = result + GetPopUpEditAction('/User/Edit/' + data.id);
+                                result = result + GetPopUpEditAction('/User/Edit/' + data.id, '@string.Format(Messages.EditTitle, Messages.User)');
                                 result = result + GetDeleteAction('/User/Delete/' + data.id);
                                 result = result + GetActivationToggleAction("User", data.id, data.isActive);
 

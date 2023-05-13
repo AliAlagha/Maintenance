@@ -15,7 +15,7 @@
         </div>
         <div class="card-toolbar">
             <!--begin::Button-->
-            <a href="~/HandReceiptItem/Create?HandReceiptId=@Model" title="@Messages.Create" class="PopUp btn btn-primary font-weight-bolder mr-2">
+            <a href="~/HandReceiptItem/Create?HandReceiptId=@Model" title="@string.Format(Messages.CreateTitle, Messages.HandReceiptItem)" class="PopUp btn btn-primary font-weight-bolder mr-2">
                 <span class="svg-icon svg-icon-md">
                     <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -82,7 +82,7 @@
                                 url: '/HandReceiptItem/GetAll',
                                 params: {
                                     HandReceiptId: @Model
-                                        }
+                                                }
                             },
                         },
                         pageSize: 10,
@@ -212,7 +212,8 @@
                             autoHide: false,
                             template: function(data) {
                                 var result = '';
-                                result = result + GetPopUpEditAction('/HandReceiptItem/Edit?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model');
+                                result = result + GetPopUpEditAction('/HandReceiptItem/Edit?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model'
+                                    , '@string.Format(Messages.EditTitle, Messages.HandReceiptItem)');
                                 if (data.collectedAmount == null) {
                                     result = result + '<a href="/HandReceiptItem/CollectMoney?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.CollectingMoney">' +
                                         '    <span class="svg-icon svg-icon-md">' +

@@ -89,8 +89,8 @@
                 <div class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
                     <div id="kt_aside_menu" class="aside-menu my-4" data-menu-vertical="1" data-menu-scroll="1" data-menu-dropdown-timeout="500">
                         <ul class="menu-nav">
-                            <li class="@sideMenuHelper.GetMenuItemClass("Dashboard", "Index")" aria-haspopup="true">
-                                <a href="/Dashboard/Index" class="menu-link ">
+                            <li class="@sideMenuHelper.GetMenuItemClass("Home", "Index")" aria-haspopup="true">
+                                <a href="/Home/Index" class="menu-link ">
                                     <span class="svg-icon menu-icon">
                                         <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo8/dist/../src/media/svg/icons/Shopping/Chart-bar1.svg-->
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -368,8 +368,12 @@
     <script src="https://malsup.github.io/jquery.form.js"></script>
     <script src="~/assets/js/MainLayout.js"></script>
     <script>
-        function GetEditAction(url) {
-            var result = '<a href="' + url + '" class="btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Update">' +
+        function GetEditAction(url, title = "") {
+            if (title == "") {
+                title = '@Messages.Update';
+            }
+
+            var result = '<a href="' + url + '" class="btn btn-sm btn-clean btn-icon mr-2" title="' + title + '">' +
                 '        <span class="svg-icon svg-icon-md">' +
                 '            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
                 '                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
@@ -382,8 +386,12 @@
                 '    </a>';
             return result;
         }
-        function GetPopUpEditAction(url) {
-            var result = '<a href="' + url + '" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Update">' +
+        function GetPopUpEditAction(url, title = "") {
+            if (title == "") {
+                title = '@Messages.Update';
+            }
+
+            var result = '<a href="' + url + '" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="' + title + '">' +
                 '        <span class="svg-icon svg-icon-md">' +
                 '            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
                 '                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +

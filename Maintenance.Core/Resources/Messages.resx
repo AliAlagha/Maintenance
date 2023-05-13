@@ -129,9 +129,6 @@
   <data name="Activated" xml:space="preserve">
     <value>فعال</value>
   </data>
-  <data name="Add" xml:space="preserve">
-    <value>إنشاء {0}</value>
-  </data>
   <data name="AddItemsMsg" xml:space="preserve">
     <value>قم بإضافة قطع سند الاستلام</value>
   </data>
@@ -183,6 +180,9 @@
   <data name="Company" xml:space="preserve">
     <value>الشركة</value>
   </data>
+  <data name="CompanyWithoutDef" xml:space="preserve">
+    <value>شركة</value>
+  </data>
   <data name="Completed" xml:space="preserve">
     <value>متكمل</value>
   </data>
@@ -194,6 +194,9 @@
   </data>
   <data name="Create" xml:space="preserve">
     <value>إنشاء جديد</value>
+  </data>
+  <data name="CreateTitle" xml:space="preserve">
+    <value>إنشاء {0}</value>
   </data>
   <data name="CreationDate" xml:space="preserve">
     <value>تاريخ الإضافة</value>
@@ -212,6 +215,9 @@
   </data>
   <data name="Customers" xml:space="preserve">
     <value>العملاء</value>
+  </data>
+  <data name="CustomerWithoutDef" xml:space="preserve">
+    <value>عميل</value>
   </data>
   <data name="Dashboard" xml:space="preserve">
     <value>لوحة التحكم</value>
@@ -248,6 +254,9 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>التفاصيل</value>
+  </data>
+  <data name="EditTitle" xml:space="preserve">
+    <value>تعديل {0}</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>البريد الإلكتروني</value>
@@ -333,6 +342,9 @@
   <data name="ItemUpdatedSuccessfully" xml:space="preserve">
     <value>تم تعديل العنصر بنجاح</value>
   </data>
+  <data name="ItemWithoutDef" xml:space="preserve">
+    <value>قطعة</value>
+  </data>
   <data name="LayoutDir" xml:space="preserve">
     <value>rtl</value>
   </data>
@@ -394,13 +406,16 @@
     <value>حقل {0} مطلوب</value>
   </data>
   <data name="ReturnHandReceipt" xml:space="preserve">
-    <value>مرتجع سند إستلام</value>
+    <value>سند القطع المعادة</value>
+  </data>
+  <data name="ReturnHandReceiptItem" xml:space="preserve">
+    <value>قطعة معادة</value>
   </data>
   <data name="ReturnHandReceiptItems" xml:space="preserve">
-    <value>قطع مرتجع سند الاستلام</value>
+    <value>القطع المعادة</value>
   </data>
   <data name="ReturnHandReceipts" xml:space="preserve">
-    <value>مرتجع سندات الاستلام</value>
+    <value>سندات القطع المعادة</value>
   </data>
   <data name="ReturnReason" xml:space="preserve">
     <value>سبب الإرجاع</value>
@@ -443,6 +458,9 @@
   </data>
   <data name="Urgent" xml:space="preserve">
     <value>مستعجل</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>مستخدم</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>المستخدمين</value>

@@ -97,15 +97,6 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to إنشاء {0}.
-        /// </summary>
-        public static string Add {
-            get {
-                return ResourceManager.GetString("Add", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to قم بإضافة قطع سند الاستلام.
         /// </summary>
         public static string AddItemsMsg {
@@ -259,6 +250,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to شركة.
+        /// </summary>
+        public static string CompanyWithoutDef {
+            get {
+                return ResourceManager.GetString("CompanyWithoutDef", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to متكمل.
         /// </summary>
         public static string Completed {
@@ -291,6 +291,15 @@ namespace Maintenance.Core.Resources {
         public static string Create {
             get {
                 return ResourceManager.GetString("Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to إنشاء {0}.
+        /// </summary>
+        public static string CreateTitle {
+            get {
+                return ResourceManager.GetString("CreateTitle", resourceCulture);
             }
         }
         
@@ -345,6 +354,15 @@ namespace Maintenance.Core.Resources {
         public static string Customers {
             get {
                 return ResourceManager.GetString("Customers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to عميل.
+        /// </summary>
+        public static string CustomerWithoutDef {
+            get {
+                return ResourceManager.GetString("CustomerWithoutDef", resourceCulture);
             }
         }
         
@@ -453,6 +471,15 @@ namespace Maintenance.Core.Resources {
         public static string Details {
             get {
                 return ResourceManager.GetString("Details", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تعديل {0}.
+        /// </summary>
+        public static string EditTitle {
+            get {
+                return ResourceManager.GetString("EditTitle", resourceCulture);
             }
         }
         
@@ -709,6 +736,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to قطعة.
+        /// </summary>
+        public static string ItemWithoutDef {
+            get {
+                return ResourceManager.GetString("ItemWithoutDef", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to rtl.
         /// </summary>
         public static string LayoutDir {
@@ -889,7 +925,7 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to مرتجع سند إستلام.
+        ///   Looks up a localized string similar to سند القطع المعادة.
         /// </summary>
         public static string ReturnHandReceipt {
             get {
@@ -898,7 +934,16 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to قطع مرتجع سند الاستلام.
+        ///   Looks up a localized string similar to قطعة معادة.
+        /// </summary>
+        public static string ReturnHandReceiptItem {
+            get {
+                return ResourceManager.GetString("ReturnHandReceiptItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to القطع المعادة.
         /// </summary>
         public static string ReturnHandReceiptItems {
             get {
@@ -907,7 +952,7 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to مرتجع سندات الاستلام.
+        ///   Looks up a localized string similar to سندات القطع المعادة.
         /// </summary>
         public static string ReturnHandReceipts {
             get {
@@ -1038,6 +1083,15 @@ namespace Maintenance.Core.Resources {
         public static string Urgent {
             get {
                 return ResourceManager.GetString("Urgent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to مستخدم.
+        /// </summary>
+        public static string User {
+            get {
+                return ResourceManager.GetString("User", resourceCulture);
             }
         }
         

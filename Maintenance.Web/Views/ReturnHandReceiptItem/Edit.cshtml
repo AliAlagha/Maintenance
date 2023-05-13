@@ -8,11 +8,45 @@
     <input type="hidden" asp-for="@Model.ReturnHandReceiptItemId" />
     <input type="hidden" asp-for="@Model.ReturnHandReceiptId" />
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.Barcode</label>
+                <input asp-for="ItemBarcode" placeholder="@string.Format(Messages.Enter,Messages.Barcode)" class="form-control form-control-solid" />
+                <span asp-validation-for="ItemBarcode" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.Description</label>
+                <input asp-for="Description" placeholder="@string.Format(Messages.Enter,Messages.Description)" class="form-control form-control-solid" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.DeliveryDate</label>
+                <input asp-for="DeliveryDate" placeholder="@string.Format(Messages.Enter,Messages.DeliveryDate)" class="form-control form-control-solid" />
+                <span asp-validation-for="DeliveryDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
             <div class="form-group">
                 <label>@Messages.ReturnReason</label>
-                <textarea asp-for="ReturnReason" placeholder="@string.Format(Messages.Enter,Messages.ReturnReason)" class="form-control form-control-solid" ></textarea>
+                <textarea asp-for="ReturnReason" placeholder="@string.Format(Messages.Enter,Messages.ReturnReason)" class="form-control form-control-solid"></textarea>
                 <span asp-validation-for="ReturnReason" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+         <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.MaintenanceTechnician</label>
+                <select asp-for="TechnicianId" id="SelectTechnician" class="form-control form-control-solid">
+                    <option value="">-- @string.Format(Messages.Select, Messages.MaintenanceTechnician) --</option>
+                </select>
+                <span asp-validation-for="TechnicianId" class="text-danger"></span>
             </div>
         </div>
     </div>
@@ -24,6 +58,23 @@
 
 <script>
     PageLoadActions();
+
+     $.ajax({
+        url: '/User/List',
+        dataType: "json",
+        data: {
+            UserType: 3
+        },
+        success: function(data) {
+            $(data).each(function(index, value) {
+                if (value.id == '@Model.TechnicianId') {
+                    $("#SelectTechnician").append($("<option selected></option>").val(value.id).html(value.name));
+                } else {
+                    $("#SelectTechnician").append($("<option></option>").val(value.id).html(value.name));
+                }
+            });
+        }
+    });
 </script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

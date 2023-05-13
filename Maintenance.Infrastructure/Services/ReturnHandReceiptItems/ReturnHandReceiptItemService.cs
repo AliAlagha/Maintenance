@@ -134,7 +134,17 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
                 throw new EntityNotFoundException();
             }
 
-            returnHandReceiptItem.ReturnReason = dto.ReturnReason;
+            if (dto.TechnicianId != null)
+            {
+                var technician = await _db.Users.SingleOrDefaultAsync(x => x.Id.Equals(dto.TechnicianId)
+                && x.UserType == UserType.MaintenanceTechnician);
+                if (technician == null)
+                {
+                    throw new EntityNotFoundException();
+                }
+            }
+
+            _mapper.Map(dto, returnHandReceiptItem);
 
             returnHandReceiptItem.UpdatedAt = DateTime.Now;
             returnHandReceiptItem.UpdatedBy = userId;

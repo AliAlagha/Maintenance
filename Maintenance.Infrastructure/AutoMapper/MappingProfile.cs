@@ -97,6 +97,7 @@ namespace Maintenance.Infrastructure.AutoMapper
             CreateMap<CreateReturnHandReceiptItemDto, ReceiptItem>();
             CreateMap<ReceiptItem, CreateReturnHandReceiptItemDto>();
             CreateMap<ReceiptItem, UpdateReturnHandReceiptItemDto>();
+            CreateMap<UpdateReturnHandReceiptItemDto, ReceiptItem>();
             #endregion
 
             #region Branches

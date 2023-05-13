@@ -12,7 +12,7 @@
     <div class="card-header flex-wrap border-0 pt-6 pb-0">
         <div class="card-title">
             <h3 class="card-label">
-                @string.Format(Messages.Add, Messages.HandReceipt)
+                @string.Format(Messages.CreateTitle, Messages.HandReceipt)
                 <span class="d-block text-muted pt-2 font-size-sm">@Messages.FillRequiredData</span>
             </h3>
         </div>
@@ -89,7 +89,7 @@
                 </div>
 
                 <div class="modal-footer mt-10">
-                    <button type="submit" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
+                    <button id="SubmitHandReceiptBtn" type="submit" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
                     <a href="/HandReceipt/Index" class="btn btn-light-primary font-weight-bold">@Messages.Cancel</a>
                 </div>
             </form>
@@ -290,6 +290,8 @@
             AddRow(handReceiptItem);
             $("#AddItemModal").modal("hide");
             $("#AddItemForm").resetForm();
+            $("#Urgent").attr('value', 'false');
+            $("#NotifyCustomerOfTheCost").attr('value', 'false');
         }
 
         function AddRow(itemObj) {
@@ -297,34 +299,34 @@
             var newRowIndex = $('#ItemsTable > tbody > tr').length;
 
             var notifyCustomerOfTheCost = '';
-            if (itemObj.notifyCustomerOfTheCost) {
+            if (itemObj.notifyCustomerOfTheCost == 'true') {
                 notifyCustomerOfTheCost = '@Messages.Yes';
             } else {
                 notifyCustomerOfTheCost = '@Messages.No';
             }
 
             var urgent = '';
-            if (itemObj.urgent) {
+            if (itemObj.urgent == 'true') {
                 urgent = '@Messages.Yes';
             } else {
                 urgent = '@Messages.No';
             }
 
             row = '';
-            row += '<tr class="item-row row-' + newRowIndex + '">';
-            row += '<td>' + itemObj.item + '<input type="hidden" name="Items[' + newRowIndex + '].ItemId" value="' + itemObj.itemId + '"></td>';
-            row += '<td>' + itemObj.company + '<input type="hidden" name="Items[' + newRowIndex + '].CompanyId" value="' + itemObj.companyId + '"></td>';
-            row += '<td>' + itemObj.color + '<input type="hidden" name="Items[' + newRowIndex + '].ColorId" value="' + itemObj.colorId + '"></td>';
-            row += '<td>' + itemObj.description + '<input type="hidden" name="Items[' + newRowIndex + '].Description" value="' + itemObj.description + '"></td>';
-            row += '<td>' + itemObj.specifiedCost + '<input type="hidden" name="Items[' + newRowIndex + '].SpecifiedCost" value="' + itemObj.specifiedCost + '"';
+            row += '<tr class="item-row">';
+            row += '<td>' + itemObj.item + '<input type="hidden" name="Items[' + newRowIndex + '].ItemId" value="' + itemObj.itemId + '" class="item"></td>';
+            row += '<td>' + itemObj.company + '<input type="hidden" name="Items[' + newRowIndex + '].CompanyId" value="' + itemObj.companyId + '" class="company"></td>';
+            row += '<td>' + itemObj.color + '<input type="hidden" name="Items[' + newRowIndex + '].ColorId" value="' + itemObj.colorId + '" class="color"></td>';
+            row += '<td>' + itemObj.description + '<input type="hidden" name="Items[' + newRowIndex + '].Description" value="' + itemObj.description + '" class="description"></td>';
+            row += '<td>' + itemObj.specifiedCost + '<input type="hidden" name="Items[' + newRowIndex + '].SpecifiedCost" value="' + itemObj.specifiedCost + '" class="specified-cost"';
             row += ' min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"></td>';
-            row += '<td>' + notifyCustomerOfTheCost + '<input type="hidden" name="Items[' + newRowIndex + '].NotifyCustomerOfTheCost" value="' + itemObj.notifyCustomerOfTheCost + '"></td>';
-            row += '<td>' + itemObj.costFrom + '<input type="hidden" name="Items[' + newRowIndex + '].CostFrom" value="' + itemObj.costFrom + '"';
+            row += '<td>' + notifyCustomerOfTheCost + '<input type="hidden" name="Items[' + newRowIndex + '].NotifyCustomerOfTheCost" value="' + itemObj.notifyCustomerOfTheCost + '" class="notify-customer"></td>';
+            row += '<td>' + itemObj.costFrom + '<input type="hidden" name="Items[' + newRowIndex + '].CostFrom" value="' + itemObj.costFrom + '" class="cost-from"';
             row += ' min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"></td>';
-            row += '<td>' + itemObj.costTo + '<input type="hidden" name="Items[' + newRowIndex + '].CostTo" value="' + itemObj.costTo + '"';
+            row += '<td>' + itemObj.costTo + '<input type="hidden" name="Items[' + newRowIndex + '].CostTo" value="' + itemObj.costTo + '" class="cost-to"';
             row += ' min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"></td>';
-            row += '<td>' + urgent + '<input type="hidden" name="Items[' + newRowIndex + '].Urgent" value="' + itemObj.urgent + '"></td>';
-            row += '<td>' + itemObj.warrantyExpiryDate + '<input type="hidden" name="Items[' + newRowIndex + '].WarrantyExpiryDate" value="' + itemObj.warrantyExpiryDate + '"></td>';
+            row += '<td>' + urgent + '<input type="hidden" name="Items[' + newRowIndex + '].Urgent" value="' + itemObj.urgent + '" class="urgent"></td>';
+            row += '<td>' + itemObj.warrantyExpiryDate + '<input type="hidden" name="Items[' + newRowIndex + '].WarrantyExpiryDate" value="' + itemObj.warrantyExpiryDate + '" class="warranty-expiry-date"></td>';
             row += '<td><button type="button" class="btn btn-danger font-weight-bold delete-row delete-row-' + newRowIndex + '">@Messages.Delete</button></td>';
             row += '</tr>';
 
@@ -332,11 +334,7 @@
 
             $(".delete-row").click(function() {
                 var rowCount = $('#ItemsTable > tbody > tr').length;
-
-                var lastClass = $(this).attr('class').split(' ').pop();
-                var dashIndex = lastClass.lastIndexOf('-');
-                var rowIndex = lastClass.substring(dashIndex + 1);
-                $('.row-' + rowIndex).remove();
+                $(this).closest("tr").remove();
                 if (rowCount == 1) {
                     $('#AddItemsMsg').show();
                 }
@@ -394,7 +392,7 @@
                     }
                 );
 
-                // Submit button handler
+                // Add button handler
                 const addItemBtn = document.getElementById('AddItemBtn');
                 addItemBtn.addEventListener('click', function(e) {
                     // Prevent default button action
@@ -414,8 +412,9 @@
             }
 
             var _initDemo2 = function() {
-                FormValidation.formValidation(
-                    document.getElementById('CreateHandReceiptForm'),
+                var form = document.getElementById('CreateHandReceiptForm');
+                var validator = FormValidation.formValidation(
+                    form,
                     {
                         fields: {
                             CustomerId: {
@@ -432,16 +431,16 @@
                             // Bootstrap Framework Integration
                             bootstrap: new FormValidation.plugins.Bootstrap(),
                             // Validate fields when clicking the Submit button
-                            submitButton: new FormValidation.plugins.SubmitButton(),
+                            //submitButton: new FormValidation.plugins.SubmitButton(),
                             // Submit the form when all fields are valid
-                            defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
+                            //defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
                         }
                     }
                 );
 
-                // Submit button handler
-                const addItemBtn = document.getElementById('AddItemBtn');
-                addItemBtn.addEventListener('click', function(e) {
+                // Add button handler
+                const submitBtn = document.getElementById('SubmitHandReceiptBtn');
+                submitBtn.addEventListener('click', function(e) {
                     // Prevent default button action
                     e.preventDefault();
 
@@ -451,7 +450,20 @@
                             console.log('validated!');
 
                             if (status == 'Valid') {
-                                GetDataFromModal();
+                                $('.item-row').each(function(i, obj) {
+                                    $(this).find('.item').attr('name', 'Items[' + i + '].ItemId');
+                                    $(this).find('.company').attr('name', 'Items[' + i + '].CompanyId');
+                                    $(this).find('.color').attr('name', 'Items[' + i + '].ColorId');
+                                    $(this).find('.description').attr('name', 'Items[' + i + '].Description');
+                                    $(this).find('.specified-cost').attr('name', 'Items[' + i + '].SpecifiedCost');
+                                    $(this).find('.notify-customer').attr('name', 'Items[' + i + '].NotifyCustomerOfTheCost');
+                                    $(this).find('.cost-from').attr('name', 'Items[' + i + '].CostFrom');
+                                    $(this).find('.cost-to').attr('name', 'Items[' + i + '].CostTo');
+                                    $(this).find('.urgent').attr('name', 'Items[' + i + '].Urgent');
+                                    $(this).find('.warranty-expiry-date').attr('name', 'Items[' + i + '].WarrantyExpiryDate');
+                                });
+
+                                form.submit(); // Submit form
                             }
                         });
                     }
