@@ -23,6 +23,6 @@ namespace Maintenance.Core.Dtos
         public double? CollectedAmount { get; set; }
         public DateTime? CollectionDate { get; set; }
         public DateTime? DeliveryDate { get; set; }
-        public int? TechnicianId { get; set; }
+        public string? TechnicianId { get; set; }
     }
 }

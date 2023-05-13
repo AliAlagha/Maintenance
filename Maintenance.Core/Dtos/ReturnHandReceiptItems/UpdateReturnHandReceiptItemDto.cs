@@ -3,11 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Maintenance.Core.Dtos
 {
-    public class CreateReturnHandReceiptItemDto
+    public class UpdateReturnHandReceiptItemDto
     {
-        public int HandReceiptItemId { get; set; }
-
+        public int ReturnHandReceiptId { get; set; }
+        public int ReturnHandReceiptItemId { get; set; }
         public string? ReturnReason { get; set; }
-        public bool IsSelected { get; set; }
     }
 }

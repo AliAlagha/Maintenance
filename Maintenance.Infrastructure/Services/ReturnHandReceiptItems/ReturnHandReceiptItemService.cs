@@ -28,7 +28,6 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
             , QueryDto query, int returnHandReceiptId)
         {
             var dbQuery = _db.ReceiptItems
-                .Include(x => x.Technician)
                 .Where(x => x.ReturnHandReceiptId == returnHandReceiptId)
                 .OrderByDescending(x => x.CreatedAt).AsQueryable();
 
@@ -56,13 +55,6 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
             foreach (var item in returnHandReceiptItems)
             {
                 var itemVm = _mapper.Map<ReturnHandReceiptItemViewModel>(item);
-                if (item.WarrantyExpiryDate != null)
-                {
-                    var isWarrantyValid = item.WarrantyExpiryDate >= DateTime.Now.Date;
-                    var warrantyExpiryDate = item.WarrantyExpiryDate.Value.ToString("yyyy-MM-dd");
-                    var isWarrantyValidStr = isWarrantyValid ? Messages.WarrantyValid : Messages.WarrantyExpired;
-                    itemVm.WarrantyExpiryDate = $"{warrantyExpiryDate} ({isWarrantyValidStr})";
-                }
 
                 switch (item.MaintenanceRequestStatus)
                 {
@@ -96,6 +88,79 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
                 },
                 Data = returnHandReceiptItemVms
             };
+        }
+
+        public async Task<int> Create(CreateReturnItemForExistsReturnHandReceiptDto dto, string userId)
+        {
+            var returnHandReceipt = await _db.ReturnHandReceipts
+                .Include(x => x.HandReceipt)
+                .ThenInclude(x => x.ReceiptItems)
+                .SingleOrDefaultAsync(x => x.Id == dto.ReturnHandReceiptId);
+            if (returnHandReceipt == null || !returnHandReceipt.HandReceipt
+                .ReceiptItems.Any(x => x.Id == dto.HandReceiptItemId))
+            {
+                throw new EntityNotFoundException();
+            }
+
+            var handReceiptItem = returnHandReceipt.HandReceipt.ReceiptItems
+                .Single(x => x.Id == dto.HandReceiptItemId);
+            var newReturnHandReceiptItem = new ReceiptItem
+            {
+                CustomerId = returnHandReceipt.CustomerId,
+                ReturnHandReceiptId = returnHandReceipt.Id,
+                Item = handReceiptItem.Item,
+                Color = handReceiptItem.Color,
+                Description = handReceiptItem.Description,
+                Company = handReceiptItem.Company,
+                ItemBarcode = await GenerateBarcode(),
+                WarrantyExpiryDate = handReceiptItem.WarrantyExpiryDate,
+                ReturnReason = dto.ReturnReason,
+                ReceiptItemType = ReceiptItemType.Returned
+            };
+
+            newReturnHandReceiptItem.CreatedBy = userId;
+            await _db.ReceiptItems.AddAsync(newReturnHandReceiptItem);
+            await _db.SaveChangesAsync();
+            return newReturnHandReceiptItem.Id;
+        }
+
+        public async Task Update(UpdateReturnHandReceiptItemDto dto, string userId)
+        {
+            var returnHandReceiptItem = await _db.ReceiptItems
+                .SingleOrDefaultAsync(x => x.Id == dto.ReturnHandReceiptItemId
+                && x.ReturnHandReceiptId == dto.ReturnHandReceiptId);
+            if (returnHandReceiptItem == null)
+            {
+                throw new EntityNotFoundException();
+            }
+
+            returnHandReceiptItem.ReturnReason = dto.ReturnReason;
+
+            returnHandReceiptItem.UpdatedAt = DateTime.Now;
+            returnHandReceiptItem.UpdatedBy = userId;
+            _db.ReceiptItems.Update(returnHandReceiptItem);
+            await _db.SaveChangesAsync();
+        }
+
+        private async Task<string> GenerateBarcode()
+        {
+            var barcode = RandomDigits(10);
+            var isBarcodeExists = await _db.ReceiptItems.AnyAsync(x => x.ItemBarcode.Equals(barcode));
+            if (isBarcodeExists)
+            {
+                await GenerateBarcode();
+            }
+
+            return barcode;
+        }
+
+        private string RandomDigits(int length)
+        {
+            var random = new Random();
+            string s = string.Empty;
+            for (int i = 0; i < length; i++)
+                s = string.Concat(s, random.Next(10).ToString());
+            return s;
         }
 
         public async Task Delete(int returnHandReceiptItemId, int returnHandReceiptId, string userId)
@@ -165,5 +230,27 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
             return isAllItemsDelivered;
         }
 
+        public async Task<int> GetHandReceiptId(int returnHandReceiptId)
+        {
+            var returnHandReceipt = await _db.ReturnHandReceipts.SingleOrDefaultAsync(x => x.Id == returnHandReceiptId);
+            if (returnHandReceipt == null)
+            {
+                throw new EntityNotFoundException();
+            }
+
+            return returnHandReceipt.HandReceiptId;
+        }
+
+        public async Task<UpdateReturnHandReceiptItemDto> Get(int returnHandReceiptItemId, int returnHandReceiptId)
+        {
+            var returnHandReceiptItem = await _db.ReceiptItems.SingleOrDefaultAsync(x => x.Id 
+                == returnHandReceiptItemId && x.ReturnHandReceiptId == returnHandReceiptId);
+            if (returnHandReceiptItem == null)
+            {
+                throw new EntityNotFoundException();
+            }
+
+            return _mapper.Map<UpdateReturnHandReceiptItemDto>(returnHandReceiptItem);
+        }
     }
 }

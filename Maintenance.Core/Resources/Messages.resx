@@ -282,6 +282,9 @@
   <data name="HandReceipt" xml:space="preserve">
     <value>سند استلام القطع</value>
   </data>
+  <data name="HandReceiptItem" xml:space="preserve">
+    <value>قطعة سند الاستلام</value>
+  </data>
   <data name="HandReceiptItems" xml:space="preserve">
     <value>قطع سند الاستلام</value>
   </data>

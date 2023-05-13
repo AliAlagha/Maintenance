@@ -153,6 +153,16 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                 throw new EntityNotFoundException();
             }
 
+            if (input.TechnicianId != null)
+            {
+                var technician = await _db.Users.SingleOrDefaultAsync(x => x.Id.Equals(input.TechnicianId)
+                && x.UserType == UserType.MaintenanceTechnician);
+                if (technician == null)
+                {
+                    throw new EntityNotFoundException();
+                }
+            }
+
             _mapper.Map(input, handReceiptItem);
 
             handReceiptItem.UpdatedAt = DateTime.Now;

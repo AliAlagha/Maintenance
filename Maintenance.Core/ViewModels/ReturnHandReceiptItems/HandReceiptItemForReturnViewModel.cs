@@ -14,5 +14,6 @@ namespace Maintenance.Core.ViewModels
         public string Item { get; set; }
         public string ItemBarcode { get; set; }
         public string Company { get; set; }
+        public string? WarrantyExpiryDate { get; set; }
     }
 }

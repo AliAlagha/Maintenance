@@ -63,15 +63,6 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                 throw new EntityNotFoundException();
             }
 
-            var dtoTechnicianIds = input.Items.Select(x => x.TechnicianId).ToList();
-            var dbTechnicianIds = await _db.Users.Where(x => x.UserType 
-                == UserType.MaintenanceTechnician)
-                .Select(x => x.Id).ToListAsync();
-            if (!ListHelper<string>.ContainsAllItems(dbTechnicianIds, dtoTechnicianIds))
-            {
-                throw new EntityNotFoundException();
-            }
-
             var returnHandReceipt = _mapper.Map<ReturnHandReceipt>(input);
             await AddReturnHandReceiptItems(input, handReceipt, returnHandReceipt);
 
@@ -101,8 +92,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                     ItemBarcode = await GenerateBarcode(),
                     WarrantyExpiryDate = handReceiptItem.WarrantyExpiryDate,
                     ReturnReason = returnHandReceiptItem.ReturnReason,
-                    ReceiptItemType = ReceiptItemType.Returned,
-                    TechnicianId = returnHandReceiptItem.TechnicianId
+                    ReceiptItemType = ReceiptItemType.Returned
                 };
 
                 returnHandReceipt.ReceiptItems.Add(newReturnHandReceiptItem);
@@ -141,7 +131,10 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                     Id = handReceiptItem.Id,
                     Item = handReceiptItem.Item,
                     ItemBarcode = handReceiptItem.ItemBarcode,
-                    Company = handReceiptItem.Company
+                    Company = handReceiptItem.Company,
+                    WarrantyExpiryDate = handReceiptItem.WarrantyExpiryDate != null
+                        ? handReceiptItem.WarrantyExpiryDate.Value.ToString("yyyy-MM-dd") 
+                        : null
                 });
             }
 

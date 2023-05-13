@@ -55,9 +55,9 @@ namespace Maintenance.Web.Controllers
             return View(input);
         }
 
-        public IActionResult Edit(int handReceiptItemId, int handReceiptId)
+        public async Task<IActionResult> Edit(int handReceiptItemId, int handReceiptId)
         {
-            var dto =_handReceiptItemService.Get(handReceiptItemId, handReceiptId);
+            var dto = await _handReceiptItemService.Get(handReceiptItemId, handReceiptId);
             return View(dto);
         }
 

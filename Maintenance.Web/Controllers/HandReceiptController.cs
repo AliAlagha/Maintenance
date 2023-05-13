@@ -65,8 +65,28 @@ namespace Maintenance.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var isCustomerNotValid = input.CustomerId == null && (input.CustomerInfo == null
-                    || input.CustomerInfo.Name == null || input.CustomerInfo.PhoneNumber == null);
+                if (input.CustomerId == null || !input.Items.Any())
+                {
+                    ModelState.AddModelError("Required", string.Empty);
+                    ViewBag.IsFormValid = false;
+                    return View(input);
+                }
+
+                await _handReceiptService.Create(input, UserId);
+                return RedirectToAction(nameof(Index));
+            }
+
+            ViewBag.IsFormValid = false;
+            return View(input);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateWithCustomer(CreateHandReceiptDto input)
+        {
+            if (ModelState.IsValid)
+            {
+                var isCustomerNotValid = input.CustomerInfo == null
+                    || input.CustomerInfo.Name == null || input.CustomerInfo.PhoneNumber == null;
 
                 if (isCustomerNotValid || !input.Items.Any())
                 {

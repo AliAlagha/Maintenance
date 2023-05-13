@@ -1,0 +1,32 @@
+﻿@model UpdateReturnHandReceiptItemDto
+@{
+    ViewData["Title"] = Messages.HandReceiptItems;
+    Layout = null;
+}
+
+<form asp-action="Edit" method="post" class="ajaxForm" tname="#kt_datatable" enctype="multipart/form-data">
+    <input type="hidden" asp-for="@Model.ReturnHandReceiptItemId" />
+    <input type="hidden" asp-for="@Model.ReturnHandReceiptId" />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>@Messages.ReturnReason</label>
+                <textarea asp-for="ReturnReason" placeholder="@string.Format(Messages.Enter,Messages.ReturnReason)" class="form-control form-control-solid" ></textarea>
+                <span asp-validation-for="ReturnReason" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
+        <button type="button" data-dismiss="modal" class="btn btn-light-primary font-weight-bold">@Messages.Cancel</button>
+    </div>
+</form>
+
+<script>
+    PageLoadActions();
+</script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
+

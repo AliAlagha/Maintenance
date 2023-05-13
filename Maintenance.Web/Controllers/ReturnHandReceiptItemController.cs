@@ -33,6 +33,46 @@ namespace Maintenance.Web.Controllers
             return Json(response);
         }
 
+        public async Task<IActionResult> Create(int returnHandReceiptId)
+        {
+            var handReceiptId = await _returnHandReceiptItemService.GetHandReceiptId(returnHandReceiptId);
+            var dto = new CreateReturnItemForExistsReturnHandReceiptDto
+            {
+                ReturnHandReceiptId = returnHandReceiptId
+            };
+
+            ViewBag.HandReceiptId = handReceiptId;
+            return View(dto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateReturnItemForExistsReturnHandReceiptDto input)
+        {
+            if (ModelState.IsValid)
+            {
+                await _returnHandReceiptItemService.Create(input, UserId);
+                return CreatedSuccessfully();
+            }
+            return View(input);
+        }
+
+        public async Task<IActionResult> Edit(int returnHandReceiptItemId, int returnHandReceiptId)
+        {
+            var dto = await _returnHandReceiptItemService.Get(returnHandReceiptItemId, returnHandReceiptId);
+            return View(dto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(UpdateReturnHandReceiptItemDto input)
+        {
+            if (ModelState.IsValid)
+            {
+                await _returnHandReceiptItemService.Update(input, UserId);
+                return UpdatedSuccessfully();
+            }
+            return View(input);
+        }
+
         public async Task<IActionResult> Delete(int returnHandReceiptItemId, int returnHandReceiptId)
         {
             await _returnHandReceiptItemService.Delete(returnHandReceiptItemId, returnHandReceiptId, UserId);

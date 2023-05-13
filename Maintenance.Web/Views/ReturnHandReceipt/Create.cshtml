@@ -16,6 +16,12 @@
     </div>
     <div class="card-body">
         <div class="mb-7">
+            @if (ViewBag.IsFormValid != null && !ViewBag.IsFormValid)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @Messages.FillRequiredData
+                </div>
+            }
             <form id="CreateForm" asp-action="Create" method="post" enctype="multipart/form-data">
                 <input asp-for="HandReceiptId" type="hidden" />
 
@@ -91,7 +97,12 @@
                     field: 'Company',
                     title: '@Messages.Company',
                     sortable: false,
-                    autoHide: false,
+                    width: 100
+                },
+                {
+                    field: 'WarrantyExpiryDate',
+                    title: '@Messages.WarrantyExpiryDate',
+                    sortable: false,
                     width: 100
                 },
                 {
@@ -103,22 +114,8 @@
                     template: function(data) {
                         var res = '';
                         res = res + '<input type="text" name="Items[' + data.Index + '].ReturnReason" placeholder="@string.Format(Messages.Enter,Messages.ReturnReason)" class="form-control" />';
-                        return res;
-                    }
-                },
-                {
-                    field: 'SelectTechnician',
-                    title: '@Messages.MaintenanceTechnician',
-                    sortable: false,
-                    autoHide: false,
-                    width: 400,
-                    template: function(data) {
-                        var res = '';
-                        res = res + '<select name="Items[' + data.Index + '].TechnicianId" class="form-control select-technician">' +
-                            '    <option value="">-- @string.Format(Messages.Select, Messages.MaintenanceTechnician) --</option>' +
-                            '</select>';
                         res = res + '<input type="hidden" name="Items[' + data.Index + '].HandReceiptItemId" value="' + data.Id + '" />';
-                        res = res + '<input type="hidden" id="is-selected-' + data.Id + '" name="Items[' + data.Index + '].IsSelected" value="false" />';
+                        res = res + '<input id="is-selected-' + data.Id + '" type="hidden" name="Items[' + data.Index + '].IsSelected" value="false" />';
                         return res;
                     }
                 }],
@@ -164,18 +161,6 @@
             KTDatatableRecordSelectionDemo.init();
         });
 
-        $.ajax({
-            url: '/User/List',
-            dataType: "json",
-            data: {
-                UserType: 3
-            },
-            success: function(data) {
-                $(data).each(function(index, value) {
-                    $(".select-technician").append($("<option></option>").val(value.id).html(value.name));
-                });
-            }
-        });
     </script>
 
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>

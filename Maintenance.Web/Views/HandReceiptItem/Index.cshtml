@@ -207,11 +207,12 @@
                             field: 'Actions',
                             title: '@Messages.Actions',
                             sortable: false,
-                            width: 120,
+                            width: 160,
                             overflow: 'visible',
                             autoHide: false,
                             template: function(data) {
                                 var result = '';
+                                result = result + GetPopUpEditAction('/HandReceiptItem/Edit?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model');
                                 if (data.collectedAmount == null) {
                                     result = result + '<a href="/HandReceiptItem/CollectMoney?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.CollectingMoney">' +
                                         '    <span class="svg-icon svg-icon-md">' +

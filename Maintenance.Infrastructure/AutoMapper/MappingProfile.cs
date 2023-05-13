@@ -86,13 +86,17 @@ namespace Maintenance.Infrastructure.AutoMapper
             CreateMap<CreateReturnHandReceiptDto, ReturnHandReceipt>();
             #endregion
 
-            #region HandReceiptItems
+            #region ReturnHandReceiptItems
             CreateMap<ReceiptItem, ReturnHandReceiptItemViewModel>()
                 .ForMember(x => x.DeliveryDate, x => x.MapFrom(x => x.DeliveryDate != null
                 ? x.DeliveryDate.Value.ToString("yyyy-MM-dd")
+                : null))
+                .ForMember(x => x.WarrantyExpiryDate, x => x.MapFrom(x => x.WarrantyExpiryDate != null
+                ? x.WarrantyExpiryDate.Value.ToString("yyyy-MM-dd")
                 : null));
             CreateMap<CreateReturnHandReceiptItemDto, ReceiptItem>();
             CreateMap<ReceiptItem, CreateReturnHandReceiptItemDto>();
+            CreateMap<ReceiptItem, UpdateReturnHandReceiptItemDto>();
             #endregion
 
             #region Branches

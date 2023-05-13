@@ -1,6 +1,11 @@
 ﻿@model CreateHandReceiptDto
 @{
     ViewData["Title"] = Messages.HandReceipts;
+    int customerId = 0;
+    if (Model != null && Model.CustomerId != null)
+    {
+        customerId = Model.CustomerId.Value;
+    }
 }
 
 <div class="card card-custom">
@@ -196,19 +201,12 @@
             dataType: "json",
             success: function(data) {
                 $(data).each(function(index, value) {
-                    $("#SelectCustomer").append($("<option></option>").val(value.id).html(value.name));
+                    if (value.id == '@customerId') {
+                        $("#SelectCustomer").append($("<option selected></option>").val(value.id).html(value.name));
+                    } else {
+                        $("#SelectCustomer").append($("<option></option>").val(value.id).html(value.name));
+                    }
                 });
-            }
-        });
-
-        $('#SelectExistsOrNewCustomer').on('change', function() {
-            var selectedOption = this.value;
-            if (selectedOption == 'Exists') {
-                $('#NewCustomerRow').hide();
-                $('#ExistsCustomerRow').show();
-            } else if (selectedOption == 'New') {
-                $('#ExistsCustomerRow').hide();
-                $('#NewCustomerRow').show();
             }
         });
 

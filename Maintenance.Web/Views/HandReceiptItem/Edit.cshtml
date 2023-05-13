@@ -1,0 +1,143 @@
+﻿@model UpdateHandReceiptItemDto
+@{
+    ViewData["Title"] = Messages.HandReceiptItems;
+    Layout = null;
+}
+
+<form asp-action="Edit" method="post" class="ajaxForm" tname="#kt_datatable" enctype="multipart/form-data">
+    <input type="hidden" asp-for="@Model.HandReceiptItemId" />
+    <input type="hidden" asp-for="@Model.HandReceiptId" />
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>@Messages.Barcode</label>
+                <input asp-for="ItemBarcode" placeholder="@string.Format(Messages.Enter,Messages.Barcode)" class="form-control form-control-solid" />
+                <span asp-validation-for="ItemBarcode" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>@Messages.Description</label>
+                <input asp-for="Description" placeholder="@string.Format(Messages.Enter,Messages.Description)" class="form-control form-control-solid" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>@Messages.SpecifiedCost</label>
+                <input asp-for="SpecifiedCost" placeholder="@string.Format(Messages.Enter,Messages.SpecifiedCost)" class="form-control form-control-solid" />
+                <span asp-validation-for="SpecifiedCost" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>@Messages.NotifyCustomerOfTheCost</label>
+                <input asp-for="NotifyCustomerOfTheCost" placeholder="@string.Format(Messages.Enter,Messages.NotifyCustomerOfTheCost)" class="form-control form-control-solid" />
+                <span asp-validation-for="NotifyCustomerOfTheCost" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>@Messages.CostNotifiedToTheCustomer</label>
+                <input asp-for="CostNotifiedToTheCustomer" placeholder="@string.Format(Messages.Enter,Messages.CostNotifiedToTheCustomer)" class="form-control form-control-solid" />
+                <span asp-validation-for="CostNotifiedToTheCustomer" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>@Messages.From</label>
+                <input asp-for="CostFrom" placeholder="@string.Format(Messages.Enter,Messages.From)" class="form-control form-control-solid" />
+                <span asp-validation-for="CostFrom" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>@Messages.To</label>
+                <input asp-for="CostTo" placeholder="@string.Format(Messages.Enter,Messages.To)" class="form-control form-control-solid" />
+                <span asp-validation-for="CostTo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>@Messages.Urgent</label>
+                <input asp-for="Urgent" placeholder="@string.Format(Messages.Enter,Messages.Urgent)" class="form-control form-control-solid" />
+                <span asp-validation-for="Urgent" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>@Messages.WarrantyExpiryDate</label>
+                <input asp-for="WarrantyExpiryDate" placeholder="@string.Format(Messages.Enter,Messages.WarrantyExpiryDate)" class="form-control form-control-solid" />
+                <span asp-validation-for="WarrantyExpiryDate" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>@Messages.CollectedAmount</label>
+                <input asp-for="CollectedAmount" placeholder="@string.Format(Messages.Enter,Messages.CollectedAmount)" class="form-control form-control-solid" />
+                <span asp-validation-for="CollectedAmount" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>@Messages.CollectionDate</label>
+                <input asp-for="CollectionDate" placeholder="@string.Format(Messages.Enter,Messages.CollectionDate)" class="form-control form-control-solid" />
+                <span asp-validation-for="CollectionDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>@Messages.DeliveryDate</label>
+                <input asp-for="DeliveryDate" placeholder="@string.Format(Messages.Enter,Messages.DeliveryDate)" class="form-control form-control-solid" />
+                <span asp-validation-for="DeliveryDate" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>@Messages.MaintenanceTechnician</label>
+                <select asp-for="TechnicianId" id="SelectTechnician" class="form-control form-control-solid">
+                    <option value="">-- @string.Format(Messages.Select, Messages.MaintenanceTechnician) --</option>
+                </select>
+                <span asp-validation-for="TechnicianId" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
+        <button type="button" data-dismiss="modal" class="btn btn-light-primary font-weight-bold">@Messages.Cancel</button>
+    </div>
+</form>
+
+<script>
+    PageLoadActions();
+
+    $.ajax({
+        url: '/User/List',
+        dataType: "json",
+        data: {
+            UserType: 3
+        },
+        success: function(data) {
+            $(data).each(function(index, value) {
+                if (value.id == '@Model.TechnicianId') {
+                    $("#SelectTechnician").append($("<option selected></option>").val(value.id).html(value.name));
+                } else {
+                    $("#SelectTechnician").append($("<option></option>").val(value.id).html(value.name));
+                }
+            });
+        }
+    });
+</script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
+

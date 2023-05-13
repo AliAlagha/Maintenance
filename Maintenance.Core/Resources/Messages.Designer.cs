@@ -556,6 +556,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to قطعة سند الاستلام.
+        /// </summary>
+        public static string HandReceiptItem {
+            get {
+                return ResourceManager.GetString("HandReceiptItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to قطع سند الاستلام.
         /// </summary>
         public static string HandReceiptItems {

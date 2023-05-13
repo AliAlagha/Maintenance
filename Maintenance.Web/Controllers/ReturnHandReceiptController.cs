@@ -1,6 +1,7 @@
 ﻿using Maintenance.Core.Dtos;
 using Maintenance.Core.Enums;
 using Maintenance.Core.Resources;
+using Maintenance.Core.ViewModels;
 using Maintenance.Infrastructure.Services.HandReceipts;
 using Maintenance.Infrastructure.Services.ReturnHandReceiptItems;
 using Maintenance.Infrastructure.Services.Users;
@@ -31,6 +32,12 @@ namespace Maintenance.Web.Controllers
             return Json(response);
         }
 
+        public async Task<List<HandReceiptItemForReturnViewModel>> GetHandReceiptItemsForReturn(int handReceiptId)
+        {
+            var itemVms = await _returnHandReceiptService.GetHandReceiptItemsForReturn(handReceiptId);
+            return itemVms;
+        }
+
         public async Task<IActionResult> Create(int handReceiptId)
         {
             var itemVms = await _returnHandReceiptService.GetHandReceiptItemsForReturn(handReceiptId);
@@ -45,6 +52,17 @@ namespace Maintenance.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (input.Items.All(x => !x.IsSelected))
+                {
+                    ModelState.AddModelError("Required", string.Empty);
+
+                    var itemsList = await _returnHandReceiptService.GetHandReceiptItemsForReturn(input.HandReceiptId);
+                    ViewBag.HandReceiptItems = itemsList;
+
+                    ViewBag.IsFormValid = false;
+                    return View(input);
+                }
+
                 await _returnHandReceiptService.Create(input, UserId);
                 return RedirectToAction(nameof(Index));
             }
@@ -52,6 +70,7 @@ namespace Maintenance.Web.Controllers
             var itemVms = await _returnHandReceiptService.GetHandReceiptItemsForReturn(input.HandReceiptId);
             ViewBag.HandReceiptItems = itemVms;
 
+            ViewBag.IsFormValid = false;
             return View(input);
         }
 
