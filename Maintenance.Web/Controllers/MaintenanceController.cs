@@ -36,9 +36,10 @@ namespace Maintenance.Web.Controllers
             return UpdatedSuccessfully();
         }
 
-        public IActionResult CustomerRefuseMaintenance()
+        public IActionResult CustomerRefuseMaintenance(int receiptItemId)
         {
-            return View();
+            var dto = new CustomerRefuseMaintenanceDto { ReceiptItemId = receiptItemId };
+            return View(dto);
         }
 
         [HttpPost]
@@ -52,9 +53,10 @@ namespace Maintenance.Web.Controllers
             return View(dto);
         }
 
-        public IActionResult SuspenseMaintenance()
+        public IActionResult SuspenseMaintenance(int receiptItemId)
         {
-            return View();
+            var dto = new SuspenseReceiptItemDto { ReceiptItemId = receiptItemId };
+            return View(dto);
         }
 
         [HttpPost]
@@ -68,17 +70,18 @@ namespace Maintenance.Web.Controllers
             return View(dto);
         }
 
-        public IActionResult EnterMaintenanceCost()
+        public IActionResult EnterMaintenanceCost(int receiptItemId)
         {
+            var dto = new EnterMaintenanceCostDto { ReceiptItemId = receiptItemId };
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> EnterMaintenanceCost(SuspenseReceiptItemDto dto)
+        public async Task<IActionResult> EnterMaintenanceCost(EnterMaintenanceCostDto dto)
         {
             if (ModelState.IsValid)
             {
-                await _maintenanceService.SuspenseMaintenance(dto, UserId);
+                await _maintenanceService.EnterMaintenanceCost(dto, UserId);
                 return UpdatedSuccessfully();
             }
             return View(dto);

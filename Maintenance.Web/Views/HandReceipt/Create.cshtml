@@ -479,8 +479,26 @@
             };
         }();
 
+        // Class definition
+        var KTSelect2 = function() {
+            // Private functions
+            var demos = function() {
+                // basic
+                $('#SelectCustomer').select2(); 
+            }
+
+            // Public functions
+            return {
+                init: function() {
+                    demos();
+                }
+            };
+        }();
+
+        // Initialization
         jQuery(document).ready(function() {
             KTFormControls.init();
+            KTSelect2.init();
         });
     </script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>

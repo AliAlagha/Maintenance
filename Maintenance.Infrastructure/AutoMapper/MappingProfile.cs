@@ -112,7 +112,6 @@ namespace Maintenance.Infrastructure.AutoMapper
             CreateMap<ReceiptItem, ReceiptItemForMaintenanceViewModel>()
                 .ForMember(x => x.WarrantyExpiryDate, x => x.MapFrom(x => x.WarrantyExpiryDate != null
                 ? x.WarrantyExpiryDate.Value.ToString("yyyy-MM-dd") : null))
-                .ForMember(x => x.NotifyCustomerOfTheCost, x => x.MapFrom(x => x.NotifyCustomerOfTheCost ? Messages.Yes : Messages.No))
                 .ForMember(x => x.Urgent, x => x.MapFrom(x => x.Urgent ? Messages.Yes : Messages.No));
             #endregion
         }

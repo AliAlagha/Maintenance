@@ -183,6 +183,9 @@
   <data name="CompanyWithoutDef" xml:space="preserve">
     <value>شركة</value>
   </data>
+  <data name="Complete" xml:space="preserve">
+    <value>إنهاء الصيانة</value>
+  </data>
   <data name="Completed" xml:space="preserve">
     <value>متكمل</value>
   </data>
@@ -354,6 +357,12 @@
   <data name="LoginToMaintenanceApp" xml:space="preserve">
     <value>تسجيل الدخول إلى نظام الصيانة</value>
   </data>
+  <data name="MaintenanceCost" xml:space="preserve">
+    <value>تكلفة الصيانة</value>
+  </data>
+  <data name="MaintenanceItems" xml:space="preserve">
+    <value>قطع الصيانة</value>
+  </data>
   <data name="MaintenanceManager" xml:space="preserve">
     <value>مدير الصيانة</value>
   </data>
@@ -369,6 +378,9 @@
   <data name="New" xml:space="preserve">
     <value>جديد</value>
   </data>
+  <data name="NewOrReturned" xml:space="preserve">
+    <value>جديدة / معادة</value>
+  </data>
   <data name="NewPassword" xml:space="preserve">
     <value>كلمة المرور الجديدة</value>
   </data>
@@ -377,6 +389,9 @@
   </data>
   <data name="NotifyCustomerOfTheCost" xml:space="preserve">
     <value>يتطلب إبلاغ العميل بالتكلفة؟</value>
+  </data>
+  <data name="NoValidity" xml:space="preserve">
+    <value>ليس لديك صلاحية لتنفيذ العملية</value>
   </data>
   <data name="Number" xml:space="preserve">
     <value>الرقم</value>
@@ -404,6 +419,9 @@
   </data>
   <data name="RequiredField" xml:space="preserve">
     <value>حقل {0} مطلوب</value>
+  </data>
+  <data name="Returned" xml:space="preserve">
+    <value>معادة</value>
   </data>
   <data name="ReturnHandReceipt" xml:space="preserve">
     <value>سند القطع المعادة</value>
@@ -446,6 +464,9 @@
   </data>
   <data name="Suspended" xml:space="preserve">
     <value>معلق</value>
+  </data>
+  <data name="Suspension" xml:space="preserve">
+    <value>تعليق الصيانة</value>
   </data>
   <data name="To" xml:space="preserve">
     <value>إلى</value>

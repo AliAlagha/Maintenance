@@ -259,6 +259,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to إنهاء الصيانة.
+        /// </summary>
+        public static string Complete {
+            get {
+                return ResourceManager.GetString("Complete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to متكمل.
         /// </summary>
         public static string Completed {
@@ -772,6 +781,24 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to تكلفة الصيانة.
+        /// </summary>
+        public static string MaintenanceCost {
+            get {
+                return ResourceManager.GetString("MaintenanceCost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to قطع الصيانة.
+        /// </summary>
+        public static string MaintenanceItems {
+            get {
+                return ResourceManager.GetString("MaintenanceItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to مدير الصيانة.
         /// </summary>
         public static string MaintenanceManager {
@@ -817,6 +844,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to جديدة / معادة.
+        /// </summary>
+        public static string NewOrReturned {
+            get {
+                return ResourceManager.GetString("NewOrReturned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to كلمة المرور الجديدة.
         /// </summary>
         public static string NewPassword {
@@ -840,6 +876,15 @@ namespace Maintenance.Core.Resources {
         public static string NotifyCustomerOfTheCost {
             get {
                 return ResourceManager.GetString("NotifyCustomerOfTheCost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ليس لديك صلاحية لتنفيذ العملية.
+        /// </summary>
+        public static string NoValidity {
+            get {
+                return ResourceManager.GetString("NoValidity", resourceCulture);
             }
         }
         
@@ -921,6 +966,15 @@ namespace Maintenance.Core.Resources {
         public static string RequiredField {
             get {
                 return ResourceManager.GetString("RequiredField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to معادة.
+        /// </summary>
+        public static string Returned {
+            get {
+                return ResourceManager.GetString("Returned", resourceCulture);
             }
         }
         
@@ -1047,6 +1101,15 @@ namespace Maintenance.Core.Resources {
         public static string Suspended {
             get {
                 return ResourceManager.GetString("Suspended", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تعليق الصيانة.
+        /// </summary>
+        public static string Suspension {
+            get {
+                return ResourceManager.GetString("Suspension", resourceCulture);
             }
         }
         

@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Maintenance.Infrastructure.Services.Customers;
 using Maintenance.Data.Extensions;
 using Maintenance.Core.Enums;
+using Maintenance.Core.Resources;
 
 namespace Maintenance.Infrastructure.Services.Maintenance
 {
@@ -28,26 +29,80 @@ namespace Maintenance.Infrastructure.Services.Maintenance
         {
             var dbQuery = _db.ReceiptItems
                 .Include(x => x.Customer)
-                .Where(x => x.TechnicianId.Equals(userId))
                 .OrderByDescending(x => x.CreatedAt)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(query.GeneralSearch))
             {
                 dbQuery = dbQuery.Where(x => x.Item.Contains(query.GeneralSearch)
-                    || x.ItemBarcode.Contains(query.GeneralSearch));
+                    || x.ItemBarcode.Contains(query.GeneralSearch)
+                    || x.HandReceiptId.ToString().Contains(query.GeneralSearch)
+                    || x.ReturnHandReceiptId.ToString().Contains(query.GeneralSearch)
+                    || x.Customer.Name.Contains(query.GeneralSearch)
+                    || x.Customer.PhoneNumber.Contains(query.GeneralSearch));
             }
 
-            return await dbQuery.ToPagedData<ReceiptItemForMaintenanceViewModel>(pagination, _mapper);
+            return await ItemsPagedData(dbQuery, pagination);
+        }
+
+        private async Task<PagingResultViewModel<ReceiptItemForMaintenanceViewModel>> ItemsPagedData(IQueryable<ReceiptItem> query
+            , Pagination dto)
+        {
+            var pageSize = dto.PerPage;
+            var skip = (int)Math.Ceiling(pageSize * (decimal)(dto.Page - 1));
+
+            var totalCount = await query.CountAsync();
+            query = query.Skip(skip).Take(pageSize);
+
+            var items = await query.ToListAsync();
+
+            var itemVms = new List<ReceiptItemForMaintenanceViewModel>();
+            foreach (var item in items)
+            {
+                var itemVm = _mapper.Map<ReceiptItemForMaintenanceViewModel>(item);
+
+                switch (item.MaintenanceRequestStatus)
+                {
+                    case MaintenanceRequestStatus.New:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.New}";
+                        break;
+                    case MaintenanceRequestStatus.Suspended:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.Suspended} - {item.MaintenanceSuspensionReason}";
+                        break;
+                    case MaintenanceRequestStatus.CustomerRefused:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.CustomerRefused} - {item.ReasonForRefusingMaintenance}";
+                        break;
+                    case MaintenanceRequestStatus.Completed:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.Completed}";
+                        break;
+                    case MaintenanceRequestStatus.Delivered:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.Delivered}";
+                        break;
+                };
+
+                itemVms.Add(itemVm);
+            }
+
+            return new PagingResultViewModel<ReceiptItemForMaintenanceViewModel>
+            {
+                Meta = new MetaViewModel
+                {
+                    Page = dto.Page,
+                    Perpage = dto.PerPage,
+                    Total = totalCount
+                },
+                Data = itemVms
+            };
         }
 
         public async Task CompleteMaintenance(int receiptItemId, string userId)
         {
             var receiptItem = await _db.ReceiptItems
-                .SingleOrDefaultAsync(x => x.Id == receiptItemId
-                && x.TechnicianId.Equals(userId));
+                .SingleOrDefaultAsync(x => x.Id == receiptItemId);
             if (receiptItem == null)
                 throw new EntityNotFoundException();
+
+            await CheckTechnicianValidity(userId, receiptItem);
 
             receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.Completed;
             receiptItem.UpdatedAt = DateTime.Now;
@@ -59,10 +114,11 @@ namespace Maintenance.Infrastructure.Services.Maintenance
         public async Task CustomerRefuseMaintenance(CustomerRefuseMaintenanceDto dto, string userId)
         {
             var receiptItem = await _db.ReceiptItems
-                .SingleOrDefaultAsync(x => x.Id == dto.ReceiptItemId
-                && x.TechnicianId.Equals(userId));
+                .SingleOrDefaultAsync(x => x.Id == dto.ReceiptItemId);
             if (receiptItem == null)
                 throw new EntityNotFoundException();
+
+            await CheckTechnicianValidity(userId, receiptItem);
 
             receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.CustomerRefused;
             receiptItem.ReasonForRefusingMaintenance = dto.ReasonForRefusingMaintenance;
@@ -75,10 +131,11 @@ namespace Maintenance.Infrastructure.Services.Maintenance
         public async Task SuspenseMaintenance(SuspenseReceiptItemDto dto, string userId)
         {
             var receiptItem = await _db.ReceiptItems
-                .SingleOrDefaultAsync(x => x.Id == dto.ReceiptItemId
-                && x.TechnicianId.Equals(userId));
+                .SingleOrDefaultAsync(x => x.Id == dto.ReceiptItemId);
             if (receiptItem == null)
                 throw new EntityNotFoundException();
+
+            await CheckTechnicianValidity(userId, receiptItem);
 
             receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.Suspended;
             receiptItem.MaintenanceSuspensionReason = dto.MaintenanceSuspensionReason;
@@ -92,15 +149,29 @@ namespace Maintenance.Infrastructure.Services.Maintenance
         {
             var receiptItem = await _db.ReceiptItems
                 .SingleOrDefaultAsync(x => x.Id == dto.ReceiptItemId
-                && x.TechnicianId.Equals(userId) && x.NotifyCustomerOfTheCost);
+                && x.NotifyCustomerOfTheCost);
             if (receiptItem == null)
                 throw new EntityNotFoundException();
 
+            receiptItem.NotifyCustomerOfTheCost = false;
             receiptItem.CostNotifiedToTheCustomer = dto.CostNotifiedToTheCustomer;
             receiptItem.UpdatedAt = DateTime.Now;
             receiptItem.UpdatedBy = userId;
             _db.ReceiptItems.Update(receiptItem);
             await _db.SaveChangesAsync();
+        }
+
+        private async Task CheckTechnicianValidity(string userId, ReceiptItem? receiptItem)
+        {
+            var currentUser = await _db.Users.SingleOrDefaultAsync(x => x.Id == userId);
+            if (currentUser == null)
+                throw new EntityNotFoundException();
+
+            if (currentUser.UserType == UserType.MaintenanceTechnician
+                && receiptItem.MaintenanceRequestStatus != MaintenanceRequestStatus.New)
+            {
+                throw new NoValidityException();
+            }
         }
 
     }
