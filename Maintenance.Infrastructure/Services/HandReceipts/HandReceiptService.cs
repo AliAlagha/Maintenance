@@ -170,7 +170,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
 
             var paramaters = new Dictionary<string, object>();
             paramaters.Add("HandReceiptNumber", handReceipt.Id);
-            paramaters.Add("Date", handReceipt.Date.ToString("yyyy-MM-dd hh:mm", CultureInfo.InvariantCulture));
+            paramaters.Add("Date", handReceipt.Date.ToString("yyyy-MM-dd hh:mm tt", CultureInfo.InvariantCulture));
             paramaters.Add("CustomerName", handReceipt.Customer.Name);
             paramaters.Add("CustomerPhoneNumber", handReceipt.Customer.PhoneNumber);
             var totalCollectedAmount = handReceipt.ReceiptItems.Sum(x => x.CollectedAmount);
