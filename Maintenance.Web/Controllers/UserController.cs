@@ -2,10 +2,12 @@
 using Maintenance.Core.Enums;
 using Maintenance.Infrastructure.Services.Colors;
 using Maintenance.Infrastructure.Services.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Maintenance.Web.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class UserController : BaseController
     {
         public UserController(IUserService userService) : base(userService)

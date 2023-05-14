@@ -9,5 +9,6 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             , QueryDto query, string? barcode);
         Task<int?> Create(CreateHandReceiptDto input, string userId);
         Task Delete(int id, string userId);
+        Task<byte[]> ExportToPdf(int id);
     }
 }

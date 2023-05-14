@@ -104,6 +104,7 @@ namespace Maintenance.Infrastructure.Services.Maintenance
 
             await CheckTechnicianValidity(userId, receiptItem);
 
+            receiptItem.TechnicianId = userId;
             receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.Completed;
             receiptItem.UpdatedAt = DateTime.Now;
             receiptItem.UpdatedBy = userId;
@@ -122,6 +123,7 @@ namespace Maintenance.Infrastructure.Services.Maintenance
 
             receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.CustomerRefused;
             receiptItem.ReasonForRefusingMaintenance = dto.ReasonForRefusingMaintenance;
+            receiptItem.TechnicianId = userId;
             receiptItem.UpdatedAt = DateTime.Now;
             receiptItem.UpdatedBy = userId;
             _db.ReceiptItems.Update(receiptItem);
@@ -139,6 +141,7 @@ namespace Maintenance.Infrastructure.Services.Maintenance
 
             receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.Suspended;
             receiptItem.MaintenanceSuspensionReason = dto.MaintenanceSuspensionReason;
+            receiptItem.TechnicianId = userId;
             receiptItem.UpdatedAt = DateTime.Now;
             receiptItem.UpdatedBy = userId;
             _db.ReceiptItems.Update(receiptItem);

@@ -384,6 +384,9 @@
   <data name="NewPassword" xml:space="preserve">
     <value>كلمة المرور الجديدة</value>
   </data>
+  <data name="NewReceiptItem" xml:space="preserve">
+    <value>جديدة</value>
+  </data>
   <data name="No" xml:space="preserve">
     <value>لا</value>
   </data>
@@ -411,8 +414,14 @@
   <data name="PhoneNumber" xml:space="preserve">
     <value>رقم الهاتف</value>
   </data>
+  <data name="Print" xml:space="preserve">
+    <value>طباعة</value>
+  </data>
   <data name="Profile" xml:space="preserve">
     <value>الملف الشخصي</value>
+  </data>
+  <data name="ReasonForRefusingMaintenance" xml:space="preserve">
+    <value>سبب رفض العميل للصيانة</value>
   </data>
   <data name="Reject" xml:space="preserve">
     <value>رفض</value>
@@ -437,6 +446,9 @@
   </data>
   <data name="ReturnReason" xml:space="preserve">
     <value>سبب الإرجاع</value>
+  </data>
+  <data name="SAR" xml:space="preserve">
+    <value>ر.س</value>
   </data>
   <data name="ScanBarcode" xml:space="preserve">
     <value>مسح الباركود</value>

@@ -10,6 +10,8 @@ using Maintenance.Infrastructure.Services.Customers;
 using Maintenance.Data.Extensions;
 using Maintenance.Core.Enums;
 using Maintenance.Core.Resources;
+using System.Globalization;
+using Maintenance.Infrastructure.Services.PdfExportReport;
 
 namespace Maintenance.Infrastructure.Services.HandReceipts
 {
@@ -18,13 +20,15 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
         private readonly ICustomerService _customerService;
+        private readonly IPdfExportReportService _pdfExportReportService;
 
         public HandReceiptService(ApplicationDbContext db, IMapper mapper
-            , ICustomerService customerService)
+            , ICustomerService customerService, IPdfExportReportService pdfExportReportService)
         {
             _db = db;
             _mapper = mapper;
             _customerService = customerService;
+            _pdfExportReportService = pdfExportReportService;
         }
 
         public async Task<PagingResultViewModel<HandReceiptViewModel>> GetAll
@@ -81,7 +85,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
         }
 
         public async Task AddHandReceiptItems(List<CreateHandReceiptItemDto> itemDtos
-            ,HandReceipt handReceipt, string userId)
+            , HandReceipt handReceipt, string userId)
         {
             var dtoItemIds = itemDtos.Select(x => x.ItemId).ToList();
             var dbItems = await _db.Items.Where(x => dtoItemIds.Contains(x.Id))
@@ -151,6 +155,53 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             handReceipt.UpdatedBy = userId;
             _db.HandReceipts.Update(handReceipt);
             await _db.SaveChangesAsync();
+        }
+
+        public async Task<byte[]> ExportToPdf(int id)
+        {
+            var handReceipt = await _db.HandReceipts
+                .Include(x => x.Customer)
+                .Include(x => x.ReceiptItems)
+                .SingleOrDefaultAsync(x => x.Id == id);
+            if (handReceipt == null)
+            {
+                throw new EntityNotFoundException();
+            }
+
+            var paramaters = new Dictionary<string, object>();
+            paramaters.Add("HandReceiptNumber", handReceipt.Id);
+            paramaters.Add("Date", handReceipt.Date.ToString("yyyy-MM-dd hh:mm", CultureInfo.InvariantCulture));
+            paramaters.Add("CustomerName", handReceipt.Customer.Name);
+            paramaters.Add("CustomerPhoneNumber", handReceipt.Customer.PhoneNumber);
+            var totalCollectedAmount = handReceipt.ReceiptItems.Sum(x => x.CollectedAmount);
+            paramaters.Add("TotalCollectedMoney", totalCollectedAmount != null ? totalCollectedAmount 
+                + " " + Messages.SAR : "0");
+
+            paramaters.Add("ContactEmail", "test@gmail.com");
+            paramaters.Add("ContactPhoneNumber", "0599854758");
+            paramaters.Add("WebsiteLink", "www.test.com");
+
+            var receiptItems = new List<ReceiptItemDataSet>();
+            foreach (var receiptItem in handReceipt.ReceiptItems)
+            {
+                var receiptItemDataSet = new ReceiptItemDataSet
+                {
+                    Item = receiptItem.Item,
+                    ItemBarcode = receiptItem.ItemBarcode,
+                    Company = receiptItem.Company,
+                    CollectedAmount = receiptItem.CollectedAmount != null ? receiptItem.CollectedAmount
+                        + " " + Messages.SAR : "0",
+                    CollectionDate = receiptItem.CollectionDate != null
+                        ? receiptItem.CollectionDate.Value.ToString("yyyy-MM-dd")
+                        : " - "
+                };
+
+                receiptItems.Add(receiptItemDataSet);
+            }
+
+            var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemDataSet", Data = receiptItems } };
+            var result = _pdfExportReportService.GeneratePdf("HandReceipt.rdlc", dataSets, paramaters);
+            return result;
         }
 
     }

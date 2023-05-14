@@ -53,7 +53,7 @@
                                 <input class="form-control h-auto form-control-solid py-4 px-8" asp-for="Input.Password" type="password" placeholder="@Messages.Password" />
                                 <span asp-validation-for="Input.Password" class="text-danger"></span>
                             </div>
-                            <button type="submit" id="kt_login_signin_submit" class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-4" asp-route-returnUrl="@Url.Action("Index", "User", new { area = "" })">@Messages.Login</button>
+                            <button type="submit" id="kt_login_signin_submit" class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-4" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">@Messages.Login</button>
                         </form>
                     </div>
                     <!--end::Login Sign in form-->

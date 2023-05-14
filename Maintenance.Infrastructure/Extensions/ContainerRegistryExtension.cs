@@ -7,6 +7,7 @@ using Maintenance.Infrastructure.Services.HandReceiptItems;
 using Maintenance.Infrastructure.Services.HandReceipts;
 using Maintenance.Infrastructure.Services.Items;
 using Maintenance.Infrastructure.Services.Maintenance;
+using Maintenance.Infrastructure.Services.PdfExportReport;
 using Maintenance.Infrastructure.Services.ReturnHandReceiptItems;
 using Maintenance.Infrastructure.Services.Users;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +30,7 @@ namespace Maintenance.Infrastructure.Extensions
             services.AddScoped<IHandReceiptItemService, HandReceiptItemService>();
             services.AddScoped<IReturnHandReceiptItemService, ReturnHandReceiptItemService>();
             services.AddScoped<IMaintenanceService, MaintenanceService>();
+            services.AddScoped<IPdfExportReportService, PdfExportReportService>();
             return services;
         }
     }

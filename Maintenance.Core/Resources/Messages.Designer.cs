@@ -862,6 +862,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to جديدة.
+        /// </summary>
+        public static string NewReceiptItem {
+            get {
+                return ResourceManager.GetString("NewReceiptItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to لا.
         /// </summary>
         public static string No {
@@ -943,11 +952,29 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to طباعة.
+        /// </summary>
+        public static string Print {
+            get {
+                return ResourceManager.GetString("Print", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to الملف الشخصي.
         /// </summary>
         public static string Profile {
             get {
                 return ResourceManager.GetString("Profile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to سبب رفض العميل للصيانة.
+        /// </summary>
+        public static string ReasonForRefusingMaintenance {
+            get {
+                return ResourceManager.GetString("ReasonForRefusingMaintenance", resourceCulture);
             }
         }
         
@@ -1020,6 +1047,15 @@ namespace Maintenance.Core.Resources {
         public static string ReturnReason {
             get {
                 return ResourceManager.GetString("ReturnReason", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ر.س.
+        /// </summary>
+        public static string SAR {
+            get {
+                return ResourceManager.GetString("SAR", resourceCulture);
             }
         }
         

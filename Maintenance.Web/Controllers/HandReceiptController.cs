@@ -3,10 +3,12 @@ using Maintenance.Core.Enums;
 using Maintenance.Core.Resources;
 using Maintenance.Infrastructure.Services.HandReceipts;
 using Maintenance.Infrastructure.Services.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Maintenance.Web.Controllers
 {
+    [Authorize(Roles = "Administrator, MaintenanceManager")]
     public class HandReceiptController : BaseController
     {
         private readonly IHandReceiptService _handReceiptService;
@@ -109,6 +111,11 @@ namespace Maintenance.Web.Controllers
             return DeletedSuccessfully();
         }
 
+        public async Task<IActionResult> ExportToPdf(int id)
+        {
+            var result = await _handReceiptService.ExportToPdf(id);
+            return GetPdfFileResult(result, $"{id} - HandReceipt");
+        }
     }
 }
 

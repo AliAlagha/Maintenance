@@ -4,10 +4,12 @@ using Maintenance.Core.Resources;
 using Maintenance.Infrastructure.Services.HandReceipts;
 using Maintenance.Infrastructure.Services.Maintenance;
 using Maintenance.Infrastructure.Services.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Maintenance.Web.Controllers
 {
+    [Authorize(Roles = "MaintenanceTechnician")]
     public class MaintenanceController : BaseController
     {
         private readonly IMaintenanceService _maintenanceService;

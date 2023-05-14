@@ -73,6 +73,7 @@ namespace Maintenance.Web.Controllers
             }
         }
 
+        [NonAction]
         protected ActionResult GetExcelFileResult(byte[] content, string fileName)
         {
             return File(
@@ -82,12 +83,11 @@ namespace Maintenance.Web.Controllers
            );
         }
 
-        protected ActionResult GetPdfFileResult(byte[] content)
+        [NonAction]
+        protected IActionResult GetPdfFileResult(byte[] report, string fileName)
         {
-            return File(
-               content,
-               "application/pdf"
-           );
+            return File(report, "application/pdf", $"{fileName} - {DateTime.Now:yyyy_MM_dd}.pdf");
         }
+
     }
 }

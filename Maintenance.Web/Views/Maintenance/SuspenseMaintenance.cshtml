@@ -1,0 +1,33 @@
+﻿@model SuspenseReceiptItemDto
+@{
+    ViewData["Title"] = Messages.MaintenanceItems;
+    Layout = null;
+}
+
+<form asp-action="SuspenseMaintenance" method="post" class="ajaxForm" tname="#kt_datatable" enctype="multipart/form-data">
+    <input asp-for="ReceiptItemId" type="hidden" />
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>@Messages.MaintenanceSuspensionReason</label>
+                <textarea asp-for="MaintenanceSuspensionReason" placeholder="@string.Format(Messages.Enter,Messages.MaintenanceSuspensionReason)" class="form-control form-control-solid" ></textarea>
+                <span asp-validation-for="MaintenanceSuspensionReason" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
+        <button type="button" data-dismiss="modal" class="btn btn-light-primary font-weight-bold">@Messages.Cancel</button>
+    </div>
+</form>
+
+<script>
+    PageLoadActions();
+</script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
+

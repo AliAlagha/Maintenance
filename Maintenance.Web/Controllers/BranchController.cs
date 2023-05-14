@@ -1,10 +1,12 @@
 ﻿using Maintenance.Core.Dtos;
 using Maintenance.Infrastructure.Services.Branches;
 using Maintenance.Infrastructure.Services.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Maintenance.Web.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class BranchController : BaseController
     {
         private readonly IBranchService _branchService;

@@ -1,10 +1,12 @@
 ﻿using Maintenance.Core.Dtos;
 using Maintenance.Infrastructure.Services.Items;
 using Maintenance.Infrastructure.Services.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Maintenance.Web.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class ItemController : BaseController
     {
         private readonly IItemService _itemService;

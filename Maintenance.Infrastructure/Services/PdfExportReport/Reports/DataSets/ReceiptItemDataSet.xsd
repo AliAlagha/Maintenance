@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="ReceiptItemDataSet" targetNamespace="http://tempuri.org/ReceiptItemDataSet.xsd" xmlns:mstns="http://tempuri.org/ReceiptItemDataSet.xsd" xmlns="http://tempuri.org/ReceiptItemDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="ReceiptItemDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_UserDSName="ReceiptItemDataSet" msprop:Generator_DataSetName="ReceiptItemDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ReceiptItemDataSet" msprop:Generator_RowEvHandlerName="ReceiptItemDataSetRowChangeEventHandler" msprop:Generator_RowDeletedName="ReceiptItemDataSetRowDeleted" msprop:Generator_RowDeletingName="ReceiptItemDataSetRowDeleting" msprop:Generator_RowEvArgName="ReceiptItemDataSetRowChangeEvent" msprop:Generator_TablePropName="_ReceiptItemDataSet" msprop:Generator_RowChangedName="ReceiptItemDataSetRowChanged" msprop:Generator_RowChangingName="ReceiptItemDataSetRowChanging" msprop:Generator_TableClassName="ReceiptItemDataSetDataTable" msprop:Generator_RowClassName="ReceiptItemDataSetRow" msprop:Generator_TableVarName="tableReceiptItemDataSet" msprop:Generator_UserTableName="ReceiptItemDataSet">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Item" msprop:Generator_ColumnPropNameInRow="Item" msprop:Generator_ColumnPropNameInTable="ItemColumn" msprop:Generator_ColumnVarNameInTable="columnItem" msprop:Generator_UserColumnName="Item" type="xs:string" minOccurs="0" />
+              <xs:element name="ItemBarcode" msprop:Generator_ColumnPropNameInRow="ItemBarcode" msprop:Generator_ColumnPropNameInTable="ItemBarcodeColumn" msprop:Generator_ColumnVarNameInTable="columnItemBarcode" msprop:Generator_UserColumnName="ItemBarcode" type="xs:string" minOccurs="0" />
+              <xs:element name="Company" msprop:Generator_ColumnPropNameInRow="Company" msprop:Generator_ColumnPropNameInTable="CompanyColumn" msprop:Generator_ColumnVarNameInTable="columnCompany" msprop:Generator_UserColumnName="Company" type="xs:string" minOccurs="0" />
+              <xs:element name="CollectedAmount" msprop:Generator_ColumnPropNameInRow="CollectedAmount" msprop:Generator_ColumnPropNameInTable="CollectedAmountColumn" msprop:Generator_ColumnVarNameInTable="columnCollectedAmount" msprop:Generator_UserColumnName="CollectedAmount" type="xs:string" minOccurs="0" />
+              <xs:element name="CollectionDate" msprop:Generator_ColumnPropNameInRow="CollectionDate" msprop:Generator_ColumnPropNameInTable="CollectionDateColumn" msprop:Generator_ColumnVarNameInTable="columnCollectionDate" msprop:Generator_UserColumnName="CollectionDate" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

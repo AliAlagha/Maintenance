@@ -34,7 +34,7 @@
         </div>
         <!--end: Search Form-->
         <!--begin: Datatable-->
-        <div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable"></div>
+        <div class="datatable table-striped datatable-head-custom" id="kt_datatable"></div>
         <!--end: Datatable-->
     </div>
 </div>
@@ -86,7 +86,7 @@
                             width: 100
                         },
                         {
-                            field: 'customer.Name',
+                            field: 'customer.name',
                             title: '@Messages.CustomerFullName',
                             sortable: false,
                             width: 100
@@ -183,7 +183,7 @@
                             width: 100,
                             template: function(data) {
                                 if (data.receiptItemType == 1) {
-                                    return "@Messages.New";
+                                    return "@Messages.NewReceiptItem";
                                 } else if (data.receiptItemType == 2) {
                                     return "@Messages.Returned";
                                 }
@@ -193,7 +193,7 @@
                             field: 'maintenanceRequestStatusMessage',
                             title: '@Messages.Status',
                             sortable: false,
-                            width: 100
+                            width: 200
                         },
                         {
                             field: 'Actions',

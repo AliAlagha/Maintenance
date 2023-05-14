@@ -5,10 +5,12 @@ using Maintenance.Infrastructure.Services.HandReceiptItems;
 using Maintenance.Infrastructure.Services.HandReceipts;
 using Maintenance.Infrastructure.Services.Maintenance;
 using Maintenance.Infrastructure.Services.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Maintenance.Web.Controllers
 {
+    [Authorize(Roles = "Administrator, MaintenanceManager")]
     public class HandReceiptItemController : BaseController
     {
         private readonly IHandReceiptItemService _handReceiptItemService;

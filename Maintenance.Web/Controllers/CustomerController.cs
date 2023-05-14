@@ -2,10 +2,12 @@
 using Maintenance.Infrastructure.Services.Companies;
 using Maintenance.Infrastructure.Services.Customers;
 using Maintenance.Infrastructure.Services.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Maintenance.Web.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class CustomerController : BaseController
     {
         private readonly ICustomerService _customerService;
