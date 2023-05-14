@@ -1,4 +1,5 @@
-﻿using Maintenance.Core.Enums;
+﻿using Maintenance.Core.CustomValidation;
+using Maintenance.Core.Enums;
 using Maintenance.Core.Resources;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
@@ -16,7 +17,7 @@ namespace Maintenance.Core.Dtos
 
         [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Messages))]
         [Display(Name = "PhoneNumber", ResourceType = typeof(Messages))]
-        [Phone(ErrorMessageResourceName = "InvalidPhone", ErrorMessageResourceType = typeof(Messages))]
+        [CustomPhoneValidation(ErrorMessage = "TestError")]
         public string PhoneNumber { get; set; }
 
         public string? Address { get; set; }

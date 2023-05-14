@@ -28,7 +28,9 @@ namespace Maintenance.Infrastructure.Services.Branches
 
         public async Task<PagingResultViewModel<BranchViewModel>> GetAll(Pagination pagination, QueryDto query)
         {
-            var dbQuery = _db.Branches.OrderByDescending(x => x.CreatedAt).AsQueryable();
+            var dbQuery = _db.Branches
+                .Include(x => x.BranchPhoneNumbers)
+                .OrderByDescending(x => x.CreatedAt).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(query.GeneralSearch))
             {
@@ -40,11 +42,13 @@ namespace Maintenance.Infrastructure.Services.Branches
 
         public async Task<UpdateBranchDto> Get(int id)
         {
-            var branch = await _db.Branches.SingleOrDefaultAsync(x => x.Id == id);
+            var branch = await _db.Branches
+                .SingleOrDefaultAsync(x => x.Id == id);
             if (branch == null)
                 throw new EntityNotFoundException();
 
-            return _mapper.Map<UpdateBranchDto>(branch);
+            var dto = _mapper.Map<UpdateBranchDto>(branch);
+            return dto;
         }
 
         public async Task<int> Create(CreateBranchDto input, string userId)
@@ -58,12 +62,12 @@ namespace Maintenance.Infrastructure.Services.Branches
 
         public async Task Update(UpdateBranchDto input, string userId)
         {
-            var branch = await _db.Branches.SingleOrDefaultAsync(x => x.Id == input.Id);
+            var branch = await _db.Branches
+                .SingleOrDefaultAsync(x => x.Id == input.Id);
             if (branch == null)
                 throw new EntityNotFoundException();
 
             _mapper.Map(input, branch);
-
             branch.UpdatedAt = DateTime.Now;
             branch.UpdatedBy = userId;
             _db.Branches.Update(branch);

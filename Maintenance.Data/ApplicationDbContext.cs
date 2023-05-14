@@ -27,5 +27,6 @@ namespace Maintenance.Data
         public DbSet<ReturnHandReceipt> ReturnHandReceipts { get; set; }
         public DbSet<ReceiptItem> ReceiptItems { get; set; }
         public DbSet<Branch> Branches { get; set; }
+        public DbSet<BranchPhoneNumber> BranchPhoneNumbers { get; set; }
     }
 }

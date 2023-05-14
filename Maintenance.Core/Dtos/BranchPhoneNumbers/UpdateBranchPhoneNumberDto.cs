@@ -5,13 +5,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Maintenance.Core.Dtos
 {
-    public class UpdateBranchDto
+    public class UpdateBranchPhoneNumberDto
     {
-		public int Id { get; set; }
+        public int BranchPhoneNumberId { get; set; }
+        public int BranchId { get; set; }
 
         [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Messages))]
-        [Display(Name = "Name", ResourceType = typeof(Messages))]
-        public string Name { get; set; }
-        public string? Address { get; set; }
+        [Display(Name = "PhoneNumber", ResourceType = typeof(Messages))]
+        public string PhoneNumber { get; set; }
     }
 }

@@ -42,7 +42,8 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             if (!string.IsNullOrWhiteSpace(query.GeneralSearch))
             {
                 dbQuery = dbQuery.Where(x => x.Id.ToString().Contains(query.GeneralSearch)
-                    || x.ReceiptItems.Any(x => x.ItemBarcode.Contains(query.GeneralSearch)));
+                    || x.Customer.Name.Contains(query.GeneralSearch)
+                    || x.Customer.PhoneNumber.Contains(query.GeneralSearch));
             }
 
             if (!string.IsNullOrWhiteSpace(barcode))

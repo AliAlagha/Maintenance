@@ -153,6 +153,12 @@
   <data name="Branches" xml:space="preserve">
     <value>الفروع</value>
   </data>
+  <data name="BranchPhoneNumber" xml:space="preserve">
+    <value>رقم هاتف للفرع</value>
+  </data>
+  <data name="BranchPhoneNumbers" xml:space="preserve">
+    <value>أرقام هواتف الفرع</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>إلغاء</value>
   </data>
@@ -272,6 +278,9 @@
   </data>
   <data name="EnterLoginDetails" xml:space="preserve">
     <value>أدخل بياناتك لتسجيل الدخول إلى حسابك:</value>
+  </data>
+  <data name="EntityAlreadyExists" xml:space="preserve">
+    <value>العنصر موجود من قبل</value>
   </data>
   <data name="EntityNotFound" xml:space="preserve">
     <value>العنصر غير موجود</value>
@@ -413,6 +422,9 @@
   </data>
   <data name="PhoneNumber" xml:space="preserve">
     <value>رقم الهاتف</value>
+  </data>
+  <data name="PhoneNumbers" xml:space="preserve">
+    <value>أرقام الهواتف</value>
   </data>
   <data name="Print" xml:space="preserve">
     <value>طباعة</value>

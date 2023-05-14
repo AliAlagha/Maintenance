@@ -67,9 +67,17 @@ namespace Maintenance.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                var isFormValid = true;
                 if (input.CustomerId == null || !input.Items.Any())
                 {
                     ModelState.AddModelError("Required", string.Empty);
+                    isFormValid = false;
+                }
+
+                isFormValid = CheckPriceValidity(input, isFormValid);
+
+                if (!isFormValid)
+                {
                     ViewBag.IsFormValid = false;
                     return View(input);
                 }
@@ -80,6 +88,39 @@ namespace Maintenance.Web.Controllers
 
             ViewBag.IsFormValid = false;
             return View(input);
+        }
+
+        private static bool CheckPriceValidity(CreateHandReceiptDto input, bool isFormValid)
+        {
+            foreach (var item in input.Items)
+            {
+                var specifiedCost = item.SpecifiedCost;
+                var costFrom = item.CostFrom;
+                var costTo = item.CostTo;
+                var notifyCustomerOfTheCost = item.NotifyCustomerOfTheCost;
+
+                if (specifiedCost.HasValue && (costFrom.HasValue || costTo.HasValue || notifyCustomerOfTheCost))
+                {
+                    isFormValid = false;
+                }
+
+                if (costFrom.HasValue && (specifiedCost.HasValue || costTo.HasValue || notifyCustomerOfTheCost))
+                {
+                    isFormValid = false;
+                }
+
+                if (costTo.HasValue && (specifiedCost.HasValue || costFrom.HasValue || notifyCustomerOfTheCost))
+                {
+                    isFormValid = false;
+                }
+
+                if (notifyCustomerOfTheCost && (specifiedCost.HasValue || costFrom.HasValue || costTo.HasValue))
+                {
+                    isFormValid = false;
+                }
+            }
+
+            return isFormValid;
         }
 
         [HttpPost]

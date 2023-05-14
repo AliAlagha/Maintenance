@@ -109,33 +109,33 @@
             <div class="modal-body">
                 <form id="AddItemForm">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
+                        <div class="form-group">
+                            <div class="col-md-8">
                                 <label>@Messages.Item</label>
                                 <select id="SelectItem" name="ItemId" class="form-control form-control-solid">
                                     <option value="">-- @string.Format(Messages.Select, Messages.Item) --</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
+                        <div class="form-group">
+                            <div class="col-md-8">
                                 <label>@Messages.Company</label>
                                 <select id="SelectCompany" name="CompanyId" class="form-control form-control-solid">
                                     <option value="">-- @string.Format(Messages.Select, Messages.Company) --</option>
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
+                        <div class="form-group">
+                            <div class="col-md-8">
                                 <label>@Messages.Color</label>
                                 <select id="SelectColor" name="ColorId" class="form-control form-control-solid">
                                     <option value="">-- @string.Format(Messages.Select, Messages.Color) --</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label>@Messages.Description</label>
                                 <textarea id="Description" placeholder="@string.Format(Messages.Enter,Messages.Description)" class="form-control form-control-solid"></textarea>
@@ -143,22 +143,28 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label>@Messages.SpecifiedCost</label>
                                 <input type="number" id="SpecifiedCost" placeholder="@string.Format(Messages.Enter,Messages.SpecifiedCost)" class="form-control form-control-solid" />
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label>@Messages.From</label>
                                 <input type="number" id="CostFrom" placeholder="@string.Format(Messages.Enter,Messages.From)" class="form-control form-control-solid" />
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label>@Messages.To</label>
                                 <input type="number" id="CostTo" placeholder="@string.Format(Messages.Enter,Messages.To)" class="form-control form-control-solid" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>@Messages.NotifyCustomerOfTheCost</label>
+                                <input id="NotifyCustomerOfTheCost" type="checkbox" value="false" placeholder="@string.Format(Messages.Enter,Messages.NotifyCustomerOfTheCost)" class="form-control form-control-solid" />
                             </div>
                         </div>
                     </div>
@@ -167,12 +173,6 @@
                             <div class="form-group">
                                 <label>@Messages.WarrantyExpiryDate</label>
                                 <input type="date" id="WarrantyExpiryDate" placeholder="@string.Format(Messages.Enter,Messages.WarrantyExpiryDate)" class="form-control form-control-solid" />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>@Messages.NotifyCustomerOfTheCost</label>
-                                <input id="NotifyCustomerOfTheCost" type="checkbox" value="false" placeholder="@string.Format(Messages.Enter,Messages.NotifyCustomerOfTheCost)" class="form-control form-control-solid" />
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -484,7 +484,10 @@
             // Private functions
             var demos = function() {
                 // basic
-                $('#SelectCustomer').select2(); 
+                $('#SelectCustomer').select2();
+                $('#SelectItem').select2();
+                $('#SelectCompany').select2();
+                $('#SelectColor').select2();
             }
 
             // Public functions
@@ -500,6 +503,36 @@
             KTFormControls.init();
             KTSelect2.init();
         });
+
+        //$('#SpecifiedCost, #CostFrom, #CostTo, #NotifyCustomerOfTheCost').change(function() {
+        //    var specifiedCostVal = $('#SpecifiedCost').val();
+        //    var costFromVal = $('#CostFrom').val();
+        //    var costToVal = $('#CostTo').val();
+        //    var notifyCustomerValToVal = $('#NotifyCustomerOfTheCost').val();
+
+        //    if (specifiedCostVal) {
+        //        $("#CostFrom").prop('disabled', true);
+        //        $("#CostTo").prop('disabled', true);
+        //        $("#NotifyCustomerOfTheCost").prop('disabled', true);
+        //    } else if (costFromVal) {
+        //        $("#SpecifiedCost").prop('disabled', true);
+        //        $("#CostTo").prop('disabled', true);
+        //        $("#NotifyCustomerOfTheCost").prop('disabled', true);
+        //    } else if (costToVal) {
+        //        $("#SpecifiedCost").prop('disabled', true);
+        //        $("#CostFrom").prop('disabled', true);
+        //        $("#NotifyCustomerOfTheCost").prop('disabled', true);
+        //    } else if (notifyCustomerValToVal == 'true') {
+        //        $("#SpecifiedCost").prop('disabled', true);
+        //        $("#CostFrom").prop('disabled', true);
+        //        $("#CostTo").prop('disabled', true);
+        //    } else {
+        //        $("#SpecifiedCost").prop('disabled', false);
+        //        $("#CostFrom").prop('disabled', false);
+        //        $("#CostTo").prop('disabled', false);
+        //        $("#NotifyCustomerOfTheCost").prop('disabled', false);
+        //    }
+        //});
     </script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

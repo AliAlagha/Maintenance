@@ -169,6 +169,24 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to رقم هاتف للفرع.
+        /// </summary>
+        public static string BranchPhoneNumber {
+            get {
+                return ResourceManager.GetString("BranchPhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to أرقام هواتف الفرع.
+        /// </summary>
+        public static string BranchPhoneNumbers {
+            get {
+                return ResourceManager.GetString("BranchPhoneNumbers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to إلغاء.
         /// </summary>
         public static string Cancel {
@@ -525,6 +543,15 @@ namespace Maintenance.Core.Resources {
         public static string EnterLoginDetails {
             get {
                 return ResourceManager.GetString("EnterLoginDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to العنصر موجود من قبل.
+        /// </summary>
+        public static string EntityAlreadyExists {
+            get {
+                return ResourceManager.GetString("EntityAlreadyExists", resourceCulture);
             }
         }
         
@@ -948,6 +975,15 @@ namespace Maintenance.Core.Resources {
         public static string PhoneNumber {
             get {
                 return ResourceManager.GetString("PhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to أرقام الهواتف.
+        /// </summary>
+        public static string PhoneNumbers {
+            get {
+                return ResourceManager.GetString("PhoneNumbers", resourceCulture);
             }
         }
         

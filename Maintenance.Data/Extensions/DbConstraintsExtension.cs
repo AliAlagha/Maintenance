@@ -16,6 +16,7 @@ namespace Maintenance.Data.Extensions
             modelBuilder.ApplyConfiguration(new ReceiptItemConstraints());
             modelBuilder.ApplyConfiguration(new ReturnHandReceiptConstraints());
             modelBuilder.ApplyConfiguration(new BranchConstraints());
+            modelBuilder.ApplyConfiguration(new BranchPhoneNumberConstraints());
             return modelBuilder;
         }
     }

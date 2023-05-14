@@ -28,5 +28,6 @@ namespace Maintenance.Core.Constants
         public const string EmailAlreadyExists = "EmailAlreadyExists";
         public const string InvalidInput = "InvalidInput";
         public const string NoValidity = "NoValidity";
+        public const string EntityAlreadyExists = "EntityAlreadyExists";
     }
 }

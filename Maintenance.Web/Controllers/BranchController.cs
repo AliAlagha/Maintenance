@@ -12,9 +12,9 @@ namespace Maintenance.Web.Controllers
         private readonly IBranchService _branchService;
 
         public BranchController(IUserService userService
-            , IBranchService BranchService) : base(userService)
+            , IBranchService branchService) : base(userService)
         {
-            _branchService = BranchService;
+            _branchService = branchService;
         }
 
         public IActionResult Index()

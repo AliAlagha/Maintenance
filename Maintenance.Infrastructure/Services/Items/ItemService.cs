@@ -45,6 +45,12 @@ namespace Maintenance.Infrastructure.Services.Items
 
         public async Task<int> Create(CreateItemDto input, string userId)
         {
+            var isExists = _db.Items.Any(x => x.Name.Equals(input.Name));
+            if (isExists)
+            {
+                throw new EntityAlreadyExistsException();
+            }
+
             var item = _mapper.Map<Item>(input);
             item.CreatedBy = userId;
             await _db.Items.AddAsync(item);

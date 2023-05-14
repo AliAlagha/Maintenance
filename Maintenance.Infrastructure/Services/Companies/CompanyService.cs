@@ -51,6 +51,12 @@ namespace Maintenance.Infrastructure.Services.Companies
 
         public async Task<int> Create(CreateCompanyDto input, string userId)
         {
+            var isExists = _db.Companies.Any(x => x.Name.Equals(input.Name));
+            if (isExists)
+            {
+                throw new EntityAlreadyExistsException();
+            }
+
             var company = _mapper.Map<Company>(input);
             company.CreatedBy = userId;
             await _db.Companies.AddAsync(company);
