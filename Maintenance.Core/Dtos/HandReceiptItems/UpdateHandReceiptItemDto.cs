@@ -19,7 +19,7 @@ namespace Maintenance.Core.Dtos
         public double? CostTo { get; set; }
         public bool Urgent { get; set; }
         [DataType(DataType.Date)]
-        public DateTime? WarrantyExpiryDate { get; set; }
+        public int? WarrantyDaysNumber { get; set; }
         public double? CollectedAmount { get; set; }
         public DateTime? CollectionDate { get; set; }
         public DateTime? DeliveryDate { get; set; }

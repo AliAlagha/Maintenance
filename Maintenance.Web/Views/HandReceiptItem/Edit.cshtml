@@ -70,9 +70,9 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label>@Messages.WarrantyExpiryDate</label>
-                <input asp-for="WarrantyExpiryDate" placeholder="@string.Format(Messages.Enter,Messages.WarrantyExpiryDate)" class="form-control form-control-solid" />
-                <span asp-validation-for="WarrantyExpiryDate" class="text-danger"></span>
+                <label>@Messages.WarrantyDaysNumber</label>
+                <input asp-for="WarrantyDaysNumber" placeholder="@string.Format(Messages.Enter,Messages.WarrantyDaysNumber)" class="form-control form-control-solid" />
+                <span asp-validation-for="WarrantyDaysNumber" class="text-danger"></span>
             </div>
         </div>
     </div>
@@ -135,6 +135,58 @@
             });
         }
     });
+
+    $('#SpecifiedCost, #CostFrom, #CostTo, #NotifyCustomerOfTheCost').change(function() {
+            var specifiedCostVal = $('#SpecifiedCost').val();
+            var costFromVal = $('#CostFrom').val();
+            var costToVal = $('#CostTo').val();
+            var notifyCustomerValToVal = $('#NotifyCustomerOfTheCost').val();
+
+            if (specifiedCostVal) {
+                $("#CostFrom").prop('disabled', true);
+                $("#CostTo").prop('disabled', true);
+                $("#NotifyCustomerOfTheCost").prop('disabled', true);
+            } else if (costFromVal) {
+                $("#SpecifiedCost").prop('disabled', true);
+                $("#NotifyCustomerOfTheCost").prop('disabled', true);
+            } else if (costToVal) {
+                $("#SpecifiedCost").prop('disabled', true);
+                $("#NotifyCustomerOfTheCost").prop('disabled', true);
+            } else if (notifyCustomerValToVal == 'true') {
+                $("#SpecifiedCost").prop('disabled', true);
+                $("#CostFrom").prop('disabled', true);
+                $("#CostTo").prop('disabled', true);
+            } else {
+                $("#SpecifiedCost").prop('disabled', false);
+                $("#CostFrom").prop('disabled', false);
+                $("#CostTo").prop('disabled', false);
+                $("#NotifyCustomerOfTheCost").prop('disabled', false);
+            }
+        });
+
+        // Class definition
+        var KTSelect2 = function() {
+            // Private functions
+            var demos = function() {
+                // basic
+                $('#SelectCustomer').select2();
+                $('#SelectItem').select2();
+                $('#SelectCompany').select2();
+                $('#SelectColor').select2();
+            }
+
+            // Public functions
+            return {
+                init: function() {
+                    demos();
+                }
+            };
+        }();
+
+        // Initialization
+        jQuery(document).ready(function() {
+            KTSelect2.init();
+        });
 </script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

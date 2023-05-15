@@ -17,7 +17,7 @@ namespace Maintenance.Core.Dtos
 
         [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Messages))]
         [Display(Name = "PhoneNumber", ResourceType = typeof(Messages))]
-        [CustomPhoneValidation(ErrorMessage = "TestError")]
+        [CustomPhoneValidation]
         public string PhoneNumber { get; set; }
 
         public string? Address { get; set; }

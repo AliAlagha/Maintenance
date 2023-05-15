@@ -15,7 +15,7 @@ namespace Maintenance.Core.ViewModels
         public string? Color { get; set; }
         public string? Description { get; set; }
         public string ItemBarcode { get; set; }
-        public string? WarrantyExpiryDate { get; set; }
+        public string? WarrantyDaysNumber { get; set; }
         public string? ReturnReason { get; set; }
         public string? DeliveryDate { get; set; }
         public MaintenanceRequestStatus MaintenanceRequestStatus { get; set; }

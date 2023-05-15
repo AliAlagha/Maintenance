@@ -516,11 +516,11 @@
   <data name="Warning" xml:space="preserve">
     <value>تحذير</value>
   </data>
+  <data name="WarrantyDaysNumber" xml:space="preserve">
+    <value>عدد أيام الضمان</value>
+  </data>
   <data name="WarrantyExpired" xml:space="preserve">
     <value>الضمان منتهي</value>
-  </data>
-  <data name="WarrantyExpiryDate" xml:space="preserve">
-    <value>تاريخ انتهاء الضمان</value>
   </data>
   <data name="WarrantyValid" xml:space="preserve">
     <value>الضمان ساري</value>

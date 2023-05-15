@@ -113,7 +113,7 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
                 Description = handReceiptItem.Description,
                 Company = handReceiptItem.Company,
                 ItemBarcode = await GenerateBarcode(),
-                WarrantyExpiryDate = handReceiptItem.WarrantyExpiryDate,
+                WarrantyDaysNumber = handReceiptItem.WarrantyDaysNumber,
                 ReturnReason = dto.ReturnReason,
                 ReceiptItemType = ReceiptItemType.Returned
             };

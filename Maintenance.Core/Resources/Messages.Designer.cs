@@ -1258,20 +1258,20 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to عدد أيام الضمان.
+        /// </summary>
+        public static string WarrantyDaysNumber {
+            get {
+                return ResourceManager.GetString("WarrantyDaysNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to الضمان منتهي.
         /// </summary>
         public static string WarrantyExpired {
             get {
                 return ResourceManager.GetString("WarrantyExpired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to تاريخ انتهاء الضمان.
-        /// </summary>
-        public static string WarrantyExpiryDate {
-            get {
-                return ResourceManager.GetString("WarrantyExpiryDate", resourceCulture);
             }
         }
         

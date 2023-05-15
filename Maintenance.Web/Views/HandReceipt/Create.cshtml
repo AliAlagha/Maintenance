@@ -76,7 +76,7 @@
                                         <th scope="col">@Messages.From</th>
                                         <th scope="col">@Messages.To</th>
                                         <th scope="col">@Messages.Urgent</th>
-                                        <th scope="col">@Messages.WarrantyExpiryDate</th>
+                                        <th scope="col">@Messages.WarrantyDaysNumber</th>
                                         <th scope="col">@Messages.Actions</th>
                                     </tr>
                                 </thead>
@@ -171,8 +171,8 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>@Messages.WarrantyExpiryDate</label>
-                                <input type="date" id="WarrantyExpiryDate" placeholder="@string.Format(Messages.Enter,Messages.WarrantyExpiryDate)" class="form-control form-control-solid" />
+                                <label>@Messages.WarrantyDaysNumber</label>
+                                <input type="number" id="WarrantyDaysNumber" placeholder="@string.Format(Messages.Enter,Messages.WarrantyDaysNumber)" class="form-control form-control-solid" />
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -266,7 +266,7 @@
             var specifiedCost = $('#SpecifiedCost').val();
             var costFrom = $('#CostFrom').val();
             var costTo = $('#CostTo').val();
-            var warrantyExpiryDate = $('#WarrantyExpiryDate').val();
+            var warrantyDaysNumber = $('#WarrantyDaysNumber').val();
             var notifyCustomerOfTheCost = $('#NotifyCustomerOfTheCost').val();
             var urgent = $('#Urgent').val();
 
@@ -282,7 +282,7 @@
                 specifiedCost: specifiedCost,
                 costFrom: costFrom,
                 costTo: costTo,
-                warrantyExpiryDate: warrantyExpiryDate,
+                warrantyDaysNumber: warrantyDaysNumber,
                 notifyCustomerOfTheCost: notifyCustomerOfTheCost,
                 urgent: urgent
             }
@@ -326,7 +326,7 @@
             row += '<td>' + itemObj.costTo + '<input type="hidden" name="Items[' + newRowIndex + '].CostTo" value="' + itemObj.costTo + '" class="cost-to"';
             row += ' min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"></td>';
             row += '<td>' + urgent + '<input type="hidden" name="Items[' + newRowIndex + '].Urgent" value="' + itemObj.urgent + '" class="urgent"></td>';
-            row += '<td>' + itemObj.warrantyExpiryDate + '<input type="hidden" name="Items[' + newRowIndex + '].WarrantyExpiryDate" value="' + itemObj.warrantyExpiryDate + '" class="warranty-expiry-date"></td>';
+            row += '<td>' + itemObj.warrantyDaysNumber + '<input type="hidden" name="Items[' + newRowIndex + '].WarrantyDaysNumber" value="' + itemObj.warrantyDaysNumber + '" class="warranty-expiry-date"></td>';
             row += '<td><button type="button" class="btn btn-danger font-weight-bold delete-row delete-row-' + newRowIndex + '">@Messages.Delete</button></td>';
             row += '</tr>';
 
@@ -368,13 +368,6 @@
                                 validators: {
                                     notEmpty: {
                                         message: '@string.Format(Messages.RequiredField, Messages.Company)'
-                                    }
-                                }
-                            },
-                            ColorId: {
-                                validators: {
-                                    notEmpty: {
-                                        message: '@string.Format(Messages.RequiredField, Messages.Color)'
                                     }
                                 }
                             }
@@ -460,7 +453,7 @@
                                     $(this).find('.cost-from').attr('name', 'Items[' + i + '].CostFrom');
                                     $(this).find('.cost-to').attr('name', 'Items[' + i + '].CostTo');
                                     $(this).find('.urgent').attr('name', 'Items[' + i + '].Urgent');
-                                    $(this).find('.warranty-expiry-date').attr('name', 'Items[' + i + '].WarrantyExpiryDate');
+                                    $(this).find('.warranty-expiry-date').attr('name', 'Items[' + i + '].WarrantyDaysNumber');
                                 });
 
                                 form.submit(); // Submit form
@@ -504,35 +497,33 @@
             KTSelect2.init();
         });
 
-        //$('#SpecifiedCost, #CostFrom, #CostTo, #NotifyCustomerOfTheCost').change(function() {
-        //    var specifiedCostVal = $('#SpecifiedCost').val();
-        //    var costFromVal = $('#CostFrom').val();
-        //    var costToVal = $('#CostTo').val();
-        //    var notifyCustomerValToVal = $('#NotifyCustomerOfTheCost').val();
+        $('#SpecifiedCost, #CostFrom, #CostTo, #NotifyCustomerOfTheCost').change(function() {
+            var specifiedCostVal = $('#SpecifiedCost').val();
+            var costFromVal = $('#CostFrom').val();
+            var costToVal = $('#CostTo').val();
+            var notifyCustomerValToVal = $('#NotifyCustomerOfTheCost').val();
 
-        //    if (specifiedCostVal) {
-        //        $("#CostFrom").prop('disabled', true);
-        //        $("#CostTo").prop('disabled', true);
-        //        $("#NotifyCustomerOfTheCost").prop('disabled', true);
-        //    } else if (costFromVal) {
-        //        $("#SpecifiedCost").prop('disabled', true);
-        //        $("#CostTo").prop('disabled', true);
-        //        $("#NotifyCustomerOfTheCost").prop('disabled', true);
-        //    } else if (costToVal) {
-        //        $("#SpecifiedCost").prop('disabled', true);
-        //        $("#CostFrom").prop('disabled', true);
-        //        $("#NotifyCustomerOfTheCost").prop('disabled', true);
-        //    } else if (notifyCustomerValToVal == 'true') {
-        //        $("#SpecifiedCost").prop('disabled', true);
-        //        $("#CostFrom").prop('disabled', true);
-        //        $("#CostTo").prop('disabled', true);
-        //    } else {
-        //        $("#SpecifiedCost").prop('disabled', false);
-        //        $("#CostFrom").prop('disabled', false);
-        //        $("#CostTo").prop('disabled', false);
-        //        $("#NotifyCustomerOfTheCost").prop('disabled', false);
-        //    }
-        //});
+            if (specifiedCostVal) {
+                $("#CostFrom").prop('disabled', true);
+                $("#CostTo").prop('disabled', true);
+                $("#NotifyCustomerOfTheCost").prop('disabled', true);
+            } else if (costFromVal) {
+                $("#SpecifiedCost").prop('disabled', true);
+                $("#NotifyCustomerOfTheCost").prop('disabled', true);
+            } else if (costToVal) {
+                $("#SpecifiedCost").prop('disabled', true);
+                $("#NotifyCustomerOfTheCost").prop('disabled', true);
+            } else if (notifyCustomerValToVal == 'true') {
+                $("#SpecifiedCost").prop('disabled', true);
+                $("#CostFrom").prop('disabled', true);
+                $("#CostTo").prop('disabled', true);
+            } else {
+                $("#SpecifiedCost").prop('disabled', false);
+                $("#CostFrom").prop('disabled', false);
+                $("#CostTo").prop('disabled', false);
+                $("#NotifyCustomerOfTheCost").prop('disabled', false);
+            }
+        });
     </script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

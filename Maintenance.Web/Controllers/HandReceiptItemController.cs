@@ -51,6 +51,14 @@ namespace Maintenance.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                var isFormValid = CheckPriceValidity(input.SpecifiedCost, input.CostFrom
+                    , input.CostTo, input.NotifyCustomerOfTheCost);
+                if (!isFormValid)
+                {
+                    ModelState.AddModelError("PriceNotValid", string.Empty);
+                    return View(input);
+                }
+
                 await _handReceiptItemService.Create(input, UserId);
                 return CreatedSuccessfully();
             }
@@ -68,10 +76,45 @@ namespace Maintenance.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                var isFormValid = CheckPriceValidity(input.SpecifiedCost, input.CostFrom
+                    , input.CostTo, input.NotifyCustomerOfTheCost);
+                if (!isFormValid)
+                {
+                    ModelState.AddModelError("PriceNotValid", string.Empty);
+                    return View(input);
+                }
+
                 await _handReceiptItemService.Update(input, UserId);
                 return UpdatedSuccessfully();
             }
             return View(input);
+        }
+
+        private static bool CheckPriceValidity(double? specifiedCost, double? costFrom
+            , double? costTo, bool notifyCustomerOfTheCost)
+        {
+            var isFormValid = true;
+            if (specifiedCost.HasValue && (costFrom.HasValue || costTo.HasValue || notifyCustomerOfTheCost))
+            {
+                isFormValid = false;
+            }
+
+            if (costFrom.HasValue && (specifiedCost.HasValue || costTo.HasValue || notifyCustomerOfTheCost))
+            {
+                isFormValid = false;
+            }
+
+            if (costTo.HasValue && (specifiedCost.HasValue || costFrom.HasValue || notifyCustomerOfTheCost))
+            {
+                isFormValid = false;
+            }
+
+            if (notifyCustomerOfTheCost && (specifiedCost.HasValue || costFrom.HasValue || costTo.HasValue))
+            {
+                isFormValid = false;
+            }
+
+            return isFormValid;
         }
 
         public async Task<IActionResult> Delete(int handReceiptItemId, int handReceiptId)

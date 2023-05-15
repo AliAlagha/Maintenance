@@ -32,7 +32,7 @@ namespace Maintenance.Data.DbEntities
         public double? CostTo { get; set; }
         public bool Urgent { get; set; }
         public string ItemBarcode { get; set; }
-        public DateTime? WarrantyExpiryDate { get; set; }
+        public int? WarrantyDaysNumber { get; set; }
         public double? CollectedAmount { get; set; }
         public DateTime? CollectionDate { get; set; }
         public DateTime? DeliveryDate { get; set; }
