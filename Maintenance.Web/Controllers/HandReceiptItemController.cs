@@ -65,12 +65,14 @@ namespace Maintenance.Web.Controllers
             return View(input);
         }
 
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int handReceiptItemId, int handReceiptId)
         {
             var dto = await _handReceiptItemService.Get(handReceiptItemId, handReceiptId);
             return View(dto);
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateHandReceiptItemDto input)
         {

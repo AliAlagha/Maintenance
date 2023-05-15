@@ -25,7 +25,8 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label>@Messages.SpecifiedCost</label>
-                <input asp-for="SpecifiedCost" placeholder="@string.Format(Messages.Enter,Messages.SpecifiedCost)" class="form-control form-control-solid" />
+                <input asp-for="SpecifiedCost" placeholder="@string.Format(Messages.Enter,Messages.SpecifiedCost)" class="form-control form-control-solid"
+                       min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />
                 <span asp-validation-for="SpecifiedCost" class="text-danger"></span>
             </div>
         </div>
@@ -41,14 +42,16 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label>@Messages.CostNotifiedToTheCustomer</label>
-                <input asp-for="CostNotifiedToTheCustomer" placeholder="@string.Format(Messages.Enter,Messages.CostNotifiedToTheCustomer)" class="form-control form-control-solid" />
+                <input asp-for="CostNotifiedToTheCustomer" placeholder="@string.Format(Messages.Enter,Messages.CostNotifiedToTheCustomer)" class="form-control form-control-solid"
+                       min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />
                 <span asp-validation-for="CostNotifiedToTheCustomer" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 <label>@Messages.From</label>
-                <input asp-for="CostFrom" placeholder="@string.Format(Messages.Enter,Messages.From)" class="form-control form-control-solid" />
+                <input asp-for="CostFrom" placeholder="@string.Format(Messages.Enter,Messages.From)" class="form-control form-control-solid"
+                       min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />
                 <span asp-validation-for="CostFrom" class="text-danger"></span>
             </div>
         </div>
@@ -57,7 +60,8 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label>@Messages.To</label>
-                <input asp-for="CostTo" placeholder="@string.Format(Messages.Enter,Messages.To)" class="form-control form-control-solid" />
+                <input asp-for="CostTo" placeholder="@string.Format(Messages.Enter,Messages.To)" class="form-control form-control-solid"
+                       min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />
                 <span asp-validation-for="CostTo" class="text-danger"></span>
             </div>
         </div>
@@ -71,7 +75,8 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label>@Messages.WarrantyDaysNumber</label>
-                <input asp-for="WarrantyDaysNumber" placeholder="@string.Format(Messages.Enter,Messages.WarrantyDaysNumber)" class="form-control form-control-solid" />
+                <input asp-for="WarrantyDaysNumber" placeholder="@string.Format(Messages.Enter,Messages.WarrantyDaysNumber)" class="form-control form-control-solid"
+                       min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />
                 <span asp-validation-for="WarrantyDaysNumber" class="text-danger"></span>
             </div>
         </div>
@@ -80,7 +85,8 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label>@Messages.CollectedAmount</label>
-                <input asp-for="CollectedAmount" placeholder="@string.Format(Messages.Enter,Messages.CollectedAmount)" class="form-control form-control-solid" />
+                <input asp-for="CollectedAmount" placeholder="@string.Format(Messages.Enter,Messages.CollectedAmount)" class="form-control form-control-solid"
+                       min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />
                 <span asp-validation-for="CollectedAmount" class="text-danger"></span>
             </div>
         </div>
@@ -96,6 +102,36 @@
                 <label>@Messages.DeliveryDate</label>
                 <input asp-for="DeliveryDate" placeholder="@string.Format(Messages.Enter,Messages.DeliveryDate)" class="form-control form-control-solid" />
                 <span asp-validation-for="DeliveryDate" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>@Messages.Status</label>
+                <select asp-for="MaintenanceRequestStatus" class="form-control form-control-solid">
+                    <option value="">-- @string.Format(Messages.Select, Messages.Status) --</option>
+                    <option value="@MaintenanceRequestStatus.New">@Messages.New</option>
+                    <option value="@MaintenanceRequestStatus.Suspended">@Messages.Suspended</option>
+                    <option value="@MaintenanceRequestStatus.CustomerRefused">@Messages.CustomerRefused</option>
+                    <option value="@MaintenanceRequestStatus.Completed">@Messages.Completed</option>
+                    <option value="@MaintenanceRequestStatus.Delivered">@Messages.Delivered</option>
+                </select>
+                <span asp-validation-for="MaintenanceRequestStatus" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>@Messages.ReasonForRefusingMaintenance</label>
+                <textarea asp-for="ReasonForRefusingMaintenance" placeholder="@string.Format(Messages.Enter,Messages.ReasonForRefusingMaintenance)" class="form-control form-control-solid"></textarea>
+                <span asp-validation-for="ReasonForRefusingMaintenance" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>@Messages.MaintenanceSuspensionReason</label>
+                <textarea asp-for="MaintenanceSuspensionReason" placeholder="@string.Format(Messages.Enter,Messages.MaintenanceSuspensionReason)" class="form-control form-control-solid"></textarea>
+                <span asp-validation-for="MaintenanceSuspensionReason" class="text-danger"></span>
             </div>
         </div>
     </div>
@@ -137,56 +173,55 @@
     });
 
     $('#SpecifiedCost, #CostFrom, #CostTo, #NotifyCustomerOfTheCost').change(function() {
-            var specifiedCostVal = $('#SpecifiedCost').val();
-            var costFromVal = $('#CostFrom').val();
-            var costToVal = $('#CostTo').val();
-            var notifyCustomerValToVal = $('#NotifyCustomerOfTheCost').val();
+        var specifiedCostVal = $('#SpecifiedCost').val();
+        var costFromVal = $('#CostFrom').val();
+        var costToVal = $('#CostTo').val();
+        var notifyCustomerValToVal = $('#NotifyCustomerOfTheCost').val();
 
-            if (specifiedCostVal) {
-                $("#CostFrom").prop('disabled', true);
-                $("#CostTo").prop('disabled', true);
-                $("#NotifyCustomerOfTheCost").prop('disabled', true);
-            } else if (costFromVal) {
-                $("#SpecifiedCost").prop('disabled', true);
-                $("#NotifyCustomerOfTheCost").prop('disabled', true);
-            } else if (costToVal) {
-                $("#SpecifiedCost").prop('disabled', true);
-                $("#NotifyCustomerOfTheCost").prop('disabled', true);
-            } else if (notifyCustomerValToVal == 'true') {
-                $("#SpecifiedCost").prop('disabled', true);
-                $("#CostFrom").prop('disabled', true);
-                $("#CostTo").prop('disabled', true);
-            } else {
-                $("#SpecifiedCost").prop('disabled', false);
-                $("#CostFrom").prop('disabled', false);
-                $("#CostTo").prop('disabled', false);
-                $("#NotifyCustomerOfTheCost").prop('disabled', false);
+        if (specifiedCostVal) {
+            $("#CostFrom").prop('disabled', true);
+            $("#CostTo").prop('disabled', true);
+            $("#NotifyCustomerOfTheCost").prop('disabled', true);
+        } else if (costFromVal) {
+            $("#SpecifiedCost").prop('disabled', true);
+            $("#NotifyCustomerOfTheCost").prop('disabled', true);
+        } else if (costToVal) {
+            $("#SpecifiedCost").prop('disabled', true);
+            $("#NotifyCustomerOfTheCost").prop('disabled', true);
+        } else if (notifyCustomerValToVal == 'true') {
+            $("#SpecifiedCost").prop('disabled', true);
+            $("#CostFrom").prop('disabled', true);
+            $("#CostTo").prop('disabled', true);
+        } else {
+            $("#SpecifiedCost").prop('disabled', false);
+            $("#CostFrom").prop('disabled', false);
+            $("#CostTo").prop('disabled', false);
+            $("#NotifyCustomerOfTheCost").prop('disabled', false);
+        }
+    });
+
+    // Class definition
+    var KTSelect2 = function() {
+        // Private functions
+        var demos = function() {
+            // basic
+            $('#SelectItem').select2();
+            $('#SelectCompany').select2();
+            $('#SelectColor').select2();
+        }
+
+        // Public functions
+        return {
+            init: function() {
+                demos();
             }
-        });
+        };
+    }();
 
-        // Class definition
-        var KTSelect2 = function() {
-            // Private functions
-            var demos = function() {
-                // basic
-                $('#SelectCustomer').select2();
-                $('#SelectItem').select2();
-                $('#SelectCompany').select2();
-                $('#SelectColor').select2();
-            }
-
-            // Public functions
-            return {
-                init: function() {
-                    demos();
-                }
-            };
-        }();
-
-        // Initialization
-        jQuery(document).ready(function() {
-            KTSelect2.init();
-        });
+    // Initialization
+    jQuery(document).ready(function() {
+        KTSelect2.init();
+    });
 </script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

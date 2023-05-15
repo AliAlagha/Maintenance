@@ -81,7 +81,7 @@
                                 url: '/ReturnHandReceiptItem/GetAll',
                                 params: {
                                     ReturnHandReceiptId: @Model
-                                                    }
+                                                            }
                             },
                         },
                         pageSize: 10,
@@ -137,12 +137,6 @@
                             width: 100
                         },
                         {
-                            field: 'warrantyDaysNumber',
-                            title: '@Messages.WarrantyDaysNumber',
-                            sortable: false,
-                            width: 100
-                        },
-                        {
                             field: 'returnReason',
                             title: '@Messages.ReturnReason',
                             sortable: false,
@@ -184,7 +178,10 @@
                                         '</a>';
                                 }
 
-                                result = result + GetPopUpEditAction('/ReturnHandReceiptItem/Edit?ReturnHandReceiptItemId=' + data.id + '&ReturnHandReceiptId=@Model', '@string.Format(Messages.EditTitle, Messages.ReturnHandReceiptItem)');
+                                if ('@ViewBag.UserType' == "Administrator") {
+                                    result = result + GetPopUpEditAction('/ReturnHandReceiptItem/Edit?ReturnHandReceiptItemId=' + data.id + '&ReturnHandReceiptId=@Model', '@string.Format(Messages.EditTitle, Messages.ReturnHandReceiptItem)');
+                                }
+
                                 result = result + GetDeleteAction('/ReturnHandReceiptItem/Delete?ReturnHandReceiptItemId=' + data.id + '&ReturnHandReceiptId=@Model');
 
                                 return result;

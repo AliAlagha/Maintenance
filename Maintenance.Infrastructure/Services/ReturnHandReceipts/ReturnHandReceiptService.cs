@@ -100,7 +100,6 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                     Description = handReceiptItem.Description,
                     Company = handReceiptItem.Company,
                     ItemBarcode = await GenerateBarcode(),
-                    WarrantyDaysNumber = handReceiptItem.WarrantyDaysNumber,
                     ReturnReason = returnHandReceiptItem.ReturnReason,
                     ReceiptItemType = ReceiptItemType.Returned
                 };
@@ -143,9 +142,10 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                     Item = handReceiptItem.Item,
                     ItemBarcode = handReceiptItem.ItemBarcode,
                     Company = handReceiptItem.Company,
-                    WarrantyDaysNumber = handReceiptItem.WarrantyDaysNumber != null
-                        ? handReceiptItem.WarrantyDaysNumber.Value.ToString("yyyy-MM-dd")
-                        : null
+                    WarrantyDaysNumber = handReceiptItem.WarrantyDaysNumber,
+                    DeliveryDate = handReceiptItem.DeliveryDate != null
+                        ? handReceiptItem.DeliveryDate.Value.ToString("yyyy-MM-dd")
+                        : null,
                 });
             }
 

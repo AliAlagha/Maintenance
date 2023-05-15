@@ -11,7 +11,8 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label>@Messages.CollectedAmount</label>
-                <input asp-for="CollectedAmount" placeholder="@string.Format(Messages.Enter,Messages.CollectedAmount)" class="form-control form-control-solid" />
+                <input asp-for="CollectedAmount" placeholder="@string.Format(Messages.Enter,Messages.CollectedAmount)" class="form-control form-control-solid"
+                min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"/>
                 <span asp-validation-for="CollectedAmount" class="text-danger"></span>
             </div>
         </div>

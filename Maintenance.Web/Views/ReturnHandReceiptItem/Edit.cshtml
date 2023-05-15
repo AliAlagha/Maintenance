@@ -40,7 +40,30 @@
         </div>
     </div>
     <div class="row">
-         <div class="col-md-6">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.Status</label>
+                <select asp-for="MaintenanceRequestStatus" class="form-control form-control-solid">
+                    <option value="">-- @string.Format(Messages.Select, Messages.Status) --</option>
+                    <option value="@MaintenanceRequestStatus.New">@Messages.New</option>
+                    <option value="@MaintenanceRequestStatus.Suspended">@Messages.Suspended</option>
+                    <option value="@MaintenanceRequestStatus.CustomerRefused">@Messages.CustomerRefused</option>
+                    <option value="@MaintenanceRequestStatus.Completed">@Messages.Completed</option>
+                    <option value="@MaintenanceRequestStatus.Delivered">@Messages.Delivered</option>
+                </select>
+                <span asp-validation-for="MaintenanceRequestStatus" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.MaintenanceSuspensionReason</label>
+                <textarea asp-for="MaintenanceSuspensionReason" placeholder="@string.Format(Messages.Enter,Messages.MaintenanceSuspensionReason)" class="form-control form-control-solid"></textarea>
+                <span asp-validation-for="MaintenanceSuspensionReason" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
             <div class="form-group">
                 <label>@Messages.MaintenanceTechnician</label>
                 <select asp-for="TechnicianId" id="SelectTechnician" class="form-control form-control-solid">
@@ -59,7 +82,7 @@
 <script>
     PageLoadActions();
 
-     $.ajax({
+    $.ajax({
         url: '/User/List',
         dataType: "json",
         data: {

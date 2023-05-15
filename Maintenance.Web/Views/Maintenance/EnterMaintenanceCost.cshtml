@@ -11,7 +11,8 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label>@Messages.CostNotifiedToTheCustomer</label>
-                <textarea asp-for="CostNotifiedToTheCustomer" placeholder="@string.Format(Messages.Enter,Messages.CostNotifiedToTheCustomer)" class="form-control form-control-solid" ></textarea>
+                <input asp-for="CostNotifiedToTheCustomer" placeholder="@string.Format(Messages.Enter,Messages.CostNotifiedToTheCustomer)" class="form-control form-control-solid"
+                       min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />
                 <span asp-validation-for="CostNotifiedToTheCustomer" class="text-danger"></span>
             </div>
         </div>

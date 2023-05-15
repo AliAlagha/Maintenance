@@ -20,7 +20,6 @@ namespace Maintenance.Core.Dtos
         public double? CostFrom { get; set; }
         public double? CostTo { get; set; }
         public bool Urgent { get; set; }
-        [DataType(DataType.Date)]
         public int? WarrantyDaysNumber { get; set; }
         public bool NotifyCustomerOfTheCost { get; set; }
     }

@@ -22,7 +22,7 @@ namespace Maintenance.Core.ViewModels
         public double? CostTo { get; set; }
         public string Urgent { get; set; }
         public string ItemBarcode { get; set; }
-        public string? WarrantyDaysNumber { get; set; }
+        public int? WarrantyDaysNumber { get; set; }
         public string? ReturnReason { get; set; }
         public ReceiptItemType ReceiptItemType { get; set; }
         public MaintenanceRequestStatus MaintenanceRequestStatus { get; set; }

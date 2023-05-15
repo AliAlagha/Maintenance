@@ -65,8 +65,6 @@ namespace Maintenance.Infrastructure.AutoMapper
 
             #region HandReceiptItems
             CreateMap<ReceiptItem, HandReceiptItemViewModel>()
-                .ForMember(x => x.WarrantyDaysNumber, x => x.MapFrom(x => x.WarrantyDaysNumber != null
-                ? x.WarrantyDaysNumber.Value.ToString("yyyy-MM-dd") : null))
                 .ForMember(x => x.NotifyCustomerOfTheCost, x => x.MapFrom(x => x.NotifyCustomerOfTheCost ? Messages.Yes : Messages.No))
                 .ForMember(x => x.Urgent, x => x.MapFrom(x => x.Urgent ? Messages.Yes : Messages.No))
                 .ForMember(x => x.CollectionDate, x => x.MapFrom(x => x.CollectionDate != null ? x.CollectionDate.Value.ToString("yyyy-MM-dd") : null))
@@ -90,9 +88,6 @@ namespace Maintenance.Infrastructure.AutoMapper
             CreateMap<ReceiptItem, ReturnHandReceiptItemViewModel>()
                 .ForMember(x => x.DeliveryDate, x => x.MapFrom(x => x.DeliveryDate != null
                 ? x.DeliveryDate.Value.ToString("yyyy-MM-dd")
-                : null))
-                .ForMember(x => x.WarrantyDaysNumber, x => x.MapFrom(x => x.WarrantyDaysNumber != null
-                ? x.WarrantyDaysNumber.Value.ToString("yyyy-MM-dd")
                 : null));
             CreateMap<CreateReturnHandReceiptItemDto, ReceiptItem>();
             CreateMap<ReceiptItem, CreateReturnHandReceiptItemDto>();
@@ -113,8 +108,6 @@ namespace Maintenance.Infrastructure.AutoMapper
 
             #region Maintenance
             CreateMap<ReceiptItem, ReceiptItemForMaintenanceViewModel>()
-                .ForMember(x => x.WarrantyDaysNumber, x => x.MapFrom(x => x.WarrantyDaysNumber != null
-                ? x.WarrantyDaysNumber.Value.ToString("yyyy-MM-dd") : null))
                 .ForMember(x => x.Urgent, x => x.MapFrom(x => x.Urgent ? Messages.Yes : Messages.No));
             #endregion
 
