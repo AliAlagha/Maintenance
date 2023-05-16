@@ -252,6 +252,9 @@
   <data name="Delivered" xml:space="preserve">
     <value>تم التسليم</value>
   </data>
+  <data name="DeliveredItemsReport" xml:space="preserve">
+    <value>تقرير القطع المسلمة</value>
+  </data>
   <data name="Delivery" xml:space="preserve">
     <value>التسليم</value>
   </data>
@@ -435,8 +438,14 @@
   <data name="ReasonForRefusingMaintenance" xml:space="preserve">
     <value>سبب رفض العميل للصيانة</value>
   </data>
+  <data name="ReceiptItemsReport" xml:space="preserve">
+    <value>تقرير القطع المستلمة</value>
+  </data>
   <data name="Reject" xml:space="preserve">
     <value>رفض</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>التقارير</value>
   </data>
   <data name="RequiredField" xml:space="preserve">
     <value>حقل {0} مطلوب</value>

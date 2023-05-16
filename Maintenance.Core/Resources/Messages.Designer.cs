@@ -466,6 +466,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to تقرير القطع المسلمة.
+        /// </summary>
+        public static string DeliveredItemsReport {
+            get {
+                return ResourceManager.GetString("DeliveredItemsReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to التسليم.
         /// </summary>
         public static string Delivery {
@@ -1015,11 +1024,29 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to تقرير القطع المستلمة.
+        /// </summary>
+        public static string ReceiptItemsReport {
+            get {
+                return ResourceManager.GetString("ReceiptItemsReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to رفض.
         /// </summary>
         public static string Reject {
             get {
                 return ResourceManager.GetString("Reject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to التقارير.
+        /// </summary>
+        public static string Reports {
+            get {
+                return ResourceManager.GetString("Reports", resourceCulture);
             }
         }
         

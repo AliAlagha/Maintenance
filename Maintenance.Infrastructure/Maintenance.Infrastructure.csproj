@@ -7,10 +7,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="Services\PdfExportReport\Reports\DeliveredItems.rdlc" />
 	  <None Remove="Services\PdfExportReport\Reports\HandReceipt.rdlc" />
+	  <None Remove="Services\PdfExportReport\Reports\ReceiptItems.rdlc" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <EmbeddedResource Include="Services\PdfExportReport\Reports\DeliveredItems.rdlc">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="Services\PdfExportReport\Reports\ReceiptItems.rdlc">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
 	  <EmbeddedResource Include="Services\PdfExportReport\Reports\HandReceipt.rdlc">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>

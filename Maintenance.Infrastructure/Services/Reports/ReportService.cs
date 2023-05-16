@@ -30,20 +30,20 @@ namespace Maintenance.Infrastructure.Services.Reports
             _pdfExportReportService = pdfExportReportService;
         }
 
-        public async Task<byte[]> ReceiptItemsReport(DateTime? fromDate, DateTime? toDate)
+        public async Task<byte[]> ReceiptItemsReport(DateTime? dateFrom, DateTime? dateTo)
         {
             var dbQuery = _db.ReceiptItems
                 .Include(x => x.Customer)
                 .AsQueryable();
 
-            if (fromDate.HasValue)
+            if (dateFrom.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt.Date >= fromDate.Value.Date);
+                dbQuery = dbQuery.Where(x => x.CreatedAt.Date >= dateFrom.Value.Date);
             }
 
-            if (toDate.HasValue)
+            if (dateTo.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt.Date <= toDate.Value.Date);
+                dbQuery = dbQuery.Where(x => x.CreatedAt.Date <= dateTo.Value.Date);
             }
 
             var receiptItems = await dbQuery.OrderByDescending(x => x.CreatedAt)
@@ -51,8 +51,12 @@ namespace Maintenance.Infrastructure.Services.Reports
 
             var paramaters = new Dictionary<string, object>();
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd"));
-            paramaters.Add("DateFrom", fromDate != null ? fromDate.Value.ToString("yyyy-MM-dd") : "");
-            paramaters.Add("DateTo", toDate != null ? toDate.Value.ToString("yyyy-MM-dd") : "");
+            paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd") : "");
+            paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd") : "");
+
+            paramaters.Add("ContactEmail", "test@gmail.com");
+            paramaters.Add("ContactPhoneNumber", "0599854758");
+            paramaters.Add("WebsiteLink", "www.test.com");
 
             var receiptItemsList = new List<ReceiptItemReportDataSet>();
             foreach (var receiptItem in receiptItems)
@@ -70,26 +74,26 @@ namespace Maintenance.Infrastructure.Services.Reports
                 receiptItemsList.Add(receiptItemDataSet);
             }
 
-            var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = receiptItems } };
+            var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = receiptItemsList } };
             var result = _pdfExportReportService.GeneratePdf("ReceiptItems.rdlc", dataSets, paramaters);
             return result;
         }
 
-        public async Task<byte[]> DeliveredItemsReport(DateTime? fromDate, DateTime? toDate)
+        public async Task<byte[]> DeliveredItemsReport(DateTime? dateFrom, DateTime? dateTo)
         {
             var dbQuery = _db.ReceiptItems
                 .Include(x => x.Customer)
                 .Where(x => x.MaintenanceRequestStatus == MaintenanceRequestStatus.Delivered)
                 .AsQueryable();
 
-            if (fromDate.HasValue)
+            if (dateFrom.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt.Date >= fromDate.Value.Date);
+                dbQuery = dbQuery.Where(x => x.CreatedAt.Date >= dateFrom.Value.Date);
             }
 
-            if (toDate.HasValue)
+            if (dateTo.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt.Date <= toDate.Value.Date);
+                dbQuery = dbQuery.Where(x => x.CreatedAt.Date <= dateTo.Value.Date);
             }
 
             var deliveredItems = await dbQuery.OrderByDescending(x => x.CreatedAt)
@@ -97,8 +101,12 @@ namespace Maintenance.Infrastructure.Services.Reports
 
             var paramaters = new Dictionary<string, object>();
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd"));
-            paramaters.Add("DateFrom", fromDate != null ? fromDate.Value.ToString("yyyy-MM-dd") : "");
-            paramaters.Add("DateTo", toDate != null ? toDate.Value.ToString("yyyy-MM-dd") : "");
+            paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd") : "");
+            paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd") : "");
+
+            paramaters.Add("ContactEmail", "test@gmail.com");
+            paramaters.Add("ContactPhoneNumber", "0599854758");
+            paramaters.Add("WebsiteLink", "www.test.com");
 
             var deliveredItemsList = new List<ReceiptItemReportDataSet>();
             foreach (var deliveredItem in deliveredItems)
@@ -117,12 +125,12 @@ namespace Maintenance.Infrastructure.Services.Reports
                 deliveredItemsList.Add(deliveredItemDataSet);
             }
 
-            var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = deliveredItems } };
+            var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = deliveredItemsList } };
             var result = _pdfExportReportService.GeneratePdf("DeliveredItems.rdlc", dataSets, paramaters);
             return result;
         }
 
-        public async Task<byte[]> ReturnedItemsReport(DateTime? fromDate, DateTime? toDate
+        public async Task<byte[]> ReturnedItemsReport(DateTime? dateFrom, DateTime? dateTo
             , string? technicianId)
         {
             var dbQuery = _db.ReceiptItems
@@ -130,14 +138,14 @@ namespace Maintenance.Infrastructure.Services.Reports
                 .Where(x => x.ReceiptItemType == ReceiptItemType.Returned)
                 .AsQueryable();
 
-            if (fromDate.HasValue)
+            if (dateFrom.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt.Date >= fromDate.Value.Date);
+                dbQuery = dbQuery.Where(x => x.CreatedAt.Date >= dateFrom.Value.Date);
             }
 
-            if (toDate.HasValue)
+            if (dateTo.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt.Date <= toDate.Value.Date);
+                dbQuery = dbQuery.Where(x => x.CreatedAt.Date <= dateTo.Value.Date);
             }
 
             if (technicianId != null)
@@ -150,8 +158,8 @@ namespace Maintenance.Infrastructure.Services.Reports
 
             var paramaters = new Dictionary<string, object>();
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd"));
-            paramaters.Add("DateFrom", fromDate != null ? fromDate.Value.ToString("yyyy-MM-dd") : "");
-            paramaters.Add("DateTo", toDate != null ? toDate.Value.ToString("yyyy-MM-dd") : "");
+            paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd") : "");
+            paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd") : "");
 
             var returnedItemsList = new List<ReceiptItemReportDataSet>();
             foreach (var returnedItem in returnedItems)
@@ -175,21 +183,21 @@ namespace Maintenance.Infrastructure.Services.Reports
             return result;
         }
 
-        public async Task<byte[]> UrgentItemsReport(DateTime? fromDate, DateTime? toDate)
+        public async Task<byte[]> UrgentItemsReport(DateTime? dateFrom, DateTime? dateTo)
         {
             var dbQuery = _db.ReceiptItems
                 .Include(x => x.Customer)
                 .Where(x => x.Urgent)
                 .AsQueryable();
 
-            if (fromDate.HasValue)
+            if (dateFrom.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt.Date >= fromDate.Value.Date);
+                dbQuery = dbQuery.Where(x => x.CreatedAt.Date >= dateFrom.Value.Date);
             }
 
-            if (toDate.HasValue)
+            if (dateTo.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt.Date <= toDate.Value.Date);
+                dbQuery = dbQuery.Where(x => x.CreatedAt.Date <= dateTo.Value.Date);
             }
 
             var urgentItems = await dbQuery.OrderByDescending(x => x.CreatedAt)
@@ -197,8 +205,8 @@ namespace Maintenance.Infrastructure.Services.Reports
 
             var paramaters = new Dictionary<string, object>();
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd"));
-            paramaters.Add("DateFrom", fromDate != null ? fromDate.Value.ToString("yyyy-MM-dd") : "");
-            paramaters.Add("DateTo", toDate != null ? toDate.Value.ToString("yyyy-MM-dd") : "");
+            paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd") : "");
+            paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd") : "");
 
             var urgentItemsList = new List<ReceiptItemReportDataSet>();
             foreach (var urgentItem in urgentItems)
@@ -221,7 +229,7 @@ namespace Maintenance.Infrastructure.Services.Reports
             return result;
         }
 
-        public async Task<byte[]> NotMaintainedItemsReport(DateTime? fromDate, DateTime? toDate)
+        public async Task<byte[]> NotMaintainedItemsReport(DateTime? dateFrom, DateTime? dateTo)
         {
             var dbQuery = _db.ReceiptItems
                 .Include(x => x.Customer)
@@ -229,14 +237,14 @@ namespace Maintenance.Infrastructure.Services.Reports
                     || x.MaintenanceRequestStatus == MaintenanceRequestStatus.CustomerRefused)
                 .AsQueryable();
 
-            if (fromDate.HasValue)
+            if (dateFrom.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt.Date >= fromDate.Value.Date);
+                dbQuery = dbQuery.Where(x => x.CreatedAt.Date >= dateFrom.Value.Date);
             }
 
-            if (toDate.HasValue)
+            if (dateTo.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt.Date <= toDate.Value.Date);
+                dbQuery = dbQuery.Where(x => x.CreatedAt.Date <= dateTo.Value.Date);
             }
 
             var notMaintainedItems = await dbQuery
@@ -246,8 +254,8 @@ namespace Maintenance.Infrastructure.Services.Reports
 
             var paramaters = new Dictionary<string, object>();
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd"));
-            paramaters.Add("DateFrom", fromDate != null ? fromDate.Value.ToString("yyyy-MM-dd") : "");
-            paramaters.Add("DateTo", toDate != null ? toDate.Value.ToString("yyyy-MM-dd") : "");
+            paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd") : "");
+            paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd") : "");
 
             var urgentItemsList = new List<ReceiptItemReportDataSet>();
             foreach (var notMaintainedItem in notMaintainedItems)
@@ -281,21 +289,21 @@ namespace Maintenance.Infrastructure.Services.Reports
             return result;
         }
 
-        public async Task<byte[]> NotDeliveredItemsReport(DateTime? fromDate, DateTime? toDate)
+        public async Task<byte[]> NotDeliveredItemsReport(DateTime? dateFrom, DateTime? dateTo)
         {
             var dbQuery = _db.ReceiptItems
                 .Include(x => x.Customer)
                 .Where(x => x.MaintenanceRequestStatus == MaintenanceRequestStatus.Completed)
                 .AsQueryable();
 
-            if (fromDate.HasValue)
+            if (dateFrom.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt.Date >= fromDate.Value.Date);
+                dbQuery = dbQuery.Where(x => x.CreatedAt.Date >= dateFrom.Value.Date);
             }
 
-            if (toDate.HasValue)
+            if (dateTo.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt.Date <= toDate.Value.Date);
+                dbQuery = dbQuery.Where(x => x.CreatedAt.Date <= dateTo.Value.Date);
             }
 
             var completedItems = await dbQuery
@@ -304,8 +312,8 @@ namespace Maintenance.Infrastructure.Services.Reports
 
             var paramaters = new Dictionary<string, object>();
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd"));
-            paramaters.Add("DateFrom", fromDate != null ? fromDate.Value.ToString("yyyy-MM-dd") : "");
-            paramaters.Add("DateTo", toDate != null ? toDate.Value.ToString("yyyy-MM-dd") : "");
+            paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd") : "");
+            paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd") : "");
 
             var completedItemsList = new List<ReceiptItemReportDataSet>();
             foreach (var completedItem in completedItems)
@@ -328,7 +336,7 @@ namespace Maintenance.Infrastructure.Services.Reports
             return result;
         }
 
-        public async Task<byte[]> DeliveredItemsReport(DateTime? fromDate, DateTime? toDate
+        public async Task<byte[]> DeliveredItemsReport(DateTime? dateFrom, DateTime? dateTo
             , string? technicianId)
         {
             var dbQuery = _db.ReceiptItems
@@ -336,14 +344,14 @@ namespace Maintenance.Infrastructure.Services.Reports
                 .Where(x => x.MaintenanceRequestStatus == MaintenanceRequestStatus.Delivered)
                 .AsQueryable();
 
-            if (fromDate.HasValue)
+            if (dateFrom.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt.Date >= fromDate.Value.Date);
+                dbQuery = dbQuery.Where(x => x.CreatedAt.Date >= dateFrom.Value.Date);
             }
 
-            if (toDate.HasValue)
+            if (dateTo.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt.Date <= toDate.Value.Date);
+                dbQuery = dbQuery.Where(x => x.CreatedAt.Date <= dateTo.Value.Date);
             }
 
             if (technicianId != null)
@@ -356,8 +364,8 @@ namespace Maintenance.Infrastructure.Services.Reports
 
             var paramaters = new Dictionary<string, object>();
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd"));
-            paramaters.Add("DateFrom", fromDate != null ? fromDate.Value.ToString("yyyy-MM-dd") : "");
-            paramaters.Add("DateTo", toDate != null ? toDate.Value.ToString("yyyy-MM-dd") : "");
+            paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd") : "");
+            paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd") : "");
 
             var deliveredItemsList = new List<ReceiptItemReportDataSet>();
             foreach (var deliveredItem in deliveredItems)
@@ -380,7 +388,7 @@ namespace Maintenance.Infrastructure.Services.Reports
             return result;
         }
 
-        public async Task<byte[]> CollectedAmountsReport(DateTime? fromDate, DateTime? toDate
+        public async Task<byte[]> CollectedAmountsReport(DateTime? dateFrom, DateTime? dateTo
             , string? technicianId)
         {
             var dbQuery = _db.ReceiptItems
@@ -388,14 +396,14 @@ namespace Maintenance.Infrastructure.Services.Reports
                 .Where(x => x.CollectedAmount != null)
                 .AsQueryable();
 
-            if (fromDate.HasValue)
+            if (dateFrom.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt.Date >= fromDate.Value.Date);
+                dbQuery = dbQuery.Where(x => x.CreatedAt.Date >= dateFrom.Value.Date);
             }
 
-            if (toDate.HasValue)
+            if (dateTo.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt.Date <= toDate.Value.Date);
+                dbQuery = dbQuery.Where(x => x.CreatedAt.Date <= dateTo.Value.Date);
             }
 
             if (technicianId != null)
@@ -408,8 +416,8 @@ namespace Maintenance.Infrastructure.Services.Reports
 
             var paramaters = new Dictionary<string, object>();
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd"));
-            paramaters.Add("DateFrom", fromDate != null ? fromDate.Value.ToString("yyyy-MM-dd") : "");
-            paramaters.Add("DateTo", toDate != null ? toDate.Value.ToString("yyyy-MM-dd") : "");
+            paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd") : "");
+            paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd") : "");
 
             var collectedAmountItemsList = new List<ReceiptItemReportDataSet>();
             foreach (var collectedAmountItem in collectedAmountItems)
@@ -434,21 +442,21 @@ namespace Maintenance.Infrastructure.Services.Reports
             return result;
         }
 
-        public async Task<byte[]> SuspendedItemsReport(DateTime? fromDate, DateTime? toDate)
+        public async Task<byte[]> SuspendedItemsReport(DateTime? dateFrom, DateTime? dateTo)
         {
             var dbQuery = _db.ReceiptItems
                 .Include(x => x.Customer)
                 .Where(x => x.MaintenanceRequestStatus == MaintenanceRequestStatus.Suspended)
                 .AsQueryable();
 
-            if (fromDate.HasValue)
+            if (dateFrom.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt.Date >= fromDate.Value.Date);
+                dbQuery = dbQuery.Where(x => x.CreatedAt.Date >= dateFrom.Value.Date);
             }
 
-            if (toDate.HasValue)
+            if (dateTo.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt.Date <= toDate.Value.Date);
+                dbQuery = dbQuery.Where(x => x.CreatedAt.Date <= dateTo.Value.Date);
             }
 
             var suspendedItems = await dbQuery.OrderByDescending(x => x.CreatedAt)
@@ -456,8 +464,8 @@ namespace Maintenance.Infrastructure.Services.Reports
 
             var paramaters = new Dictionary<string, object>();
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd"));
-            paramaters.Add("DateFrom", fromDate != null ? fromDate.Value.ToString("yyyy-MM-dd") : "");
-            paramaters.Add("DateTo", toDate != null ? toDate.Value.ToString("yyyy-MM-dd") : "");
+            paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd") : "");
+            paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd") : "");
 
             var suspendedItemsList = new List<ReceiptItemReportDataSet>();
             foreach (var suspendedItem in suspendedItems)
@@ -481,21 +489,21 @@ namespace Maintenance.Infrastructure.Services.Reports
             return result;
         }
 
-        public async Task<byte[]> TechnicianFeesReport(DateTime? fromDate, DateTime? toDate)
+        public async Task<byte[]> TechnicianFeesReport(DateTime? dateFrom, DateTime? dateTo)
         {
             var dbQuery = _db.Users
                 .Include(x => x.ReceiptItems)
                 .Where(x => x.UserType == UserType.MaintenanceTechnician)
                 .AsQueryable();
 
-            if (fromDate.HasValue)
+            if (dateFrom.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt.Date >= fromDate.Value.Date);
+                dbQuery = dbQuery.Where(x => x.CreatedAt.Date >= dateFrom.Value.Date);
             }
 
-            if (toDate.HasValue)
+            if (dateTo.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt.Date <= toDate.Value.Date);
+                dbQuery = dbQuery.Where(x => x.CreatedAt.Date <= dateTo.Value.Date);
             }
 
             var technicianFees = await dbQuery
@@ -507,8 +515,8 @@ namespace Maintenance.Infrastructure.Services.Reports
 
             var paramaters = new Dictionary<string, object>();
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd"));
-            paramaters.Add("DateFrom", fromDate != null ? fromDate.Value.ToString("yyyy-MM-dd") : "");
-            paramaters.Add("DateTo", toDate != null ? toDate.Value.ToString("yyyy-MM-dd") : "");
+            paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd") : "");
+            paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd") : "");
 
             var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = technicianFees } };
             var result = _pdfExportReportService.GeneratePdf("SuspendedItems.rdlc", dataSets, paramaters);
