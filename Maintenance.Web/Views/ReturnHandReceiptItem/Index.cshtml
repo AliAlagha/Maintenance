@@ -178,9 +178,9 @@
                                         '</a>';
                                 }
 
-                                if ('@ViewBag.UserType' == "Administrator") {
-                                    result = result + GetPopUpEditAction('/ReturnHandReceiptItem/Edit?ReturnHandReceiptItemId=' + data.id + '&ReturnHandReceiptId=@Model', '@string.Format(Messages.EditTitle, Messages.ReturnHandReceiptItem)');
-                                }
+                                //if ('@ViewBag.UserType' == "Administrator") {
+                                //    result = result + GetPopUpEditAction('/ReturnHandReceiptItem/Edit?ReturnHandReceiptItemId=' + data.id + '&ReturnHandReceiptId=@Model', '@string.Format(Messages.EditTitle, Messages.ReturnHandReceiptItem)');
+                                //}
 
                                 result = result + GetDeleteAction('/ReturnHandReceiptItem/Delete?ReturnHandReceiptItemId=' + data.id + '&ReturnHandReceiptId=@Model');
 

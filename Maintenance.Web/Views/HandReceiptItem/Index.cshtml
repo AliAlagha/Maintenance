@@ -212,10 +212,10 @@
                             autoHide: false,
                             template: function(data) {
                                 var result = '';
-                                if ('@ViewBag.UserType' == "Administrator") {
-                                    result = result + GetPopUpEditAction('/HandReceiptItem/Edit?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model'
-                                        , '@string.Format(Messages.EditTitle, Messages.HandReceiptItem)');
-                                }
+                                //if ('@ViewBag.UserType' == "Administrator") {
+                                //    result = result + GetPopUpEditAction('/HandReceiptItem/Edit?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model'
+                                //        , '@string.Format(Messages.EditTitle, Messages.HandReceiptItem)');
+                                //}
 
                                 if (data.collectedAmount == null) {
                                     result = result + '<a href="/HandReceiptItem/CollectMoney?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.CollectingMoney">' +
