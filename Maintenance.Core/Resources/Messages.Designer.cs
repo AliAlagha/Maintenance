@@ -1069,6 +1069,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to تقرير القطع المعادة.
+        /// </summary>
+        public static string ReturnedItemsReport {
+            get {
+                return ResourceManager.GetString("ReturnedItemsReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to سند القطع المعادة.
         /// </summary>
         public static string ReturnHandReceipt {
@@ -1245,6 +1254,15 @@ namespace Maintenance.Core.Resources {
         public static string Urgent {
             get {
                 return ResourceManager.GetString("Urgent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تقرير القطع المستعجلة.
+        /// </summary>
+        public static string UrgentItemsReport {
+            get {
+                return ResourceManager.GetString("UrgentItemsReport", resourceCulture);
             }
         }
         

@@ -43,6 +43,30 @@ namespace Maintenance.Web.Controllers
             var result = await _reportService.DeliveredItemsReport(dateFrom, dateTo);
             return GetPdfFileResult(result, $"{DateTime.Now:yyyy-MM-dd} - ReceiptItems");
         }
+
+        public IActionResult ReturnedItems()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> ReturnedItemsReport(DateTime? dateFrom
+            , DateTime? dateTo, string? technicianId)
+        {
+            var result = await _reportService.ReturnedItemsReport(dateFrom, dateTo, technicianId);
+            return GetPdfFileResult(result, $"{DateTime.Now:yyyy-MM-dd} - ReceiptItems");
+        }
+
+        public IActionResult UrgentItems()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> UrgentItemsReport(DateTime? dateFrom
+            , DateTime? dateTo)
+        {
+            var result = await _reportService.UrgentItemsReport(dateFrom, dateTo);
+            return GetPdfFileResult(result, $"{DateTime.Now:yyyy-MM-dd} - UrgentItems");
+        }
     }
 }
 

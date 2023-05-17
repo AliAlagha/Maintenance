@@ -43,5 +43,9 @@ namespace Maintenance.Data.DbEntities
         public ReceiptItemType ReceiptItemType { get; set; }
         public string? TechnicianId { get; set; }
         public User Technician { get; set; }
+        public int? PreviousReceiptItemId { get; set; }
+        public ReceiptItem PreviousReceiptItem { get; set; }
+        public string? PreviousTechnicianId { get; set; }
+        public User PreviousTechnician { get; set; }
     }
 }

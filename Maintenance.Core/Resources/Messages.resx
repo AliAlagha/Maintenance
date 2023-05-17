@@ -453,6 +453,9 @@
   <data name="Returned" xml:space="preserve">
     <value>معادة</value>
   </data>
+  <data name="ReturnedItemsReport" xml:space="preserve">
+    <value>تقرير القطع المعادة</value>
+  </data>
   <data name="ReturnHandReceipt" xml:space="preserve">
     <value>سند القطع المعادة</value>
   </data>
@@ -512,6 +515,9 @@
   </data>
   <data name="Urgent" xml:space="preserve">
     <value>مستعجل</value>
+  </data>
+  <data name="UrgentItemsReport" xml:space="preserve">
+    <value>تقرير القطع المستعجلة</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>مستخدم</value>

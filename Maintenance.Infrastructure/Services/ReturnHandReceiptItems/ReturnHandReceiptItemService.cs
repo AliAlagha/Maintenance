@@ -114,7 +114,9 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
                 Company = handReceiptItem.Company,
                 ItemBarcode = await GenerateBarcode(),
                 ReturnReason = dto.ReturnReason,
-                ReceiptItemType = ReceiptItemType.Returned
+                ReceiptItemType = ReceiptItemType.Returned,
+                PreviousReceiptItemId = handReceiptItem.Id,
+                PreviousTechnicianId = handReceiptItem.TechnicianId
             };
 
             newReturnHandReceiptItem.CreatedBy = userId;

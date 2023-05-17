@@ -301,6 +301,8 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
             
             private global::System.Data.DataColumn columnMaintenanceSuspensionReason;
             
+            private global::System.Data.DataColumn columnTechnician;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public ReceiptItemDataSetDataTable() {
@@ -424,6 +426,14 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn TechnicianColumn {
+                get {
+                    return this.columnTechnician;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -459,7 +469,7 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public ReceiptItemDataSetRow AddReceiptItemDataSetRow(string Item, string ItemBarcode, string Company, string CollectedAmount, string CollectionDate, string CustomerName, string CustomerPhoneNumber, string Date, string ReturnReason, string Status, string MaintenanceSuspensionReason) {
+            public ReceiptItemDataSetRow AddReceiptItemDataSetRow(string Item, string ItemBarcode, string Company, string CollectedAmount, string CollectionDate, string CustomerName, string CustomerPhoneNumber, string Date, string ReturnReason, string Status, string MaintenanceSuspensionReason, string Technician) {
                 ReceiptItemDataSetRow rowReceiptItemDataSetRow = ((ReceiptItemDataSetRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Item,
@@ -472,7 +482,8 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
                         Date,
                         ReturnReason,
                         Status,
-                        MaintenanceSuspensionReason};
+                        MaintenanceSuspensionReason,
+                        Technician};
                 rowReceiptItemDataSetRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowReceiptItemDataSetRow);
                 return rowReceiptItemDataSetRow;
@@ -506,6 +517,7 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
                 this.columnReturnReason = base.Columns["ReturnReason"];
                 this.columnStatus = base.Columns["Status"];
                 this.columnMaintenanceSuspensionReason = base.Columns["MaintenanceSuspensionReason"];
+                this.columnTechnician = base.Columns["Technician"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -537,6 +549,8 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
                 base.Columns.Add(this.columnStatus);
                 this.columnMaintenanceSuspensionReason = new global::System.Data.DataColumn("MaintenanceSuspensionReason", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMaintenanceSuspensionReason);
+                this.columnTechnician = new global::System.Data.DataColumn("Technician", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTechnician);
                 this.ExtendedProperties.Add("Generator_TablePropName", "_ReceiptItemDataSet");
                 this.ExtendedProperties.Add("Generator_UserTableName", "ReceiptItemDataSet");
             }
@@ -859,6 +873,22 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Technician {
+                get {
+                    try {
+                        return ((string)(this[this.tableReceiptItemDataSet.TechnicianColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Technician\' in table \'ReceiptItemDataSet\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReceiptItemDataSet.TechnicianColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsItemNull() {
                 return this.IsNull(this.tableReceiptItemDataSet.ItemColumn);
             }
@@ -987,6 +1017,18 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetMaintenanceSuspensionReasonNull() {
                 this[this.tableReceiptItemDataSet.MaintenanceSuspensionReasonColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTechnicianNull() {
+                return this.IsNull(this.tableReceiptItemDataSet.TechnicianColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTechnicianNull() {
+                this[this.tableReceiptItemDataSet.TechnicianColumn] = global::System.Convert.DBNull;
             }
         }
         

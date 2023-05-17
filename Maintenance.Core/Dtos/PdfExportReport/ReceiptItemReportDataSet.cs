@@ -19,5 +19,6 @@ namespace Maintenance.Core.Dtos
         public double CollectedAmount { get; set; }
         public string CollectionDate { get; set; }
         public string MaintenanceSuspensionReason { get; set; }
+        public string Technician { get; set; }
     }
 }

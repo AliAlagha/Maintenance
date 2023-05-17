@@ -101,7 +101,9 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                     Company = handReceiptItem.Company,
                     ItemBarcode = await GenerateBarcode(),
                     ReturnReason = returnHandReceiptItem.ReturnReason,
-                    ReceiptItemType = ReceiptItemType.Returned
+                    ReceiptItemType = ReceiptItemType.Returned,                
+                    PreviousReceiptItemId = handReceiptItem.Id,
+                    PreviousTechnicianId = handReceiptItem.TechnicianId
                 };
 
                 returnHandReceipt.ReceiptItems.Add(newReturnHandReceiptItem);

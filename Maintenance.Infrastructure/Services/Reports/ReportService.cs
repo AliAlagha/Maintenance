@@ -135,6 +135,7 @@ namespace Maintenance.Infrastructure.Services.Reports
         {
             var dbQuery = _db.ReceiptItems
                 .Include(x => x.Customer)
+                .Include(x => x.PreviousTechnician)
                 .Where(x => x.ReceiptItemType == ReceiptItemType.Returned)
                 .AsQueryable();
 
@@ -150,7 +151,7 @@ namespace Maintenance.Infrastructure.Services.Reports
 
             if (technicianId != null)
             {
-                dbQuery = dbQuery.Where(x => x.TechnicianId != null && x.TechnicianId.Equals(technicianId));
+                dbQuery = dbQuery.Where(x => x.PreviousTechnicianId != null && x.PreviousTechnicianId.Equals(technicianId));
             }
 
             var returnedItems = await dbQuery.OrderByDescending(x => x.CreatedAt)
@@ -160,6 +161,10 @@ namespace Maintenance.Infrastructure.Services.Reports
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd"));
             paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd") : "");
             paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd") : "");
+
+            paramaters.Add("ContactEmail", "test@gmail.com");
+            paramaters.Add("ContactPhoneNumber", "0599854758");
+            paramaters.Add("WebsiteLink", "www.test.com");
 
             var returnedItemsList = new List<ReceiptItemReportDataSet>();
             foreach (var returnedItem in returnedItems)
@@ -172,13 +177,14 @@ namespace Maintenance.Infrastructure.Services.Reports
                     ItemBarcode = returnedItem.ItemBarcode,
                     Company = returnedItem.Company,
                     Date = returnedItem.CreatedAt.ToString("yyyy-MM-dd"),
-                    ReturnReason = returnedItem.ReturnReason ?? ""
+                    ReturnReason = returnedItem.ReturnReason ?? "",
+                    Technician = returnedItem.PreviousTechnician != null ? returnedItem.PreviousTechnician.FullName : ""
                 };
 
                 returnedItemsList.Add(returnedItemDataSet);
             }
 
-            var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = returnedItems } };
+            var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = returnedItemsList } };
             var result = _pdfExportReportService.GeneratePdf("ReturnedItems.rdlc", dataSets, paramaters);
             return result;
         }
@@ -208,6 +214,10 @@ namespace Maintenance.Infrastructure.Services.Reports
             paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd") : "");
             paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd") : "");
 
+            paramaters.Add("ContactEmail", "test@gmail.com");
+            paramaters.Add("ContactPhoneNumber", "0599854758");
+            paramaters.Add("WebsiteLink", "www.test.com");
+
             var urgentItemsList = new List<ReceiptItemReportDataSet>();
             foreach (var urgentItem in urgentItems)
             {
@@ -224,7 +234,7 @@ namespace Maintenance.Infrastructure.Services.Reports
                 urgentItemsList.Add(urgentItemDataSet);
             }
 
-            var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = urgentItems } };
+            var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = urgentItemsList } };
             var result = _pdfExportReportService.GeneratePdf("UrgentItems.rdlc", dataSets, paramaters);
             return result;
         }
@@ -492,7 +502,7 @@ namespace Maintenance.Infrastructure.Services.Reports
         public async Task<byte[]> TechnicianFeesReport(DateTime? dateFrom, DateTime? dateTo)
         {
             var dbQuery = _db.Users
-                .Include(x => x.ReceiptItems)
+                .Include(x => x.ReceiptItemsForTechnician)
                 .Where(x => x.UserType == UserType.MaintenanceTechnician)
                 .AsQueryable();
 
@@ -510,7 +520,7 @@ namespace Maintenance.Infrastructure.Services.Reports
                 .Select(x => new TechnicianFeesReportDataSet
                 {
                     Technician = x.FullName,
-                    Fees = x.ReceiptItems.Sum(x => x.CollectedAmount) ?? 0
+                    Fees = x.ReceiptItemsForTechnician.Sum(x => x.CollectedAmount) ?? 0
                 }).ToListAsync();
 
             var paramaters = new Dictionary<string, object>();
