@@ -9,12 +9,20 @@
 	<ItemGroup>
 	  <None Remove="Services\PdfExportReport\Reports\DeliveredItems.rdlc" />
 	  <None Remove="Services\PdfExportReport\Reports\HandReceipt.rdlc" />
+	  <None Remove="Services\PdfExportReport\Reports\NotDeliveredItems.rdlc" />
+	  <None Remove="Services\PdfExportReport\Reports\NotMaintainedItems.rdlc" />
 	  <None Remove="Services\PdfExportReport\Reports\ReceiptItems.rdlc" />
 	  <None Remove="Services\PdfExportReport\Reports\ReturnedItems.rdlc" />
 	  <None Remove="Services\PdfExportReport\Reports\UrgentItems.rdlc" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <EmbeddedResource Include="Services\PdfExportReport\Reports\NotMaintainedItems.rdlc">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="Services\PdfExportReport\Reports\NotDeliveredItems.rdlc">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
 	  <EmbeddedResource Include="Services\PdfExportReport\Reports\UrgentItems.rdlc">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>

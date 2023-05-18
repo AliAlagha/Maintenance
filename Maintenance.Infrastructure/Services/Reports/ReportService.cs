@@ -267,7 +267,11 @@ namespace Maintenance.Infrastructure.Services.Reports
             paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd") : "");
             paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd") : "");
 
-            var urgentItemsList = new List<ReceiptItemReportDataSet>();
+            paramaters.Add("ContactEmail", "test@gmail.com");
+            paramaters.Add("ContactPhoneNumber", "0599854758");
+            paramaters.Add("WebsiteLink", "www.test.com");
+
+            var motMaintainedItemsList = new List<ReceiptItemReportDataSet>();
             foreach (var notMaintainedItem in notMaintainedItems)
             {
                 var status = "";
@@ -291,10 +295,10 @@ namespace Maintenance.Infrastructure.Services.Reports
                     Status = status
                 };
 
-                urgentItemsList.Add(notMaintainedItemDataSet);
+                motMaintainedItemsList.Add(notMaintainedItemDataSet);
             }
 
-            var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = notMaintainedItems } };
+            var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = motMaintainedItemsList } };
             var result = _pdfExportReportService.GeneratePdf("NotMaintainedItems.rdlc", dataSets, paramaters);
             return result;
         }
@@ -325,6 +329,10 @@ namespace Maintenance.Infrastructure.Services.Reports
             paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd") : "");
             paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd") : "");
 
+            paramaters.Add("ContactEmail", "test@gmail.com");
+            paramaters.Add("ContactPhoneNumber", "0599854758");
+            paramaters.Add("WebsiteLink", "www.test.com");
+
             var completedItemsList = new List<ReceiptItemReportDataSet>();
             foreach (var completedItem in completedItems)
             {
@@ -341,8 +349,8 @@ namespace Maintenance.Infrastructure.Services.Reports
                 completedItemsList.Add(completedItemDataSet);
             }
 
-            var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = completedItems } };
-            var result = _pdfExportReportService.GeneratePdf("CompletedItems.rdlc", dataSets, paramaters);
+            var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = completedItemsList } };
+            var result = _pdfExportReportService.GeneratePdf("NotDeliveredItems.rdlc", dataSets, paramaters);
             return result;
         }
 

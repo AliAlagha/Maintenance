@@ -402,8 +402,14 @@
   <data name="No" xml:space="preserve">
     <value>لا</value>
   </data>
+  <data name="NotDeliveredItemsReport" xml:space="preserve">
+    <value>تقرير القطع التي تم صيانتها (غير مستلمة)</value>
+  </data>
   <data name="NotifyCustomerOfTheCost" xml:space="preserve">
     <value>يتطلب إبلاغ العميل بالتكلفة؟</value>
+  </data>
+  <data name="NotMaintainedItemsReport" xml:space="preserve">
+    <value>تقرير القطع التي لم يتم صيانتها</value>
   </data>
   <data name="NoValidity" xml:space="preserve">
     <value>ليس لديك صلاحية لتنفيذ العملية</value>

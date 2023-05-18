@@ -916,11 +916,29 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to تقرير القطع التي تم صيانتها (غير مستلمة).
+        /// </summary>
+        public static string NotDeliveredItemsReport {
+            get {
+                return ResourceManager.GetString("NotDeliveredItemsReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to يتطلب إبلاغ العميل بالتكلفة؟.
         /// </summary>
         public static string NotifyCustomerOfTheCost {
             get {
                 return ResourceManager.GetString("NotifyCustomerOfTheCost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تقرير القطع التي لم يتم صيانتها.
+        /// </summary>
+        public static string NotMaintainedItemsReport {
+            get {
+                return ResourceManager.GetString("NotMaintainedItemsReport", resourceCulture);
             }
         }
         

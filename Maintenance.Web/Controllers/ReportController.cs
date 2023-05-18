@@ -67,6 +67,30 @@ namespace Maintenance.Web.Controllers
             var result = await _reportService.UrgentItemsReport(dateFrom, dateTo);
             return GetPdfFileResult(result, $"{DateTime.Now:yyyy-MM-dd} - UrgentItems");
         }
+
+        public IActionResult NotMaintainedItems()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> NotMaintainedItemsReport(DateTime? dateFrom
+            , DateTime? dateTo)
+        {
+            var result = await _reportService.NotMaintainedItemsReport(dateFrom, dateTo);
+            return GetPdfFileResult(result, $"{DateTime.Now:yyyy-MM-dd} - NotMaintainedItems");
+        }
+
+        public IActionResult NotDeliveredItems()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> NotDeliveredItemsReport(DateTime? dateFrom
+            , DateTime? dateTo)
+        {
+            var result = await _reportService.NotDeliveredItemsReport(dateFrom, dateTo);
+            return GetPdfFileResult(result, $"{DateTime.Now:yyyy-MM-dd} - NotDeliveredItems");
+        }
     }
 }
 
