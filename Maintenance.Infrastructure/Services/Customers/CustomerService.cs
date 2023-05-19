@@ -49,6 +49,15 @@ namespace Maintenance.Infrastructure.Services.Customers
             return _mapper.Map<UpdateCustomerDto>(customer);
         }
 
+        public async Task<AddRatingToCustomerDto> GetCustomerRating(int id)
+        {
+            var customer = await _db.Customers.SingleOrDefaultAsync(x => x.Id == id);
+            if (customer == null)
+                throw new EntityNotFoundException();
+
+            return _mapper.Map<AddRatingToCustomerDto>(customer);
+        }
+
         public async Task<int> Create(CreateCustomerDto input, string userId)
         {
             var customer = _mapper.Map<Customer>(input);
@@ -79,6 +88,20 @@ namespace Maintenance.Infrastructure.Services.Customers
                 throw new EntityNotFoundException();
 
             customer.IsDelete = true;
+            customer.UpdatedAt = DateTime.Now;
+            customer.UpdatedBy = userId;
+            _db.Customers.Update(customer);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task AddRating(AddRatingToCustomerDto input, string userId)
+        {
+            var customer = await _db.Customers.SingleOrDefaultAsync(x => x.Id == input.Id);
+            if (customer == null)
+                throw new EntityNotFoundException();
+
+            _mapper.Map(input, customer);
+
             customer.UpdatedAt = DateTime.Now;
             customer.UpdatedBy = userId;
             _db.Customers.Update(customer);

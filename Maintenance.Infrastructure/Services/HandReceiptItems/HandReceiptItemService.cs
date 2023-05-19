@@ -127,7 +127,7 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.Suspended} - {item.MaintenanceSuspensionReason}";
                     break;
                 case MaintenanceRequestStatus.RemovedFromMaintained:
-                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.RemoveFromMaintained} - {item.RemoveFromMaintainedReason}";
+                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.RemovedFromMaintained} - {item.RemoveFromMaintainedReason}";
                     break;
             };
         }
@@ -262,18 +262,15 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
         {
             var handReceiptItem = await _db.ReceiptItems
                 .SingleOrDefaultAsync(x => x.Id == dto.HandReceiptItemId
-                && x.HandReceiptId == dto.HandReceiptId && x.CollectedAmount == null);
+                && x.HandReceiptId == dto.HandReceiptId && x.FinalCost != null && x.CollectedAmount == null);
             if (handReceiptItem == null)
                 throw new EntityNotFoundException();
 
-            if (handReceiptItem.FinalCost != null)
+            var optionalDiscount = handReceiptItem.FinalCost * 0.1;
+            var finalCostAfterOptionalDiscount = handReceiptItem.FinalCost - optionalDiscount;
+            if (dto.CollectedAmount > handReceiptItem.FinalCost || dto.CollectedAmount < finalCostAfterOptionalDiscount)
             {
-                var optionalDiscount = handReceiptItem.FinalCost * 0.1;
-                var finalCostAfterOptionalDiscount = handReceiptItem.FinalCost - optionalDiscount;
-                if (finalCostAfterOptionalDiscount > dto.CollectedAmount)
-                {
-                    throw new NotAllowedAmountException();
-                }
+                throw new NotAllowedAmountException();
             }
 
             handReceiptItem.CollectedAmount = dto.CollectedAmount;
@@ -288,7 +285,8 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
         {
             var handReceiptItem = await _db.ReceiptItems
                 .SingleOrDefaultAsync(x => x.Id == handReceiptItemId && x.HandReceiptId == handReceiptId
-                && x.CollectedAmount != null 
+                && x.TechnicianId != null
+                && x.CollectedAmount != null
                 && x.MaintenanceRequestStatus != MaintenanceRequestStatus.Delivered
                 && x.MaintenanceRequestStatus != MaintenanceRequestStatus.CustomerRefused
                 && x.MaintenanceRequestStatus != MaintenanceRequestStatus.Suspended
@@ -307,7 +305,9 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
         public async Task DeliveryOfAllItems(int handReceiptId, string userId)
         {
             var handReceipt = await _db.HandReceipts
-                .Include(x => x.ReceiptItems.Where(x => x.CollectedAmount != null
+                .Include(x => x.ReceiptItems.Where(x =>
+                    x.TechnicianId != null
+                    && x.CollectedAmount != null
                     && x.MaintenanceRequestStatus != MaintenanceRequestStatus.Delivered
                     && x.MaintenanceRequestStatus != MaintenanceRequestStatus.CustomerRefused
                     && x.MaintenanceRequestStatus != MaintenanceRequestStatus.Suspended
@@ -338,12 +338,18 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                 throw new EntityNotFoundException();
             }
 
-            var isAllItemsCanBeDelivered = returnHandReceipt.ReceiptItems.All(x =>
-                x.CollectedAmount != null
+            var isAllItemsCanBeDelivered = false;
+            if (returnHandReceipt.ReceiptItems.Any())
+            {
+                isAllItemsCanBeDelivered = returnHandReceipt.ReceiptItems.All(x =>
+                x.TechnicianId != null
+                && x.CollectedAmount != null
                 && x.MaintenanceRequestStatus != MaintenanceRequestStatus.Delivered
                 && x.MaintenanceRequestStatus != MaintenanceRequestStatus.CustomerRefused
                 && x.MaintenanceRequestStatus != MaintenanceRequestStatus.Suspended
                 && x.MaintenanceRequestStatus != MaintenanceRequestStatus.RemovedFromMaintained);
+            }
+
             return isAllItemsCanBeDelivered;
         }
 

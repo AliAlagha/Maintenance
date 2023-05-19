@@ -1,0 +1,44 @@
+﻿@model AddRatingToCustomerDto
+@{
+    ViewData["Title"] = Messages.Customers;
+    Layout = null;
+}
+
+<form asp-action="AddRating" method="post" class="ajaxForm" tname="#kt_datatable" enctype="multipart/form-data">
+    <input asp-for="Id" type="hidden" />
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.CustomerRate</label>
+                <select asp-for="CustomerRate" class="form-control form-control-solid">
+                    <option value="">-- @string.Format(Messages.Select, Messages.CustomerRate) --</option>
+                    <option value="@CustomerRate.Bad">@Messages.Bad</option>
+                    <option value="@CustomerRate.Good">@Messages.Good</option>
+                    <option value="@CustomerRate.Best">@Messages.Best</option>
+                </select>
+                <span asp-validation-for="CustomerRate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.Notes</label>
+                <textarea asp-for="Notes" placeholder="@string.Format(Messages.Enter,Messages.Notes)" class="form-control form-control-solid" ></textarea>
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
+        <button type="button" data-dismiss="modal" class="btn btn-light-primary font-weight-bold">@Messages.Cancel</button>
+    </div>
+</form>
+
+<script>
+    PageLoadActions();
+</script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
+

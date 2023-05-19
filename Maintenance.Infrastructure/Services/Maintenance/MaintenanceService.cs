@@ -116,7 +116,7 @@ namespace Maintenance.Infrastructure.Services.Maintenance
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.Suspended} - {item.MaintenanceSuspensionReason}";
                     break;
                 case MaintenanceRequestStatus.RemovedFromMaintained:
-                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.RemoveFromMaintained} - {item.RemoveFromMaintainedReason}";
+                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.RemovedFromMaintained} - {item.RemoveFromMaintainedReason}";
                     break;
             };
         }
@@ -208,6 +208,7 @@ namespace Maintenance.Infrastructure.Services.Maintenance
 
             receiptItem.NotifyCustomerOfTheCost = false;
             receiptItem.CostNotifiedToTheCustomer = dto.CostNotifiedToTheCustomer;
+            receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.EnterMaintenanceCost;
             receiptItem.UpdatedAt = DateTime.Now;
             receiptItem.UpdatedBy = userId;
             _db.ReceiptItems.Update(receiptItem);

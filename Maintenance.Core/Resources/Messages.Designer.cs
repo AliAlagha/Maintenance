@@ -1161,6 +1161,15 @@ namespace Maintenance.Core.Resources {
         /// <summary>
         ///   Looks up a localized string similar to تم الإسترجاع.
         /// </summary>
+        public static string RemovedFromMaintained {
+            get {
+                return ResourceManager.GetString("RemovedFromMaintained", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to استرجاع.
+        /// </summary>
         public static string RemoveFromMaintained {
             get {
                 return ResourceManager.GetString("RemoveFromMaintained", resourceCulture);

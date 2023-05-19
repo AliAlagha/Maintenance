@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Maintenance.Web.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator, MaintenanceTechnician")]
     public class CustomerController : BaseController
     {
         private readonly ICustomerService _customerService;
@@ -18,11 +18,13 @@ namespace Maintenance.Web.Controllers
             _customerService = customerService;
         }
 
+        [Authorize(Roles = "Administrator, MaintenanceTechnician")]
         public IActionResult Index()
         {
             return View();
         }
 
+        [Authorize(Roles = "Administrator, MaintenanceTechnician")]
         [HttpPost]
         public async Task<JsonResult> GetAll(Pagination pagination, QueryDto query)
         {
@@ -30,11 +32,13 @@ namespace Maintenance.Web.Controllers
             return Json(response);
         }
 
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateCustomerDto input)
         {
@@ -46,11 +50,13 @@ namespace Maintenance.Web.Controllers
             return View(input);
         }
 
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id)
         {
             return View(await _customerService.Get(id));
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateCustomerDto input)
         {
@@ -62,10 +68,29 @@ namespace Maintenance.Web.Controllers
             return View(input);
         }
 
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int id)
         {
             await _customerService.Delete(id, UserId);
             return DeletedSuccessfully();
+        }
+
+        [Authorize(Roles = "MaintenanceTechnician")]
+        public async Task<IActionResult> AddRating(int id)
+        {
+            return View(await _customerService.GetCustomerRating(id));
+        }
+
+        [Authorize(Roles = "MaintenanceTechnician")]
+        [HttpPost]
+        public async Task<IActionResult> AddRating(AddRatingToCustomerDto input)
+        {
+            if (ModelState.IsValid)
+            {
+                await _customerService.AddRating(input, UserId);
+                return UpdatedSuccessfully();
+            }
+            return View(input);
         }
 
         public async Task<IActionResult> List()

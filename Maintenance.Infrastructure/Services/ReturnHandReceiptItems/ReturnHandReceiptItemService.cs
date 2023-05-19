@@ -89,7 +89,7 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
                         itemVm.MaintenanceRequestStatusMessage = $"{Messages.Suspended} - {item.MaintenanceSuspensionReason}";
                         break;
                     case MaintenanceRequestStatus.RemovedFromMaintained:
-                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.RemoveFromMaintained} - {item.RemoveFromMaintainedReason}";
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.RemovedFromMaintained} - {item.RemoveFromMaintainedReason}";
                         break;
                 };
 

@@ -23,8 +23,8 @@ namespace Maintenance.Web.Controllers
 
         public async Task<IActionResult> Index(int handReceiptId)
         {
-            var isAllItemsDelivered = await _handReceiptItemService.IsAllItemsCanBeDelivered(handReceiptId);
-            ViewBag.IsAllItemsDelivered = isAllItemsDelivered;
+            var IsAllItemsCanBeDelivered = await _handReceiptItemService.IsAllItemsCanBeDelivered(handReceiptId);
+            ViewBag.IsAllItemsCanBeDelivered = IsAllItemsCanBeDelivered;
             return View(handReceiptId);
         }
 

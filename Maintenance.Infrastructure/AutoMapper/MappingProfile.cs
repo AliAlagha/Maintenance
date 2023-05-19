@@ -41,6 +41,8 @@ namespace Maintenance.Infrastructure.AutoMapper
             CreateMap<CreateCustomerDto, Customer>();
             CreateMap<UpdateCustomerDto, Customer>();
             CreateMap<Customer, UpdateCustomerDto>();
+            CreateMap<AddRatingToCustomerDto, Customer>();
+            CreateMap<Customer, AddRatingToCustomerDto>();
             CreateMap<CreateCustomerForHandReceiptDto, CreateCustomerDto>();
             #endregion
 

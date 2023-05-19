@@ -110,25 +110,25 @@
                 <form id="AddItemForm">
                     <div class="row">
                         <div class="form-group">
-                            <div class="col-md-8">
+                            <div class="col-md-4">
                                 <label>@Messages.Item</label>
-                                <select id="SelectItem" name="ItemId" class="form-control form-control-solid">
+                                <select id="SelectItem" name="ItemId" class="form-control form-control-solid" style="width: 180px;">
                                     <option value="">-- @string.Format(Messages.Select, Messages.Item) --</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-8">
+                            <div class="col-md-4">
                                 <label>@Messages.Company</label>
-                                <select id="SelectCompany" name="CompanyId" class="form-control form-control-solid">
+                                <select id="SelectCompany" name="CompanyId" class="form-control form-control-solid" style="width: 180px;">
                                     <option value="">-- @string.Format(Messages.Select, Messages.Company) --</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-8">
+                            <div class="col-md-4">
                                 <label>@Messages.Color</label>
-                                <select id="SelectColor" name="ColorId" class="form-control form-control-solid">
+                                <select id="SelectColor" name="ColorId" class="form-control form-control-solid" style="width: 180px;">
                                     <option value="">-- @string.Format(Messages.Select, Messages.Color) --</option>
                                 </select>
                             </div>
@@ -147,21 +147,21 @@
                             <div class="form-group">
                                 <label>@Messages.SpecifiedCost</label>
                                 <input type="number" id="SpecifiedCost" placeholder="@string.Format(Messages.Enter,Messages.SpecifiedCost)" class="form-control form-control-solid"
-                                min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />
+                                       min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>@Messages.From</label>
                                 <input type="number" id="CostFrom" placeholder="@string.Format(Messages.Enter,Messages.From)" class="form-control form-control-solid"
-                                min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"/>
+                                       min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>@Messages.To</label>
                                 <input type="number" id="CostTo" placeholder="@string.Format(Messages.Enter,Messages.To)" class="form-control form-control-solid"
-                                min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"/>
+                                       min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -176,7 +176,7 @@
                             <div class="form-group">
                                 <label>@Messages.WarrantyDaysNumber</label>
                                 <input type="number" id="WarrantyDaysNumber" placeholder="@string.Format(Messages.Enter,Messages.WarrantyDaysNumber)" class="form-control form-control-solid"
-                                min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"/>
+                                       min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -203,8 +203,8 @@
         $.ajax({
             url: '/Customer/List',
             dataType: "json",
-            success: function(data) {
-                $(data).each(function(index, value) {
+            success: function (data) {
+                $(data).each(function (index, value) {
                     if (value.id == '@customerId') {
                         $("#SelectCustomer").append($("<option selected></option>").val(value.id).html(value.name));
                     } else {
@@ -218,8 +218,8 @@
         $.ajax({
             url: '/Item/List',
             dataType: "json",
-            success: function(data) {
-                $(data).each(function(index, value) {
+            success: function (data) {
+                $(data).each(function (index, value) {
                     $("#SelectItem").append($("<option></option>").val(value.id).html(value.name));
                     itemsArr.push(value);
                 });
@@ -230,8 +230,8 @@
         $.ajax({
             url: '/Company/List',
             dataType: "json",
-            success: function(data) {
-                $(data).each(function(index, value) {
+            success: function (data) {
+                $(data).each(function (index, value) {
                     $("#SelectCompany").append($("<option></option>").val(value.id).html(value.name));
                     companiesArr.push(value);
                 });
@@ -242,8 +242,8 @@
         $.ajax({
             url: '/Color/List',
             dataType: "json",
-            success: function(data) {
-                $(data).each(function(index, value) {
+            success: function (data) {
+                $(data).each(function (index, value) {
                     $("#SelectColor").append($("<option></option>").val(value.id).html(value.name));
                     colorsArr.push(value);
                 });
@@ -262,9 +262,17 @@
             });
 
             var colorId = $('#SelectColor').val();
-            var colorObj = colorsArr.find(obj => {
-                return obj.id == colorId;
-            });
+            var colorObj;
+            if (colorId != "") {
+                colorObj = colorsArr.find(obj => {
+                    return obj.id == colorId;
+                });
+            }
+
+            var colorNameValue = "";
+            if (colorObj) {
+                colorNameValue = colorObj.name;
+            }
 
             var description = $('#Description').val();
             var specifiedCost = $('#SpecifiedCost').val();
@@ -279,7 +287,7 @@
                 itemId: itemId,
                 item: itemObj.name,
                 colorId: colorId,
-                color: colorObj.name,
+                color: colorNameValue,
                 companyId: companyId,
                 company: companyObj.name,
                 description: description,
@@ -293,7 +301,22 @@
 
             AddRow(handReceiptItem);
             $("#AddItemModal").modal("hide");
+
             $("#AddItemForm").resetForm();
+            $("#SpecifiedCost").prop('disabled', false);
+            $("#CostFrom").prop('disabled', false);
+            $("#CostTo").prop('disabled', false);
+            $("#NotifyCustomerOfTheCost").prop('disabled', false);
+            $('#SelectItem').select2({
+                placeholder: "-- اختر القطعة --",
+            });
+            $('#SelectCompany').select2({
+                placeholder: "-- اختر الشركة --",
+            });
+            $('#SelectColor').select2({
+                placeholder: "-- اختر اللون --",
+            });
+
             $("#Urgent").attr('value', 'false');
             $("#NotifyCustomerOfTheCost").attr('value', 'false');
         }
@@ -336,7 +359,7 @@
 
             $("#ItemsTableBody").append(row);
 
-            $(".delete-row").click(function() {
+            $(".delete-row").click(function () {
                 var rowCount = $('#ItemsTable > tbody > tr').length;
                 $(this).closest("tr").remove();
                 if (rowCount == 1) {
@@ -345,7 +368,7 @@
             });
         }
 
-        $(":checkbox").on('change', function() {
+        $(":checkbox").on('change', function () {
             if ($(this).is(':checked')) {
                 $(this).attr('value', 'true');
             } else {
@@ -354,9 +377,9 @@
         });
 
         // Class definition
-        var KTFormControls = function() {
+        var KTFormControls = function () {
             // Private functions
-            var _initDemo1 = function() {
+            var _initDemo1 = function () {
                 var validator = FormValidation.formValidation(
                     document.getElementById('AddItemForm'),
                     {
@@ -391,13 +414,13 @@
 
                 // Add button handler
                 const addItemBtn = document.getElementById('AddItemBtn');
-                addItemBtn.addEventListener('click', function(e) {
+                addItemBtn.addEventListener('click', function (e) {
                     // Prevent default button action
                     e.preventDefault();
 
                     // Validate form before submit
                     if (validator) {
-                        validator.validate().then(function(status) {
+                        validator.validate().then(function (status) {
                             console.log('validated!');
 
                             if (status == 'Valid') {
@@ -408,7 +431,7 @@
                 });
             }
 
-            var _initDemo2 = function() {
+            var _initDemo2 = function () {
                 var form = document.getElementById('CreateHandReceiptForm');
                 var validator = FormValidation.formValidation(
                     form,
@@ -437,17 +460,17 @@
 
                 // Add button handler
                 const submitBtn = document.getElementById('SubmitHandReceiptBtn');
-                submitBtn.addEventListener('click', function(e) {
+                submitBtn.addEventListener('click', function (e) {
                     // Prevent default button action
                     e.preventDefault();
 
                     // Validate form before submit
                     if (validator) {
-                        validator.validate().then(function(status) {
+                        validator.validate().then(function (status) {
                             console.log('validated!');
 
                             if (status == 'Valid') {
-                                $('.item-row').each(function(i, obj) {
+                                $('.item-row').each(function (i, obj) {
                                     $(this).find('.item').attr('name', 'Items[' + i + '].ItemId');
                                     $(this).find('.company').attr('name', 'Items[' + i + '].CompanyId');
                                     $(this).find('.color').attr('name', 'Items[' + i + '].ColorId');
@@ -469,7 +492,7 @@
 
             return {
                 // public functions
-                init: function() {
+                init: function () {
                     _initDemo1();
                     _initDemo2();
                 }
@@ -477,9 +500,9 @@
         }();
 
         // Class definition
-        var KTSelect2 = function() {
+        var KTSelect2 = function () {
             // Private functions
-            var demos = function() {
+            var demos = function () {
                 // basic
                 $('#SelectCustomer').select2();
                 $('#SelectItem').select2();
@@ -489,19 +512,19 @@
 
             // Public functions
             return {
-                init: function() {
+                init: function () {
                     demos();
                 }
             };
         }();
 
         // Initialization
-        jQuery(document).ready(function() {
+        jQuery(document).ready(function () {
             KTFormControls.init();
             KTSelect2.init();
         });
 
-        $('#SpecifiedCost, #CostFrom, #CostTo, #NotifyCustomerOfTheCost').change(function() {
+        $('#SpecifiedCost, #CostFrom, #CostTo, #NotifyCustomerOfTheCost').change(function () {
             var specifiedCostVal = $('#SpecifiedCost').val();
             var costFromVal = $('#CostFrom').val();
             var costToVal = $('#CostTo').val();

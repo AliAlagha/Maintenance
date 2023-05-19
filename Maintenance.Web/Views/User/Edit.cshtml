@@ -44,7 +44,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label>@Messages.UserType</label>
-                <select asp-for="UserType" class="form-control form-control-solid">
+                <select asp-for="UserType" class="form-control form-control-solid select2">
                     <option value="">-- @string.Format(Messages.Select, Messages.UserType) --</option>
                     <option value="@UserType.Administrator">@Messages.Administrator</option>
                     <option value="@UserType.MaintenanceManager">@Messages.MaintenanceManager</option>
@@ -56,7 +56,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label>@Messages.Branch</label>
-                <select asp-for="BranchId" id="SelectBranch" class="form-control form-control-solid">
+                <select asp-for="BranchId" id="SelectBranch" class="form-control form-control-solid select2">
                     <option value="">-- @string.Format(Messages.Select, Messages.Branch) --</option>
                 </select>
                 <span asp-validation-for="BranchId" class="text-danger"></span>
@@ -97,8 +97,8 @@
     $.ajax({
         url: '/Branch/List',
         dataType: "json",
-        success: function(data) {
-            $(data).each(function(index, value) {
+        success: function (data) {
+            $(data).each(function (index, value) {
                 if (value.id == '@Model.BranchId') {
                     $("#SelectBranch").append($("<option selected></option>").val(value.id).html(value.name));
                 } else {
@@ -106,6 +106,27 @@
                 }
             });
         }
+    });
+
+    // Class definition
+    var KTSelect2 = function () {
+        // Private functions
+        var demos = function () {
+            // basic
+            $('.select2').select2();
+        }
+
+        // Public functions
+        return {
+            init: function () {
+                demos();
+            }
+        };
+    }();
+
+    // Initialization
+    jQuery(document).ready(function () {
+        KTSelect2.init();
     });
 </script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>

@@ -279,7 +279,13 @@
 
             AddRow(handReceiptItem);
             $("#AddItemModal").modal("hide");
+
             $("#AddItemForm").resetForm();
+            $("#SpecifiedCost").prop('disabled', false);
+            $("#CostFrom").prop('disabled', false);
+            $("#CostTo").prop('disabled', false);
+            $("#NotifyCustomerOfTheCost").prop('disabled', false);
+
             $("#Urgent").attr('value', 'false');
             $("#NotifyCustomerOfTheCost").attr('value', 'false');
         }

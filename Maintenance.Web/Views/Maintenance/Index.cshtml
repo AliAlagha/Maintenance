@@ -221,7 +221,7 @@
                                     '            <li class="navi-header font-weight-bolder text-uppercase font-size-xs text-primary pb-2">' +
                                     '                @Messages.SelectAction:' +
                                     '            </li>';
-                                if (data.maintenanceRequestStatus == 1) {
+                                if (data.maintenanceRequestStatus == 4) {
                                     result = result +
                                         '            </li>' +
                                         '            <li class="navi-item">' +
@@ -229,7 +229,7 @@
                                         '                    <span class="navi-text">@Messages.CheckItem</span>' +
                                         '                </a>' +
                                         '            </li>'
-                                } else if (data.maintenanceRequestStatus == 2) {
+                                } else if (data.maintenanceRequestStatus == 5) {
                                     result = result +
                                         '            <li class="navi-item">'
                                         +
@@ -237,7 +237,7 @@
                                         '                    <span class="navi-text">@Messages.InformCustomerOfTheCost</span>' +
                                         '                </a>' +
                                         '            </li>';
-                                } else if (data.maintenanceRequestStatus == 3) {
+                                } else if (data.maintenanceRequestStatus == 6) {
                                     result = result +
                                         '            <li class="navi-item">' +
                                         '                <a href="/Maintenance/UpdateStatus?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.CustomerApproved">' +
@@ -249,21 +249,21 @@
                                         '                    <span class="navi-text">@Messages.CustomerRefused</span>' +
                                         '                </a>' +
                                         '            </li>';
-                                } else if (data.maintenanceRequestStatus == 4 && data.notifyCustomerOfTheCost) {
+                                } else if (data.maintenanceRequestStatus == 7 && data.notifyCustomerOfTheCost) {
                                     result = result +
                                         '            <li class="navi-item">' +
                                         '                <a href="/Maintenance/EnterMaintenanceCost?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="PopUp navi-link" title="@Messages.MaintenanceCost">' +
                                         '                    <span class="navi-text">@Messages.EnterMaintenanceCost</span>' +
                                         '                </a>' +
                                         '            </li>';
-                                } else if ((data.maintenanceRequestStatus == 4 && !data.notifyCustomerOfTheCost) || data.maintenanceRequestStatus == 5) {
+                                } else if ((data.maintenanceRequestStatus == 7 && !data.notifyCustomerOfTheCost) || data.maintenanceRequestStatus == 8) {
                                     result = result +
                                         '            <li class="navi-item">' +
                                         '                <a href="/Maintenance/UpdateStatus?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.Completed">' +
                                         '                    <span class="navi-text">@Messages.Completed</span>' +
                                         '                </a>' +
                                         '            </li>';
-                                } else if (data.maintenanceRequestStatus == 6) {
+                                } else if (data.maintenanceRequestStatus == 9) {
                                     result = result +
                                         '            <li class="navi-item">' +
                                         '                <a href="/Maintenance/UpdateStatus?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.NotifyCustomerOfMaintenanceEnd">' +

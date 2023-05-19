@@ -483,8 +483,11 @@
   <data name="Reject" xml:space="preserve">
     <value>رفض</value>
   </data>
-  <data name="RemoveFromMaintained" xml:space="preserve">
+  <data name="RemovedFromMaintained" xml:space="preserve">
     <value>تم الإسترجاع</value>
+  </data>
+  <data name="RemoveFromMaintained" xml:space="preserve">
+    <value>استرجاع</value>
   </data>
   <data name="RemoveFromMaintainedReason" xml:space="preserve">
     <value>سبب الإسترجاع</value>
