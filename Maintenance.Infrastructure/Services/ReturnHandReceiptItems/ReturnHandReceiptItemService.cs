@@ -61,17 +61,35 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
                     case MaintenanceRequestStatus.New:
                         itemVm.MaintenanceRequestStatusMessage = $"{Messages.New}";
                         break;
-                    case MaintenanceRequestStatus.Suspended:
-                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.Suspended} - {item.MaintenanceSuspensionReason}";
+                    case MaintenanceRequestStatus.CheckItem:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.CheckItem}";
                         break;
-                    case MaintenanceRequestStatus.CustomerRefused:
-                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.CustomerRefused} - {item.ReasonForRefusingMaintenance}";
+                    case MaintenanceRequestStatus.InformCustomerOfTheCost:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.InformCustomerOfTheCost}";
+                        break;
+                    case MaintenanceRequestStatus.CustomerApproved:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.CustomerApproved}";
+                        break;
+                    case MaintenanceRequestStatus.EnterMaintenanceCost:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.EnterMaintenanceCost}";
                         break;
                     case MaintenanceRequestStatus.Completed:
                         itemVm.MaintenanceRequestStatusMessage = $"{Messages.Completed}";
                         break;
+                    case MaintenanceRequestStatus.NotifyCustomerOfMaintenanceEnd:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.NotifyCustomerOfMaintenanceEnd}";
+                        break;
                     case MaintenanceRequestStatus.Delivered:
                         itemVm.MaintenanceRequestStatusMessage = $"{Messages.Delivered}";
+                        break;
+                    case MaintenanceRequestStatus.CustomerRefused:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.CustomerRefused} - {item.ReasonForRefusingMaintenance}";
+                        break;
+                    case MaintenanceRequestStatus.Suspended:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.Suspended} - {item.MaintenanceSuspensionReason}";
+                        break;
+                    case MaintenanceRequestStatus.RemovedFromMaintained:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.RemoveFromMaintained} - {item.RemoveFromMaintainedReason}";
                         break;
                 };
 
@@ -110,6 +128,18 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
                 throw new InvalidInputException();
             }
 
+            MaintenanceRequestStatus status;
+            if (handReceiptItem.WarrantyDaysNumber != null)
+            {
+                var warrantyExpiryDate = handReceiptItem.DeliveryDate.Value.AddDays(handReceiptItem.WarrantyDaysNumber.Value);
+                var isWarrantyValid = DateTime.Now.Date <= warrantyExpiryDate.Date;
+                status = isWarrantyValid ? MaintenanceRequestStatus.New : MaintenanceRequestStatus.WaitingManagerResponse;
+            }
+            else
+            {
+                status = MaintenanceRequestStatus.WaitingManagerResponse;
+            }
+
             var newReturnHandReceiptItem = new ReceiptItem
             {
                 CustomerId = returnHandReceipt.CustomerId,
@@ -122,7 +152,8 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
                 ReturnReason = dto.ReturnReason,
                 ReceiptItemType = ReceiptItemType.Returned,
                 PreviousReceiptItemId = handReceiptItem.Id,
-                PreviousTechnicianId = handReceiptItem.TechnicianId
+                PreviousTechnicianId = handReceiptItem.TechnicianId,
+                MaintenanceRequestStatus = status,
             };
 
             newReturnHandReceiptItem.CreatedBy = userId;
@@ -199,7 +230,7 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
         {
             var returnHandReceiptItem = await _db.ReceiptItems
                 .SingleOrDefaultAsync(x => x.Id == returnHandReceiptItemId
-                && x.ReturnHandReceiptId == returnHandReceiptId 
+                && x.ReturnHandReceiptId == returnHandReceiptId
                 && x.MaintenanceRequestStatus != Core.Enums.MaintenanceRequestStatus.Delivered);
             if (returnHandReceiptItem == null)
                 throw new EntityNotFoundException();
@@ -242,7 +273,7 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
                 throw new EntityNotFoundException();
             }
 
-            var isAllItemsDelivered = returnHandReceipt.ReceiptItems.All(x => x.MaintenanceRequestStatus 
+            var isAllItemsDelivered = returnHandReceipt.ReceiptItems.All(x => x.MaintenanceRequestStatus
             == MaintenanceRequestStatus.Delivered);
             return isAllItemsDelivered;
         }
@@ -260,7 +291,7 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
 
         public async Task<UpdateReturnHandReceiptItemDto> Get(int returnHandReceiptItemId, int returnHandReceiptId)
         {
-            var returnHandReceiptItem = await _db.ReceiptItems.SingleOrDefaultAsync(x => x.Id 
+            var returnHandReceiptItem = await _db.ReceiptItems.SingleOrDefaultAsync(x => x.Id
                 == returnHandReceiptItemId && x.ReturnHandReceiptId == returnHandReceiptId);
             if (returnHandReceiptItem == null)
             {

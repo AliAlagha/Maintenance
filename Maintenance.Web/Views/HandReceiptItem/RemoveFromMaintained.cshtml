@@ -1,0 +1,32 @@
+﻿@model RemoveFromMaintainedDto
+@{
+    ViewData["Title"] = Messages.HandReceiptItems;
+    Layout = null;
+}
+
+<form asp-action="RemoveFromMaintained" method="post" class="ajaxForm" tname="#kt_datatable" enctype="multipart/form-data">
+    <input type="hidden" asp-for="@Model.HandReceiptItemId" />
+    <input type="hidden" asp-for="@Model.HandReceiptId" />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.RemoveFromMaintainedReason</label>
+                <input asp-for="RemoveFromMaintainedReason" placeholder="@string.Format(Messages.Enter,Messages.RemoveFromMaintainedReason)" class="form-control form-control-solid" />
+                <span asp-validation-for="RemoveFromMaintainedReason" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
+        <button type="button" data-dismiss="modal" class="btn btn-light-primary font-weight-bold">@Messages.Cancel</button>
+    </div>
+</form>
+
+<script>
+    PageLoadActions();
+</script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
+

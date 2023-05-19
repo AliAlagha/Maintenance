@@ -115,6 +115,9 @@ namespace Maintenance.Infrastructure.Services.Maintenance
                 case MaintenanceRequestStatus.Suspended:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.Suspended} - {item.MaintenanceSuspensionReason}";
                     break;
+                case MaintenanceRequestStatus.RemovedFromMaintained:
+                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.RemoveFromMaintained} - {item.RemoveFromMaintainedReason}";
+                    break;
             };
         }
 

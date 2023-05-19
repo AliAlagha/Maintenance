@@ -94,6 +94,18 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                 var handReceiptItem = handReceipt.ReceiptItems
                     .Single(x => x.Id == returnHandReceiptItem.HandReceiptItemId);
 
+                MaintenanceRequestStatus status;
+                if (handReceiptItem.WarrantyDaysNumber != null)
+                {
+                    var warrantyExpiryDate = handReceiptItem.DeliveryDate.Value.AddDays(handReceiptItem.WarrantyDaysNumber.Value);
+                    var isWarrantyValid = DateTime.Now.Date <= warrantyExpiryDate.Date;
+                    status = isWarrantyValid ? MaintenanceRequestStatus.New : MaintenanceRequestStatus.WaitingManagerResponse;
+                }
+                else
+                {
+                    status = MaintenanceRequestStatus.WaitingManagerResponse;
+                }
+
                 var newReturnHandReceiptItem = new ReceiptItem
                 {
                     CustomerId = handReceipt.CustomerId,

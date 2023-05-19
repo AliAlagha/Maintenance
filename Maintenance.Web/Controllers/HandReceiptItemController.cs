@@ -23,7 +23,7 @@ namespace Maintenance.Web.Controllers
 
         public async Task<IActionResult> Index(int handReceiptId)
         {
-            var isAllItemsDelivered = await _handReceiptItemService.IsAllItemsDelivered(handReceiptId);
+            var isAllItemsDelivered = await _handReceiptItemService.IsAllItemsCanBeDelivered(handReceiptId);
             ViewBag.IsAllItemsDelivered = isAllItemsDelivered;
             return View(handReceiptId);
         }
@@ -65,32 +65,32 @@ namespace Maintenance.Web.Controllers
             return View(input);
         }
 
-        [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Edit(int handReceiptItemId, int handReceiptId)
-        {
-            var dto = await _handReceiptItemService.Get(handReceiptItemId, handReceiptId);
-            return View(dto);
-        }
+        //[Authorize(Roles = "Administrator")]
+        //public async Task<IActionResult> Edit(int handReceiptItemId, int handReceiptId)
+        //{
+        //    var dto = await _handReceiptItemService.Get(handReceiptItemId, handReceiptId);
+        //    return View(dto);
+        //}
 
-        [Authorize(Roles = "Administrator")]
-        [HttpPost]
-        public async Task<IActionResult> Edit(UpdateHandReceiptItemDto input)
-        {
-            if (ModelState.IsValid)
-            {
-                var isFormValid = CheckPriceValidity(input.SpecifiedCost, input.CostFrom
-                    , input.CostTo, input.NotifyCustomerOfTheCost);
-                if (!isFormValid)
-                {
-                    ModelState.AddModelError("PriceNotValid", string.Empty);
-                    return View(input);
-                }
+        //[Authorize(Roles = "Administrator")]
+        //[HttpPost]
+        //public async Task<IActionResult> Edit(UpdateHandReceiptItemDto input)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var isFormValid = CheckPriceValidity(input.SpecifiedCost, input.CostFrom
+        //            , input.CostTo, input.NotifyCustomerOfTheCost);
+        //        if (!isFormValid)
+        //        {
+        //            ModelState.AddModelError("PriceNotValid", string.Empty);
+        //            return View(input);
+        //        }
 
-                await _handReceiptItemService.Update(input, UserId);
-                return UpdatedSuccessfully();
-            }
-            return View(input);
-        }
+        //        await _handReceiptItemService.Update(input, UserId);
+        //        return UpdatedSuccessfully();
+        //    }
+        //    return View(input);
+        //}
 
         private static bool CheckPriceValidity(double? specifiedCost, double? costFrom
             , double? costTo, bool notifyCustomerOfTheCost)
@@ -156,6 +156,27 @@ namespace Maintenance.Web.Controllers
         {
             await _handReceiptItemService.DeliveryOfAllItems(handReceiptId, UserId);
             return RedirectToAction(nameof(Index), new { HandReceiptId = handReceiptId });
+        }
+
+        public IActionResult RemoveFromMaintained(int handReceiptItemId, int handReceiptId)
+        {
+            var dto = new RemoveFromMaintainedDto
+            {
+                HandReceiptItemId = handReceiptItemId,
+                HandReceiptId = handReceiptId
+            };
+            return View(dto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveFromMaintained(RemoveFromMaintainedDto input)
+        {
+            if (ModelState.IsValid)
+            {
+                await _handReceiptItemService.RemoveFromMaintained(input, UserId);
+                return UpdatedSuccessfully();
+            }
+            return View(input);
         }
 
     }

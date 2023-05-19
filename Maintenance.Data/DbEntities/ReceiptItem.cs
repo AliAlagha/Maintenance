@@ -38,6 +38,7 @@ namespace Maintenance.Data.DbEntities
         public DateTime? CollectionDate { get; set; }
         public DateTime? DeliveryDate { get; set; }
         public MaintenanceRequestStatus MaintenanceRequestStatus { get; set; }
+        public string? RemoveFromMaintainedReason { get; set; }
         public string? ReasonForRefusingMaintenance { get; set; }
         public string? MaintenanceSuspensionReason { get; set; }
         public string? ReturnReason { get; set; }
