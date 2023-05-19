@@ -11,14 +11,14 @@ using Maintenance.Data.Extensions;
 using Maintenance.Core.Enums;
 using Maintenance.Core.Resources;
 
-namespace Maintenance.Infrastructure.Services.Maintenance
+namespace Maintenance.Infrastructure.Services.ManagerRequests
 {
-    public class MaintenanceService : IMaintenanceService
+    public class ManagerRequestService : IManagerRequestService
     {
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
 
-        public MaintenanceService(ApplicationDbContext db, IMapper mapper)
+        public ManagerRequestService(ApplicationDbContext db, IMapper mapper)
         {
             _db = db;
             _mapper = mapper;
@@ -29,6 +29,7 @@ namespace Maintenance.Infrastructure.Services.Maintenance
         {
             var dbQuery = _db.ReceiptItems
                 .Include(x => x.Customer)
+                .Where(x => x.MaintenanceRequestStatus == MaintenanceRequestStatus.WaitingManagerResponse)
                 .OrderByDescending(x => x.CreatedAt)
                 .AsQueryable();
 
@@ -85,6 +86,15 @@ namespace Maintenance.Infrastructure.Services.Maintenance
         {
             switch (item.MaintenanceRequestStatus)
             {
+                case MaintenanceRequestStatus.WaitingManagerResponse:
+                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.WaitingManagerResponse}";
+                    break;
+                case MaintenanceRequestStatus.ManagerApprovedReturn:
+                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.ManagerApprovedReturn}";
+                    break;
+                case MaintenanceRequestStatus.ManagerRefusedReturn:
+                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.ManagerRefusedReturn}";
+                    break;
                 case MaintenanceRequestStatus.New:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.New}";
                     break;
@@ -121,99 +131,32 @@ namespace Maintenance.Infrastructure.Services.Maintenance
             };
         }
 
-        public async Task UpdateStatus(int receiptItemId, string userId)
+        public async Task UpdateStatus(int receiptItemId, MaintenanceRequestStatus status
+            , string userId)
         {
             var receiptItem = await _db.ReceiptItems
                 .SingleOrDefaultAsync(x => x.Id == receiptItemId);
             if (receiptItem == null)
                 throw new EntityNotFoundException();
 
-            if (receiptItem.TechnicianId != userId)
+            if (receiptItem.MaintenanceRequestStatus != MaintenanceRequestStatus.WaitingManagerResponse)
             {
                 throw new NoValidityException();
             }
 
-            if (receiptItem.MaintenanceRequestStatus == MaintenanceRequestStatus.ManagerApprovedReturn
-                || receiptItem.MaintenanceRequestStatus == MaintenanceRequestStatus.New)
+            if (status == MaintenanceRequestStatus.ManagerApprovedReturn)
             {
-                receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.CheckItem;
+                receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.ManagerApprovedReturn;
             }
-            else if (receiptItem.MaintenanceRequestStatus == MaintenanceRequestStatus.CheckItem)
+            else if (status == MaintenanceRequestStatus.ManagerRefusedReturn)
             {
-                receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.InformCustomerOfTheCost;
-            }
-            else if (receiptItem.MaintenanceRequestStatus == MaintenanceRequestStatus.InformCustomerOfTheCost)
-            {
-                receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.CustomerApproved;
-            }
-            else if ((receiptItem.MaintenanceRequestStatus == MaintenanceRequestStatus.CustomerApproved && !receiptItem.NotifyCustomerOfTheCost)
-                || receiptItem.MaintenanceRequestStatus == MaintenanceRequestStatus.EnterMaintenanceCost)
-            {
-                receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.Completed;
-            }
-            else if (receiptItem.MaintenanceRequestStatus == MaintenanceRequestStatus.Completed)
-            {
-                receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.NotifyCustomerOfMaintenanceEnd;
+                receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.ManagerRefusedReturn;
             }
 
-            receiptItem.TechnicianId = userId;
             receiptItem.UpdatedAt = DateTime.Now;
             receiptItem.UpdatedBy = userId;
             _db.ReceiptItems.Update(receiptItem);
             await _db.SaveChangesAsync();
         }
-
-        public async Task CustomerRefuseMaintenance(CustomerRefuseMaintenanceDto dto, string userId)
-        {
-            var receiptItem = await _db.ReceiptItems
-                .SingleOrDefaultAsync(x => x.Id == dto.ReceiptItemId
-                && x.TechnicianId == userId);
-            if (receiptItem == null)
-                throw new EntityNotFoundException();
-
-            receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.CustomerRefused;
-            receiptItem.ReasonForRefusingMaintenance = dto.ReasonForRefusingMaintenance;
-            receiptItem.TechnicianId = userId;
-            receiptItem.UpdatedAt = DateTime.Now;
-            receiptItem.UpdatedBy = userId;
-            _db.ReceiptItems.Update(receiptItem);
-            await _db.SaveChangesAsync();
-        }
-
-        public async Task SuspenseMaintenance(SuspenseReceiptItemDto dto, string userId)
-        {
-            var receiptItem = await _db.ReceiptItems
-                .SingleOrDefaultAsync(x => x.Id == dto.ReceiptItemId
-                && x.TechnicianId == userId);
-            if (receiptItem == null)
-                throw new EntityNotFoundException();
-
-            receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.Suspended;
-            receiptItem.MaintenanceSuspensionReason = dto.MaintenanceSuspensionReason;
-            receiptItem.TechnicianId = userId;
-            receiptItem.UpdatedAt = DateTime.Now;
-            receiptItem.UpdatedBy = userId;
-            _db.ReceiptItems.Update(receiptItem);
-            await _db.SaveChangesAsync();
-        }
-
-        public async Task EnterMaintenanceCost(EnterMaintenanceCostDto dto, string userId)
-        {
-            var receiptItem = await _db.ReceiptItems
-                .SingleOrDefaultAsync(x => x.Id == dto.ReceiptItemId
-                && x.NotifyCustomerOfTheCost
-                && x.TechnicianId == userId);
-            if (receiptItem == null)
-                throw new EntityNotFoundException();
-
-            receiptItem.NotifyCustomerOfTheCost = false;
-            receiptItem.CostNotifiedToTheCustomer = dto.CostNotifiedToTheCustomer;
-            receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.EnterMaintenanceCost;
-            receiptItem.UpdatedAt = DateTime.Now;
-            receiptItem.UpdatedBy = userId;
-            _db.ReceiptItems.Update(receiptItem);
-            await _db.SaveChangesAsync();
-        }
-
     }
 }

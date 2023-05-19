@@ -139,6 +139,14 @@
         }
     });
 
+    $(":checkbox").on('change', function () {
+        if ($(this).is(':checked')) {
+            $(this).attr('value', 'true');
+        } else {
+            $(this).attr('value', 'false');
+        }
+    });
+
     $('#SpecifiedCost, #CostFrom, #CostTo, #NotifyCustomerOfTheCost').change(function() {
         var specifiedCostVal = $('#SpecifiedCost').val();
         var costFromVal = $('#CostFrom').val();

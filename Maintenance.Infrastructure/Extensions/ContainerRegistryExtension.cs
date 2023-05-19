@@ -8,6 +8,7 @@ using Maintenance.Infrastructure.Services.HandReceiptItems;
 using Maintenance.Infrastructure.Services.HandReceipts;
 using Maintenance.Infrastructure.Services.Items;
 using Maintenance.Infrastructure.Services.Maintenance;
+using Maintenance.Infrastructure.Services.ManagerRequests;
 using Maintenance.Infrastructure.Services.PdfExportReport;
 using Maintenance.Infrastructure.Services.Reports;
 using Maintenance.Infrastructure.Services.ReturnHandReceiptItems;
@@ -35,6 +36,7 @@ namespace Maintenance.Infrastructure.Extensions
             services.AddScoped<IPdfExportReportService, PdfExportReportService>();
             services.AddScoped<IBranchPhoneNumberService, BranchPhoneNumberService>();
             services.AddScoped<IReportService, ReportService>();
+            services.AddScoped<IManagerRequestService, ManagerRequestService>();
             return services;
         }
     }

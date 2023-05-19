@@ -124,6 +124,10 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                 {
                     handReceiptItem.FinalCost = itemDto.SpecifiedCost;
                 }
+                else if (itemDto.CostTo != null)
+                {
+                    handReceiptItem.FinalCost = itemDto.CostTo;
+                }
 
                 handReceiptItem.CreatedBy = userId;
                 handReceipt.ReceiptItems.Add(handReceiptItem);

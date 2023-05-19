@@ -101,17 +101,27 @@ namespace Maintenance.Web.Controllers
                 isFormValid = false;
             }
 
-            if (costFrom.HasValue && (specifiedCost.HasValue || costTo.HasValue || notifyCustomerOfTheCost))
+            if (costFrom.HasValue && !costTo.HasValue)
             {
                 isFormValid = false;
             }
 
-            if (costTo.HasValue && (specifiedCost.HasValue || costFrom.HasValue || notifyCustomerOfTheCost))
+            if (costTo.HasValue && !costFrom.HasValue)
+            {
+                isFormValid = false;
+            }
+
+            if (costFrom.HasValue && costTo.HasValue && (specifiedCost.HasValue || notifyCustomerOfTheCost))
             {
                 isFormValid = false;
             }
 
             if (notifyCustomerOfTheCost && (specifiedCost.HasValue || costFrom.HasValue || costTo.HasValue))
+            {
+                isFormValid = false;
+            }
+
+            if (!notifyCustomerOfTheCost && !specifiedCost.HasValue && !costFrom.HasValue && !costTo.HasValue)
             {
                 isFormValid = false;
             }

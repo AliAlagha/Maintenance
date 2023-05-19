@@ -110,25 +110,25 @@
                 <form id="AddItemForm">
                     <div class="row">
                         <div class="form-group">
-                            <div class="col-md-8">
+                            <div class="col-md-4">
                                 <label>@Messages.Item</label>
-                                <select id="SelectItem" name="ItemId" class="form-control form-control-solid">
+                                <select id="SelectItem" name="ItemId" class="form-control form-control-solid" style="width: 180px;">
                                     <option value="">-- @string.Format(Messages.Select, Messages.Item) --</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-8">
+                            <div class="col-md-4">
                                 <label>@Messages.Company</label>
-                                <select id="SelectCompany" name="CompanyId" class="form-control form-control-solid">
+                                <select id="SelectCompany" name="CompanyId" class="form-control form-control-solid" style="width: 180px;">
                                     <option value="">-- @string.Format(Messages.Select, Messages.Company) --</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-8">
+                            <div class="col-md-4">
                                 <label>@Messages.Color</label>
-                                <select id="SelectColor" name="ColorId" class="form-control form-control-solid">
+                                <select id="SelectColor" name="ColorId" class="form-control form-control-solid" style="width: 180px;">
                                     <option value="">-- @string.Format(Messages.Select, Messages.Color) --</option>
                                 </select>
                             </div>
@@ -147,21 +147,21 @@
                             <div class="form-group">
                                 <label>@Messages.SpecifiedCost</label>
                                 <input type="number" id="SpecifiedCost" placeholder="@string.Format(Messages.Enter,Messages.SpecifiedCost)" class="form-control form-control-solid"
-                                min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />
+                                       min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>@Messages.From</label>
                                 <input type="number" id="CostFrom" placeholder="@string.Format(Messages.Enter,Messages.From)" class="form-control form-control-solid"
-                                min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"/>
+                                       min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>@Messages.To</label>
                                 <input type="number" id="CostTo" placeholder="@string.Format(Messages.Enter,Messages.To)" class="form-control form-control-solid"
-                                min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"/>
+                                       min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -176,7 +176,7 @@
                             <div class="form-group">
                                 <label>@Messages.WarrantyDaysNumber</label>
                                 <input type="number" id="WarrantyDaysNumber" placeholder="@string.Format(Messages.Enter,Messages.WarrantyDaysNumber)" class="form-control form-control-solid"
-                                min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"/>
+                                       min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -248,9 +248,17 @@
             });
 
             var colorId = $('#SelectColor').val();
-            var colorObj = colorsArr.find(obj => {
-                return obj.id == colorId;
-            });
+            var colorObj;
+            if (colorId != "") {
+                colorObj = colorsArr.find(obj => {
+                    return obj.id == colorId;
+                });
+            }
+
+            var colorNameValue = "";
+            if (colorObj) {
+                colorNameValue = colorObj.name;
+            }
 
             var description = $('#Description').val();
             var specifiedCost = $('#SpecifiedCost').val();
@@ -265,7 +273,7 @@
                 itemId: itemId,
                 item: itemObj.name,
                 colorId: colorId,
-                color: colorObj.name,
+                color: colorNameValue,
                 companyId: companyId,
                 company: companyObj.name,
                 description: description,
@@ -285,6 +293,15 @@
             $("#CostFrom").prop('disabled', false);
             $("#CostTo").prop('disabled', false);
             $("#NotifyCustomerOfTheCost").prop('disabled', false);
+            $('#SelectItem').select2({
+                placeholder: "-- اختر القطعة --",
+            });
+            $('#SelectCompany').select2({
+                placeholder: "-- اختر الشركة --",
+            });
+            $('#SelectColor').select2({
+                placeholder: "-- اختر اللون --",
+            });
 
             $("#Urgent").attr('value', 'false');
             $("#NotifyCustomerOfTheCost").attr('value', 'false');

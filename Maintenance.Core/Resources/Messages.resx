@@ -408,6 +408,15 @@
   <data name="MaintenanceTechnician" xml:space="preserve">
     <value>فني الصيانة</value>
   </data>
+  <data name="ManagerApprovedReturn" xml:space="preserve">
+    <value>موافقة المدير</value>
+  </data>
+  <data name="ManagerRefusedReturn" xml:space="preserve">
+    <value>رفض المدير</value>
+  </data>
+  <data name="ManagerRequests" xml:space="preserve">
+    <value>طلبات مدير الصيانة</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>الإسم</value>
   </data>
@@ -578,6 +587,9 @@
   </data>
   <data name="UserType" xml:space="preserve">
     <value>نوع المستخدم</value>
+  </data>
+  <data name="WaitingManagerResponse" xml:space="preserve">
+    <value>انتظار موافقة المدير</value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>تحذير</value>

@@ -96,6 +96,15 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
         {
             switch (item.MaintenanceRequestStatus)
             {
+                case MaintenanceRequestStatus.WaitingManagerResponse:
+                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.WaitingManagerResponse}";
+                    break;
+                case MaintenanceRequestStatus.ManagerApprovedReturn:
+                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.ManagerApprovedReturn}";
+                    break;
+                case MaintenanceRequestStatus.ManagerRefusedReturn:
+                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.ManagerRefusedReturn}";
+                    break;
                 case MaintenanceRequestStatus.New:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.New}";
                     break;
@@ -178,6 +187,10 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
             if (input.SpecifiedCost != null)
             {
                 handReceiptItem.FinalCost = input.SpecifiedCost;
+            }
+            else if (input.CostTo != null)
+            {
+                handReceiptItem.FinalCost = input.CostTo;
             }
 
             handReceiptItem.CustomerId = handReceipt.CustomerId;

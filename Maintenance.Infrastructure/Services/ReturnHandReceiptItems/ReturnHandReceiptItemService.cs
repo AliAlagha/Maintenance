@@ -58,6 +58,15 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
 
                 switch (item.MaintenanceRequestStatus)
                 {
+                    case MaintenanceRequestStatus.WaitingManagerResponse:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.WaitingManagerResponse}";
+                        break;
+                    case MaintenanceRequestStatus.ManagerApprovedReturn:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.ManagerApprovedReturn}";
+                        break;
+                    case MaintenanceRequestStatus.ManagerRefusedReturn:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.ManagerRefusedReturn}";
+                        break;
                     case MaintenanceRequestStatus.New:
                         itemVm.MaintenanceRequestStatusMessage = $"{Messages.New}";
                         break;

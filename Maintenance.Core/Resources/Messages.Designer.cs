@@ -934,6 +934,33 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to موافقة المدير.
+        /// </summary>
+        public static string ManagerApprovedReturn {
+            get {
+                return ResourceManager.GetString("ManagerApprovedReturn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to رفض المدير.
+        /// </summary>
+        public static string ManagerRefusedReturn {
+            get {
+                return ResourceManager.GetString("ManagerRefusedReturn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to طلبات مدير الصيانة.
+        /// </summary>
+        public static string ManagerRequests {
+            get {
+                return ResourceManager.GetString("ManagerRequests", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to الإسم.
         /// </summary>
         public static string Name {
@@ -1443,6 +1470,15 @@ namespace Maintenance.Core.Resources {
         public static string UserType {
             get {
                 return ResourceManager.GetString("UserType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to انتظار موافقة المدير.
+        /// </summary>
+        public static string WaitingManagerResponse {
+            get {
+                return ResourceManager.GetString("WaitingManagerResponse", resourceCulture);
             }
         }
         
