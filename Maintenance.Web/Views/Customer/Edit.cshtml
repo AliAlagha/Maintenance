@@ -39,6 +39,27 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.CustomerRate</label>
+                <select asp-for="CustomerRate" class="form-control form-control-solid">
+                    <option value="">-- @string.Format(Messages.Select, Messages.CustomerRate) --</option>
+                    <option value="@CustomerRate.Bad">@Messages.Bad</option>
+                    <option value="@CustomerRate.Good">@Messages.Good</option>
+                    <option value="@CustomerRate.Best">@Messages.Best</option>
+                </select>
+                <span asp-validation-for="CustomerRate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.Notes</label>
+                <textarea asp-for="Notes" placeholder="@string.Format(Messages.Enter,Messages.Notes)" class="form-control form-control-solid"></textarea>
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
 
     <div class="modal-footer">
         <button type="submit" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>

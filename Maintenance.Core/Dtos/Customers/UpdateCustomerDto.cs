@@ -23,5 +23,7 @@ namespace Maintenance.Core.Dtos
         public string PhoneNumber { get; set; }
 
         public string? Address { get; set; }
+        public CustomerRate? CustomerRate { get; set; }
+        public string? Notes { get; set; }
     }
 }

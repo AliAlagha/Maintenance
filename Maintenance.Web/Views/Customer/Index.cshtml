@@ -58,10 +58,10 @@
     <script>
         "use strict";
         // Class definition
-        var KTDatatableAutoColumnHideDemo = function() {
+        var KTDatatableAutoColumnHideDemo = function () {
             // Private functions
             // basic demo
-            var demo = function() {
+            var demo = function () {
                 var datatable = $('#kt_datatable').KTDatatable({
                     // datasource definition
                     data: {
@@ -115,6 +115,29 @@
                             width: 150
                         },
                         {
+                            field: 'customerRate',
+                            title: '@Messages.CustomerRate',
+                            sortable: false,
+                            width: 100,
+                            template: function (data) {
+                                if (data.customerRate == 1) {
+                                    return '@Messages.Bad';
+                                } else if (data.customerRate == 2) {
+                                    return '@Messages.Good';
+                                } else if (data.customerRate == 3) {
+                                    return '@Messages.Best';
+                                } else {
+                                    return '';
+                                }
+                            }
+                        },
+                        {
+                            field: 'notes',
+                            title: '@Messages.Notes',
+                            sortable: false,
+                            width: 150
+                        },
+                        {
                             field: 'createdAt',
                             title: '@Messages.CreationDate',
                             sortable: false,
@@ -127,7 +150,7 @@
                             width: 120,
                             overflow: 'visible',
                             autoHide: false,
-                            template: function(data) {
+                            template: function (data) {
                                 var result = '';
                                 result = result + GetPopUpEditAction('/Customer/Edit/' + data.id, '@string.Format(Messages.EditTitle, Messages.CustomerWithoutDef)');
                                 result = result + GetDeleteAction('/Customer/Delete/' + data.id);
@@ -139,12 +162,12 @@
             };
             return {
                 // public functions
-                init: function() {
+                init: function () {
                     demo();
                 },
             };
         }();
-        jQuery(document).ready(function() {
+        jQuery(document).ready(function () {
             KTDatatableAutoColumnHideDemo.init();
         });
     </script>

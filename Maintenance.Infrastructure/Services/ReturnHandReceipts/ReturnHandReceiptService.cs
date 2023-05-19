@@ -10,6 +10,7 @@ using Maintenance.Infrastructure.Services.Customers;
 using Maintenance.Data.Extensions;
 using Maintenance.Core.Enums;
 using Maintenance.Core.Helpers;
+using Maintenance.Core.Resources;
 
 namespace Maintenance.Infrastructure.Services.HandReceipts
 {
@@ -37,7 +38,8 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             {
                 dbQuery = dbQuery.Where(x => x.Id.ToString().Contains(query.GeneralSearch)
                     || x.Customer.Name.Contains(query.GeneralSearch)
-                    || x.Customer.PhoneNumber.Contains(query.GeneralSearch));
+                    || x.Customer.PhoneNumber.Contains(query.GeneralSearch)
+                    || x.ReceiptItems.Any(x => x.ItemBarcode.Contains(query.GeneralSearch)));
             }
 
             if (!string.IsNullOrWhiteSpace(barcode))
@@ -67,8 +69,11 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             var selectedReturnHandReceiptItemIds = selectedReturnHandReceiptItems_dto
                 .Select(x => x.HandReceiptItemId).ToList();
 
-            var dbSelectedItems = handReceipt.ReceiptItems.Where(x => selectedReturnHandReceiptItemIds.Contains(x.Id));
-            if (dbSelectedItems.Any(x => x.MaintenanceRequestStatus != MaintenanceRequestStatus.Delivered))
+            var dbSelectedItems = handReceipt.ReceiptItems.Where(x => selectedReturnHandReceiptItemIds.Contains(x.Id))
+                .ToList();
+            if (dbSelectedItems.Any(x => x.MaintenanceRequestStatus != MaintenanceRequestStatus.Delivered
+                || x.WarrantyDaysNumber == null 
+                || DateTime.Now.Date > x.DeliveryDate.Value.AddDays(x.WarrantyDaysNumber.Value).Date))
             {
                 throw new InvalidInputException();
             }
@@ -83,7 +88,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             return returnHandReceipt.Id;
         }
 
-        private async Task AddReturnHandReceiptItems(List<CreateReturnHandReceiptItemDto> 
+        private async Task AddReturnHandReceiptItems(List<CreateReturnHandReceiptItemDto>
             selectedReturnHandReceiptItems_dto, HandReceipt? handReceipt, ReturnHandReceipt returnHandReceipt)
         {
             foreach (var returnHandReceiptItem in selectedReturnHandReceiptItems_dto)
@@ -101,7 +106,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                     Company = handReceiptItem.Company,
                     ItemBarcode = await GenerateBarcode(),
                     ReturnReason = returnHandReceiptItem.ReturnReason,
-                    ReceiptItemType = ReceiptItemType.Returned,                
+                    ReceiptItemType = ReceiptItemType.Returned,
                     PreviousReceiptItemId = handReceiptItem.Id,
                     PreviousTechnicianId = handReceiptItem.TechnicianId
                 };
@@ -126,8 +131,10 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
         public async Task<List<HandReceiptItemForReturnViewModel>> GetHandReceiptItemsForReturn(int handReceiptId)
         {
             var handReceipt = await _db.HandReceipts
-                .Include(x => x.ReceiptItems.Where(x => x.MaintenanceRequestStatus
-                    == MaintenanceRequestStatus.Delivered))
+                .Include(x => x.ReceiptItems.Where(x =>
+                    x.MaintenanceRequestStatus == MaintenanceRequestStatus.Delivered
+                    && x.WarrantyDaysNumber != null
+                    && DateTime.Now.Date <= x.DeliveryDate.Value.AddDays(x.WarrantyDaysNumber.Value).Date))
                 .SingleOrDefaultAsync(x => x.Id == handReceiptId);
             if (handReceipt == null)
                 throw new EntityNotFoundException();
@@ -137,18 +144,27 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             for (int i = 0; i < handReceipt.ReceiptItems.Count; i++)
             {
                 var handReceiptItem = handReceipt.ReceiptItems[i];
-                itemVms.Add(new HandReceiptItemForReturnViewModel
+                var handReceiptItemForReturnVm = new HandReceiptItemForReturnViewModel
                 {
                     Index = i,
                     Id = handReceiptItem.Id,
                     Item = handReceiptItem.Item,
                     ItemBarcode = handReceiptItem.ItemBarcode,
                     Company = handReceiptItem.Company,
-                    WarrantyDaysNumber = handReceiptItem.WarrantyDaysNumber,
                     DeliveryDate = handReceiptItem.DeliveryDate != null
                         ? handReceiptItem.DeliveryDate.Value.ToString("yyyy-MM-dd")
                         : null,
-                });
+                };
+
+                if (handReceiptItem.WarrantyDaysNumber != null)
+                {
+                    var warrantyExpiryDate = handReceiptItem.DeliveryDate.Value.AddDays(handReceiptItem.WarrantyDaysNumber.Value);
+                    var isWarrantyValid = DateTime.Now.Date <= warrantyExpiryDate.Date;
+                    var warrantyMsg = isWarrantyValid ? Messages.WarrantyValid : Messages.WarrantyExpired;
+                    handReceiptItemForReturnVm.WarrantyDaysNumber = handReceiptItem.WarrantyDaysNumber + " - " + warrantyMsg;
+                }
+
+                itemVms.Add(handReceiptItemForReturnVm);
             }
 
             return itemVms;

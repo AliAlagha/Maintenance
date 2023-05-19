@@ -30,6 +30,7 @@ namespace Maintenance.Data.DbEntities
         public double? CostNotifiedToTheCustomer { get; set; }
         public double? CostFrom { get; set; }
         public double? CostTo { get; set; }
+        public double? FinalCost { get; set; }
         public bool Urgent { get; set; }
         public string ItemBarcode { get; set; }
         public int? WarrantyDaysNumber { get; set; }

@@ -40,7 +40,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label>@string.Format(Messages.Select, Messages.UserType)</label>
+                <label>@Messages.UserType</label>
                 <select asp-for="UserType" class="form-control form-control-solid">
                     <option value="">-- @string.Format(Messages.Select, Messages.UserType) --</option>
                     <option value="@UserType.Administrator">@Messages.Administrator</option>
@@ -52,7 +52,7 @@
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label>@string.Format(Messages.Select, Messages.Branch)</label>
+                <label>@Messages.Branch</label>
                 <select asp-for="BranchId" id="SelectBranch" class="form-control form-control-solid">
                     <option value="">-- @string.Format(Messages.Select, Messages.Branch) --</option>
                 </select>

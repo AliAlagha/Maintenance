@@ -43,7 +43,8 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             {
                 dbQuery = dbQuery.Where(x => x.Id.ToString().Contains(query.GeneralSearch)
                     || x.Customer.Name.Contains(query.GeneralSearch)
-                    || x.Customer.PhoneNumber.Contains(query.GeneralSearch));
+                    || x.Customer.PhoneNumber.Contains(query.GeneralSearch)
+                    || x.ReceiptItems.Any(x => x.ItemBarcode.Contains(query.GeneralSearch)));
             }
 
             if (!string.IsNullOrWhiteSpace(barcode))
@@ -118,8 +119,13 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                 }
                 handReceiptItem.ItemBarcode = await GenerateBarcode();
                 handReceiptItem.ReceiptItemType = ReceiptItemType.New;
-                handReceiptItem.CreatedBy = userId;
 
+                if (itemDto.SpecifiedCost != null)
+                {
+                    handReceiptItem.FinalCost = itemDto.SpecifiedCost;
+                }
+
+                handReceiptItem.CreatedBy = userId;
                 handReceipt.ReceiptItems.Add(handReceiptItem);
             }
         }

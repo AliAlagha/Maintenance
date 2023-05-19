@@ -144,8 +144,14 @@
   <data name="Approve" xml:space="preserve">
     <value>قبول</value>
   </data>
+  <data name="Bad" xml:space="preserve">
+    <value>سيئ</value>
+  </data>
   <data name="Barcode" xml:space="preserve">
     <value>الباركود</value>
+  </data>
+  <data name="Best" xml:space="preserve">
+    <value>ممتاز</value>
   </data>
   <data name="Branch" xml:space="preserve">
     <value>الفرع</value>
@@ -218,6 +224,9 @@
   </data>
   <data name="CustomerPhoneNumber" xml:space="preserve">
     <value>رقم هاتف العميل</value>
+  </data>
+  <data name="CustomerRate" xml:space="preserve">
+    <value>تقييم العميل</value>
   </data>
   <data name="CustomerRefused" xml:space="preserve">
     <value>رفض العميل</value>
@@ -302,6 +311,9 @@
   </data>
   <data name="FullName" xml:space="preserve">
     <value>الإسم الكامل</value>
+  </data>
+  <data name="Good" xml:space="preserve">
+    <value>جيد</value>
   </data>
   <data name="HandReceipt" xml:space="preserve">
     <value>سند استلام القطع</value>
@@ -402,8 +414,14 @@
   <data name="No" xml:space="preserve">
     <value>لا</value>
   </data>
+  <data name="NotAllowedAmount" xml:space="preserve">
+    <value>المبلغ المدخل غير مسموح به</value>
+  </data>
   <data name="NotDeliveredItemsReport" xml:space="preserve">
     <value>تقرير القطع التي تم صيانتها (غير مستلمة)</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>ملاحظات</value>
   </data>
   <data name="NotifyCustomerOfTheCost" xml:space="preserve">
     <value>يتطلب إبلاغ العميل بالتكلفة؟</value>
@@ -542,6 +560,9 @@
   </data>
   <data name="WarrantyExpired" xml:space="preserve">
     <value>الضمان منتهي</value>
+  </data>
+  <data name="WarrantyPeriodNotStarted" xml:space="preserve">
+    <value>لم تبدأ فترة الضمان</value>
   </data>
   <data name="WarrantyValid" xml:space="preserve">
     <value>الضمان ساري</value>

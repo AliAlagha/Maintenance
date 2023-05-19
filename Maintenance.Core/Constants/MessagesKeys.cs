@@ -29,5 +29,6 @@ namespace Maintenance.Core.Constants
         public const string InvalidInput = "InvalidInput";
         public const string NoValidity = "NoValidity";
         public const string EntityAlreadyExists = "EntityAlreadyExists";
+        public const string NotAllowedAmount = "NotAllowedAmount";
     }
 }

@@ -21,7 +21,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label>@Messages.ReturnReason</label>
-                <textarea asp-for="ReturnReason" placeholder="@string.Format(Messages.Enter,Messages.ReturnReason)" class="form-control form-control-solid" ></textarea>
+                <textarea asp-for="ReturnReason" placeholder="@string.Format(Messages.Enter,Messages.ReturnReason)" class="form-control form-control-solid"></textarea>
                 <span asp-validation-for="ReturnReason" class="text-danger"></span>
             </div>
         </div>
@@ -41,11 +41,11 @@
         data: {
             HandReceiptId: '@ViewBag.HandReceiptId'
         },
-        success: function(data) {
-            $(data).each(function(index, value) {
+        success: function (data) {
+            $(data).each(function (index, value) {
                 var optionHtml = value.item + " - " + value.itemBarcode
                     + " - " + value.company + " - @Messages.WarrantyDaysNumber: " + value.warrantyDaysNumber
-                    +" - @Messages.From: " + value.deliveryDate;
+                    + " - @Messages.DeliveryDate: " + value.deliveryDate;
                 $("#SelectHandReceiptItem").append($("<option></option>").val(value.id).html(optionHtml));
             });
         }

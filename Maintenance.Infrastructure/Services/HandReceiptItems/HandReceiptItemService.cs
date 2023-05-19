@@ -56,24 +56,8 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
             {
                 var itemVm = _mapper.Map<HandReceiptItemViewModel>(item);
 
-                switch (item.MaintenanceRequestStatus)
-                {
-                    case MaintenanceRequestStatus.New:
-                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.New}";
-                        break;
-                    case MaintenanceRequestStatus.Suspended:
-                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.Suspended} - {item.MaintenanceSuspensionReason}";
-                        break;
-                    case MaintenanceRequestStatus.CustomerRefused:
-                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.CustomerRefused} - {item.ReasonForRefusingMaintenance}";
-                        break;
-                    case MaintenanceRequestStatus.Completed:
-                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.Completed}";
-                        break;
-                    case MaintenanceRequestStatus.Delivered:
-                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.Delivered}";
-                        break;
-                };
+                ShowWarrantyDays(item, itemVm);
+                ShowRequestStatus(item, itemVm);
 
                 itemVms.Add(itemVm);
             }
@@ -87,6 +71,46 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                     Total = totalCount
                 },
                 Data = itemVms
+            };
+        }
+
+        private static void ShowWarrantyDays(ReceiptItem? item, HandReceiptItemViewModel itemVm)
+        {
+            if (item.WarrantyDaysNumber != null)
+            {
+                if (item.MaintenanceRequestStatus == MaintenanceRequestStatus.Delivered)
+                {
+                    var warrantyExpiryDate = item.DeliveryDate.Value.AddDays(item.WarrantyDaysNumber.Value);
+                    var isWarrantyValid = DateTime.Now.Date <= warrantyExpiryDate.Date;
+                    var warrantyMsg = isWarrantyValid ? Messages.WarrantyValid : Messages.WarrantyExpired;
+                    itemVm.WarrantyDaysNumber = item.WarrantyDaysNumber + " - " + warrantyMsg;
+                }
+                else
+                {
+                    itemVm.WarrantyDaysNumber = item.WarrantyDaysNumber + " - " + Messages.WarrantyPeriodNotStarted;
+                }
+            }
+        }
+
+        private static void ShowRequestStatus(ReceiptItem? item, HandReceiptItemViewModel itemVm)
+        {
+            switch (item.MaintenanceRequestStatus)
+            {
+                case MaintenanceRequestStatus.New:
+                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.New}";
+                    break;
+                case MaintenanceRequestStatus.Suspended:
+                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.Suspended} - {item.MaintenanceSuspensionReason}";
+                    break;
+                case MaintenanceRequestStatus.CustomerRefused:
+                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.CustomerRefused} - {item.ReasonForRefusingMaintenance}";
+                    break;
+                case MaintenanceRequestStatus.Completed:
+                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.Completed}";
+                    break;
+                case MaintenanceRequestStatus.Delivered:
+                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.Delivered}";
+                    break;
             };
         }
 
@@ -133,6 +157,11 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                 handReceiptItem.Color = color.Name;
             }
 
+            if (input.SpecifiedCost != null)
+            {
+                handReceiptItem.FinalCost = input.SpecifiedCost;
+            }
+
             handReceiptItem.CustomerId = handReceipt.CustomerId;
             handReceiptItem.Item = item.Name;
             handReceiptItem.Company = company.Name;
@@ -164,6 +193,11 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
             }
 
             _mapper.Map(input, handReceiptItem);
+
+            if (input.SpecifiedCost != null)
+            {
+                handReceiptItem.FinalCost = input.SpecifiedCost;
+            }
 
             handReceiptItem.UpdatedAt = DateTime.Now;
             handReceiptItem.UpdatedBy = userId;
@@ -213,6 +247,16 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                 && x.HandReceiptId == dto.HandReceiptId && x.CollectedAmount == null);
             if (handReceiptItem == null)
                 throw new EntityNotFoundException();
+
+            if (handReceiptItem.FinalCost != null)
+            {
+                var optionalDiscount = handReceiptItem.FinalCost * 0.1;
+                var finalCostAfterOptionalDiscount = handReceiptItem.FinalCost - optionalDiscount;
+                if (finalCostAfterOptionalDiscount > dto.CollectedAmount)
+                {
+                    throw new NotAllowedAmountException();
+                }
+            }
 
             handReceiptItem.CollectedAmount = dto.CollectedAmount;
             handReceiptItem.CollectionDate = DateTime.Now;

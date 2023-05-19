@@ -142,11 +142,29 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to سيئ.
+        /// </summary>
+        public static string Bad {
+            get {
+                return ResourceManager.GetString("Bad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to الباركود.
         /// </summary>
         public static string Barcode {
             get {
                 return ResourceManager.GetString("Barcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ممتاز.
+        /// </summary>
+        public static string Best {
+            get {
+                return ResourceManager.GetString("Best", resourceCulture);
             }
         }
         
@@ -363,6 +381,15 @@ namespace Maintenance.Core.Resources {
         public static string CustomerPhoneNumber {
             get {
                 return ResourceManager.GetString("CustomerPhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تقييم العميل.
+        /// </summary>
+        public static string CustomerRate {
+            get {
+                return ResourceManager.GetString("CustomerRate", resourceCulture);
             }
         }
         
@@ -615,6 +642,15 @@ namespace Maintenance.Core.Resources {
         public static string FullName {
             get {
                 return ResourceManager.GetString("FullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to جيد.
+        /// </summary>
+        public static string Good {
+            get {
+                return ResourceManager.GetString("Good", resourceCulture);
             }
         }
         
@@ -916,11 +952,29 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to المبلغ المدخل غير مسموح به.
+        /// </summary>
+        public static string NotAllowedAmount {
+            get {
+                return ResourceManager.GetString("NotAllowedAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to تقرير القطع التي تم صيانتها (غير مستلمة).
         /// </summary>
         public static string NotDeliveredItemsReport {
             get {
                 return ResourceManager.GetString("NotDeliveredItemsReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ملاحظات.
+        /// </summary>
+        public static string Notes {
+            get {
+                return ResourceManager.GetString("Notes", resourceCulture);
             }
         }
         
@@ -1335,6 +1389,15 @@ namespace Maintenance.Core.Resources {
         public static string WarrantyExpired {
             get {
                 return ResourceManager.GetString("WarrantyExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to لم تبدأ فترة الضمان.
+        /// </summary>
+        public static string WarrantyPeriodNotStarted {
+            get {
+                return ResourceManager.GetString("WarrantyPeriodNotStarted", resourceCulture);
             }
         }
         
