@@ -71,9 +71,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
 
             var dbSelectedItems = handReceipt.ReceiptItems.Where(x => selectedReturnHandReceiptItemIds.Contains(x.Id))
                 .ToList();
-            if (dbSelectedItems.Any(x => x.MaintenanceRequestStatus != MaintenanceRequestStatus.Delivered
-                || x.WarrantyDaysNumber == null 
-                || DateTime.Now.Date > x.DeliveryDate.Value.AddDays(x.WarrantyDaysNumber.Value).Date))
+            if (dbSelectedItems.Any(x => x.MaintenanceRequestStatus != MaintenanceRequestStatus.Delivered))
             {
                 throw new InvalidInputException();
             }
@@ -132,9 +130,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
         {
             var handReceipt = await _db.HandReceipts
                 .Include(x => x.ReceiptItems.Where(x =>
-                    x.MaintenanceRequestStatus == MaintenanceRequestStatus.Delivered
-                    && x.WarrantyDaysNumber != null
-                    && DateTime.Now.Date <= x.DeliveryDate.Value.AddDays(x.WarrantyDaysNumber.Value).Date))
+                    x.MaintenanceRequestStatus == MaintenanceRequestStatus.Delivered))
                 .SingleOrDefaultAsync(x => x.Id == handReceiptId);
             if (handReceipt == null)
                 throw new EntityNotFoundException();

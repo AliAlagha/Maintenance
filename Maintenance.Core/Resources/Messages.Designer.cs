@@ -223,6 +223,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to فحص القطعة.
+        /// </summary>
+        public static string CheckItem {
+            get {
+                return ResourceManager.GetString("CheckItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to المبلغ المحصل.
         /// </summary>
         public static string CollectedAmount {
@@ -304,7 +313,7 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to متكمل.
+        ///   Looks up a localized string similar to مكتمل.
         /// </summary>
         public static string Completed {
             get {
@@ -363,6 +372,15 @@ namespace Maintenance.Core.Resources {
         public static string Customer {
             get {
                 return ResourceManager.GetString("Customer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to موافقة العميل.
+        /// </summary>
+        public static string CustomerApproved {
+            get {
+                return ResourceManager.GetString("CustomerApproved", resourceCulture);
             }
         }
         
@@ -583,6 +601,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to إدخال التكلفة.
+        /// </summary>
+        public static string EnterMaintenanceCost {
+            get {
+                return ResourceManager.GetString("EnterMaintenanceCost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to العنصر موجود من قبل.
         /// </summary>
         public static string EntityAlreadyExists {
@@ -714,6 +741,15 @@ namespace Maintenance.Core.Resources {
         public static string IndexSubTitle {
             get {
                 return ResourceManager.GetString("IndexSubTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to إبلاغ العميل بالتكلفة.
+        /// </summary>
+        public static string InformCustomerOfTheCost {
+            get {
+                return ResourceManager.GetString("InformCustomerOfTheCost", resourceCulture);
             }
         }
         
@@ -979,6 +1015,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to إبلاغ العميل بانتهاء الصيانة.
+        /// </summary>
+        public static string NotifyCustomerOfMaintenanceEnd {
+            get {
+                return ResourceManager.GetString("NotifyCustomerOfMaintenanceEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to يتطلب إبلاغ العميل بالتكلفة؟.
         /// </summary>
         public static string NotifyCustomerOfTheCost {
@@ -1227,6 +1272,15 @@ namespace Maintenance.Core.Resources {
         public static string Select {
             get {
                 return ResourceManager.GetString("Select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to اختر العملية.
+        /// </summary>
+        public static string SelectAction {
+            get {
+                return ResourceManager.GetString("SelectAction", resourceCulture);
             }
         }
         

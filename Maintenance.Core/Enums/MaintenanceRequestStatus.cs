@@ -9,9 +9,14 @@ namespace Maintenance.Core.Enums
     public enum MaintenanceRequestStatus
     {
         New = 1,
-        Suspended = 2,
-        CustomerRefused = 3,
-        Completed = 4,
-        Delivered = 5
+        CheckItem = 2,
+        InformCustomerOfTheCost = 3,
+        CustomerApproved = 4,
+        EnterMaintenanceCost = 5,
+        Completed = 6,
+        NotifyCustomerOfMaintenanceEnd = 7,
+        Delivered = 8,
+        CustomerRefused = 9,
+        Suspended = 10
     }
 }

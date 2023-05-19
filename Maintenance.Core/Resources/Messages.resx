@@ -171,6 +171,9 @@
   <data name="ChangePassword" xml:space="preserve">
     <value>تغيير كلمة المرور</value>
   </data>
+  <data name="CheckItem" xml:space="preserve">
+    <value>فحص القطعة</value>
+  </data>
   <data name="CollectedAmount" xml:space="preserve">
     <value>المبلغ المحصل</value>
   </data>
@@ -199,7 +202,7 @@
     <value>إنهاء الصيانة</value>
   </data>
   <data name="Completed" xml:space="preserve">
-    <value>متكمل</value>
+    <value>مكتمل</value>
   </data>
   <data name="Confirm" xml:space="preserve">
     <value>تأكيد</value>
@@ -218,6 +221,9 @@
   </data>
   <data name="Customer" xml:space="preserve">
     <value>العميل</value>
+  </data>
+  <data name="CustomerApproved" xml:space="preserve">
+    <value>موافقة العميل</value>
   </data>
   <data name="CustomerFullName" xml:space="preserve">
     <value>اسم العميل</value>
@@ -291,6 +297,9 @@
   <data name="EnterLoginDetails" xml:space="preserve">
     <value>أدخل بياناتك لتسجيل الدخول إلى حسابك:</value>
   </data>
+  <data name="EnterMaintenanceCost" xml:space="preserve">
+    <value>إدخال التكلفة</value>
+  </data>
   <data name="EntityAlreadyExists" xml:space="preserve">
     <value>العنصر موجود من قبل</value>
   </data>
@@ -335,6 +344,9 @@
   </data>
   <data name="IndexSubTitle" xml:space="preserve">
     <value>عرض بيانات {0} في النظام </value>
+  </data>
+  <data name="InformCustomerOfTheCost" xml:space="preserve">
+    <value>إبلاغ العميل بالتكلفة</value>
   </data>
   <data name="InvalidEmail" xml:space="preserve">
     <value>البريد الإلكتروني غير صالح</value>
@@ -423,6 +435,9 @@
   <data name="Notes" xml:space="preserve">
     <value>ملاحظات</value>
   </data>
+  <data name="NotifyCustomerOfMaintenanceEnd" xml:space="preserve">
+    <value>إبلاغ العميل بانتهاء الصيانة</value>
+  </data>
   <data name="NotifyCustomerOfTheCost" xml:space="preserve">
     <value>يتطلب إبلاغ العميل بالتكلفة؟</value>
   </data>
@@ -506,6 +521,9 @@
   </data>
   <data name="Select" xml:space="preserve">
     <value>اختر {0}</value>
+  </data>
+  <data name="SelectAction" xml:space="preserve">
+    <value>اختر العملية</value>
   </data>
   <data name="SignOut" xml:space="preserve">
     <value>تسجيل الخروج</value>

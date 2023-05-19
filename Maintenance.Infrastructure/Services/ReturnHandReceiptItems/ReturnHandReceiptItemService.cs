@@ -105,9 +105,7 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
             var handReceiptItem = returnHandReceipt.HandReceipt.ReceiptItems
                 .Single(x => x.Id == dto.HandReceiptItemId);
 
-            if (handReceiptItem.MaintenanceRequestStatus != MaintenanceRequestStatus.Delivered
-                || handReceiptItem.WarrantyDaysNumber == null
-                || DateTime.Now.Date > handReceiptItem.DeliveryDate.Value.AddDays(handReceiptItem.WarrantyDaysNumber.Value).Date)
+            if (handReceiptItem.MaintenanceRequestStatus != MaintenanceRequestStatus.Delivered)
             {
                 throw new InvalidInputException();
             }

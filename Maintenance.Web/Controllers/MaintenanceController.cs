@@ -32,9 +32,9 @@ namespace Maintenance.Web.Controllers
             return Json(response);
         }
 
-        public async Task<IActionResult> CompleteMaintenance(int receiptItemId)
+        public async Task<IActionResult> UpdateStatus(int receiptItemId)
         {
-            await _maintenanceService.CompleteMaintenance(receiptItemId, UserId);
+            await _maintenanceService.UpdateStatus(receiptItemId, UserId);
             return UpdatedSuccessfully();
         }
 
