@@ -3,9 +3,11 @@ using Maintenance.Core.Enums;
 using Maintenance.Core.Resources;
 using Maintenance.Infrastructure.Services.HandReceipts;
 using Maintenance.Infrastructure.Services.Reports;
+using Maintenance.Infrastructure.Services.ReportsPdf;
 using Maintenance.Infrastructure.Services.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Reporting.Map.WebForms.BingMaps;
 
 namespace Maintenance.Web.Controllers
 {
@@ -25,11 +27,10 @@ namespace Maintenance.Web.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ExportReceiptItemsToPdf(DateTime? dateFrom
-            , DateTime? dateTo)
+        public async Task<JsonResult> ReceiptItemsReport(QueryDto query)
         {
-            var result = await _reportService.ReceiptItemsReport(dateFrom, dateTo);
-            return GetPdfFileResult(result, $"{DateTime.Now:yyyy-MM-dd} - ReceiptItems");
+            var result = await _reportService.ReceiptItemsReport(query);
+            return Json(result);
         }
 
         public IActionResult DeliveredItems()
@@ -37,11 +38,10 @@ namespace Maintenance.Web.Controllers
             return View();
         }
 
-        public async Task<IActionResult> DeliveredItemsReport(DateTime? dateFrom
-            , DateTime? dateTo)
+        public async Task<JsonResult> DeliveredItemsReport(QueryDto query)
         {
-            var result = await _reportService.DeliveredItemsReport(dateFrom, dateTo);
-            return GetPdfFileResult(result, $"{DateTime.Now:yyyy-MM-dd} - ReceiptItems");
+            var result = await _reportService.DeliveredItemsReport(query);
+            return Json(result);
         }
 
         public IActionResult ReturnedItems()
@@ -49,11 +49,10 @@ namespace Maintenance.Web.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ReturnedItemsReport(DateTime? dateFrom
-            , DateTime? dateTo, string? technicianId)
+        public async Task<JsonResult> ReturnedItemsReport(QueryDto query)
         {
-            var result = await _reportService.ReturnedItemsReport(dateFrom, dateTo, technicianId);
-            return GetPdfFileResult(result, $"{DateTime.Now:yyyy-MM-dd} - ReceiptItems");
+            var result = await _reportService.ReturnedItemsReport(query);
+            return Json(result);
         }
 
         public IActionResult UrgentItems()
@@ -61,11 +60,10 @@ namespace Maintenance.Web.Controllers
             return View();
         }
 
-        public async Task<IActionResult> UrgentItemsReport(DateTime? dateFrom
-            , DateTime? dateTo)
+        public async Task<JsonResult> UrgentItemsReport(QueryDto query)
         {
-            var result = await _reportService.UrgentItemsReport(dateFrom, dateTo);
-            return GetPdfFileResult(result, $"{DateTime.Now:yyyy-MM-dd} - UrgentItems");
+            var result = await _reportService.UrgentItemsReport(query);
+            return Json(result);
         }
 
         public IActionResult NotMaintainedItems()
@@ -73,11 +71,10 @@ namespace Maintenance.Web.Controllers
             return View();
         }
 
-        public async Task<IActionResult> NotMaintainedItemsReport(DateTime? dateFrom
-            , DateTime? dateTo)
+        public async Task<JsonResult> NotMaintainedItemsReport(QueryDto query)
         {
-            var result = await _reportService.NotMaintainedItemsReport(dateFrom, dateTo);
-            return GetPdfFileResult(result, $"{DateTime.Now:yyyy-MM-dd} - NotMaintainedItems");
+            var result = await _reportService.NotMaintainedItemsReport(query);
+            return Json(result);
         }
 
         public IActionResult NotDeliveredItems()
@@ -85,11 +82,54 @@ namespace Maintenance.Web.Controllers
             return View();
         }
 
-        public async Task<IActionResult> NotDeliveredItemsReport(DateTime? dateFrom
-            , DateTime? dateTo)
+        public async Task<JsonResult> NotDeliveredItemsReport(QueryDto query)
         {
-            var result = await _reportService.NotDeliveredItemsReport(dateFrom, dateTo);
-            return GetPdfFileResult(result, $"{DateTime.Now:yyyy-MM-dd} - NotDeliveredItems");
+            var result = await _reportService.NotDeliveredItemsReport(query);
+            return Json(result);
+        }
+
+        public IActionResult DeliveredItemsByTechnician()
+        {
+            return View();
+        }
+
+        public async Task<JsonResult> DeliveredItemsReportByTechnician(QueryDto query)
+        {
+            var result = await _reportService.DeliveredItemsReportByTechnician(query);
+            return Json(result);
+        }
+
+        public IActionResult CollectedAmounts()
+        {
+            return View();
+        }
+
+        public async Task<JsonResult> CollectedAmountsReport(QueryDto query)
+        {
+            var result = await _reportService.CollectedAmountsReport(query);
+            return Json(result);
+        }
+
+        public IActionResult SuspendedItems()
+        {
+            return View();
+        }
+
+        public async Task<JsonResult> SuspendedItemsReport(QueryDto query)
+        {
+            var result = await _reportService.SuspendedItemsReport(query);
+            return Json(result);
+        }
+
+        public IActionResult TechnicianFeesReport()
+        {
+            return View();
+        }
+
+        public async Task<JsonResult> TechnicianFeesReport(QueryDto query)
+        {
+            var result = await _reportService.TechnicianFeesReport(query);
+            return Json(result);
         }
     }
 }

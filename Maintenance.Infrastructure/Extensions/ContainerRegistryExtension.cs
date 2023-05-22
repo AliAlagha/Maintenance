@@ -11,6 +11,8 @@ using Maintenance.Infrastructure.Services.Maintenance;
 using Maintenance.Infrastructure.Services.ManagerRequests;
 using Maintenance.Infrastructure.Services.PdfExportReport;
 using Maintenance.Infrastructure.Services.Reports;
+using Maintenance.Infrastructure.Services.ReportsExcel;
+using Maintenance.Infrastructure.Services.ReportsPdf;
 using Maintenance.Infrastructure.Services.ReturnHandReceiptItems;
 using Maintenance.Infrastructure.Services.Users;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +39,8 @@ namespace Maintenance.Infrastructure.Extensions
             services.AddScoped<IBranchPhoneNumberService, BranchPhoneNumberService>();
             services.AddScoped<IReportService, ReportService>();
             services.AddScoped<IManagerRequestService, ManagerRequestService>();
+            services.AddScoped<IReportPdfService, ReportPdfService>();
+            services.AddScoped<IReportExcelService, ReportExcelService>();
             return services;
         }
     }

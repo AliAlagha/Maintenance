@@ -80,19 +80,19 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>5.99633cm</Width>
+                  <Width>2.5cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.07044cm</Width>
+                  <Width>3.52535cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.95533cm</Width>
+                  <Width>2.74908cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.4136cm</Width>
+                  <Width>2.66494cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.34352cm</Width>
+                  <Width>3.33985cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>2.53994cm</Width>
@@ -114,7 +114,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>سبب التعليق</Value>
+                                  <Value>الحالة</Value>
                                   <Style>
                                     <FontSize>12pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -385,14 +385,14 @@
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="MaintenanceSuspensionReason">
+                        <Textbox Name="ReturnReason">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!MaintenanceSuspensionReason.Value</Value>
+                                  <Value>=Fields!ReturnReason.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -401,7 +401,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>MaintenanceSuspensionReason</rd:DefaultName>
+                          <rd:DefaultName>ReturnReason</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -419,6 +419,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -766,7 +767,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>تقرير القطع التي لم تتم صيانتها</Value>
+                    <Value>تقرير القطع المعلقة</Value>
                     <Style>
                       <FontSize>16pt</FontSize>
                       <FontWeight>Bold</FontWeight>

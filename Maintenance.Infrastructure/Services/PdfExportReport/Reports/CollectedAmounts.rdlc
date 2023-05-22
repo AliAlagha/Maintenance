@@ -80,25 +80,25 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>5.99633cm</Width>
+                  <Width>3.14744cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.07044cm</Width>
+                  <Width>2.38794cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.95533cm</Width>
+                  <Width>2.74908cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.4136cm</Width>
+                  <Width>2.66494cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.34352cm</Width>
+                  <Width>3.33985cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>2.53994cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.67521cm</Width>
+                  <Width>3.16518cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -114,7 +114,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>سبب التعليق</Value>
+                                  <Value>التاريخ</Value>
                                   <Style>
                                     <FontSize>12pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -153,7 +153,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>التاريخ</Value>
+                                  <Value>المبلغ</Value>
                                   <Style>
                                     <FontSize>12pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -385,14 +385,14 @@
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="MaintenanceSuspensionReason">
+                        <Textbox Name="CollectionDate">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!MaintenanceSuspensionReason.Value</Value>
+                                  <Value>=Fields!CollectionDate.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -401,7 +401,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>MaintenanceSuspensionReason</rd:DefaultName>
+                          <rd:DefaultName>CollectionDate</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -423,14 +423,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Date">
+                        <Textbox Name="CollectedAmount">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Date.Value</Value>
+                                  <Value>=Fields!CollectedAmount.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -439,7 +439,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Date</rd:DefaultName>
+                          <rd:DefaultName>CollectedAmount</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -766,7 +766,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>تقرير القطع التي لم تتم صيانتها</Value>
+                    <Value>تقرير إيرادات</Value>
                     <Style>
                       <FontSize>16pt</FontSize>
                       <FontWeight>Bold</FontWeight>

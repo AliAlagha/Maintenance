@@ -5,18 +5,15 @@ namespace Maintenance.Infrastructure.Services.Reports
 {
     public interface IReportService
     {
-        Task<byte[]> ReceiptItemsReport(DateTime? dateFrom, DateTime? dateTo);
-        Task<byte[]> DeliveredItemsReport(DateTime? dateFrom, DateTime? dateTo);
-        Task<byte[]> ReturnedItemsReport(DateTime? dateFrom, DateTime? dateTo
-            , string? technicianId);
-        Task<byte[]> UrgentItemsReport(DateTime? dateFrom, DateTime? dateTo);
-        Task<byte[]> NotMaintainedItemsReport(DateTime? dateFrom, DateTime? dateTo);
-        Task<byte[]> NotDeliveredItemsReport(DateTime? dateFrom, DateTime? dateTo);
-        Task<byte[]> DeliveredItemsReport(DateTime? dateFrom, DateTime? dateTo
-            , string? technicianId);
-        Task<byte[]> CollectedAmountsReport(DateTime? dateFrom, DateTime? dateTo
-            , string? technicianId);
-        Task<byte[]> SuspendedItemsReport(DateTime? dateFrom, DateTime? dateTo);
-        Task<byte[]> TechnicianFeesReport(DateTime? dateFrom, DateTime? dateTo);
+        Task<List<ReceiptItemReportDataSet>> ReceiptItemsReport(QueryDto query);
+        Task<List<ReceiptItemReportDataSet>> DeliveredItemsReport(QueryDto query);
+        Task<List<ReceiptItemReportDataSet>> ReturnedItemsReport(QueryDto query);
+        Task<List<ReceiptItemReportDataSet>> UrgentItemsReport(QueryDto query);
+        Task<List<ReceiptItemReportDataSet>> NotMaintainedItemsReport(QueryDto query);
+        Task<List<ReceiptItemReportDataSet>> NotDeliveredItemsReport(QueryDto query);
+        Task<List<ReceiptItemReportDataSet>> DeliveredItemsReportByTechnician(QueryDto query);
+        Task<List<ReceiptItemReportDataSet>> CollectedAmountsReport(QueryDto query);
+        Task<List<ReceiptItemReportDataSet>> SuspendedItemsReport(QueryDto query);
+        Task<List<TechnicianFeesReportDataSet>> TechnicianFeesReport(QueryDto query);
     }
 }

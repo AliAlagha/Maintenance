@@ -646,6 +646,24 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to التصدير إلى إكسل.
+        /// </summary>
+        public static string ExportToExcel {
+            get {
+                return ResourceManager.GetString("ExportToExcel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to التصدير إلى PDF.
+        /// </summary>
+        public static string ExportToPdf {
+            get {
+                return ResourceManager.GetString("ExportToPdf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to يرجى إدخال البيانات المطلوبة.
         /// </summary>
         public static string FillRequiredData {

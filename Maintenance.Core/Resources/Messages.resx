@@ -312,6 +312,12 @@
   <data name="ExistsOrNewCustomer" xml:space="preserve">
     <value>عميل سابق / جديد</value>
   </data>
+  <data name="ExportToExcel" xml:space="preserve">
+    <value>التصدير إلى إكسل</value>
+  </data>
+  <data name="ExportToPdf" xml:space="preserve">
+    <value>التصدير إلى PDF</value>
+  </data>
   <data name="FillRequiredData" xml:space="preserve">
     <value>يرجى إدخال البيانات المطلوبة</value>
   </data>

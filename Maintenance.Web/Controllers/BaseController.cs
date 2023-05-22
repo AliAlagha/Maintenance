@@ -79,7 +79,7 @@ namespace Maintenance.Web.Controllers
             return File(
                content,
                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-               $"{fileName}-{DateTime.Now:yyyy-MM-dd}.xlsx"
+               $"{fileName} - {DateTime.Now:yyyy_MM_dd}.xlsx"
            );
         }
 

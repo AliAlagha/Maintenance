@@ -7,20 +7,36 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="Services\PdfExportReport\Reports\CollectedAmounts.rdlc" />
 	  <None Remove="Services\PdfExportReport\Reports\DeliveredItems.rdlc" />
+	  <None Remove="Services\PdfExportReport\Reports\DeliveredItemsReportByTechnician.rdlc" />
 	  <None Remove="Services\PdfExportReport\Reports\HandReceipt.rdlc" />
 	  <None Remove="Services\PdfExportReport\Reports\NotDeliveredItems.rdlc" />
 	  <None Remove="Services\PdfExportReport\Reports\NotMaintainedItems.rdlc" />
 	  <None Remove="Services\PdfExportReport\Reports\ReceiptItems.rdlc" />
 	  <None Remove="Services\PdfExportReport\Reports\ReturnedItems.rdlc" />
+	  <None Remove="Services\PdfExportReport\Reports\SuspendedItems.rdlc" />
+	  <None Remove="Services\PdfExportReport\Reports\TechnicianFees.rdlc" />
 	  <None Remove="Services\PdfExportReport\Reports\UrgentItems.rdlc" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <EmbeddedResource Include="Services\PdfExportReport\Reports\CollectedAmounts.rdlc">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="Services\PdfExportReport\Reports\SuspendedItems.rdlc">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
 	  <EmbeddedResource Include="Services\PdfExportReport\Reports\NotMaintainedItems.rdlc">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>
 	  <EmbeddedResource Include="Services\PdfExportReport\Reports\NotDeliveredItems.rdlc">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="Services\PdfExportReport\Reports\DeliveredItemsReportByTechnician.rdlc">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="Services\PdfExportReport\Reports\TechnicianFees.rdlc">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>
 	  <EmbeddedResource Include="Services\PdfExportReport\Reports\UrgentItems.rdlc">
@@ -58,12 +74,21 @@
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>ReceiptItemDataSet.xsd</DependentUpon>
 	  </Compile>
+	  <Compile Update="Services\PdfExportReport\Reports\DataSets\TechnicianFeesReportDataSet.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>TechnicianFeesReportDataSet.xsd</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <None Update="Services\PdfExportReport\Reports\DataSets\ReceiptItemDataSet.xsd">
 	    <Generator>MSDataSetGenerator</Generator>
 	    <LastGenOutput>ReceiptItemDataSet.Designer.cs</LastGenOutput>
+	  </None>
+	  <None Update="Services\PdfExportReport\Reports\DataSets\TechnicianFeesReportDataSet.xsd">
+	    <Generator>MSDataSetGenerator</Generator>
+	    <LastGenOutput>TechnicianFeesReportDataSet.Designer.cs</LastGenOutput>
 	  </None>
 	</ItemGroup>
 

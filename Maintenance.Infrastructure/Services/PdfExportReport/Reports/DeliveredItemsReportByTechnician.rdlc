@@ -61,6 +61,10 @@
           <DataField>MaintenanceSuspensionReason</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Technician">
+          <DataField>Technician</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>ReceiptItemDataSet</rd:DataSetName>
@@ -80,25 +84,25 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>5.99633cm</Width>
+                  <Width>2.94979cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.07044cm</Width>
+                  <Width>2.5cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.95533cm</Width>
+                  <Width>2.85491cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.4136cm</Width>
+                  <Width>2.34744cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.34352cm</Width>
+                  <Width>2.92076cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.53994cm</Width>
+                  <Width>2.92513cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.67521cm</Width>
+                  <Width>3.49634cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -107,14 +111,14 @@
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox1">
+                        <Textbox Name="Textbox2">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>سبب التعليق</Value>
+                                  <Value>الفني</Value>
                                   <Style>
                                     <FontSize>12pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -128,7 +132,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox1</rd:DefaultName>
+                          <rd:DefaultName>Textbox2</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -385,14 +389,14 @@
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="MaintenanceSuspensionReason">
+                        <Textbox Name="Technician">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!MaintenanceSuspensionReason.Value</Value>
+                                  <Value>=Fields!Technician.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -401,7 +405,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>MaintenanceSuspensionReason</rd:DefaultName>
+                          <rd:DefaultName>Technician</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -766,7 +770,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>تقرير القطع التي لم تتم صيانتها</Value>
+                    <Value>تقرير القطع التي تم صيانتها</Value>
                     <Style>
                       <FontSize>16pt</FontSize>
                       <FontWeight>Bold</FontWeight>
@@ -782,7 +786,7 @@
             </Paragraphs>
             <rd:DefaultName>Textbox3</rd:DefaultName>
             <Top>1.50031cm</Top>
-            <Left>12.97426cm</Left>
+            <Left>12.97427cm</Left>
             <Height>0.73365cm</Height>
             <Width>6.53015cm</Width>
             <ZIndex>3</ZIndex>
@@ -952,7 +956,7 @@
           </BottomBorder>
         </Style>
       </Body>
-      <Width>7.8718in</Width>
+      <Width>7.87181in</Width>
       <Page>
         <PageFooter>
           <Height>1.42558cm</Height>
