@@ -1,12 +1,12 @@
-﻿@model RemoveHandItemFromMaintainedDto
+﻿@model RemoveReturnItemFromMaintainedDto
 @{
     ViewData["Title"] = Messages.HandReceiptItems;
     Layout = null;
 }
 
 <form asp-action="RemoveFromMaintained" method="post" class="ajaxForm" tname="#kt_datatable" enctype="multipart/form-data">
-    <input type="hidden" asp-for="@Model.HandReceiptItemId" />
-    <input type="hidden" asp-for="@Model.HandReceiptId" />
+    <input type="hidden" asp-for="@Model.ReturnHandReceiptItemId" />
+    <input type="hidden" asp-for="@Model.ReturnHandReceiptId" />
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">

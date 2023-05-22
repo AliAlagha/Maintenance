@@ -85,6 +85,15 @@ namespace Maintenance.Infrastructure.Services.Maintenance
         {
             switch (item.MaintenanceRequestStatus)
             {
+                case MaintenanceRequestStatus.WaitingManagerResponse:
+                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.WaitingManagerResponse}";
+                    break;
+                case MaintenanceRequestStatus.ManagerApprovedReturn:
+                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.ManagerApprovedReturn}";
+                    break;
+                case MaintenanceRequestStatus.ManagerRefusedReturn:
+                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.ManagerRefusedReturn}";
+                    break;
                 case MaintenanceRequestStatus.New:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.New}";
                     break;
@@ -128,7 +137,7 @@ namespace Maintenance.Infrastructure.Services.Maintenance
             if (receiptItem == null)
                 throw new EntityNotFoundException();
 
-            if (receiptItem.TechnicianId != userId)
+            if (receiptItem.TechnicianId != null && receiptItem.TechnicianId != userId)
             {
                 throw new NoValidityException();
             }

@@ -1,6 +1,7 @@
 ﻿using Maintenance.Core.Dtos;
 using Maintenance.Core.Enums;
 using Maintenance.Core.Resources;
+using Maintenance.Data.DbEntities;
 using Maintenance.Infrastructure.Services.HandReceipts;
 using Maintenance.Infrastructure.Services.ReturnHandReceiptItems;
 using Maintenance.Infrastructure.Services.Users;
@@ -22,8 +23,8 @@ namespace Maintenance.Web.Controllers
 
         public async Task<IActionResult> Index(int returnHandReceiptId)
         {
-            var isAllItemsDelivered = await _returnHandReceiptItemService.IsAllItemsDelivered(returnHandReceiptId);
-            ViewBag.IsAllItemsDelivered = isAllItemsDelivered;
+            var IsAllItemsCanBeDelivered = await _returnHandReceiptItemService.IsAllItemsCanBeDelivered(returnHandReceiptId);
+            ViewBag.IsAllItemsCanBeDelivered = IsAllItemsCanBeDelivered;
             return View(returnHandReceiptId);
         }
 
@@ -58,24 +59,24 @@ namespace Maintenance.Web.Controllers
             return View(input);
         }
 
-        [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Edit(int returnHandReceiptItemId, int returnHandReceiptId)
-        {
-            var dto = await _returnHandReceiptItemService.Get(returnHandReceiptItemId, returnHandReceiptId);
-            return View(dto);
-        }
+        //[Authorize(Roles = "Administrator")]
+        //public async Task<IActionResult> Edit(int returnHandReceiptItemId, int returnHandReceiptId)
+        //{
+        //    var dto = await _returnHandReceiptItemService.Get(returnHandReceiptItemId, returnHandReceiptId);
+        //    return View(dto);
+        //}
 
-        [Authorize(Roles = "Administrator")]
-        [HttpPost]
-        public async Task<IActionResult> Edit(UpdateReturnHandReceiptItemDto input)
-        {
-            if (ModelState.IsValid)
-            {
-                await _returnHandReceiptItemService.Update(input, UserId);
-                return UpdatedSuccessfully();
-            }
-            return View(input);
-        }
+        //[Authorize(Roles = "Administrator")]
+        //[HttpPost]
+        //public async Task<IActionResult> Edit(UpdateReturnHandReceiptItemDto input)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        await _returnHandReceiptItemService.Update(input, UserId);
+        //        return UpdatedSuccessfully();
+        //    }
+        //    return View(input);
+        //}
 
         public async Task<IActionResult> Delete(int returnHandReceiptItemId, int returnHandReceiptId)
         {
@@ -94,6 +95,27 @@ namespace Maintenance.Web.Controllers
         {
             await _returnHandReceiptItemService.DeliveryOfAllItems(returnHandReceiptId, UserId);
             return RedirectToAction(nameof(Index), new { ReturnHandReceiptId = returnHandReceiptId });
+        }
+
+        public IActionResult RemoveFromMaintained(int returnHandReceiptItemId, int returnHandReceiptId)
+        {
+            var dto = new RemoveReturnItemFromMaintainedDto
+            {
+                ReturnHandReceiptItemId = returnHandReceiptItemId,
+                ReturnHandReceiptId = returnHandReceiptId
+            };
+            return View(dto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveFromMaintained(RemoveReturnItemFromMaintainedDto input)
+        {
+            if (ModelState.IsValid)
+            {
+                await _returnHandReceiptItemService.RemoveFromMaintained(input, UserId);
+                return UpdatedSuccessfully();
+            }
+            return View(input);
         }
 
     }

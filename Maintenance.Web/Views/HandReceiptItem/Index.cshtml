@@ -232,6 +232,7 @@
                                 }
 
                                 if (data.technicianId != null && data.collectedAmount != null
+                                    && data.maintenanceRequestStatus != 1 && data.maintenanceRequestStatus != 3
                                     && data.maintenanceRequestStatus != 11  && data.maintenanceRequestStatus != 12
                                     && data.maintenanceRequestStatus != 13 && data.maintenanceRequestStatus != 14) {
                                     result = result + '<a href="/HandReceiptItem/DeliverItem?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model" tname="#kt_datatable" class="btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Delivery">' +

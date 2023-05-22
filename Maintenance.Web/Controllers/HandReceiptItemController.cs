@@ -170,7 +170,7 @@ namespace Maintenance.Web.Controllers
 
         public IActionResult RemoveFromMaintained(int handReceiptItemId, int handReceiptId)
         {
-            var dto = new RemoveFromMaintainedDto
+            var dto = new RemoveHandItemFromMaintainedDto
             {
                 HandReceiptItemId = handReceiptItemId,
                 HandReceiptId = handReceiptId
@@ -179,7 +179,7 @@ namespace Maintenance.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RemoveFromMaintained(RemoveFromMaintainedDto input)
+        public async Task<IActionResult> RemoveFromMaintained(RemoveHandItemFromMaintainedDto input)
         {
             if (ModelState.IsValid)
             {

@@ -456,6 +456,9 @@
   <data name="NoValidity" xml:space="preserve">
     <value>ليس لديك صلاحية لتنفيذ العملية</value>
   </data>
+  <data name="NoWarranty" xml:space="preserve">
+    <value>لا يوجد ضمان</value>
+  </data>
   <data name="Number" xml:space="preserve">
     <value>الرقم</value>
   </data>

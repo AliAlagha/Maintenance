@@ -118,7 +118,8 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                     ReturnReason = returnHandReceiptItem.ReturnReason,
                     ReceiptItemType = ReceiptItemType.Returned,
                     PreviousReceiptItemId = handReceiptItem.Id,
-                    PreviousTechnicianId = handReceiptItem.TechnicianId
+                    PreviousTechnicianId = handReceiptItem.TechnicianId,
+                    MaintenanceRequestStatus = status
                 };
 
                 returnHandReceipt.ReceiptItems.Add(newReturnHandReceiptItem);

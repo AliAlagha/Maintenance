@@ -300,6 +300,8 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                 .SingleOrDefaultAsync(x => x.Id == handReceiptItemId && x.HandReceiptId == handReceiptId
                 && x.TechnicianId != null
                 && x.CollectedAmount != null
+                && x.MaintenanceRequestStatus != MaintenanceRequestStatus.WaitingManagerResponse
+                && x.MaintenanceRequestStatus != MaintenanceRequestStatus.ManagerRefusedReturn
                 && x.MaintenanceRequestStatus != MaintenanceRequestStatus.Delivered
                 && x.MaintenanceRequestStatus != MaintenanceRequestStatus.CustomerRefused
                 && x.MaintenanceRequestStatus != MaintenanceRequestStatus.Suspended
@@ -321,6 +323,8 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                 .Include(x => x.ReceiptItems.Where(x =>
                     x.TechnicianId != null
                     && x.CollectedAmount != null
+                    && x.MaintenanceRequestStatus != MaintenanceRequestStatus.WaitingManagerResponse
+                    && x.MaintenanceRequestStatus != MaintenanceRequestStatus.ManagerRefusedReturn
                     && x.MaintenanceRequestStatus != MaintenanceRequestStatus.Delivered
                     && x.MaintenanceRequestStatus != MaintenanceRequestStatus.CustomerRefused
                     && x.MaintenanceRequestStatus != MaintenanceRequestStatus.Suspended
@@ -357,6 +361,8 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                 isAllItemsCanBeDelivered = returnHandReceipt.ReceiptItems.All(x =>
                 x.TechnicianId != null
                 && x.CollectedAmount != null
+                && x.MaintenanceRequestStatus != MaintenanceRequestStatus.WaitingManagerResponse
+                && x.MaintenanceRequestStatus != MaintenanceRequestStatus.ManagerRefusedReturn
                 && x.MaintenanceRequestStatus != MaintenanceRequestStatus.Delivered
                 && x.MaintenanceRequestStatus != MaintenanceRequestStatus.CustomerRefused
                 && x.MaintenanceRequestStatus != MaintenanceRequestStatus.Suspended
@@ -366,7 +372,7 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
             return isAllItemsCanBeDelivered;
         }
 
-        public async Task RemoveFromMaintained(RemoveFromMaintainedDto dto, string userId)
+        public async Task RemoveFromMaintained(RemoveHandItemFromMaintainedDto dto, string userId)
         {
             var handReceiptItem = await _db.ReceiptItems
                 .SingleOrDefaultAsync(x => x.Id == dto.HandReceiptItemId && x.HandReceiptId == dto.HandReceiptId

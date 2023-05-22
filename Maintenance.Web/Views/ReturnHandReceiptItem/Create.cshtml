@@ -43,8 +43,15 @@
         },
         success: function (data) {
             $(data).each(function (index, value) {
+                var warrantyDaysNumber = "";
+                if (value.warrantyDaysNumber) {
+                    warrantyDaysNumber = value.warrantyDaysNumber;
+                } else {
+                    warrantyDaysNumber = '@Messages.NoWarranty';
+                }
+
                 var optionHtml = value.item + " - " + value.itemBarcode
-                    + " - " + value.company + " - @Messages.WarrantyDaysNumber: " + value.warrantyDaysNumber
+                    + " - " + value.company + " - @Messages.WarrantyDaysNumber: " + warrantyDaysNumber
                     + " - @Messages.DeliveryDate: " + value.deliveryDate;
                 $("#SelectHandReceiptItem").append($("<option></option>").val(value.id).html(optionHtml));
             });

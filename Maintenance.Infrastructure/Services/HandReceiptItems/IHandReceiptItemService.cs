@@ -15,6 +15,6 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
         Task DeliverItem(int handReceiptItemId, int handReceiptId, string userId);
         Task DeliveryOfAllItems(int handReceiptId, string userId);
         Task<bool> IsAllItemsCanBeDelivered(int handReceiptId);
-        Task RemoveFromMaintained(RemoveFromMaintainedDto dto, string userId);
+        Task RemoveFromMaintained(RemoveHandItemFromMaintainedDto dto, string userId);
     }
 }

@@ -19,5 +19,6 @@ namespace Maintenance.Core.ViewModels
         public string? DeliveryDate { get; set; }
         public MaintenanceRequestStatus MaintenanceRequestStatus { get; set; }
         public string MaintenanceRequestStatusMessage { get; set; }
+        public string? TechnicianId { get; set; }
     }
 }

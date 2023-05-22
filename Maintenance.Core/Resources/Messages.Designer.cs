@@ -1078,6 +1078,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to لا يوجد ضمان.
+        /// </summary>
+        public static string NoWarranty {
+            get {
+                return ResourceManager.GetString("NoWarranty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to الرقم.
         /// </summary>
         public static string Number {

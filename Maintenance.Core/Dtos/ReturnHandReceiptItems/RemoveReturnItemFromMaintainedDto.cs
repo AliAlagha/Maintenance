@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Maintenance.Core.Dtos
 {
-    public class RemoveFromMaintainedDto
+    public class RemoveReturnItemFromMaintainedDto
     {
-        public int HandReceiptItemId { get; set; }
-        public int HandReceiptId { get; set; }
+        public int ReturnHandReceiptItemId { get; set; }
+        public int ReturnHandReceiptId { get; set; }
 
         [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Messages))]
         [Display(Name = "RemoveFromMaintainedReason", ResourceType = typeof(Messages))]
