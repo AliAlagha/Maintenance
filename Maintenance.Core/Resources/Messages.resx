@@ -324,6 +324,9 @@
   <data name="ExportToPdf" xml:space="preserve">
     <value>التصدير إلى PDF</value>
   </data>
+  <data name="Fees" xml:space="preserve">
+    <value>العمولة</value>
+  </data>
   <data name="FillRequiredData" xml:space="preserve">
     <value>يرجى إدخال البيانات المطلوبة</value>
   </data>
@@ -581,6 +584,9 @@
   </data>
   <data name="Suspension" xml:space="preserve">
     <value>تعليق الصيانة</value>
+  </data>
+  <data name="TechnicianFeesReport" xml:space="preserve">
+    <value>تقرير عمولات الفنيين</value>
   </data>
   <data name="To" xml:space="preserve">
     <value>إلى</value>

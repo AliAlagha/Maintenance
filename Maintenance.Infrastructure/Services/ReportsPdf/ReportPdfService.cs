@@ -201,8 +201,8 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo };
             var technicianFees = await _reportService.TechnicianFeesReport(query);
 
-            var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = technicianFees } };
-            var result = _pdfExportReportService.GeneratePdf("SuspendedItems.rdlc", dataSets, paramaters);
+            var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "TechnicianFeesReportDataSet", Data = technicianFees } };
+            var result = _pdfExportReportService.GeneratePdf("TechnicianFees.rdlc", dataSets, paramaters);
             return result;
         }
 

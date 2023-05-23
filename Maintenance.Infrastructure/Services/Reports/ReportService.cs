@@ -349,12 +349,12 @@ namespace Maintenance.Infrastructure.Services.Reports
 
             if (query.DateFrom.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+                dbQuery = dbQuery.Where(x => x.CollectionDate >= query.DateFrom.Value);
             }
 
             if (query.DateTo.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+                dbQuery = dbQuery.Where(x => x.CollectionDate <= query.DateTo.Value);
             }
 
             if (query.TechnicianId != null)
@@ -428,27 +428,20 @@ namespace Maintenance.Infrastructure.Services.Reports
 
         public async Task<List<TechnicianFeesReportDataSet>> TechnicianFeesReport(QueryDto query)
         {
-            var dbQuery = _db.Users
-                .Include(x => x.ReceiptItemsForTechnician)
+            var technicians = await _db.Users
+                .Include(x => x.ReceiptItemsForTechnician.Where(x =>
+                x.MaintenanceRequestStatus != MaintenanceRequestStatus.RemovedFromMaintained
+                && (query.DateFrom == null || x.CollectionDate >= query.DateFrom)
+                && (query.DateTo == null || x.CollectionDate <= query.DateTo)))
                 .Where(x => x.UserType == UserType.MaintenanceTechnician)
-                .AsQueryable();
+                .ToListAsync();
 
-            if (query.DateFrom.HasValue)
-            {
-                dbQuery = dbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
-            }
-
-            if (query.DateTo.HasValue)
-            {
-                dbQuery = dbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
-            }
-
-            var technicianFees = await dbQuery
+            var technicianFees = technicians
                 .Select(x => new TechnicianFeesReportDataSet
                 {
                     Technician = x.FullName,
                     Fees = x.ReceiptItemsForTechnician.Sum(x => x.CollectedAmount) ?? 0
-                }).ToListAsync();
+                }).ToList();
 
             return technicianFees;
         }

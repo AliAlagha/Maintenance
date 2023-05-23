@@ -121,7 +121,7 @@ namespace Maintenance.Web.Controllers
             return Json(result);
         }
 
-        public IActionResult TechnicianFeesReport()
+        public IActionResult TechnicianFees()
         {
             return View();
         }

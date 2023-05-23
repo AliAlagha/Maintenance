@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="TechnicianFeesReportDataSet">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>9ba77217-428c-43c0-a083-f8c2a0107d3d</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="TechnicianFeesReportDataSet">
+      <Query>
+        <DataSourceName>TechnicianFeesReportDataSet</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Technician">
+          <DataField>Technician</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Fees">
+          <DataField>Fees</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>TechnicianFeesReportDataSet</rd:DataSetName>
+        <rd:SchemaPath>D:\MaintenanceProject\Maintenance\Maintenance.Infrastructure\Services\PdfExportReport\Reports\DataSets\TechnicianFeesReportDataSet.xsd</rd:SchemaPath>
+        <rd:TableName>TechnicianFeesReportDataSet</rd:TableName>
+        <rd:TableAdapterFillMethod />
+        <rd:TableAdapterGetDataMethod />
+        <rd:TableAdapterName />
+      </rd:DataSetInfo>
+    </DataSet>
+  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -104,14 +139,14 @@
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="CustomerPhoneNumber">
+                        <Textbox Name="Fees">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!CustomerPhoneNumber.Value</Value>
+                                  <Value>=Fields!Fees.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -120,7 +155,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>CustomerPhoneNumber</rd:DefaultName>
+                          <rd:DefaultName>Fees</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -142,14 +177,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="CustomerName">
+                        <Textbox Name="Technician">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!CustomerName.Value</Value>
+                                  <Value>=Fields!Technician.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -158,7 +193,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>CustomerName</rd:DefaultName>
+                          <rd:DefaultName>Technician</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -202,7 +237,7 @@
             </TablixRowHierarchy>
             <RepeatColumnHeaders>true</RepeatColumnHeaders>
             <RepeatRowHeaders>true</RepeatRowHeaders>
-            <DataSetName>ReceiptItemReportDataSet</DataSetName>
+            <DataSetName>TechnicianFeesReportDataSet</DataSetName>
             <Top>5.1982cm</Top>
             <Left>0.00001cm</Left>
             <Height>1.87012cm</Height>
@@ -290,7 +325,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>عمولات الفنيين</Value>
+                    <Value>تقرير عمولات الفنيين</Value>
                     <Style>
                       <FontSize>16pt</FontSize>
                       <FontWeight>Bold</FontWeight>

@@ -682,6 +682,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to العمولة.
+        /// </summary>
+        public static string Fees {
+            get {
+                return ResourceManager.GetString("Fees", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to يرجى إدخال البيانات المطلوبة.
         /// </summary>
         public static string FillRequiredData {
@@ -1452,6 +1461,15 @@ namespace Maintenance.Core.Resources {
         public static string Suspension {
             get {
                 return ResourceManager.GetString("Suspension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تقرير عمولات الفنيين.
+        /// </summary>
+        public static string TechnicianFeesReport {
+            get {
+                return ResourceManager.GetString("TechnicianFeesReport", resourceCulture);
             }
         }
         
