@@ -770,7 +770,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>تقرير القطع التي تم صيانتها</Value>
+                    <Value>تقرير القطع المسلمة حسب الفني</Value>
                     <Style>
                       <FontSize>16pt</FontSize>
                       <FontWeight>Bold</FontWeight>
@@ -786,9 +786,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox3</rd:DefaultName>
             <Top>1.50031cm</Top>
-            <Left>12.97427cm</Left>
+            <Left>10.65215cm</Left>
             <Height>0.73365cm</Height>
-            <Width>6.53015cm</Width>
+            <Width>8.85227cm</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>

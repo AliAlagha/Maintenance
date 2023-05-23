@@ -175,10 +175,14 @@ namespace Maintenance.Infrastructure.Services.Maintenance
         public async Task CustomerRefuseMaintenance(CustomerRefuseMaintenanceDto dto, string userId)
         {
             var receiptItem = await _db.ReceiptItems
-                .SingleOrDefaultAsync(x => x.Id == dto.ReceiptItemId
-                && x.TechnicianId == userId);
+                .SingleOrDefaultAsync(x => x.Id == dto.ReceiptItemId);
             if (receiptItem == null)
                 throw new EntityNotFoundException();
+
+            if (receiptItem.TechnicianId != null && receiptItem.TechnicianId != userId)
+            {
+                throw new NoValidityException();
+            }
 
             receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.CustomerRefused;
             receiptItem.ReasonForRefusingMaintenance = dto.ReasonForRefusingMaintenance;
@@ -193,9 +197,14 @@ namespace Maintenance.Infrastructure.Services.Maintenance
         {
             var receiptItem = await _db.ReceiptItems
                 .SingleOrDefaultAsync(x => x.Id == dto.ReceiptItemId
-                && x.TechnicianId == userId);
+                && x.MaintenanceRequestStatus != MaintenanceRequestStatus.Suspended);
             if (receiptItem == null)
                 throw new EntityNotFoundException();
+
+            if (receiptItem.TechnicianId != null && receiptItem.TechnicianId != userId)
+            {
+                throw new NoValidityException();
+            }
 
             receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.Suspended;
             receiptItem.MaintenanceSuspensionReason = dto.MaintenanceSuspensionReason;
@@ -210,10 +219,14 @@ namespace Maintenance.Infrastructure.Services.Maintenance
         {
             var receiptItem = await _db.ReceiptItems
                 .SingleOrDefaultAsync(x => x.Id == dto.ReceiptItemId
-                && x.NotifyCustomerOfTheCost
-                && x.TechnicianId == userId);
+                && x.NotifyCustomerOfTheCost);
             if (receiptItem == null)
                 throw new EntityNotFoundException();
+
+            if (receiptItem.TechnicianId != null && receiptItem.TechnicianId != userId)
+            {
+                throw new NoValidityException();
+            }
 
             receiptItem.NotifyCustomerOfTheCost = false;
             receiptItem.CostNotifiedToTheCustomer = dto.CostNotifiedToTheCustomer;

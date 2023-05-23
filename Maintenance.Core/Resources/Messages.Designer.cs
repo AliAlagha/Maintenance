@@ -241,6 +241,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to تقرير الإيرادات.
+        /// </summary>
+        public static string CollectedAmountsReport {
+            get {
+                return ResourceManager.GetString("CollectedAmountsReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to التحصيل.
         /// </summary>
         public static string CollectingMoney {
@@ -516,6 +525,15 @@ namespace Maintenance.Core.Resources {
         public static string DeliveredItemsReport {
             get {
                 return ResourceManager.GetString("DeliveredItemsReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تقرير القطع المسلمة حسب الفني.
+        /// </summary>
+        public static string DeliveredItemsReportByTechnician {
+            get {
+                return ResourceManager.GetString("DeliveredItemsReportByTechnician", resourceCulture);
             }
         }
         
@@ -1416,6 +1434,15 @@ namespace Maintenance.Core.Resources {
         public static string Suspended {
             get {
                 return ResourceManager.GetString("Suspended", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تقرير القطع المعلقة.
+        /// </summary>
+        public static string SuspendedItemsReport {
+            get {
+                return ResourceManager.GetString("SuspendedItemsReport", resourceCulture);
             }
         }
         

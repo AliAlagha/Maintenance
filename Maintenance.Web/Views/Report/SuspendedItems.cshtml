@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = Messages.UrgentItemsReport;
+    ViewData["Title"] = Messages.SuspendedItemsReport;
 }
 
 <!--begin::Card-->
@@ -7,8 +7,8 @@
     <div class="card-header flex-wrap border-0 pt-6 pb-0">
         <div class="card-title">
             <h3 class="card-label">
-                @Messages.UrgentItemsReport
-                <span class="d-block text-muted pt-2 font-size-sm">@string.Format(Messages.IndexSubTitle, Messages.UrgentItemsReport)</span>
+                @Messages.SuspendedItemsReport
+                <span class="d-block text-muted pt-2 font-size-sm">@string.Format(Messages.IndexSubTitle, Messages.SuspendedItemsReport)</span>
             </h3>
         </div>
         <div class="card-toolbar">
@@ -59,7 +59,7 @@
                             type: 'remote',
                             source: {
                                 read: {
-                                    url: '/Report/UrgentItemsReport',
+                                    url: '/Report/SuspendedItemsReport',
                                 },
                             },
                             pageSize: 10,
@@ -114,6 +114,12 @@
                                 title: '@Messages.Date',
                                 sortable: false,
                                 width: 100
+                            },
+                            {
+                                field: 'maintenanceSuspensionReason',
+                                title: '@Messages.MaintenanceSuspensionReason',
+                                sortable: false,
+                                width: 200
                             }],
                     });
 
@@ -149,7 +155,7 @@
                     dateTo = dateToVal;
                 }
 
-                window.open('/ReportPdf/UrgentItemsReportPdf?DateFrom=' +dateFrom+ '&DateTo=' + dateTo, '_blank');
+                window.open('/ReportPdf/SuspendedItemsReportPdf?DateFrom=' +dateFrom+ '&DateTo=' + dateTo, '_blank');
             });
 
             $("#ExcelBtn").click(function () {
@@ -165,7 +171,7 @@
                     dateTo = dateToVal;
                 }
 
-                window.open('/ReportExcel/UrgentItemsReportExcel?DateFrom=' + dateFrom + '&DateTo=' + dateTo, '_blank');
+                window.open('/ReportExcel/SuspendedItemsReportExcel?DateFrom=' + dateFrom + '&DateTo=' + dateTo, '_blank');
             });
         </script>
     }

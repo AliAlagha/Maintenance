@@ -3,6 +3,7 @@ using Maintenance.Data;
 using Microsoft.EntityFrameworkCore;
 using Maintenance.Core.Enums;
 using Maintenance.Core.Resources;
+using Maintenance.Data.DbEntities;
 
 namespace Maintenance.Infrastructure.Services.Reports
 {
@@ -183,7 +184,10 @@ namespace Maintenance.Infrastructure.Services.Reports
         {
             var dbQuery = _db.ReceiptItems
                 .Include(x => x.Customer)
-                .Where(x => x.MaintenanceRequestStatus == MaintenanceRequestStatus.New
+                .Where(x => x.MaintenanceRequestStatus == MaintenanceRequestStatus.WaitingManagerResponse
+                    || x.MaintenanceRequestStatus == MaintenanceRequestStatus.ManagerApprovedReturn
+                    || x.MaintenanceRequestStatus == MaintenanceRequestStatus.ManagerRefusedReturn
+                    || x.MaintenanceRequestStatus == MaintenanceRequestStatus.New
                     || x.MaintenanceRequestStatus == MaintenanceRequestStatus.CustomerRefused)
                 .AsQueryable();
 
@@ -206,14 +210,7 @@ namespace Maintenance.Infrastructure.Services.Reports
             foreach (var notMaintainedItem in notMaintainedItems)
             {
                 var status = "";
-                if (notMaintainedItem.MaintenanceRequestStatus == MaintenanceRequestStatus.New)
-                {
-                    status = Messages.New;
-                }
-                else if (notMaintainedItem.MaintenanceRequestStatus == MaintenanceRequestStatus.CustomerRefused)
-                {
-                    status = Messages.CustomerRefused;
-                }
+                status = GetRequestStatus(notMaintainedItem, status);
 
                 var notMaintainedItemDataSet = new ReceiptItemReportDataSet
                 {
@@ -232,11 +229,35 @@ namespace Maintenance.Infrastructure.Services.Reports
             return motMaintainedItemsList;
         }
 
+        private static string GetRequestStatus(ReceiptItem? notMaintainedItem, string status)
+        {
+            switch (notMaintainedItem.MaintenanceRequestStatus)
+            {
+                case MaintenanceRequestStatus.WaitingManagerResponse:
+                    status = $"{Messages.WaitingManagerResponse}";
+                    break;
+                case MaintenanceRequestStatus.ManagerApprovedReturn:
+                    status = $"{Messages.ManagerApprovedReturn}";
+                    break;
+                case MaintenanceRequestStatus.ManagerRefusedReturn:
+                    status = $"{Messages.ManagerRefusedReturn}";
+                    break;
+                case MaintenanceRequestStatus.New:
+                    status = $"{Messages.New}";
+                    break;
+                case MaintenanceRequestStatus.CustomerRefused:
+                    status = $"{Messages.CustomerRefused} - {notMaintainedItem.ReasonForRefusingMaintenance}";
+                    break;
+            };
+            return status;
+        }
+
         public async Task<List<ReceiptItemReportDataSet>> NotDeliveredItemsReport(QueryDto query)
         {
             var dbQuery = _db.ReceiptItems
                 .Include(x => x.Customer)
-                .Where(x => x.MaintenanceRequestStatus == MaintenanceRequestStatus.Completed)
+                .Where(x => x.MaintenanceRequestStatus == MaintenanceRequestStatus.Completed
+                    || x.MaintenanceRequestStatus == MaintenanceRequestStatus.NotifyCustomerOfMaintenanceEnd)
                 .OrderByDescending(x => x.CreatedAt)
                 .AsQueryable();
 
@@ -322,7 +343,8 @@ namespace Maintenance.Infrastructure.Services.Reports
         {
             var dbQuery = _db.ReceiptItems
                 .Include(x => x.Customer)
-                .Where(x => x.CollectedAmount != null)
+                .Where(x => x.CollectedAmount != null
+                    && x.MaintenanceRequestStatus != MaintenanceRequestStatus.RemovedFromMaintained)
                 .AsQueryable();
 
             if (query.DateFrom.HasValue)

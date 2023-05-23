@@ -340,7 +340,31 @@
                                                     </i>
                                                     <span class="menu-text">@Messages.NotDeliveredItemsReport</span>
                                                 </a>
-                                            </li>                                        
+                                            </li>
+                                            <li class="@sideMenuHelper.GetMenuItemClass("Report", "DeliveredItemsByTechnician")" aria-haspopup="true">
+                                                <a href="~/Report/DeliveredItemsByTechnician" class="menu-link">
+                                                    <i class="menu-bullet menu-bullet-dot">
+                                                        <span></span>
+                                                    </i>
+                                                    <span class="menu-text">@Messages.DeliveredItemsReportByTechnician</span>
+                                                </a>
+                                            </li>
+                                            <li class="@sideMenuHelper.GetMenuItemClass("Report", "CollectedAmounts")" aria-haspopup="true">
+                                                <a href="~/Report/CollectedAmounts" class="menu-link">
+                                                    <i class="menu-bullet menu-bullet-dot">
+                                                        <span></span>
+                                                    </i>
+                                                    <span class="menu-text">@Messages.CollectedAmountsReport</span>
+                                                </a>
+                                            </li>
+                                            <li class="@sideMenuHelper.GetMenuItemClass("Report", "SuspendedItems")" aria-haspopup="true">
+                                                <a href="~/Report/SuspendedItems" class="menu-link">
+                                                    <i class="menu-bullet menu-bullet-dot">
+                                                        <span></span>
+                                                    </i>
+                                                    <span class="menu-text">@Messages.SuspendedItemsReport</span>
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </li>

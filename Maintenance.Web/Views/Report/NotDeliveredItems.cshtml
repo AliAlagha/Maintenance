@@ -11,34 +11,164 @@
                 <span class="d-block text-muted pt-2 font-size-sm">@string.Format(Messages.IndexSubTitle, Messages.NotDeliveredItemsReport)</span>
             </h3>
         </div>
+        <div class="card-toolbar">
+            <a id="PdfBtn" title="@string.Format(Messages.ExportToPdf)" class="btn btn-primary font-weight-bolder mr-2">
+                @Messages.ExportToPdf
+            </a>
+            <a id="ExcelBtn" title="@string.Format(Messages.ExportToExcel)" class="btn btn-secondary font-weight-bolder">
+                @Messages.ExportToExcel
+            </a>
+        </div>
     </div>
     <div class="card-body">
-        <form asp-action="NotDeliveredItemsReport" method="get">
-            <div class="row">
+        <!--begin::Search Form-->
+        <div class="mb-7">
+            <div class="row align-items-center">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>@Messages.From</label>
-                        <input type="date" name="DateFrom" class="form-control form-control-solid" />
+                        <input type="datetime-local" id="DateFrom" class="form-control form-control-solid" />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>@Messages.To</label>
-                        <input type="date" name="DateTo" class="form-control form-control-solid" />
+                        <input type="datetime-local" id="DateTo" class="form-control form-control-solid" />
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
-            </div>
-        </form>
-
+            <!--end: Search Form-->
+            <!--begin: Datatable-->
+            <div class="datatable table-striped datatable-head-custom" id="kt_datatable"></div>
+            <!--end: Datatable-->
+        </div>
     </div>
 </div>
-<!--end::Card-->
-@section Scripts{
-    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-}
+    <!--end::Card-->
+    @section Scripts{
+        <script>
+            "use strict";
+            // Class definition
+            var KTDatatableAutoColumnHideDemo = function () {
+                // Private functions
+                // basic demo
+                var demo = function () {
+                    var datatable = $('#kt_datatable').KTDatatable({
+                        // datasource definition
+                        data: {
+                            type: 'remote',
+                            source: {
+                                read: {
+                                    url: '/Report/NotDeliveredItemsReport',
+                                },
+                            },
+                            pageSize: 10,
+                            saveState: false,
+                            serverFiltering: true,
+                        },
+                        layout: {
+                            scroll: false
+                        },
+                        // column sorting
+                        sortable: true,
+                        pagination: false,
+                        search: {
+                            input: $('#kt_datatable_search_query'),
+                            key: 'generalSearch'
+                        },
+                        // columns definition
+                        columns: [
+                            {
+                                field: 'customerName',
+                                title: '@Messages.CustomerFullName',
+                                sortable: false,
+                                autoHide: false,
+                                width: 150
+                            },
+                            {
+                                field: 'customerPhoneNumber',
+                                title: '@Messages.CustomerPhoneNumber',
+                                sortable: false,
+                                width: 150
+                            },
+                            {
+                                field: 'item',
+                                title: '@Messages.Item',
+                                sortable: false,
+                                width: 100
+                            },
+                            {
+                                field: 'itemBarcode',
+                                title: '@Messages.Barcode',
+                                sortable: false,
+                                width: 150
+                            },
+                            {
+                                field: 'company',
+                                title: '@Messages.Company',
+                                sortable: false,
+                                width: 100
+                            },
+                            {
+                                field: 'date',
+                                title: '@Messages.Date',
+                                sortable: false,
+                                width: 100
+                            }],
+                    });
+
+                    $('#DateFrom').on('change', function () {
+                        datatable.search($(this).val().toLowerCase(), 'DateFrom');
+                    });
+
+                    $('#DateTo').on('change', function () {
+                        datatable.search($(this).val().toLowerCase(), 'DateTo');
+                    });
+                };
+                return {
+                    // public functions
+                    init: function () {
+                        demo();
+                    },
+                };
+            }();
+            jQuery(document).ready(function () {
+                KTDatatableAutoColumnHideDemo.init();
+            });
+
+            $("#PdfBtn").click(function () {
+                var dateFrom = "";
+                var dateFromVal = $('#DateFrom').val();
+                if(dateFromVal){
+                    dateFrom = dateFromVal;
+                }
+
+                var dateTo = "";
+                var dateToVal = $('#DateTo').val();
+                if (dateToVal) {
+                    dateTo = dateToVal;
+                }
+
+                window.open('/ReportPdf/NotDeliveredItemsReportPdf?DateFrom=' +dateFrom+ '&DateTo=' + dateTo, '_blank');
+            });
+
+            $("#ExcelBtn").click(function () {
+                var dateFrom = "";
+                var dateFromVal = $('#DateFrom').val();
+                if (dateFromVal) {
+                    dateFrom = dateFromVal;
+                }
+
+                var dateTo = "";
+                var dateToVal = $('#DateTo').val();
+                if (dateToVal) {
+                    dateTo = dateToVal;
+                }
+
+                window.open('/ReportExcel/NotDeliveredItemsReportExcel?DateFrom=' + dateFrom + '&DateTo=' + dateTo, '_blank');
+            });
+        </script>
+    }
+
 
 

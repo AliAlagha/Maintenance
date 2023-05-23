@@ -32,9 +32,9 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
         public async Task<byte[]> ReceiptItemsReportPdf(DateTime? dateFrom, DateTime? dateTo)
         {
             var paramaters = new Dictionary<string, object>();
-            paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd hh:mm tt hh:mm tt"));
-            paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd hh:mm tt hh:mm tt") : "");
-            paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd hh:mm tt hh:mm tt") : "");
+            paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd hh:mm tt"));
+            paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
+            paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
 
             paramaters.Add("ContactEmail", "test@gmail.com");
             paramaters.Add("ContactPhoneNumber", "0599854758");
@@ -156,7 +156,7 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             var deliveredItems = await _reportService.DeliveredItemsReportByTechnician(query);
 
             var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = deliveredItems } };
-            var result = _pdfExportReportService.GeneratePdf("DeliveredItems.rdlc", dataSets, paramaters);
+            var result = _pdfExportReportService.GeneratePdf("DeliveredItemsReportByTechnician.rdlc", dataSets, paramaters);
             return result;
         }
 
