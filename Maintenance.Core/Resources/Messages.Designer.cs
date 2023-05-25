@@ -124,6 +124,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to تمت الإضافة من قبل.
+        /// </summary>
+        public static string AlreadyExists {
+            get {
+                return ResourceManager.GetString("AlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to نظام الصيانة.
         /// </summary>
         public static string AppName {
@@ -691,7 +700,7 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to يرجى إدخال البيانات المطلوبة.
+        ///   Looks up a localized string similar to يرجى التحقق من البيانات المطلوبة.
         /// </summary>
         public static string FillRequiredData {
             get {

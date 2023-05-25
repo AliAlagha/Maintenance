@@ -363,10 +363,8 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                 && x.CollectedAmount != null
                 && x.MaintenanceRequestStatus != MaintenanceRequestStatus.WaitingManagerResponse
                 && x.MaintenanceRequestStatus != MaintenanceRequestStatus.ManagerRefusedReturn
-                && x.MaintenanceRequestStatus != MaintenanceRequestStatus.Delivered
                 && x.MaintenanceRequestStatus != MaintenanceRequestStatus.CustomerRefused
-                && x.MaintenanceRequestStatus != MaintenanceRequestStatus.Suspended
-                && x.MaintenanceRequestStatus != MaintenanceRequestStatus.RemovedFromMaintained);
+                && x.MaintenanceRequestStatus != MaintenanceRequestStatus.Suspended);
             }
 
             return isAllItemsCanBeDelivered;

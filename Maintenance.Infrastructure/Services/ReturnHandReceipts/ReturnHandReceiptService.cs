@@ -57,6 +57,13 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
 
         public async Task<int> Create(CreateReturnHandReceiptDto input, string userId)
         {
+            var isReturnReceiptExists = await _db.ReturnHandReceipts.AnyAsync(x => x.HandReceiptId 
+                == input.HandReceiptId);
+            if (isReturnReceiptExists)
+            {
+                throw new AlreadyExistsException();
+            }
+
             var handReceipt = await _db.HandReceipts
                 .Include(x => x.ReceiptItems)
                 .SingleOrDefaultAsync(x => x.Id == input.HandReceiptId);
@@ -65,7 +72,8 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                 throw new EntityNotFoundException();
             }
 
-            var selectedReturnHandReceiptItems_dto = input.Items.Where(x => x.IsSelected).ToList();
+            var selectedReturnHandReceiptItems_dto = input.Items.Where(x => x.IsSelected)
+                .DistinctBy(x => x.HandReceiptItemId).ToList();
             var selectedReturnHandReceiptItemIds = selectedReturnHandReceiptItems_dto
                 .Select(x => x.HandReceiptItemId).ToList();
 
@@ -142,17 +150,31 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
         public async Task<List<HandReceiptItemForReturnViewModel>> GetHandReceiptItemsForReturn(int handReceiptId)
         {
             var handReceipt = await _db.HandReceipts
+                .Include(x => x.ReturnHandReceipt)
+                .ThenInclude(x => x.ReceiptItems)
                 .Include(x => x.ReceiptItems.Where(x =>
                     x.MaintenanceRequestStatus == MaintenanceRequestStatus.Delivered))
                 .SingleOrDefaultAsync(x => x.Id == handReceiptId);
             if (handReceipt == null)
                 throw new EntityNotFoundException();
 
+            var handReceiptItemsForReturn = new List<ReceiptItem>();
+            if (handReceipt.ReturnHandReceipt != null)
+            {
+                var alreadySelectedItems = handReceipt.ReturnHandReceipt.ReceiptItems.Select(x => x.PreviousReceiptItemId).ToList();
+                var notSelectedItems = handReceipt.ReceiptItems.Where(x => !alreadySelectedItems.Contains(x.Id)).ToList();
+                handReceiptItemsForReturn.AddRange(notSelectedItems);
+            }
+            else
+            {
+                handReceiptItemsForReturn.AddRange(handReceipt.ReceiptItems);
+            }
+
             var itemVms = new List<HandReceiptItemForReturnViewModel>();
 
-            for (int i = 0; i < handReceipt.ReceiptItems.Count; i++)
+            for (int i = 0; i < handReceiptItemsForReturn.Count; i++)
             {
-                var handReceiptItem = handReceipt.ReceiptItems[i];
+                var handReceiptItem = handReceiptItemsForReturn[i];
                 var handReceiptItemForReturnVm = new HandReceiptItemForReturnViewModel
                 {
                     Index = i,
@@ -177,6 +199,16 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             }
 
             return itemVms;
+        }
+
+        public async Task IsReturnReceiptAlradyExists(int handReceiptId)
+        {
+            var isReturnReceiptExists = await _db.ReturnHandReceipts.AnyAsync(x => x.HandReceiptId
+                == handReceiptId);
+            if (isReturnReceiptExists)
+            {
+                throw new AlreadyExistsException();
+            }
         }
 
         // Heplers

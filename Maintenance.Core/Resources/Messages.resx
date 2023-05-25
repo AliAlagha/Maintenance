@@ -138,6 +138,9 @@
   <data name="Administrator" xml:space="preserve">
     <value>مدير النظام</value>
   </data>
+  <data name="AlreadyExists" xml:space="preserve">
+    <value>تمت الإضافة من قبل</value>
+  </data>
   <data name="AppName" xml:space="preserve">
     <value>نظام الصيانة</value>
   </data>
@@ -328,7 +331,7 @@
     <value>العمولة</value>
   </data>
   <data name="FillRequiredData" xml:space="preserve">
-    <value>يرجى إدخال البيانات المطلوبة</value>
+    <value>يرجى التحقق من البيانات المطلوبة</value>
   </data>
   <data name="From" xml:space="preserve">
     <value>من</value>

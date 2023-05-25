@@ -18,6 +18,6 @@ namespace Maintenance.Data.DbEntities
         public Customer Customer { get; set; }
         public DateTime Date { get; set; }
         public List<ReceiptItem> ReceiptItems { get; set; }
-        public List<ReturnHandReceipt> ReturnHandReceipts { get; set; }
+        public ReturnHandReceipt ReturnHandReceipt { get; set; }
     }
 }

@@ -60,6 +60,13 @@ namespace Maintenance.Infrastructure.Services.Customers
 
         public async Task<int> Create(CreateCustomerDto input, string userId)
         {
+            var isCustomerExists = await _db.Customers.AnyAsync(x => x.PhoneNumber
+                .Equals(input.PhoneNumber));
+            if (isCustomerExists)
+            {
+                throw new AlreadyExistsException();
+            }
+
             var customer = _mapper.Map<Customer>(input);
             customer.CreatedBy = userId;
             await _db.Customers.AddAsync(customer);
@@ -69,6 +76,13 @@ namespace Maintenance.Infrastructure.Services.Customers
 
         public async Task Update(UpdateCustomerDto input, string userId)
         {
+            var isCustomerExists = await _db.Customers.AnyAsync(x => x.Id != input.Id
+                && x.PhoneNumber.Equals(input.PhoneNumber));
+            if (isCustomerExists)
+            {
+                throw new AlreadyExistsException();
+            }
+
             var customer = await _db.Customers.SingleOrDefaultAsync(x => x.Id == input.Id);
             if (customer == null)
                 throw new EntityNotFoundException();

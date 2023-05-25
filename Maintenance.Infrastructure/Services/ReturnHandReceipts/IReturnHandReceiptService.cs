@@ -10,5 +10,6 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
         Task<int> Create(CreateReturnHandReceiptDto input, string userId);
         Task Delete(int id, string userId);
         Task<List<HandReceiptItemForReturnViewModel>> GetHandReceiptItemsForReturn(int id);
+        Task IsReturnReceiptAlradyExists(int handReceiptId);
     }
 }

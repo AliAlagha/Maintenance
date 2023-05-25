@@ -1,6 +1,9 @@
-﻿using Maintenance.Core.Dtos;
+﻿using AutoMapper;
+using Maintenance.Core.Dtos;
 using Maintenance.Core.Enums;
 using Maintenance.Core.Resources;
+using Maintenance.Data.DbEntities;
+using Maintenance.Infrastructure.Services.Customers;
 using Maintenance.Infrastructure.Services.HandReceipts;
 using Maintenance.Infrastructure.Services.Reports;
 using Maintenance.Infrastructure.Services.Users;
@@ -13,11 +16,17 @@ namespace Maintenance.Web.Controllers
     public class HandReceiptController : BaseController
     {
         private readonly IHandReceiptService _handReceiptService;
+        private readonly ICustomerService _customerService;
+        private readonly IMapper _mapper;
 
         public HandReceiptController(IUserService userService
-            , IHandReceiptService handReceiptService) : base(userService)
+            , IHandReceiptService handReceiptService
+            , ICustomerService customerService
+            , IMapper mapper) : base(userService)
         {
             _handReceiptService = handReceiptService;
+            _customerService = customerService;
+            _mapper = mapper;
         }
 
         public IActionResult Index(string? barcode)
@@ -33,32 +42,7 @@ namespace Maintenance.Web.Controllers
             return Json(response);
         }
 
-        public IActionResult SelectCustomerType()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult SelectCustomerType(SelectCustomerTypeDto dto)
-        {
-            if (dto.CreateCustomerType == CreateCustomerType.Exists)
-            {
-                return RedirectToAction(nameof(Create));
-            }
-            else if (dto.CreateCustomerType == CreateCustomerType.New)
-            {
-                return RedirectToAction(nameof(CreateWithCustomer));
-            }
-
-            return View();
-        }
-
         public IActionResult Create()
-        {
-            return View();
-        }
-
-        public IActionResult CreateWithCustomer()
         {
             return View();
         }
@@ -69,18 +53,20 @@ namespace Maintenance.Web.Controllers
             if (ModelState.IsValid)
             {
                 var isFormValid = true;
-                if (input.CustomerId == null || !input.Items.Any())
-                {
-                    ModelState.AddModelError("Required", string.Empty);
-                    isFormValid = false;
-                }
-
-                isFormValid = CheckPriceValidity(input, isFormValid);
+                isFormValid = ValidateForm(input);
 
                 if (!isFormValid)
                 {
+                    ModelState.AddModelError("ValidationError", string.Empty);
                     ViewBag.IsFormValid = false;
                     return View(input);
+                }
+
+                if (input.CustomerId == null)
+                {
+                    var createCustomerDto = _mapper.Map<CreateCustomerForHandReceiptDto
+                        , CreateCustomerDto>(input.CustomerInfo);
+                    input.CustomerId = await _customerService.Create(createCustomerDto, UserId);
                 }
 
                 await _handReceiptService.Create(input, UserId);
@@ -91,8 +77,38 @@ namespace Maintenance.Web.Controllers
             return View(input);
         }
 
-        private static bool CheckPriceValidity(CreateHandReceiptDto input, bool isFormValid)
+        private bool ValidateForm(CreateHandReceiptDto input)
         {
+            bool isFormValid = CheckCustomerValidity(input);
+            if (!isFormValid)
+            {
+                return false;
+            }
+
+            isFormValid = CheckPriceValidity(input);
+            return isFormValid;
+        }
+
+        private bool CheckCustomerValidity(CreateHandReceiptDto input)
+        {
+            bool isFormValid = true;
+
+            var isCustomerNotValid = input.CustomerId == null
+                    && (input.CustomerInfo == null
+                        || input.CustomerInfo.Name == null
+                        || input.CustomerInfo.PhoneNumber == null);
+
+            if (isCustomerNotValid || !input.Items.Any())
+            {
+                isFormValid = false;
+            }
+
+            return isFormValid;
+        }
+
+        private bool CheckPriceValidity(CreateHandReceiptDto input)
+        {
+            bool isFormValid = true;
             foreach (var item in input.Items)
             {
                 var specifiedCost = item.SpecifiedCost;
@@ -132,29 +148,6 @@ namespace Maintenance.Web.Controllers
             }
 
             return isFormValid;
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateWithCustomer(CreateHandReceiptDto input)
-        {
-            if (ModelState.IsValid)
-            {
-                var isCustomerNotValid = input.CustomerInfo == null
-                    || input.CustomerInfo.Name == null || input.CustomerInfo.PhoneNumber == null;
-
-                if (isCustomerNotValid || !input.Items.Any())
-                {
-                    ModelState.AddModelError("Required", string.Empty);
-                    ViewBag.IsFormValid = false;
-                    return View(input);
-                }
-
-                await _handReceiptService.Create(input, UserId);
-                return RedirectToAction(nameof(Index));
-            }
-
-            ViewBag.IsFormValid = false;
-            return View(input);
         }
 
         public async Task<IActionResult> Delete(int id)

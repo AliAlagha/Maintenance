@@ -37,6 +37,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             var dbQuery = _db.HandReceipts
                 .Include(x => x.Customer)
                 .Include(x => x.ReceiptItems)
+                .Include(x => x.ReturnHandReceipt)
                 .OrderByDescending(x => x.CreatedAt).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(query.GeneralSearch))
@@ -66,14 +67,6 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             await _db.UseTransaction(async () =>
             {
                 var handReceipt = _mapper.Map<HandReceipt>(input);
-
-                if (input.CustomerId == null && input.CustomerInfo != null)
-                {
-                    var createCustomerDto = _mapper.Map<CreateCustomerForHandReceiptDto
-                        , CreateCustomerDto>(input.CustomerInfo);
-                    handReceipt.CustomerId = await _customerService.Create(createCustomerDto, userId);
-                }
-
                 await AddHandReceiptItems(input.Items, handReceipt, userId);
 
                 handReceipt.Date = DateTime.Now;

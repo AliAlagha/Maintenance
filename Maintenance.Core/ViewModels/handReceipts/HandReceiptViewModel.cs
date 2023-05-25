@@ -14,5 +14,6 @@ namespace Maintenance.Core.ViewModels
         public double? TotalCollectedAmount { get; set; }
         public bool IsAllDelivered { get; set; }
         public string ItemBarcodes { get; set; }
+        public bool IsReturnHandReceiptExists { get; set; }
     }
 }

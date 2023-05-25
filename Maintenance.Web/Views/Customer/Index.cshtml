@@ -158,7 +158,7 @@
                                 if ('@ViewBag.UserType' == "Administrator") {
                                     result = result + GetPopUpEditAction('/Customer/Edit/' + data.id, '@string.Format(Messages.EditTitle, Messages.CustomerWithoutDef)');
                                     result = result + GetDeleteAction('/Customer/Delete/' + data.id);
-                                } else if ('@ViewBag.UserType' == "MaintenanceTechnician") {
+                                } else if ('@ViewBag.UserType' == "MaintenanceManager") {
                                     result = result + GetPopUpEditAction('/Customer/AddRating/' + data.id, '@string.Format(Messages.EditTitle, Messages.CustomerWithoutDef)');
                                 }
                                 return result;

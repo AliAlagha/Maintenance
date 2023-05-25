@@ -58,10 +58,12 @@ namespace Maintenance.Infrastructure.AutoMapper
             CreateMap<HandReceipt, HandReceiptViewModel>()
                 .ForMember(x => x.Date, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")))
                 .ForMember(x => x.TotalCollectedAmount, x => x.MapFrom(x => x.ReceiptItems.Sum(x => x.CollectedAmount)))
-                .ForMember(x => x.IsAllDelivered, x => x.MapFrom(x => x.ReceiptItems.All(x => x.MaintenanceRequestStatus 
+                .ForMember(x => x.IsAllDelivered, x => x.MapFrom(x => x.ReceiptItems.All(x => x.MaintenanceRequestStatus
                 == MaintenanceRequestStatus.Delivered)))
                 .ForMember(x => x.ItemBarcodes, x => x.MapFrom(x => string.Join(", "
-                , x.ReceiptItems.Select(x => x.ItemBarcode).ToList())));
+                , x.ReceiptItems.Select(x => x.ItemBarcode).ToList())))
+                .ForMember(x => x.IsReturnHandReceiptExists, x => x.MapFrom(x => x.ReturnHandReceipt != null
+                    ? true : false));
             CreateMap<CreateHandReceiptDto, HandReceipt>();
             #endregion
 
@@ -101,7 +103,7 @@ namespace Maintenance.Infrastructure.AutoMapper
             CreateMap<Branch, BranchViewModel>()
                 .ForMember(x => x.CreatedAt, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")))
                 .ForMember(x => x.BranchPhoneNumbers
-                    , x => x.MapFrom(x => string.Join(", ", 
+                    , x => x.MapFrom(x => string.Join(", ",
                     x.BranchPhoneNumbers.Select(x => x.PhoneNumber).ToList())));
             CreateMap<CreateBranchDto, Branch>();
             CreateMap<UpdateBranchDto, Branch>();

@@ -186,7 +186,6 @@ namespace Maintenance.Infrastructure.Services.Maintenance
 
             receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.CustomerRefused;
             receiptItem.ReasonForRefusingMaintenance = dto.ReasonForRefusingMaintenance;
-            receiptItem.TechnicianId = userId;
             receiptItem.UpdatedAt = DateTime.Now;
             receiptItem.UpdatedBy = userId;
             _db.ReceiptItems.Update(receiptItem);
@@ -200,11 +199,6 @@ namespace Maintenance.Infrastructure.Services.Maintenance
                 && x.MaintenanceRequestStatus != MaintenanceRequestStatus.Suspended);
             if (receiptItem == null)
                 throw new EntityNotFoundException();
-
-            if (receiptItem.TechnicianId != null && receiptItem.TechnicianId != userId)
-            {
-                throw new NoValidityException();
-            }
 
             receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.Suspended;
             receiptItem.MaintenanceSuspensionReason = dto.MaintenanceSuspensionReason;

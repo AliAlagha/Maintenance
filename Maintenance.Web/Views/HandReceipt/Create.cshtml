@@ -37,6 +37,24 @@
                         </div>
                     </div>
                 </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>@Messages.CustomerFullName</label>
+                            <input asp-for="CustomerInfo.Name" placeholder="@string.Format(Messages.Enter,Messages.CustomerFullName)" class="form-control form-control-solid" />
+                            <span asp-validation-for="CustomerInfo.Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>@Messages.CustomerPhoneNumber</label>
+                            <input asp-for="CustomerInfo.PhoneNumber" placeholder="@string.Format(Messages.Enter,Messages.CustomerPhoneNumber)" class="form-control form-control-solid" />
+                            <span asp-validation-for="CustomerInfo.PhoneNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <hr />
                 <div class="row mt-4">
                     <div class="col-md-3">
                         <div class="form-group">
@@ -431,126 +449,85 @@
                 });
             }
 
-            var _initDemo2 = function () {
-                var form = document.getElementById('CreateHandReceiptForm');
-                var validator = FormValidation.formValidation(
-                    form,
-                    {
-                        fields: {
-                            CustomerId: {
-                                validators: {
-                                    notEmpty: {
-                                        message: '@string.Format(Messages.RequiredField, Messages.Customer)'
-                                    }
-                                }
-                            }
-                        },
-
-                        plugins: { //Learn more: https://formvalidation.io/guide/plugins
-                            trigger: new FormValidation.plugins.Trigger(),
-                            // Bootstrap Framework Integration
-                            bootstrap: new FormValidation.plugins.Bootstrap(),
-                            // Validate fields when clicking the Submit button
-                            //submitButton: new FormValidation.plugins.SubmitButton(),
-                            // Submit the form when all fields are valid
-                            //defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
-                        }
-                    }
-                );
-
-                // Add button handler
-                const submitBtn = document.getElementById('SubmitHandReceiptBtn');
-                submitBtn.addEventListener('click', function (e) {
-                    // Prevent default button action
-                    e.preventDefault();
-
-                    // Validate form before submit
-                    if (validator) {
-                        validator.validate().then(function (status) {
-                            console.log('validated!');
-
-                            if (status == 'Valid') {
-                                $('.item-row').each(function (i, obj) {
-                                    $(this).find('.item').attr('name', 'Items[' + i + '].ItemId');
-                                    $(this).find('.company').attr('name', 'Items[' + i + '].CompanyId');
-                                    $(this).find('.color').attr('name', 'Items[' + i + '].ColorId');
-                                    $(this).find('.description').attr('name', 'Items[' + i + '].Description');
-                                    $(this).find('.specified-cost').attr('name', 'Items[' + i + '].SpecifiedCost');
-                                    $(this).find('.notify-customer').attr('name', 'Items[' + i + '].NotifyCustomerOfTheCost');
-                                    $(this).find('.cost-from').attr('name', 'Items[' + i + '].CostFrom');
-                                    $(this).find('.cost-to').attr('name', 'Items[' + i + '].CostTo');
-                                    $(this).find('.urgent').attr('name', 'Items[' + i + '].Urgent');
-                                    $(this).find('.warranty-expiry-date').attr('name', 'Items[' + i + '].WarrantyDaysNumber');
-                                });
-
-                                form.submit(); // Submit form
-                            }
-                        });
-                    }
-                });
-            }
-
             return {
                 // public functions
                 init: function () {
                     _initDemo1();
-                    _initDemo2();
                 }
             };
         }();
 
-        // Class definition
-        var KTSelect2 = function () {
-            // Private functions
-            var demos = function () {
-                // basic
-                $('#SelectCustomer').select2();
-                $('#SelectItem').select2();
-                $('#SelectCompany').select2();
-                $('#SelectColor').select2();
-            }
+        // Add button handler
+        const submitBtn = document.getElementById('SubmitHandReceiptBtn');
+        submitBtn.addEventListener('click', function (e) {
+                $('.item-row').each(function (i, obj) {
+                    $(this).find('.item').attr('name', 'Items[' + i + '].ItemId');
+                    $(this).find('.company').attr('name', 'Items[' + i + '].CompanyId');
+                    $(this).find('.color').attr('name', 'Items[' + i + '].ColorId');
+                    $(this).find('.description').attr('name', 'Items[' + i + '].Description');
+                    $(this).find('.specified-cost').attr('name', 'Items[' + i + '].SpecifiedCost');
+                    $(this).find('.notify-customer').attr('name', 'Items[' + i + '].NotifyCustomerOfTheCost');
+                    $(this).find('.cost-from').attr('name', 'Items[' + i + '].CostFrom');
+                    $(this).find('.cost-to').attr('name', 'Items[' + i + '].CostTo');
+                    $(this).find('.urgent').attr('name', 'Items[' + i + '].Urgent');
+                    $(this).find('.warranty-expiry-date').attr('name', 'Items[' + i + '].WarrantyDaysNumber');
+                });
 
-            // Public functions
-            return {
-                init: function () {
-                    demos();
+                form.submit(); // Submit form
+            });
+
+            // Class definition
+            var KTSelect2 = function () {
+                // Private functions
+                var demos = function () {
+                    // basic
+                    $('#SelectCustomer').select2();
+                    $('#SelectItem').select2();
+                    $('#SelectCompany').select2();
+                    $('#SelectColor').select2();
                 }
-            };
-        }();
 
-        // Initialization
-        jQuery(document).ready(function () {
-            KTFormControls.init();
-            KTSelect2.init();
-        });
+                // Public functions
+                return {
+                    init: function () {
+                        demos();
+                    }
+                };
+            }();
 
-        $('#SpecifiedCost, #CostFrom, #CostTo, #NotifyCustomerOfTheCost').change(function () {
-            var specifiedCostVal = $('#SpecifiedCost').val();
-            var costFromVal = $('#CostFrom').val();
-            var costToVal = $('#CostTo').val();
-            var notifyCustomerValToVal = $('#NotifyCustomerOfTheCost').val();
+            // Initialization
+            jQuery(document).ready(function () {
+                KTFormControls.init();
+                KTSelect2.init();
+            });
 
-            if (specifiedCostVal) {
-                $("#CostFrom").prop('disabled', true);
-                $("#CostTo").prop('disabled', true);
-                $("#NotifyCustomerOfTheCost").prop('disabled', true);
-            } else if (costFromVal) {
-                $("#SpecifiedCost").prop('disabled', true);
-                $("#NotifyCustomerOfTheCost").prop('disabled', true);
-            } else if (costToVal) {
-                $("#SpecifiedCost").prop('disabled', true);
-                $("#NotifyCustomerOfTheCost").prop('disabled', true);
-            } else if (notifyCustomerValToVal == 'true') {
-                $("#SpecifiedCost").prop('disabled', true);
-                $("#CostFrom").prop('disabled', true);
-                $("#CostTo").prop('disabled', true);
-            } else {
-                $("#SpecifiedCost").prop('disabled', false);
-                $("#CostFrom").prop('disabled', false);
-                $("#CostTo").prop('disabled', false);
-                $("#NotifyCustomerOfTheCost").prop('disabled', false);
-            }
-        });
+            $('#SpecifiedCost, #CostFrom, #CostTo, #NotifyCustomerOfTheCost').change(function () {
+                var specifiedCostVal = $('#SpecifiedCost').val();
+                var costFromVal = $('#CostFrom').val();
+                var costToVal = $('#CostTo').val();
+                var notifyCustomerValToVal = $('#NotifyCustomerOfTheCost').val();
+
+                if (specifiedCostVal) {
+                    $("#CostFrom").prop('disabled', true);
+                    $("#CostTo").prop('disabled', true);
+                    $("#NotifyCustomerOfTheCost").prop('disabled', true);
+                } else if (costFromVal) {
+                    $("#SpecifiedCost").prop('disabled', true);
+                    $("#NotifyCustomerOfTheCost").prop('disabled', true);
+                } else if (costToVal) {
+                    $("#SpecifiedCost").prop('disabled', true);
+                    $("#NotifyCustomerOfTheCost").prop('disabled', true);
+                } else if (notifyCustomerValToVal == 'true') {
+                    $("#SpecifiedCost").prop('disabled', true);
+                    $("#CostFrom").prop('disabled', true);
+                    $("#CostTo").prop('disabled', true);
+                } else {
+                    $("#SpecifiedCost").prop('disabled', false);
+                    $("#CostFrom").prop('disabled', false);
+                    $("#CostTo").prop('disabled', false);
+                    $("#NotifyCustomerOfTheCost").prop('disabled', false);
+                }
+            });
     </script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

@@ -42,6 +42,7 @@ namespace Maintenance.Web.Controllers
 
         public async Task<IActionResult> Create(int handReceiptId)
         {
+            await _returnHandReceiptService.IsReturnReceiptAlradyExists(handReceiptId);
             var itemVms = await _returnHandReceiptService.GetHandReceiptItemsForReturn(handReceiptId);
             ViewBag.HandReceiptItems = itemVms;
 

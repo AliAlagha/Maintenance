@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Maintenance.Web.Controllers
 {
-    [Authorize(Roles = "Administrator, MaintenanceTechnician")]
+    [Authorize(Roles = "Administrator, MaintenanceManager")]
     public class CustomerController : BaseController
     {
         private readonly ICustomerService _customerService;
@@ -18,13 +18,13 @@ namespace Maintenance.Web.Controllers
             _customerService = customerService;
         }
 
-        [Authorize(Roles = "Administrator, MaintenanceTechnician")]
+        [Authorize(Roles = "Administrator, MaintenanceManager")]
         public IActionResult Index()
         {
             return View();
         }
 
-        [Authorize(Roles = "Administrator, MaintenanceTechnician")]
+        [Authorize(Roles = "Administrator, MaintenanceManager")]
         [HttpPost]
         public async Task<JsonResult> GetAll(Pagination pagination, QueryDto query)
         {
@@ -75,13 +75,13 @@ namespace Maintenance.Web.Controllers
             return DeletedSuccessfully();
         }
 
-        [Authorize(Roles = "MaintenanceTechnician")]
+        [Authorize(Roles = "MaintenanceManager")]
         public async Task<IActionResult> AddRating(int id)
         {
             return View(await _customerService.GetCustomerRating(id));
         }
 
-        [Authorize(Roles = "MaintenanceTechnician")]
+        [Authorize(Roles = "MaintenanceManager")]
         [HttpPost]
         public async Task<IActionResult> AddRating(AddRatingToCustomerDto input)
         {
