@@ -181,7 +181,7 @@
     <value>المبلغ المحصل</value>
   </data>
   <data name="CollectedAmountsReport" xml:space="preserve">
-    <value>تقرير الإيرادات</value>
+    <value>تقرير الإنجاز</value>
   </data>
   <data name="CollectingMoney" xml:space="preserve">
     <value>التحصيل</value>
@@ -626,6 +626,9 @@
   </data>
   <data name="WarrantyExpired" xml:space="preserve">
     <value>الضمان منتهي</value>
+  </data>
+  <data name="WarrantyExpiredNote" xml:space="preserve">
+    <value>تمت الصيانة بموافقة الإدارة نظراً لانتهاء الضمان.</value>
   </data>
   <data name="WarrantyPeriodNotStarted" xml:space="preserve">
     <value>لم تبدأ فترة الضمان</value>

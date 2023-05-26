@@ -27,13 +27,13 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>@Messages.From</label>
-                        <input type="datetime-local" id="DateFrom" class="form-control form-control-solid" />
+                        <input type="datetime-local" id="DateFrom" class="form-control" />
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>@Messages.To</label>
-                        <input type="datetime-local" id="DateTo" class="form-control form-control-solid" />
+                        <input type="datetime-local" id="DateTo" class="form-control" />
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -42,6 +42,14 @@
                         <select id="SelectBranch" class="form-control select2">
                             <option value="">-- @string.Format(Messages.Select, Messages.Branch) --</option>
                         </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>@Messages.TotalCollectedAmount</label>
+                        <input type="text" id="TotalCollectedAmount" class="form-control" disabled />
                     </div>
                 </div>
             </div>
@@ -127,14 +135,17 @@
 
                 $('#DateFrom').on('change', function () {
                     datatable.search($(this).val().toLowerCase(), 'DateFrom');
+                    GetTotalCollectedAmounts();
                 });
 
                 $('#DateTo').on('change', function () {
                     datatable.search($(this).val().toLowerCase(), 'DateTo');
+                    GetTotalCollectedAmounts();
                 });
 
                 $('#SelectBranch').on('change', function () {
                     datatable.search($(this).val().toLowerCase(), 'BranchId');
+                    GetTotalCollectedAmounts();
                 });
             };
             return {
@@ -190,7 +201,7 @@
                 branchId = branchIdVal;
             }
 
-            window.open('/ReportExcel/CollectedAmountsReportExcel?DateFrom=' 
+            window.open('/ReportExcel/CollectedAmountsReportExcel?DateFrom='
                 + dateFrom + '&DateTo=' + dateTo + '&BranchId=' + branchId, '_blank');
         });
 
@@ -203,6 +214,43 @@
                 });
             }
         });
+
+        GetTotalCollectedAmounts();
+
+        function GetTotalCollectedAmounts() {
+            $("#TotalCollectedAmount").val("");
+
+            var dateFrom = "";
+            var dateFromVal = $('#DateFrom').val();
+            if (dateFromVal) {
+                dateFrom = dateFromVal;
+            }
+
+            var dateTo = "";
+            var dateToVal = $('#DateTo').val();
+            if (dateToVal) {
+                dateTo = dateToVal;
+            }
+
+            var branchId = "";
+            var branchIdVal = $('#SelectBranch').val();
+            if (branchIdVal) {
+                branchId = branchIdVal;
+            }
+
+            $.ajax({
+                url: '/Report/CollectedAmountsReportTotal',
+                dataType: "json",
+                data: {
+                    DateFrom: dateFrom,
+                    DateTo: dateTo,
+                    BranchId: branchId
+                },
+                success: function (data) {
+                    $("#TotalCollectedAmount").val(data);
+                }
+            });
+        }
     </script>
     }
 

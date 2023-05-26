@@ -22,60 +22,60 @@ namespace Maintenance.Web.Controllers
             _reportPdfService = reportPdfService;
         }
 
-        public async Task<IActionResult> ReceiptItemsReportPdf(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<IActionResult> ReceiptItemsReportPdf(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
-            var result = await _reportPdfService.ReceiptItemsReportPdf(dateFrom, dateTo);
+            var result = await _reportPdfService.ReceiptItemsReportPdf(dateFrom, dateTo, branchId);
             return GetPdfFileResult(result, "ReceiptItemsReport");
         }
 
-        public async Task<IActionResult> DeliveredItemsReportPdf(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<IActionResult> DeliveredItemsReportPdf(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
-            var result = await _reportPdfService.DeliveredItemsReportPdf(dateFrom, dateTo);
+            var result = await _reportPdfService.DeliveredItemsReportPdf(dateFrom, dateTo, branchId);
             return GetPdfFileResult(result, "DeliveredItems");
         }
 
         public async Task<IActionResult> ReturnedItemsReportPdf(DateTime? dateFrom, DateTime? dateTo
-            , string? technicianId)
+            , string? technicianId, int? branchId)
         {
-            var result = await _reportPdfService.ReturnedItemsReportPdf(dateFrom, dateTo, technicianId);
+            var result = await _reportPdfService.ReturnedItemsReportPdf(dateFrom, dateTo, technicianId, branchId);
             return GetPdfFileResult(result, "ReturnedItems");
         }
 
-        public async Task<IActionResult> UrgentItemsReportPdf(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<IActionResult> UrgentItemsReportPdf(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
-            var result = await _reportPdfService.UrgentItemsReportPdf(dateFrom, dateTo);
+            var result = await _reportPdfService.UrgentItemsReportPdf(dateFrom, dateTo, branchId);
             return GetPdfFileResult(result, "UrgentItems");
         }
 
-        public async Task<IActionResult> NotMaintainedItemsReportPdf(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<IActionResult> NotMaintainedItemsReportPdf(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
-            var result = await _reportPdfService.NotMaintainedItemsReportPdf(dateFrom, dateTo);
+            var result = await _reportPdfService.NotMaintainedItemsReportPdf(dateFrom, dateTo, branchId);
             return GetPdfFileResult(result, "ReceiptItemsReport");
         }
 
-        public async Task<IActionResult> NotDeliveredItemsReportPdf(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<IActionResult> NotDeliveredItemsReportPdf(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
-            var result = await _reportPdfService.NotDeliveredItemsReportPdf(dateFrom, dateTo);
+            var result = await _reportPdfService.NotDeliveredItemsReportPdf(dateFrom, dateTo, branchId);
             return GetPdfFileResult(result, "NotDeliveredItems");
         }
 
         public async Task<IActionResult> DeliveredItemsReportByTechnicianPdf(DateTime? dateFrom, DateTime? dateTo
-            , string? technicianId)
+            , string? technicianId, int? branchId)
         {
-            var result = await _reportPdfService.DeliveredItemsReportByTechnicianPdf(dateFrom, dateTo, technicianId);
+            var result = await _reportPdfService.DeliveredItemsReportByTechnicianPdf(dateFrom, dateTo, technicianId, branchId);
             return GetPdfFileResult(result, "DeliveredItemsReportByTechnician");
         }
 
         public async Task<IActionResult> CollectedAmountsReportPdf(DateTime? dateFrom, DateTime? dateTo
-            , string? technicianId)
+            , string? technicianId, int? branchId)
         {
-            var result = await _reportPdfService.CollectedAmountsReportPdf(dateFrom, dateTo, technicianId);
+            var result = await _reportPdfService.CollectedAmountsReportPdf(dateFrom, dateTo, technicianId, branchId);
             return GetPdfFileResult(result, "CollectedAmountsReport");
         }
 
-        public async Task<IActionResult> SuspendedItemsReportPdf(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<IActionResult> SuspendedItemsReportPdf(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
-            var result = await _reportPdfService.SuspendedItemsReportPdf(dateFrom, dateTo);
+            var result = await _reportPdfService.SuspendedItemsReportPdf(dateFrom, dateTo, branchId);
             return GetPdfFileResult(result, "SuspendedItemsReport");
         }
 

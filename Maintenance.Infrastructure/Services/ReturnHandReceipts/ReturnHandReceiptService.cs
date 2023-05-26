@@ -62,7 +62,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
 
         public async Task<int> Create(CreateReturnHandReceiptDto input, string userId)
         {
-            var isReturnReceiptExists = await _db.ReturnHandReceipts.AnyAsync(x => x.HandReceiptId 
+            var isReturnReceiptExists = await _db.ReturnHandReceipts.AnyAsync(x => x.HandReceiptId
                 == input.HandReceiptId);
             if (isReturnReceiptExists)
             {
@@ -73,12 +73,6 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                 .Include(x => x.ReceiptItems)
                 .SingleOrDefaultAsync(x => x.Id == input.HandReceiptId);
             if (handReceipt == null)
-            {
-                throw new EntityNotFoundException();
-            }
-
-            var currentUser = await _db.Users.SingleOrDefaultAsync(x => x.Id == userId);
-            if (currentUser == null)
             {
                 throw new EntityNotFoundException();
             }
@@ -96,9 +90,9 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             }
 
             var returnHandReceipt = _mapper.Map<ReturnHandReceipt>(input);
+            returnHandReceipt.BranchId = handReceipt.BranchId;
             await AddReturnHandReceiptItems(selectedReturnHandReceiptItems_dto, handReceipt, returnHandReceipt);
 
-            returnHandReceipt.BranchId = currentUser.BranchId;
             returnHandReceipt.CustomerId = handReceipt.CustomerId;
             returnHandReceipt.CreatedBy = userId;
             await _db.ReturnHandReceipts.AddAsync(returnHandReceipt);
@@ -115,10 +109,11 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                     .Single(x => x.Id == returnHandReceiptItem.HandReceiptItemId);
 
                 MaintenanceRequestStatus status;
+                bool isWarrantyValid = false;
                 if (handReceiptItem.WarrantyDaysNumber != null)
                 {
                     var warrantyExpiryDate = handReceiptItem.DeliveryDate.Value.AddDays(handReceiptItem.WarrantyDaysNumber.Value);
-                    var isWarrantyValid = DateTime.Now.Date <= warrantyExpiryDate.Date;
+                    isWarrantyValid = DateTime.Now.Date <= warrantyExpiryDate.Date;
                     status = isWarrantyValid ? MaintenanceRequestStatus.New : MaintenanceRequestStatus.WaitingManagerResponse;
                 }
                 else
@@ -139,7 +134,9 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                     ReceiptItemType = ReceiptItemType.Returned,
                     PreviousReceiptItemId = handReceiptItem.Id,
                     PreviousTechnicianId = handReceiptItem.TechnicianId,
-                    MaintenanceRequestStatus = status
+                    MaintenanceRequestStatus = status,
+                    BranchId = handReceiptItem.BranchId,
+                    IsReturnItemWarrantyExpired = isWarrantyValid ? false : true
                 };
 
                 returnHandReceipt.ReceiptItems.Add(newReturnHandReceiptItem);
@@ -246,6 +243,13 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             paramaters.Add("Date", returnHandReceipt.Date.ToString("yyyy-MM-dd hh:mm tt", CultureInfo.InvariantCulture));
             paramaters.Add("CustomerName", returnHandReceipt.Customer.Name);
             paramaters.Add("CustomerPhoneNumber", returnHandReceipt.Customer.PhoneNumber);
+
+            var isAnyReturnItemWarrantyExpired = returnHandReceipt.ReceiptItems
+                .Any(x => x.IsReturnItemWarrantyExpired);
+            if (isAnyReturnItemWarrantyExpired)
+            {
+                paramaters.Add("Notes", Messages.WarrantyExpiredNote);
+            }
 
             paramaters.Add("ContactEmail", "test@gmail.com");
             paramaters.Add("ContactPhoneNumber", "0599854758");

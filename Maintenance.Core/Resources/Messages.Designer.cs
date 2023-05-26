@@ -250,7 +250,7 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to تقرير الإيرادات.
+        ///   Looks up a localized string similar to تقرير الإنجاز.
         /// </summary>
         public static string CollectedAmountsReport {
             get {
@@ -1587,6 +1587,15 @@ namespace Maintenance.Core.Resources {
         public static string WarrantyExpired {
             get {
                 return ResourceManager.GetString("WarrantyExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تمت الصيانة بموافقة الإدارة نظراً لانتهاء الضمان..
+        /// </summary>
+        public static string WarrantyExpiredNote {
+            get {
+                return ResourceManager.GetString("WarrantyExpiredNote", resourceCulture);
             }
         }
         

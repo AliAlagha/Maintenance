@@ -193,6 +193,7 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                 handReceiptItem.FinalCost = input.CostTo;
             }
 
+            handReceiptItem.BranchId = handReceipt.BranchId;
             handReceiptItem.CustomerId = handReceipt.CustomerId;
             handReceiptItem.Item = item.Name;
             handReceiptItem.Company = company.Name;

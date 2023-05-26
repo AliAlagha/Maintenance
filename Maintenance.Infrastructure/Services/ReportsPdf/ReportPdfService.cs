@@ -29,7 +29,7 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             _reportService = reportService;
         }
 
-        public async Task<byte[]> ReceiptItemsReportPdf(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<byte[]> ReceiptItemsReportPdf(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
             var paramaters = new Dictionary<string, object>();
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd hh:mm tt"));
@@ -40,7 +40,7 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             paramaters.Add("ContactPhoneNumber", "0599854758");
             paramaters.Add("WebsiteLink", "www.test.com");
 
-            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo };
+            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo , BranchId = branchId };
             var receiptItemsList = await _reportService.ReceiptItemsReport(query);
 
             var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = receiptItemsList } };
@@ -48,7 +48,7 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             return result;
         }
 
-        public async Task<byte[]> DeliveredItemsReportPdf(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<byte[]> DeliveredItemsReportPdf(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
             var paramaters = new Dictionary<string, object>();
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd hh:mm tt"));
@@ -59,7 +59,7 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             paramaters.Add("ContactPhoneNumber", "0599854758");
             paramaters.Add("WebsiteLink", "www.test.com");
 
-            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo };
+            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo , BranchId = branchId };
             var deliveredItemsList = await _reportService.DeliveredItemsReport(query);
 
             var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = deliveredItemsList } };
@@ -68,7 +68,7 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
         }
 
         public async Task<byte[]> ReturnedItemsReportPdf(DateTime? dateFrom, DateTime? dateTo
-            , string? technicianId)
+            , string? technicianId, int? branchId)
         {
             var paramaters = new Dictionary<string, object>();
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd hh:mm tt"));
@@ -79,7 +79,7 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             paramaters.Add("ContactPhoneNumber", "0599854758");
             paramaters.Add("WebsiteLink", "www.test.com");
 
-            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, TechnicianId = technicianId };
+            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, TechnicianId = technicianId , BranchId = branchId };
             var returnedItemsList = await _reportService.ReturnedItemsReport(query);
 
             var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = returnedItemsList } };
@@ -87,7 +87,7 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             return result;
         }
 
-        public async Task<byte[]> UrgentItemsReportPdf(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<byte[]> UrgentItemsReportPdf(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
             var paramaters = new Dictionary<string, object>();
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd hh:mm tt"));
@@ -98,7 +98,7 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             paramaters.Add("ContactPhoneNumber", "0599854758");
             paramaters.Add("WebsiteLink", "www.test.com");
 
-            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo };
+            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, BranchId = branchId };
             var urgentItemsList = await _reportService.UrgentItemsReport(query);
 
             var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = urgentItemsList } };
@@ -106,7 +106,7 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             return result;
         }
 
-        public async Task<byte[]> NotMaintainedItemsReportPdf(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<byte[]> NotMaintainedItemsReportPdf(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
             var paramaters = new Dictionary<string, object>();
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd hh:mm tt"));
@@ -117,7 +117,7 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             paramaters.Add("ContactPhoneNumber", "0599854758");
             paramaters.Add("WebsiteLink", "www.test.com");
 
-            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo };
+            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo , BranchId = branchId };
             var motMaintainedItemsList = await _reportService.NotMaintainedItemsReport(query);
 
             var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = motMaintainedItemsList } };
@@ -125,7 +125,7 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             return result;
         }
 
-        public async Task<byte[]> NotDeliveredItemsReportPdf(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<byte[]> NotDeliveredItemsReportPdf(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
             var paramaters = new Dictionary<string, object>();
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd hh:mm tt"));
@@ -136,7 +136,7 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             paramaters.Add("ContactPhoneNumber", "0599854758");
             paramaters.Add("WebsiteLink", "www.test.com");
 
-            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo };
+            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, BranchId = branchId };
             var completedItemsList = await _reportService.NotDeliveredItemsReport(query);
 
             var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = completedItemsList } };
@@ -145,14 +145,14 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
         }
 
         public async Task<byte[]> DeliveredItemsReportByTechnicianPdf(DateTime? dateFrom, DateTime? dateTo
-            , string? technicianId)
+            , string? technicianId, int? branchId)
         {
             var paramaters = new Dictionary<string, object>();
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd hh:mm tt"));
             paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
             paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
 
-            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, TechnicianId = technicianId };
+            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, TechnicianId = technicianId , BranchId = branchId };
             var deliveredItems = await _reportService.DeliveredItemsReportByTechnician(query);
 
             var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = deliveredItems } };
@@ -161,29 +161,31 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
         }
 
         public async Task<byte[]> CollectedAmountsReportPdf(DateTime? dateFrom, DateTime? dateTo
-            , string? technicianId)
+            , string? technicianId, int? branchId)
         {
             var paramaters = new Dictionary<string, object>();
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd hh:mm tt"));
             paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
             paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
 
-            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, TechnicianId = technicianId };
+            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, TechnicianId = technicianId , BranchId = branchId };
             var collectedAmountItems = await _reportService.CollectedAmountsReport(query);
+            
+            paramaters.Add("TotalCollectedMoney", collectedAmountItems.Sum(x => x.CollectedAmount));
 
             var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = collectedAmountItems } };
             var result = _pdfExportReportService.GeneratePdf("CollectedAmounts.rdlc", dataSets, paramaters);
             return result;
         }
 
-        public async Task<byte[]> SuspendedItemsReportPdf(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<byte[]> SuspendedItemsReportPdf(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
             var paramaters = new Dictionary<string, object>();
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd hh:mm tt"));
             paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
             paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
 
-            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo };
+            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo , BranchId = branchId };
             var suspendedItems = await _reportService.SuspendedItemsReport(query);
 
             var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = suspendedItems } };

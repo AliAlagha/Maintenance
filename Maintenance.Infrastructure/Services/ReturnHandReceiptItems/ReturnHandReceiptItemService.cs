@@ -151,10 +151,11 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
             }
 
             MaintenanceRequestStatus status;
+            bool isWarrantyValid = false;
             if (handReceiptItem.WarrantyDaysNumber != null)
             {
                 var warrantyExpiryDate = handReceiptItem.DeliveryDate.Value.AddDays(handReceiptItem.WarrantyDaysNumber.Value);
-                var isWarrantyValid = DateTime.Now.Date <= warrantyExpiryDate.Date;
+                isWarrantyValid = DateTime.Now.Date <= warrantyExpiryDate.Date;
                 status = isWarrantyValid ? MaintenanceRequestStatus.New : MaintenanceRequestStatus.WaitingManagerResponse;
             }
             else
@@ -176,6 +177,8 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
                 PreviousReceiptItemId = handReceiptItem.Id,
                 PreviousTechnicianId = handReceiptItem.TechnicianId,
                 MaintenanceRequestStatus = status,
+                BranchId = returnHandReceipt.BranchId,
+                IsReturnItemWarrantyExpired = isWarrantyValid ? false : true
             };
 
             newReturnHandReceiptItem.CreatedBy = userId;

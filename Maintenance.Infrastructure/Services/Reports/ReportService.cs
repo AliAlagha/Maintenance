@@ -32,6 +32,11 @@ namespace Maintenance.Infrastructure.Services.Reports
                 dbQuery = dbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
             }
 
+            if (query.BranchId.HasValue)
+            {
+                dbQuery = dbQuery.Where(x => x.BranchId == query.BranchId);
+            }
+
             var receiptItems = await dbQuery.OrderByDescending(x => x.CreatedAt)
                 .ToListAsync();
 
@@ -69,6 +74,11 @@ namespace Maintenance.Infrastructure.Services.Reports
             if (query.DateTo.HasValue)
             {
                 dbQuery = dbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+            }
+
+            if (query.BranchId.HasValue)
+            {
+                dbQuery = dbQuery.Where(x => x.BranchId == query.BranchId);
             }
 
             var deliveredItems = await dbQuery.OrderByDescending(x => x.CreatedAt)
@@ -117,6 +127,11 @@ namespace Maintenance.Infrastructure.Services.Reports
                 dbQuery = dbQuery.Where(x => x.PreviousTechnicianId != null && x.PreviousTechnicianId.Equals(query.TechnicianId));
             }
 
+            if (query.BranchId.HasValue)
+            {
+                dbQuery = dbQuery.Where(x => x.BranchId == query.BranchId);
+            }
+
             var returnedItems = await dbQuery.OrderByDescending(x => x.CreatedAt)
                 .ToListAsync();
 
@@ -145,7 +160,8 @@ namespace Maintenance.Infrastructure.Services.Reports
         {
             var dbQuery = _db.ReceiptItems
                 .Include(x => x.Customer)
-                .Where(x => x.Urgent)
+                .Where(x => x.Urgent && (x.MaintenanceRequestStatus == MaintenanceRequestStatus.ManagerApprovedReturn 
+                    || x.MaintenanceRequestStatus == MaintenanceRequestStatus.New))
                 .AsQueryable();
 
             if (query.DateFrom.HasValue)
@@ -156,6 +172,11 @@ namespace Maintenance.Infrastructure.Services.Reports
             if (query.DateTo.HasValue)
             {
                 dbQuery = dbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+            }
+
+            if (query.BranchId.HasValue)
+            {
+                dbQuery = dbQuery.Where(x => x.BranchId == query.BranchId);
             }
 
             var urgentItems = await dbQuery.OrderByDescending(x => x.CreatedAt)
@@ -199,6 +220,11 @@ namespace Maintenance.Infrastructure.Services.Reports
             if (query.DateTo.HasValue)
             {
                 dbQuery = dbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+            }
+
+            if (query.BranchId.HasValue)
+            {
+                dbQuery = dbQuery.Where(x => x.BranchId == query.BranchId);
             }
 
             var notMaintainedItems = await dbQuery
@@ -271,6 +297,11 @@ namespace Maintenance.Infrastructure.Services.Reports
                 dbQuery = dbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
             }
 
+            if (query.BranchId.HasValue)
+            {
+                dbQuery = dbQuery.Where(x => x.BranchId == query.BranchId);
+            }
+
             var completedItems = await dbQuery
                 .ToListAsync();
 
@@ -314,6 +345,11 @@ namespace Maintenance.Infrastructure.Services.Reports
             if (query.TechnicianId != null)
             {
                 dbQuery = dbQuery.Where(x => x.TechnicianId != null && x.TechnicianId.Equals(query.TechnicianId));
+            }
+
+            if (query.BranchId.HasValue)
+            {
+                dbQuery = dbQuery.Where(x => x.BranchId == query.BranchId);
             }
 
             var deliveredItems = await dbQuery.OrderByDescending(x => x.CreatedAt)
@@ -362,6 +398,11 @@ namespace Maintenance.Infrastructure.Services.Reports
                 dbQuery = dbQuery.Where(x => x.TechnicianId != null && x.TechnicianId.Equals(query.TechnicianId));
             }
 
+            if (query.BranchId.HasValue)
+            {
+                dbQuery = dbQuery.Where(x => x.BranchId == query.BranchId);
+            }
+
             var collectedAmountItems = await dbQuery.OrderByDescending(x => x.CreatedAt)
                 .ToListAsync();
 
@@ -386,6 +427,41 @@ namespace Maintenance.Infrastructure.Services.Reports
             return collectedAmountItemsList;
         }
 
+        public async Task<double> CollectedAmountsReportTotal(QueryDto query)
+        {
+            var dbQuery = _db.ReceiptItems
+                .Include(x => x.Customer)
+                .Where(x => x.CollectedAmount != null
+                    && x.MaintenanceRequestStatus != MaintenanceRequestStatus.RemovedFromMaintained)
+                .AsQueryable();
+
+            if (query.DateFrom.HasValue)
+            {
+                dbQuery = dbQuery.Where(x => x.CollectionDate >= query.DateFrom.Value);
+            }
+
+            if (query.DateTo.HasValue)
+            {
+                dbQuery = dbQuery.Where(x => x.CollectionDate <= query.DateTo.Value);
+            }
+
+            if (query.TechnicianId != null)
+            {
+                dbQuery = dbQuery.Where(x => x.TechnicianId != null && x.TechnicianId.Equals(query.TechnicianId));
+            }
+
+            if (query.BranchId.HasValue)
+            {
+                dbQuery = dbQuery.Where(x => x.BranchId == query.BranchId);
+            }
+
+            var collectedAmountItems = await dbQuery.OrderByDescending(x => x.CreatedAt)
+                .ToListAsync();
+
+            var totalCollectedMoney = collectedAmountItems.Sum(x => x.CollectedAmount) ?? 0;
+            return totalCollectedMoney;
+        }
+
         public async Task<List<ReceiptItemReportDataSet>> SuspendedItemsReport(QueryDto query)
         {
             var dbQuery = _db.ReceiptItems
@@ -401,6 +477,11 @@ namespace Maintenance.Infrastructure.Services.Reports
             if (query.DateTo.HasValue)
             {
                 dbQuery = dbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+            }
+
+            if (query.BranchId.HasValue)
+            {
+                dbQuery = dbQuery.Where(x => x.BranchId == query.BranchId);
             }
 
             var suspendedItems = await dbQuery.OrderByDescending(x => x.CreatedAt)

@@ -23,59 +23,59 @@ namespace Maintenance.Web.Controllers
             _reportExcelService = reportExcelService;
         }
 
-        public async Task<IActionResult> ReceiptItemsReportExcel(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<IActionResult> ReceiptItemsReportExcel(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
-            var result = await _reportExcelService.ReceiptItemsReportExcel(dateFrom, dateTo);
+            var result = await _reportExcelService.ReceiptItemsReportExcel(dateFrom, dateTo, branchId);
             return GetExcelFileResult(result, "ReceiptItems");
         }
 
-        public async Task<IActionResult> DeliveredItemsReportExcel(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<IActionResult> DeliveredItemsReportExcel(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
-            var result = await _reportExcelService.DeliveredItemsReportExcel(dateFrom, dateTo);
+            var result = await _reportExcelService.DeliveredItemsReportExcel(dateFrom, dateTo, branchId);
             return GetExcelFileResult(result, "DeliveredItems");
         }
 
         public async Task<IActionResult> ReturnedItemsReportExcel(DateTime? dateFrom, DateTime? dateTo
-            , string? technicianId)
+            , string? technicianId, int? branchId)
         {
-            var result = await _reportExcelService.ReturnedItemsReportExcel(dateFrom, dateTo, technicianId);
+            var result = await _reportExcelService.ReturnedItemsReportExcel(dateFrom, dateTo, technicianId, branchId);
             return GetExcelFileResult(result, "ReturnedItems");
         }
 
-        public async Task<IActionResult> UrgentItemsReportExcel(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<IActionResult> UrgentItemsReportExcel(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
-            var result = await _reportExcelService.UrgentItemsReportExcel(dateFrom, dateTo);
+            var result = await _reportExcelService.UrgentItemsReportExcel(dateFrom, dateTo, branchId);
             return GetExcelFileResult(result, "UrgentItems");
         }
-        public async Task<IActionResult> NotMaintainedItemsReportExcel(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<IActionResult> NotMaintainedItemsReportExcel(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
-            var result = await _reportExcelService.NotMaintainedItemsReportExcel(dateFrom, dateTo);
+            var result = await _reportExcelService.NotMaintainedItemsReportExcel(dateFrom, dateTo, branchId);
             return GetExcelFileResult(result, "NotMaintainedItems");
         }
 
-        public async Task<IActionResult> NotDeliveredItemsReportExcel(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<IActionResult> NotDeliveredItemsReportExcel(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
-            var result = await _reportExcelService.NotDeliveredItemsReportExcel(dateFrom, dateTo);
+            var result = await _reportExcelService.NotDeliveredItemsReportExcel(dateFrom, dateTo, branchId);
             return GetExcelFileResult(result, "NotDeliveredItems");
         }
 
         public async Task<IActionResult> DeliveredItemsReportByTechnicianExcel(DateTime? dateFrom, DateTime? dateTo
-            , string? technicianId)
+            , string? technicianId, int? branchId)
         {
-            var result = await _reportExcelService.DeliveredItemsReportByTechnicianExcel(dateFrom, dateTo, technicianId);
+            var result = await _reportExcelService.DeliveredItemsReportByTechnicianExcel(dateFrom, dateTo, technicianId, branchId);
             return GetExcelFileResult(result, "DeliveredItemsReportByTechnician");
         }
 
         public async Task<IActionResult> CollectedAmountsReportExcel(DateTime? dateFrom, DateTime? dateTo
-            , string? technicianId)
+            , string? technicianId, int? branchId)
         {
-            var result = await _reportExcelService.CollectedAmountsReportExcel(dateFrom, dateTo, technicianId);
+            var result = await _reportExcelService.CollectedAmountsReportExcel(dateFrom, dateTo, technicianId, branchId);
             return GetExcelFileResult(result, "CollectedAmounts");
         }
 
-        public async Task<IActionResult> SuspendedItemsReportExcel(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<IActionResult> SuspendedItemsReportExcel(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
-            var result = await _reportExcelService.SuspendedItemsReportExcel(dateFrom, dateTo);
+            var result = await _reportExcelService.SuspendedItemsReportExcel(dateFrom, dateTo, branchId);
             return GetExcelFileResult(result, "SuspendedItems");
         }
 

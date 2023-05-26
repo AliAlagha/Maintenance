@@ -19,6 +19,7 @@ namespace Maintenance.Data
                 try
                 {
                     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                    context.SeedBranches();
                     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
                     roleManager.SeedRoles().Wait();
                     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
@@ -34,7 +35,7 @@ namespace Maintenance.Data
             return webHost;
         }
 
-        public static async Task SeedRoles(this RoleManager<IdentityRole> roleManager)
+        private static async Task SeedRoles(this RoleManager<IdentityRole> roleManager)
         {
             if (await roleManager.Roles.AnyAsync()) return;
 
@@ -43,45 +44,49 @@ namespace Maintenance.Data
             await roleManager.CreateAsync(new IdentityRole(RoleNames.MaintenanceTechnician));
         }
 
-        public static async Task SeedUsers(this UserManager<User> userManager, ApplicationDbContext context)
+        private static async Task SeedUsers(this UserManager<User> userManager, ApplicationDbContext context)
         {
             await TransactionExtension.UseTransaction(context, async () =>
             {
                 if (await userManager.Users.AnyAsync()) return;
 
+                var branchId = context.Branches.First().Id;
                 var users = new List<User>
-            {
-                new User
                 {
-                    FullName = "System Administrator",
-                    UserName = "admin@test.com",
-                    Email = "admin@test.com",
-                    UserType = UserType.Administrator,
-                    IsActive = true,
-                    EmailConfirmed = true,
-                    PhoneNumberConfirmed = true
-                },
-                new User
-                {
-                    FullName = "Maintenance Manager",
-                    UserName = "manager@test.com",
-                    Email = "manager@test.com",
-                    UserType = UserType.MaintenanceManager,
-                    IsActive = true,
-                    EmailConfirmed = true,
-                    PhoneNumberConfirmed = true
-                },
-                new User
-                {
-                    FullName = "Maintenance Technician",
-                    UserName = "technician@test.com",
-                    Email = "technician@test.com",
-                    UserType = UserType.MaintenanceTechnician,
-                    IsActive = true,
-                    EmailConfirmed = true,
-                    PhoneNumberConfirmed = true
-                }
-            };
+                    new User
+                    {
+                        FullName = "System Administrator",
+                        UserName = "admin@test.com",
+                        Email = "admin@test.com",
+                        UserType = UserType.Administrator,
+                        IsActive = true,
+                        EmailConfirmed = true,
+                        PhoneNumberConfirmed = true,
+                        BranchId = branchId
+                    },
+                    new User
+                    {
+                        FullName = "Maintenance Manager",
+                        UserName = "manager@test.com",
+                        Email = "manager@test.com",
+                        UserType = UserType.MaintenanceManager,
+                        IsActive = true,
+                        EmailConfirmed = true,
+                        PhoneNumberConfirmed = true,
+                        BranchId = branchId
+                    },
+                    new User
+                    {
+                        FullName = "Maintenance Technician",
+                        UserName = "technician@test.com",
+                        Email = "technician@test.com",
+                        UserType = UserType.MaintenanceTechnician,
+                        IsActive = true,
+                        EmailConfirmed = true,
+                        PhoneNumberConfirmed = true,
+                        BranchId = branchId
+                    }
+                };
 
                 foreach (var user in users)
                 {
@@ -116,6 +121,22 @@ namespace Maintenance.Data
             {
                 throw new OperationFailedException();
             }
+        }
+
+        private static void SeedBranches(this ApplicationDbContext context)
+        {
+            if (context.Branches.Any()) return;
+
+            var branches = new List<Branch>
+            {
+                new Branch
+                {
+                    Name = "الفرع 1"
+                }
+            };
+
+            context.Branches.AddRange(branches);
+            context.SaveChanges();
         }
 
     }

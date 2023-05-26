@@ -13,6 +13,7 @@ namespace Maintenance.Infrastructure.Services.Reports
         Task<List<ReceiptItemReportDataSet>> NotDeliveredItemsReport(QueryDto query);
         Task<List<ReceiptItemReportDataSet>> DeliveredItemsReportByTechnician(QueryDto query);
         Task<List<ReceiptItemReportDataSet>> CollectedAmountsReport(QueryDto query);
+        Task<double> CollectedAmountsReportTotal(QueryDto query);
         Task<List<ReceiptItemReportDataSet>> SuspendedItemsReport(QueryDto query);
         Task<List<TechnicianFeesReportDataSet>> TechnicianFeesReport(QueryDto query);
     }

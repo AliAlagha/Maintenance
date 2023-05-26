@@ -70,9 +70,9 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             }
 
             var handReceipt = _mapper.Map<HandReceipt>(input);
+            handReceipt.BranchId = currentUser.BranchId;
             await AddHandReceiptItems(input.Items, handReceipt, userId);
 
-            handReceipt.BranchId = currentUser.BranchId;
             handReceipt.Date = DateTime.Now;
             handReceipt.CreatedBy = userId;
             await _db.HandReceipts.AddAsync(handReceipt);
@@ -123,6 +123,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                     handReceiptItem.FinalCost = itemDto.CostTo;
                 }
 
+                handReceiptItem.BranchId = handReceipt.BranchId;
                 handReceiptItem.CreatedBy = userId;
                 handReceipt.ReceiptItems.Add(handReceiptItem);
             }

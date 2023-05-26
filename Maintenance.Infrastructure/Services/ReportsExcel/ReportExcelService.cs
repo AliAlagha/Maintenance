@@ -27,9 +27,9 @@ namespace Maintenance.Infrastructure.Services.ReportsExcel
             _reportService = reportService;
         }
 
-        public async Task<byte[]> ReceiptItemsReportExcel(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<byte[]> ReceiptItemsReportExcel(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
-            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo };
+            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, BranchId = branchId };
             var receiptItemsList = await _reportService.ReceiptItemsReport(query);
 
             return ExcelHelpers.ToExcel(new Dictionary<string, ExcelColumn>
@@ -54,9 +54,9 @@ namespace Maintenance.Infrastructure.Services.ReportsExcel
             })));
         }
 
-        public async Task<byte[]> DeliveredItemsReportExcel(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<byte[]> DeliveredItemsReportExcel(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
-            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo };
+            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, BranchId = branchId };
             var deliveredItemsList = await _reportService.DeliveredItemsReport(query);
 
             return ExcelHelpers.ToExcel(new Dictionary<string, ExcelColumn>
@@ -82,9 +82,15 @@ namespace Maintenance.Infrastructure.Services.ReportsExcel
         }
 
         public async Task<byte[]> ReturnedItemsReportExcel(DateTime? dateFrom, DateTime? dateTo
-            , string? technicianId)
+            , string? technicianId, int? branchId)
         {
-            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, TechnicianId = technicianId };
+            var query = new QueryDto
+            {
+                DateFrom = dateFrom,
+                DateTo = dateTo,
+                TechnicianId = technicianId,
+                BranchId = branchId
+            };
             var returnedItemsList = await _reportService.ReturnedItemsReport(query);
 
             return ExcelHelpers.ToExcel(new Dictionary<string, ExcelColumn>
@@ -113,9 +119,9 @@ namespace Maintenance.Infrastructure.Services.ReportsExcel
             })));
         }
 
-        public async Task<byte[]> UrgentItemsReportExcel(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<byte[]> UrgentItemsReportExcel(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
-            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo };
+            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, BranchId = branchId };
             var urgentItemsList = await _reportService.UrgentItemsReport(query);
 
             return ExcelHelpers.ToExcel(new Dictionary<string, ExcelColumn>
@@ -142,9 +148,9 @@ namespace Maintenance.Infrastructure.Services.ReportsExcel
             })));
         }
 
-        public async Task<byte[]> NotMaintainedItemsReportExcel(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<byte[]> NotMaintainedItemsReportExcel(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
-            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo };
+            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, BranchId = branchId };
             var motMaintainedItemsList = await _reportService.NotMaintainedItemsReport(query);
 
             return ExcelHelpers.ToExcel(new Dictionary<string, ExcelColumn>
@@ -171,9 +177,9 @@ namespace Maintenance.Infrastructure.Services.ReportsExcel
             })));
         }
 
-        public async Task<byte[]> NotDeliveredItemsReportExcel(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<byte[]> NotDeliveredItemsReportExcel(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
-            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo };
+            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, BranchId = branchId };
             var completedItemsList = await _reportService.NotDeliveredItemsReport(query);
 
             return ExcelHelpers.ToExcel(new Dictionary<string, ExcelColumn>
@@ -199,9 +205,9 @@ namespace Maintenance.Infrastructure.Services.ReportsExcel
         }
 
         public async Task<byte[]> DeliveredItemsReportByTechnicianExcel(DateTime? dateFrom, DateTime? dateTo
-            , string? technicianId)
+            , string? technicianId, int? branchId)
         {
-            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, TechnicianId = technicianId };
+            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, TechnicianId = technicianId, BranchId = branchId };
             var deliveredItems = await _reportService.DeliveredItemsReportByTechnician(query);
 
             return ExcelHelpers.ToExcel(new Dictionary<string, ExcelColumn>
@@ -227,10 +233,46 @@ namespace Maintenance.Infrastructure.Services.ReportsExcel
         }
 
         public async Task<byte[]> CollectedAmountsReportExcel(DateTime? dateFrom, DateTime? dateTo
-            , string? technicianId)
+            , string? technicianId, int? branchId)
         {
-            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, TechnicianId = technicianId };
+            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, TechnicianId = technicianId, BranchId = branchId };
             var collectedAmountItems = await _reportService.CollectedAmountsReport(query);
+
+            var rows = new List<ExcelRow>();
+            foreach (var item in collectedAmountItems)
+            {
+                var row = new ExcelRow
+                {
+                    Values = new Dictionary<string, string>
+                    {
+                        {"Customer Name", item.CustomerName},
+                        {"Customer Phone Number", item.CustomerPhoneNumber},
+                        {"Item",item.Item},
+                        {"Item Barcode", item.ItemBarcode},
+                        {"Company", item.Company},
+                        {"Collection Date", item.CollectionDate},
+                        {"Collected Amount", item.CollectedAmount.ToString()}
+                    }
+                };
+
+                rows.Add(row);
+            }
+
+            var totalCollectedMoneyRow = new ExcelRow
+            {
+                Values = new Dictionary<string, string>
+                    {
+                        {"Customer Name", ""},
+                        {"Customer Phone Number", ""},
+                        {"Item",""},
+                        {"Item Barcode", ""},
+                        {"Company", ""},
+                        {"Collection Date", ""},
+                        {"Collected Amount", "Total: " + collectedAmountItems.Sum(x => x.CollectedAmount).ToString()}
+                    }
+            };
+
+            rows.Add(totalCollectedMoneyRow);
 
             return ExcelHelpers.ToExcel(new Dictionary<string, ExcelColumn>
             {
@@ -241,24 +283,12 @@ namespace Maintenance.Infrastructure.Services.ReportsExcel
                 {"Company", new ExcelColumn("Company", 4)},
                 {"Collection Date", new ExcelColumn("Collection Date", 5)},
                 {"Collected Amount", new ExcelColumn("Collected Amount", 5)}
-            }, new List<ExcelRow>(collectedAmountItems.Select(e => new ExcelRow
-            {
-                Values = new Dictionary<string, string>
-                {
-                    {"Customer Name", e.CustomerName},
-                    {"Customer Phone Number", e.CustomerPhoneNumber},
-                    {"Item",e.Item},
-                    {"Item Barcode", e.ItemBarcode},
-                    {"Company", e.Company},
-                    {"Collection Date", e.CollectionDate},
-                    {"Collected Amount", e.CollectedAmount.ToString()}
-                }
-            })));
+            }, rows);
         }
 
-        public async Task<byte[]> SuspendedItemsReportExcel(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<byte[]> SuspendedItemsReportExcel(DateTime? dateFrom, DateTime? dateTo, int? branchId)
         {
-            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo };
+            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, BranchId = branchId };
             var suspendedItems = await _reportService.SuspendedItemsReport(query);
 
             return ExcelHelpers.ToExcel(new Dictionary<string, ExcelColumn>

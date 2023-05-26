@@ -36,6 +36,7 @@ namespace Maintenance.Data.DbEntities
         public bool Urgent { get; set; }
         public string ItemBarcode { get; set; }
         public int? WarrantyDaysNumber { get; set; }
+        public bool IsReturnItemWarrantyExpired { get; set; }
         public double? CollectedAmount { get; set; }
         public DateTime? CollectionDate { get; set; }
         public DateTime? DeliveryDate { get; set; }

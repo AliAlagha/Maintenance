@@ -110,6 +110,12 @@ namespace Maintenance.Web.Controllers
             return Json(result);
         }
 
+        public async Task<double> CollectedAmountsReportTotal(QueryDto query)
+        {
+            var result = await _reportService.CollectedAmountsReportTotal(query);
+            return result;
+        }
+
         public IActionResult SuspendedItems()
         {
             return View();
