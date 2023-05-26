@@ -24,16 +24,24 @@
         <!--begin::Search Form-->
         <div class="mb-7">
             <div class="row align-items-center">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label>@Messages.From</label>
                         <input type="datetime-local" id="DateFrom" class="form-control form-control-solid" />
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label>@Messages.To</label>
                         <input type="datetime-local" id="DateTo" class="form-control form-control-solid" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>@Messages.Branch</label>
+                        <select id="SelectBranch" class="form-control select2">
+                            <option value="">-- @string.Format(Messages.Select, Messages.Branch) --</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -44,130 +52,158 @@
         </div>
     </div>
 </div>
-    <!--end::Card-->
-    @section Scripts{
-        <script>
-            "use strict";
-            // Class definition
-            var KTDatatableAutoColumnHideDemo = function () {
-                // Private functions
-                // basic demo
-                var demo = function () {
-                    var datatable = $('#kt_datatable').KTDatatable({
-                        // datasource definition
-                        data: {
-                            type: 'remote',
-                            source: {
-                                read: {
-                                    url: '/Report/UrgentItemsReport',
-                                },
+<!--end::Card-->
+@section Scripts{
+    <script>
+        "use strict";
+        // Class definition
+        var KTDatatableAutoColumnHideDemo = function () {
+            // Private functions
+            // basic demo
+            var demo = function () {
+                var datatable = $('#kt_datatable').KTDatatable({
+                    // datasource definition
+                    data: {
+                        type: 'remote',
+                        source: {
+                            read: {
+                                url: '/Report/UrgentItemsReport',
                             },
-                            pageSize: 10,
-                            saveState: false,
-                            serverFiltering: true,
                         },
-                        layout: {
-                            scroll: false
-                        },
-                        // column sorting
-                        sortable: true,
-                        pagination: false,
-                        search: {
-                            input: $('#kt_datatable_search_query'),
-                            key: 'generalSearch'
-                        },
-                        // columns definition
-                        columns: [
-                            {
-                                field: 'customerName',
-                                title: '@Messages.CustomerFullName',
-                                sortable: false,
-                                autoHide: false,
-                                width: 150
-                            },
-                            {
-                                field: 'customerPhoneNumber',
-                                title: '@Messages.CustomerPhoneNumber',
-                                sortable: false,
-                                width: 150
-                            },
-                            {
-                                field: 'item',
-                                title: '@Messages.Item',
-                                sortable: false,
-                                width: 100
-                            },
-                            {
-                                field: 'itemBarcode',
-                                title: '@Messages.Barcode',
-                                sortable: false,
-                                width: 150
-                            },
-                            {
-                                field: 'company',
-                                title: '@Messages.Company',
-                                sortable: false,
-                                width: 100
-                            },
-                            {
-                                field: 'date',
-                                title: '@Messages.Date',
-                                sortable: false,
-                                width: 100
-                            }],
-                    });
-
-                    $('#DateFrom').on('change', function () {
-                        datatable.search($(this).val().toLowerCase(), 'DateFrom');
-                    });
-
-                    $('#DateTo').on('change', function () {
-                        datatable.search($(this).val().toLowerCase(), 'DateTo');
-                    });
-                };
-                return {
-                    // public functions
-                    init: function () {
-                        demo();
+                        pageSize: 10,
+                        saveState: false,
+                        serverFiltering: true,
                     },
-                };
-            }();
-            jQuery(document).ready(function () {
-                KTDatatableAutoColumnHideDemo.init();
-            });
+                    layout: {
+                        scroll: false
+                    },
+                    // column sorting
+                    sortable: true,
+                    pagination: false,
+                    search: {
+                        input: $('#kt_datatable_search_query'),
+                        key: 'generalSearch'
+                    },
+                    // columns definition
+                    columns: [
+                        {
+                            field: 'customerName',
+                            title: '@Messages.CustomerFullName',
+                            sortable: false,
+                            autoHide: false,
+                            width: 150
+                        },
+                        {
+                            field: 'customerPhoneNumber',
+                            title: '@Messages.CustomerPhoneNumber',
+                            sortable: false,
+                            width: 150
+                        },
+                        {
+                            field: 'item',
+                            title: '@Messages.Item',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'itemBarcode',
+                            title: '@Messages.Barcode',
+                            sortable: false,
+                            width: 150
+                        },
+                        {
+                            field: 'company',
+                            title: '@Messages.Company',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'date',
+                            title: '@Messages.Date',
+                            sortable: false,
+                            width: 100
+                        }],
+                });
 
-            $("#PdfBtn").click(function () {
-                var dateFrom = "";
-                var dateFromVal = $('#DateFrom').val();
-                if(dateFromVal){
-                    dateFrom = dateFromVal;
-                }
+                $('#DateFrom').on('change', function () {
+                    datatable.search($(this).val().toLowerCase(), 'DateFrom');
+                });
 
-                var dateTo = "";
-                var dateToVal = $('#DateTo').val();
-                if (dateToVal) {
-                    dateTo = dateToVal;
-                }
+                $('#DateTo').on('change', function () {
+                    datatable.search($(this).val().toLowerCase(), 'DateTo');
+                });
 
-                window.open('/ReportPdf/UrgentItemsReportPdf?DateFrom=' +dateFrom+ '&DateTo=' + dateTo, '_blank');
-            });
+                $('#SelectBranch').on('change', function () {
+                    datatable.search($(this).val().toLowerCase(), 'BranchId');
+                });
+            };
+            return {
+                // public functions
+                init: function () {
+                    demo();
+                },
+            };
+        }();
+        jQuery(document).ready(function () {
+            KTDatatableAutoColumnHideDemo.init();
+        });
 
-            $("#ExcelBtn").click(function () {
-                var dateFrom = "";
-                var dateFromVal = $('#DateFrom').val();
-                if (dateFromVal) {
-                    dateFrom = dateFromVal;
-                }
+        $("#PdfBtn").click(function () {
+            var dateFrom = "";
+            var dateFromVal = $('#DateFrom').val();
+            if (dateFromVal) {
+                dateFrom = dateFromVal;
+            }
 
-                var dateTo = "";
-                var dateToVal = $('#DateTo').val();
-                if (dateToVal) {
-                    dateTo = dateToVal;
-                }
+            var dateTo = "";
+            var dateToVal = $('#DateTo').val();
+            if (dateToVal) {
+                dateTo = dateToVal;
+            }
 
-                window.open('/ReportExcel/UrgentItemsReportExcel?DateFrom=' + dateFrom + '&DateTo=' + dateTo, '_blank');
-            });
-        </script>
+            var branchId = "";
+            var branchIdVal = $('#SelectBranch').val();
+            if (branchIdVal) {
+                branchId = branchIdVal;
+            }
+
+            window.open('/ReportPdf/UrgentItemsReportPdf?DateFrom='
+                + dateFrom + '&DateTo=' + dateTo + '&BranchId=' + branchId, '_blank');
+        });
+
+        $("#ExcelBtn").click(function () {
+            var dateFrom = "";
+            var dateFromVal = $('#DateFrom').val();
+            if (dateFromVal) {
+                dateFrom = dateFromVal;
+            }
+
+            var dateTo = "";
+            var dateToVal = $('#DateTo').val();
+            if (dateToVal) {
+                dateTo = dateToVal;
+            }
+
+            var branchId = "";
+            var branchIdVal = $('#SelectBranch').val();
+            if (branchIdVal) {
+                branchId = branchIdVal;
+            }
+
+            window.open('/ReportExcel/UrgentItemsReportExcel?DateFrom='
+                + dateFrom + '&DateTo=' + dateTo + '&BranchId=' + branchId, '_blank');
+        });
+
+        $.ajax({
+            url: '/Branch/List',
+            dataType: "json",
+            success: function (data) {
+                $(data).each(function (index, value) {
+                    $("#SelectBranch").append($("<option></option>").val(value.id).html(value.name));
+                });
+            }
+        });
+    </script>
     }
 
 

@@ -63,20 +63,21 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
 
         public async Task<int?> Create(CreateHandReceiptDto input, string userId)
         {
-            int? id = null;
-            await _db.UseTransaction(async () =>
+            var currentUser = await _db.Users.SingleOrDefaultAsync(x => x.Id == userId);
+            if (currentUser == null)
             {
-                var handReceipt = _mapper.Map<HandReceipt>(input);
-                await AddHandReceiptItems(input.Items, handReceipt, userId);
+                throw new EntityNotFoundException();
+            }
 
-                handReceipt.Date = DateTime.Now;
-                handReceipt.CreatedBy = userId;
-                await _db.HandReceipts.AddAsync(handReceipt);
-                await _db.SaveChangesAsync();
-                id = handReceipt.Id;
-            });
+            var handReceipt = _mapper.Map<HandReceipt>(input);
+            await AddHandReceiptItems(input.Items, handReceipt, userId);
 
-            return id;
+            handReceipt.BranchId = currentUser.BranchId;
+            handReceipt.Date = DateTime.Now;
+            handReceipt.CreatedBy = userId;
+            await _db.HandReceipts.AddAsync(handReceipt);
+            await _db.SaveChangesAsync();
+            return handReceipt.Id;
         }
 
         public async Task AddHandReceiptItems(List<CreateHandReceiptItemDto> itemDtos
@@ -178,7 +179,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             paramaters.Add("CustomerName", handReceipt.Customer.Name);
             paramaters.Add("CustomerPhoneNumber", handReceipt.Customer.PhoneNumber);
             var totalCollectedAmount = handReceipt.ReceiptItems.Sum(x => x.CollectedAmount);
-            paramaters.Add("TotalCollectedMoney", totalCollectedAmount != null ? totalCollectedAmount 
+            paramaters.Add("TotalCollectedMoney", totalCollectedAmount != null ? totalCollectedAmount
                 + " " + Messages.SAR : "0");
 
             paramaters.Add("ContactEmail", "test@gmail.com");

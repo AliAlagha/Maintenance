@@ -83,6 +83,12 @@ namespace Maintenance.Web.Controllers
             return DeletedSuccessfully();
         }
 
+        public async Task<IActionResult> ExportToPdf(int id)
+        {
+            var result = await _returnHandReceiptService.ExportToPdf(id);
+            return GetPdfFileResult(result, $"{id} - ReturnHandReceipt");
+        }
+
     }
 }
 

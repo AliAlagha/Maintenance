@@ -11,6 +11,8 @@ using Maintenance.Data.Extensions;
 using Maintenance.Core.Enums;
 using Maintenance.Core.Helpers;
 using Maintenance.Core.Resources;
+using System.Globalization;
+using Maintenance.Infrastructure.Services.PdfExportReport;
 
 namespace Maintenance.Infrastructure.Services.HandReceipts
 {
@@ -18,11 +20,14 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
     {
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
+        private readonly IPdfExportReportService _pdfExportReportService;
 
-        public ReturnHandReceiptService(ApplicationDbContext db, IMapper mapper)
+        public ReturnHandReceiptService(ApplicationDbContext db, IMapper mapper
+            , IPdfExportReportService pdfExportReportService)
         {
             _db = db;
             _mapper = mapper;
+            _pdfExportReportService = pdfExportReportService;
         }
 
         public async Task<PagingResultViewModel<ReturnHandReceiptViewModel>> GetAll(Pagination pagination
@@ -72,6 +77,12 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                 throw new EntityNotFoundException();
             }
 
+            var currentUser = await _db.Users.SingleOrDefaultAsync(x => x.Id == userId);
+            if (currentUser == null)
+            {
+                throw new EntityNotFoundException();
+            }
+
             var selectedReturnHandReceiptItems_dto = input.Items.Where(x => x.IsSelected)
                 .DistinctBy(x => x.HandReceiptItemId).ToList();
             var selectedReturnHandReceiptItemIds = selectedReturnHandReceiptItems_dto
@@ -87,6 +98,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             var returnHandReceipt = _mapper.Map<ReturnHandReceipt>(input);
             await AddReturnHandReceiptItems(selectedReturnHandReceiptItems_dto, handReceipt, returnHandReceipt);
 
+            returnHandReceipt.BranchId = currentUser.BranchId;
             returnHandReceipt.CustomerId = handReceipt.CustomerId;
             returnHandReceipt.CreatedBy = userId;
             await _db.ReturnHandReceipts.AddAsync(returnHandReceipt);
@@ -209,6 +221,52 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             {
                 throw new AlreadyExistsException();
             }
+        }
+
+        public async Task<byte[]> ExportToPdf(int id)
+        {
+            var returnHandReceipt = await _db.ReturnHandReceipts
+                .Include(x => x.Customer)
+                .Include(x => x.ReceiptItems)
+                .SingleOrDefaultAsync(x => x.Id == id);
+            if (returnHandReceipt == null)
+            {
+                throw new EntityNotFoundException();
+            }
+
+            var isAllItemsDelivered = returnHandReceipt.ReceiptItems
+                .All(x => x.MaintenanceRequestStatus == MaintenanceRequestStatus.Delivered);
+            if (!isAllItemsDelivered)
+            {
+                throw new EntityNotFoundException();
+            }
+
+            var paramaters = new Dictionary<string, object>();
+            paramaters.Add("ReturnHandReceiptNumber", returnHandReceipt.Id);
+            paramaters.Add("Date", returnHandReceipt.Date.ToString("yyyy-MM-dd hh:mm tt", CultureInfo.InvariantCulture));
+            paramaters.Add("CustomerName", returnHandReceipt.Customer.Name);
+            paramaters.Add("CustomerPhoneNumber", returnHandReceipt.Customer.PhoneNumber);
+
+            paramaters.Add("ContactEmail", "test@gmail.com");
+            paramaters.Add("ContactPhoneNumber", "0599854758");
+            paramaters.Add("WebsiteLink", "www.test.com");
+
+            var receiptItems = new List<ReceiptItemDataSet>();
+            foreach (var receiptItem in returnHandReceipt.ReceiptItems)
+            {
+                var receiptItemDataSet = new ReceiptItemDataSet
+                {
+                    Item = receiptItem.Item,
+                    ItemBarcode = receiptItem.ItemBarcode,
+                    Company = receiptItem.Company
+                };
+
+                receiptItems.Add(receiptItemDataSet);
+            }
+
+            var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemDataSet", Data = receiptItems } };
+            var result = _pdfExportReportService.GeneratePdf("ReturnHandReceipt.rdlc", dataSets, paramaters);
+            return result;
         }
 
         // Heplers

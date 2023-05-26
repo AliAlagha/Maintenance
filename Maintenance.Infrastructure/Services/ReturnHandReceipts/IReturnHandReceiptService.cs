@@ -11,5 +11,6 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
         Task Delete(int id, string userId);
         Task<List<HandReceiptItemForReturnViewModel>> GetHandReceiptItemsForReturn(int id);
         Task IsReturnReceiptAlradyExists(int handReceiptId);
+        Task<byte[]> ExportToPdf(int id);
     }
 }

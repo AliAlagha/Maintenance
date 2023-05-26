@@ -21,6 +21,8 @@ namespace Maintenance.Data.DbEntities
         public ReturnHandReceipt ReturnHandReceipt { get; set; }
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
+        public int BranchId { get; set; }
+        public Branch Branch { get; set; }
         public string Item { get; set; }
         public string Company { get; set; }
         public string? Color { get; set; }

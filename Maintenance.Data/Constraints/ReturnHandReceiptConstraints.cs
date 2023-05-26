@@ -10,6 +10,7 @@ namespace Maintenance.Data.Constraints
         {
             builder.HasQueryFilter(x => !x.IsDelete);
             builder.HasOne(x => x.Customer).WithMany(x => x.ReturnHandReceipts).OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(x => x.Branch).WithMany(x => x.ReturnHandReceipts).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

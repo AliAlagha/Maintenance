@@ -15,6 +15,7 @@
 	  <None Remove="Services\PdfExportReport\Reports\NotMaintainedItems.rdlc" />
 	  <None Remove="Services\PdfExportReport\Reports\ReceiptItems.rdlc" />
 	  <None Remove="Services\PdfExportReport\Reports\ReturnedItems.rdlc" />
+	  <None Remove="Services\PdfExportReport\Reports\ReturnHandReceipt.rdlc" />
 	  <None Remove="Services\PdfExportReport\Reports\SuspendedItems.rdlc" />
 	  <None Remove="Services\PdfExportReport\Reports\TechnicianFees.rdlc" />
 	  <None Remove="Services\PdfExportReport\Reports\UrgentItems.rdlc" />
@@ -22,6 +23,9 @@
 
 	<ItemGroup>
 	  <EmbeddedResource Include="Services\PdfExportReport\Reports\CollectedAmounts.rdlc">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="Services\PdfExportReport\Reports\ReturnHandReceipt.rdlc">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>
 	  <EmbeddedResource Include="Services\PdfExportReport\Reports\SuspendedItems.rdlc">

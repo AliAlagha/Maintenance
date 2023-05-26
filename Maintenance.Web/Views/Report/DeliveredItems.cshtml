@@ -24,16 +24,24 @@
         <!--begin::Search Form-->
         <div class="mb-7">
             <div class="row align-items-center">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label>@Messages.From</label>
                         <input type="datetime-local" id="DateFrom" class="form-control form-control-solid" />
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label>@Messages.To</label>
                         <input type="datetime-local" id="DateTo" class="form-control form-control-solid" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>@Messages.Branch</label>
+                        <select id="SelectBranch" class="form-control select2">
+                            <option value="">-- @string.Format(Messages.Select, Messages.Branch) --</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -124,6 +132,10 @@
                 $('#DateTo').on('change', function () {
                     datatable.search($(this).val().toLowerCase(), 'DateTo');
                 });
+
+                $('#SelectBranch').on('change', function () {
+                    datatable.search($(this).val().toLowerCase(), 'BranchId');
+                });
             };
             return {
                 // public functions
@@ -149,7 +161,14 @@
                 dateTo = dateToVal;
             }
 
-            window.open('/ReportPdf/DeliveredItemsReportPdf?DateFrom=' + dateFrom + '&DateTo=' + dateTo, '_blank');
+            var branchId = "";
+            var branchIdVal = $('#SelectBranch').val();
+            if (branchIdVal) {
+                branchId = branchIdVal;
+            }
+
+            window.open('/ReportPdf/DeliveredItemsReportPdf?DateFrom='
+                + dateFrom + '&DateTo=' + dateTo + '&BranchId=' + branchId, '_blank');
         });
 
         $("#ExcelBtn").click(function () {
@@ -165,7 +184,14 @@
                 dateTo = dateToVal;
             }
 
-            window.open('/ReportExcel/DeliveredItemsReportExcel?DateFrom=' + dateFrom + '&DateTo=' + dateTo, '_blank');
+            var branchId = "";
+            var branchIdVal = $('#SelectBranch').val();
+            if (branchIdVal) {
+                branchId = branchIdVal;
+            }
+
+            window.open('/ReportExcel/DeliveredItemsReportExcel?DateFrom='
+                + dateFrom + '&DateTo=' + dateTo + '&BranchId=' + branchId, '_blank');
         });
     </script>
     }
