@@ -528,6 +528,12 @@
   <data name="ReceiptItemsReport" xml:space="preserve">
     <value>تقرير القطع المستلمة</value>
   </data>
+  <data name="RecipientMaintenance" xml:space="preserve">
+    <value>صيانة المستلم</value>
+  </data>
+  <data name="RecipientMaintenances" xml:space="preserve">
+    <value>طلبات صيانة المستلم</value>
+  </data>
   <data name="Reject" xml:space="preserve">
     <value>رفض</value>
   </data>

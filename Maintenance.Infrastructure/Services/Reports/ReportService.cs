@@ -522,33 +522,56 @@ namespace Maintenance.Infrastructure.Services.Reports
 
         public async Task<List<ReceiptItemReportDataSet>> CollectedAmountsReport(QueryDto query)
         {
-            var dbQuery = _db.HandReceiptItems
+            var handReceiptItemsDbQuery = _db.HandReceiptItems
                 .Include(x => x.Customer)
                 .Where(x => x.CollectedAmount != null
                     && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained)
                 .AsQueryable();
 
+            var instantMaintenanceItemsDbQuery = _db.InstantMaintenanceItems
+               .Include(x => x.Technician)
+               .AsQueryable();
+
+            var recipientMaintenancesDbQuery = _db.RecipientMaintenances
+               .Include(x => x.Technician)
+               .AsQueryable();
+
             if (query.DateFrom.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CollectionDate >= query.DateFrom.Value);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CollectionDate >= query.DateFrom.Value);
+                instantMaintenanceItemsDbQuery = instantMaintenanceItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+                recipientMaintenancesDbQuery = recipientMaintenancesDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
             }
 
             if (query.DateTo.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CollectionDate <= query.DateTo.Value);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CollectionDate <= query.DateTo.Value);
+                instantMaintenanceItemsDbQuery = instantMaintenanceItemsDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+                recipientMaintenancesDbQuery = recipientMaintenancesDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
             }
 
             if (query.TechnicianId != null)
             {
-                dbQuery = dbQuery.Where(x => x.TechnicianId != null && x.TechnicianId.Equals(query.TechnicianId));
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.TechnicianId != null 
+                    && x.TechnicianId.Equals(query.TechnicianId));
+                instantMaintenanceItemsDbQuery = instantMaintenanceItemsDbQuery.Where(x => x.TechnicianId != null
+                    && x.TechnicianId.Equals(query.TechnicianId));
+                recipientMaintenancesDbQuery = recipientMaintenancesDbQuery.Where(x => x.TechnicianId != null
+                    && x.TechnicianId.Equals(query.TechnicianId));
             }
 
             if (query.BranchId.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.BranchId == query.BranchId);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
+                instantMaintenanceItemsDbQuery = instantMaintenanceItemsDbQuery.Where(x => x.BranchId == query.BranchId);
+                recipientMaintenancesDbQuery = recipientMaintenancesDbQuery.Where(x => x.BranchId == query.BranchId);
             }
 
-            var collectedAmountItems = await dbQuery.OrderByDescending(x => x.CreatedAt)
+            var collectedAmountItems = await handReceiptItemsDbQuery
+                .ToListAsync();
+            var instantMaintenanceItems = await instantMaintenanceItemsDbQuery
+                .ToListAsync();
+            var recipientMaintenances = await recipientMaintenancesDbQuery
                 .ToListAsync();
 
             var collectedAmountItemsList = new List<ReceiptItemReportDataSet>();
@@ -569,42 +592,98 @@ namespace Maintenance.Infrastructure.Services.Reports
                 collectedAmountItemsList.Add(collectedAmountItemDataSet);
             }
 
-            return collectedAmountItemsList;
+            foreach (var collectedAmountItem in instantMaintenanceItems)
+            {
+                var collectedAmountItemDataSet = new ReceiptItemReportDataSet
+                {
+                    CustomerName = "---",
+                    CustomerPhoneNumber = "---",
+                    Item = collectedAmountItem.Item,
+                    ItemBarcode = "---",
+                    Company = collectedAmountItem.Company,
+                    CollectionDate = collectedAmountItem.CreatedAt.ToString("yyyy-MM-dd hh:mm tt"),
+                    CollectedAmount = collectedAmountItem.CollectedAmount ?? 0
+                };
+
+                collectedAmountItemsList.Add(collectedAmountItemDataSet);
+            }
+
+            foreach (var collectedAmountItem in recipientMaintenances)
+            {
+                var collectedAmountItemDataSet = new ReceiptItemReportDataSet
+                {
+                    CustomerName = "---",
+                    CustomerPhoneNumber = "---",
+                    Item = "---",
+                    ItemBarcode = "---",
+                    Company = "---",
+                    CollectionDate = collectedAmountItem.CreatedAt.ToString("yyyy-MM-dd hh:mm tt"),
+                    CollectedAmount = collectedAmountItem.CollectedAmount ?? 0
+                };
+
+                collectedAmountItemsList.Add(collectedAmountItemDataSet);
+            }
+
+            var collectedAmountItemsListOrdered = collectedAmountItemsList.OrderByDescending(x => x.CollectionDate).ToList();
+            return collectedAmountItemsListOrdered;
         }
 
         public async Task<double> CollectedAmountsReportTotal(QueryDto query)
         {
-            var dbQuery = _db.HandReceiptItems
+            var handReceiptItemsDbQuery = _db.HandReceiptItems
                 .Include(x => x.Customer)
                 .Where(x => x.CollectedAmount != null
                     && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained)
                 .AsQueryable();
 
+            var instantMaintenanceItemsDbQuery = _db.InstantMaintenanceItems
+               .Include(x => x.Technician)
+               .AsQueryable();
+
+            var recipientMaintenancesDbQuery = _db.RecipientMaintenances
+               .Include(x => x.Technician)
+               .AsQueryable();
+
             if (query.DateFrom.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CollectionDate >= query.DateFrom.Value);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CollectionDate >= query.DateFrom.Value);
+                instantMaintenanceItemsDbQuery = instantMaintenanceItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+                recipientMaintenancesDbQuery = recipientMaintenancesDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
             }
 
             if (query.DateTo.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CollectionDate <= query.DateTo.Value);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CollectionDate <= query.DateTo.Value);
+                instantMaintenanceItemsDbQuery = instantMaintenanceItemsDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+                recipientMaintenancesDbQuery = recipientMaintenancesDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
             }
 
             if (query.TechnicianId != null)
             {
-                dbQuery = dbQuery.Where(x => x.TechnicianId != null && x.TechnicianId.Equals(query.TechnicianId));
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.TechnicianId != null
+                    && x.TechnicianId.Equals(query.TechnicianId));
+                instantMaintenanceItemsDbQuery = instantMaintenanceItemsDbQuery.Where(x => x.TechnicianId != null
+                    && x.TechnicianId.Equals(query.TechnicianId));
+                recipientMaintenancesDbQuery = recipientMaintenancesDbQuery.Where(x => x.TechnicianId != null
+                    && x.TechnicianId.Equals(query.TechnicianId));
             }
 
             if (query.BranchId.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.BranchId == query.BranchId);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
+                instantMaintenanceItemsDbQuery = instantMaintenanceItemsDbQuery.Where(x => x.BranchId == query.BranchId);
+                recipientMaintenancesDbQuery = recipientMaintenancesDbQuery.Where(x => x.BranchId == query.BranchId);
             }
 
-            var collectedAmountItems = await dbQuery.OrderByDescending(x => x.CreatedAt)
-                .ToListAsync();
+            var collectedAmountItems = await handReceiptItemsDbQuery
+                .SumAsync(x => x.CollectedAmount) ?? 0;
+            var instantMaintenanceItems = await instantMaintenanceItemsDbQuery
+                .SumAsync(x => x.CollectedAmount) ?? 0;
+            var recipientMaintenances = await recipientMaintenancesDbQuery
+                .SumAsync(x => x.CollectedAmount) ?? 0;
 
-            var totalCollectedMoney = collectedAmountItems.Sum(x => x.CollectedAmount) ?? 0;
-            return totalCollectedMoney;
+            var total = collectedAmountItems + instantMaintenanceItems + recipientMaintenances;
+            return total;
         }
 
         public async Task<List<ReceiptItemReportDataSet>> SuspendedItemsReport(QueryDto query)

@@ -1,7 +1,7 @@
 ﻿using Maintenance.Core.Dtos;
 using Maintenance.Core.ViewModels;
 
-namespace Maintenance.Infrastructure.Services.HandReceipts
+namespace Maintenance.Infrastructure.Services.ReturnHandReceipts
 {
     public interface IReturnHandReceiptService
     {

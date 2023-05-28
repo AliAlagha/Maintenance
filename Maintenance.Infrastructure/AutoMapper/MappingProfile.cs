@@ -136,6 +136,12 @@ namespace Maintenance.Infrastructure.AutoMapper
             CreateMap<CreateInstantMaintenanceItemDto, InstantMaintenanceItem>();
             CreateMap<CreateItemForExistsInstantMaintenanceDto, InstantMaintenanceItem>();
             #endregion
+
+            #region RecipientMaintenances
+            CreateMap<RecipientMaintenance, RecipientMaintenanceViewModel>()
+                .ForMember(x => x.CreatedAt, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")));
+            CreateMap<CreateRecipientMaintenanceDto, RecipientMaintenance>();
+            #endregion
         }
     }
 }

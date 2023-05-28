@@ -1,8 +1,5 @@
 ﻿using Maintenance.Core.Dtos;
 using Maintenance.Core.Enums;
-using Maintenance.Core.Resources;
-using Maintenance.Infrastructure.Services.HandReceipts;
-using Maintenance.Infrastructure.Services.Maintenance;
 using Maintenance.Infrastructure.Services.ManagerRequests;
 using Maintenance.Infrastructure.Services.Users;
 using Microsoft.AspNetCore.Authorization;

@@ -6,7 +6,6 @@ using Maintenance.Infrastructure.Services.Companies;
 using Maintenance.Infrastructure.Services.Customers;
 using Maintenance.Infrastructure.Services.Files;
 using Maintenance.Infrastructure.Services.HandReceiptItems;
-using Maintenance.Infrastructure.Services.HandReceipts;
 using Maintenance.Infrastructure.Services.InstantMaintenanceItems;
 using Maintenance.Infrastructure.Services.Items;
 using Maintenance.Infrastructure.Services.Maintenance;
@@ -18,6 +17,10 @@ using Maintenance.Infrastructure.Services.ReportsPdf;
 using Maintenance.Infrastructure.Services.ReturnHandReceiptItems;
 using Maintenance.Infrastructure.Services.Users;
 using Microsoft.Extensions.DependencyInjection;
+using Maintenance.Infrastructure.Services.RecipientMaintenances;
+using Maintenance.Infrastructure.Services.InstantMaintenances;
+using Maintenance.Infrastructure.Services.HandReceipts;
+using Maintenance.Infrastructure.Services.ReturnHandReceipts;
 
 namespace Maintenance.Infrastructure.Extensions
 {
@@ -46,6 +49,7 @@ namespace Maintenance.Infrastructure.Extensions
             services.AddScoped<IBarcodeService, BarcodeService>();
             services.AddScoped<IInstantMaintenanceService, InstantMaintenanceService>();
             services.AddScoped<IInstantMaintenanceItemService, InstantMaintenanceItemService>();
+            services.AddScoped<IRecipientMaintenanceService, RecipientMaintenanceService>();
             return services;
         }
     }

@@ -1,0 +1,75 @@
+﻿@model CreateRecipientMaintenanceDto
+@{
+    ViewData["Title"] = Messages.RecipientMaintenances;
+    Layout = null;
+}
+
+<form asp-action="Create" method="post" class="ajaxForm" tname="#kt_datatable" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.Technician</label>
+                <select asp-for="TechnicianId" id="SelectTechnician" class="form-control form-control-solid select2">
+                    <option value="">-- @string.Format(Messages.Select, Messages.Technician) --</option>
+                </select>
+                <span asp-validation-for="TechnicianId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.CollectedAmount</label>
+                <input asp-for="CollectedAmount" placeholder="@string.Format(Messages.Enter,Messages.CollectedAmount)" class="form-control form-control-solid"
+                       min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />
+                <span asp-validation-for="CollectedAmount" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
+        <button type="button" data-dismiss="modal" class="btn btn-light-primary font-weight-bold">@Messages.Cancel</button>
+    </div>
+</form>
+
+<script>
+    PageLoadActions();
+
+    $.ajax({
+        url: '/User/List',
+        dataType: "json",
+        data: {
+            UserType: 3
+        },
+        success: function (data) {
+            $(data).each(function (index, value) {
+                $("#SelectTechnician").append($("<option></option>").val(value.id).html(value.name));
+            });
+        }
+    });
+
+    // Class definition
+    var KTSelect2 = function () {
+        // Private functions
+        var demos = function () {
+            // basic
+            $('#SelectTechnician').select2();
+        }
+
+        // Public functions
+        return {
+            init: function () {
+                demos();
+            }
+        };
+    }();
+
+    // Initialization
+    jQuery(document).ready(function () {
+        KTSelect2.init();
+    });
+
+</script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
+

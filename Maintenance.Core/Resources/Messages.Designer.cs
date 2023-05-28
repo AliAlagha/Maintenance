@@ -1294,6 +1294,24 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to صيانة المستلم.
+        /// </summary>
+        public static string RecipientMaintenance {
+            get {
+                return ResourceManager.GetString("RecipientMaintenance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to طلبات صيانة المستلم.
+        /// </summary>
+        public static string RecipientMaintenances {
+            get {
+                return ResourceManager.GetString("RecipientMaintenances", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to رفض.
         /// </summary>
         public static string Reject {

@@ -15,7 +15,7 @@ using System.Globalization;
 using Maintenance.Infrastructure.Services.PdfExportReport;
 using Maintenance.Infrastructure.Services.Barcodes;
 
-namespace Maintenance.Infrastructure.Services.HandReceipts
+namespace Maintenance.Infrastructure.Services.ReturnHandReceipts
 {
     public class ReturnHandReceiptService : IReturnHandReceiptService
     {
@@ -138,7 +138,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                     HandReceiptItemId = handReceiptItem.Id,
                     MaintenanceRequestStatus = status,
                     BranchId = handReceiptItem.BranchId,
-                    IsReturnItemWarrantyValid = isWarrantyValid 
+                    IsReturnItemWarrantyValid = isWarrantyValid
                 };
 
                 newReturnHandReceiptItem.ItemBarcodeFilePath = _barcodeService.GenerateBarcode(newReturnHandReceiptItem.ItemBarcode);

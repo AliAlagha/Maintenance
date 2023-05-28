@@ -14,7 +14,7 @@ using System.Globalization;
 using Maintenance.Infrastructure.Services.PdfExportReport;
 using Maintenance.Infrastructure.Services.Barcodes;
 
-namespace Maintenance.Infrastructure.Services.HandReceipts
+namespace Maintenance.Infrastructure.Services.RecipientMaintenances
 {
     public class RecipientMaintenanceService : IRecipientMaintenanceService
     {

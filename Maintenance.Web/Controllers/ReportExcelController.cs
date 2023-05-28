@@ -1,14 +1,7 @@
-﻿using Maintenance.Core.Dtos;
-using Maintenance.Core.Enums;
-using Maintenance.Core.Resources;
-using Maintenance.Infrastructure.Services.HandReceipts;
-using Maintenance.Infrastructure.Services.Reports;
-using Maintenance.Infrastructure.Services.ReportsExcel;
-using Maintenance.Infrastructure.Services.ReportsExcel;
+﻿using Maintenance.Infrastructure.Services.ReportsExcel;
 using Maintenance.Infrastructure.Services.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Reporting.Map.WebForms.BingMaps;
 
 namespace Maintenance.Web.Controllers
 {

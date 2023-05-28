@@ -12,5 +12,6 @@ namespace Maintenance.Core.ViewModels
         public int Id { get; set; }
         public double? CollectedAmount { get; set; }
         public UserViewModel Technician { get; set; }
+        public string CreatedAt { get; set; }
     }
 }
