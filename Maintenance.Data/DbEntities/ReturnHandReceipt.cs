@@ -10,7 +10,7 @@ namespace Maintenance.Data.DbEntities
     {
         public ReturnHandReceipt()
         {
-            ReceiptItems = new List<ReceiptItem>();
+            ReturnHandReceiptItems = new List<ReturnHandReceiptItem>();
         }
 
         public int Id { get; set; }
@@ -21,6 +21,6 @@ namespace Maintenance.Data.DbEntities
         public DateTime Date { get; set; }
         public int BranchId { get; set; }
         public Branch Branch { get; set; }
-        public List<ReceiptItem> ReceiptItems { get; set; }
+        public List<ReturnHandReceiptItem> ReturnHandReceiptItems { get; set; }
     }
 }

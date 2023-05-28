@@ -16,8 +16,11 @@ namespace Maintenance.Data.DbEntities
         public bool IsActive { get; set; }
         public int BranchId { get; set; }
         public Branch Branch { get; set; }
-        public List<ReceiptItem> ReceiptItemsForTechnician { get; set; }
-        public List<ReceiptItem> ReceiptItemsForPreviousTechnician { get; set; }
+        public List<HandReceiptItem> HandReceiptItems { get; set; }
+        public List<ReturnHandReceiptItem> ReturnHandReceiptItems { get; set; }
+        public List<InstantMaintenance> InstantMaintenances { get; set; }
+        public List<InstantMaintenanceItem> InstantMaintenanceItems { get; set; }
+        public List<RecipientMaintenance> RecipientMaintenances { get; set; }
 
         public User()
         {

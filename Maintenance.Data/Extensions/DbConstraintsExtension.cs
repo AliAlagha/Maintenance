@@ -13,8 +13,12 @@ namespace Maintenance.Data.Extensions
             modelBuilder.ApplyConfiguration(new CustomerConstraints());
             modelBuilder.ApplyConfiguration(new ItemConstraints());
             modelBuilder.ApplyConfiguration(new HandReceiptConstraints());
-            modelBuilder.ApplyConfiguration(new ReceiptItemConstraints());
+            modelBuilder.ApplyConfiguration(new HandReceiptItemConstraints());
             modelBuilder.ApplyConfiguration(new ReturnHandReceiptConstraints());
+            modelBuilder.ApplyConfiguration(new ReturnHandReceiptItemConstraints());
+            modelBuilder.ApplyConfiguration(new InstantMaintenanceConstraints());
+            modelBuilder.ApplyConfiguration(new InstantMaintenanceItemConstraints());
+            modelBuilder.ApplyConfiguration(new RecipientMaintenanceConstraints());
             modelBuilder.ApplyConfiguration(new BranchConstraints());
             modelBuilder.ApplyConfiguration(new BranchPhoneNumberConstraints());
             return modelBuilder;

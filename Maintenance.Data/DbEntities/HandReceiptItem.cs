@@ -7,18 +7,16 @@ using System.Threading.Tasks;
 
 namespace Maintenance.Data.DbEntities
 {
-    public class ReceiptItem : BaseEntity
+    public class HandReceiptItem : BaseEntity
     {
-        public ReceiptItem()
+        public HandReceiptItem()
         {
-            MaintenanceRequestStatus = MaintenanceRequestStatus.New;
+            MaintenanceRequestStatus = HandReceiptItemRequestStatus.New;
         }
 
         public int Id { get; set; }
-        public int? HandReceiptId { get; set; }
+        public int HandReceiptId { get; set; }
         public HandReceipt HandReceipt { get; set; }
-        public int? ReturnHandReceiptId { get; set; }
-        public ReturnHandReceipt ReturnHandReceipt { get; set; }
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
         public int BranchId { get; set; }
@@ -37,21 +35,16 @@ namespace Maintenance.Data.DbEntities
         public string ItemBarcode { get; set; }
         public string ItemBarcodeFilePath { get; set; }
         public int? WarrantyDaysNumber { get; set; }
-        public bool IsReturnItemWarrantyExpired { get; set; }
         public double? CollectedAmount { get; set; }
         public DateTime? CollectionDate { get; set; }
         public DateTime? DeliveryDate { get; set; }
-        public MaintenanceRequestStatus MaintenanceRequestStatus { get; set; }
+        public HandReceiptItemRequestStatus MaintenanceRequestStatus { get; set; }
         public string? RemoveFromMaintainedReason { get; set; }
         public string? ReasonForRefusingMaintenance { get; set; }
         public string? MaintenanceSuspensionReason { get; set; }
         public string? ReturnReason { get; set; }
-        public ReceiptItemType ReceiptItemType { get; set; }
         public string? TechnicianId { get; set; }
         public User Technician { get; set; }
-        public int? PreviousReceiptItemId { get; set; }
-        public ReceiptItem PreviousReceiptItem { get; set; }
-        public string? PreviousTechnicianId { get; set; }
-        public User PreviousTechnician { get; set; }
+        public ReturnHandReceiptItem ReturnHandReceiptItem { get; set; }
     }
 }

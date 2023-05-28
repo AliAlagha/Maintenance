@@ -18,30 +18,39 @@ namespace Maintenance.Infrastructure.Services.Reports
 
         public async Task<List<ReceiptItemReportDataSet>> ReceiptItemsReport(QueryDto query)
         {
-            var dbQuery = _db.ReceiptItems
+            var handReceiptItemsDbQuery = _db.HandReceiptItems
+                .Include(x => x.Customer)
+                .AsQueryable();
+
+            var returnHandReceiptItemsDbQuery = _db.ReturnHandReceiptItems
                 .Include(x => x.Customer)
                 .AsQueryable();
 
             if (query.DateFrom.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
             }
 
             if (query.DateTo.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
             }
 
             if (query.BranchId.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.BranchId == query.BranchId);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
             }
 
-            var receiptItems = await dbQuery.OrderByDescending(x => x.CreatedAt)
+            var handReceiptItems = await handReceiptItemsDbQuery
+                .ToListAsync();
+            var returnHandReceiptItems = await returnHandReceiptItemsDbQuery
                 .ToListAsync();
 
             var receiptItemsList = new List<ReceiptItemReportDataSet>();
-            foreach (var receiptItem in receiptItems)
+            foreach (var receiptItem in handReceiptItems)
             {
                 var receiptItemDataSet = new ReceiptItemReportDataSet
                 {
@@ -56,36 +65,62 @@ namespace Maintenance.Infrastructure.Services.Reports
                 receiptItemsList.Add(receiptItemDataSet);
             }
 
-            return receiptItemsList;
+            foreach (var receiptItem in returnHandReceiptItems)
+            {
+                var receiptItemDataSet = new ReceiptItemReportDataSet
+                {
+                    CustomerName = receiptItem.Customer.Name,
+                    CustomerPhoneNumber = receiptItem.Customer.PhoneNumber,
+                    Item = receiptItem.Item,
+                    ItemBarcode = receiptItem.ItemBarcode,
+                    Company = receiptItem.Company,
+                    Date = receiptItem.CreatedAt.ToString("yyyy-MM-dd hh:mm tt")
+                };
+
+                receiptItemsList.Add(receiptItemDataSet);
+            }
+
+            var receiptItemsListOrdered = receiptItemsList.OrderByDescending(x => x.Date).ToList();
+            return receiptItemsListOrdered;
         }
 
         public async Task<List<ReceiptItemReportDataSet>> DeliveredItemsReport(QueryDto query)
         {
-            var dbQuery = _db.ReceiptItems
+            var handReceiptItemsDbQuery = _db.HandReceiptItems
                 .Include(x => x.Customer)
-                .Where(x => x.MaintenanceRequestStatus == MaintenanceRequestStatus.Delivered)
+                .Where(x => x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.Delivered)
+                .AsQueryable();
+
+            var returnHandReceiptItemsDbQuery = _db.ReturnHandReceiptItems
+                .Include(x => x.Customer)
+                .Where(x => x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.Delivered)
                 .AsQueryable();
 
             if (query.DateFrom.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
             }
 
             if (query.DateTo.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
             }
 
             if (query.BranchId.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.BranchId == query.BranchId);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
             }
 
-            var deliveredItems = await dbQuery.OrderByDescending(x => x.CreatedAt)
+            var deliveredhandReceiptItems = await handReceiptItemsDbQuery
+                .ToListAsync();
+            var deliveredReturnHandReceiptItems = await returnHandReceiptItemsDbQuery
                 .ToListAsync();
 
             var deliveredItemsList = new List<ReceiptItemReportDataSet>();
-            foreach (var deliveredItem in deliveredItems)
+            foreach (var deliveredItem in deliveredhandReceiptItems)
             {
                 var deliveredItemDataSet = new ReceiptItemReportDataSet
                 {
@@ -101,15 +136,32 @@ namespace Maintenance.Infrastructure.Services.Reports
                 deliveredItemsList.Add(deliveredItemDataSet);
             }
 
-            return deliveredItemsList;
+            foreach (var deliveredItem in deliveredReturnHandReceiptItems)
+            {
+                var deliveredItemDataSet = new ReceiptItemReportDataSet
+                {
+                    CustomerName = deliveredItem.Customer.Name,
+                    CustomerPhoneNumber = deliveredItem.Customer.PhoneNumber,
+                    Item = deliveredItem.Item,
+                    ItemBarcode = deliveredItem.ItemBarcode,
+                    Company = deliveredItem.Company,
+                    Date = deliveredItem.DeliveryDate != null
+                        ? deliveredItem.DeliveryDate.Value.ToString("yyyy-MM-dd hh:mm tt") : ""
+                };
+
+                deliveredItemsList.Add(deliveredItemDataSet);
+            }
+
+            var deliveredItemsListOrdered = deliveredItemsList.OrderByDescending(x => x.Date).ToList();
+            return deliveredItemsListOrdered;
         }
 
         public async Task<List<ReceiptItemReportDataSet>> ReturnedItemsReport(QueryDto query)
         {
-            var dbQuery = _db.ReceiptItems
+            var dbQuery = _db.ReturnHandReceiptItems
                 .Include(x => x.Customer)
-                .Include(x => x.PreviousTechnician)
-                .Where(x => x.ReceiptItemType == ReceiptItemType.Returned)
+                .Include(x => x.HandReceiptItem)
+                .ThenInclude(x => x.Technician)
                 .AsQueryable();
 
             if (query.DateFrom.HasValue)
@@ -124,7 +176,7 @@ namespace Maintenance.Infrastructure.Services.Reports
 
             if (query.TechnicianId != null)
             {
-                dbQuery = dbQuery.Where(x => x.PreviousTechnicianId != null && x.PreviousTechnicianId.Equals(query.TechnicianId));
+                dbQuery = dbQuery.Where(x => x.HandReceiptItem.TechnicianId != null && x.HandReceiptItem.TechnicianId.Equals(query.TechnicianId));
             }
 
             if (query.BranchId.HasValue)
@@ -147,7 +199,7 @@ namespace Maintenance.Infrastructure.Services.Reports
                     Company = returnedItem.Company,
                     Date = returnedItem.CreatedAt.ToString("yyyy-MM-dd hh:mm tt"),
                     ReturnReason = returnedItem.ReturnReason ?? "",
-                    Technician = returnedItem.PreviousTechnician != null ? returnedItem.PreviousTechnician.FullName : ""
+                    Technician = returnedItem.HandReceiptItem.Technician != null ? returnedItem.HandReceiptItem.Technician.FullName : ""
                 };
 
                 returnedItemsList.Add(returnedItemDataSet);
@@ -158,10 +210,9 @@ namespace Maintenance.Infrastructure.Services.Reports
 
         public async Task<List<ReceiptItemReportDataSet>> UrgentItemsReport(QueryDto query)
         {
-            var dbQuery = _db.ReceiptItems
+            var dbQuery = _db.HandReceiptItems
                 .Include(x => x.Customer)
-                .Where(x => x.Urgent && (x.MaintenanceRequestStatus == MaintenanceRequestStatus.ManagerApprovedReturn 
-                    || x.MaintenanceRequestStatus == MaintenanceRequestStatus.New))
+                .Where(x => x.Urgent && x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.New)
                 .AsQueryable();
 
             if (query.DateFrom.HasValue)
@@ -203,40 +254,48 @@ namespace Maintenance.Infrastructure.Services.Reports
 
         public async Task<List<ReceiptItemReportDataSet>> NotMaintainedItemsReport(QueryDto query)
         {
-            var dbQuery = _db.ReceiptItems
+            var handReceiptItemsDbQuery = _db.HandReceiptItems
                 .Include(x => x.Customer)
-                .Where(x => x.MaintenanceRequestStatus == MaintenanceRequestStatus.WaitingManagerResponse
-                    || x.MaintenanceRequestStatus == MaintenanceRequestStatus.ManagerApprovedReturn
-                    || x.MaintenanceRequestStatus == MaintenanceRequestStatus.ManagerRefusedReturn
-                    || x.MaintenanceRequestStatus == MaintenanceRequestStatus.New
-                    || x.MaintenanceRequestStatus == MaintenanceRequestStatus.CustomerRefused)
+                .Where(x => x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.New
+                    || x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.CustomerRefused)
+                .AsQueryable();
+
+            var returnHandReceiptItemsDbQuery = _db.ReturnHandReceiptItems
+                .Include(x => x.Customer)
+                .Where(x => x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.WaitingManagerResponse
+                    || x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.ManagerApprovedReturn
+                    || x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.ManagerRefusedReturn
+                    || x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.New)
                 .AsQueryable();
 
             if (query.DateFrom.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
             }
 
             if (query.DateTo.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
             }
 
             if (query.BranchId.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.BranchId == query.BranchId);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
             }
 
-            var notMaintainedItems = await dbQuery
-                .OrderBy(x => x.CreatedAt)
-                .ThenBy(x => x.MaintenanceRequestStatus)
+            var notMaintainedHandReceiptItems = await handReceiptItemsDbQuery
+                .ToListAsync();
+            var notMaintainedReturnHandReceiptItems = await returnHandReceiptItemsDbQuery
                 .ToListAsync();
 
-            var motMaintainedItemsList = new List<ReceiptItemReportDataSet>();
-            foreach (var notMaintainedItem in notMaintainedItems)
+            var notMaintainedItemsList = new List<ReceiptItemReportDataSet>();
+            foreach (var notMaintainedItem in notMaintainedHandReceiptItems)
             {
                 var status = "";
-                status = GetRequestStatus(notMaintainedItem, status);
+                status = GetHandReceiptItemRequestStatus(notMaintainedItem, status);
 
                 var notMaintainedItemDataSet = new ReceiptItemReportDataSet
                 {
@@ -249,30 +308,61 @@ namespace Maintenance.Infrastructure.Services.Reports
                     Status = status
                 };
 
-                motMaintainedItemsList.Add(notMaintainedItemDataSet);
+                notMaintainedItemsList.Add(notMaintainedItemDataSet);
             }
 
-            return motMaintainedItemsList;
+            foreach (var notMaintainedItem in notMaintainedReturnHandReceiptItems)
+            {
+                var status = "";
+                status = GetReturnHandReceiptItemRequestStatus(notMaintainedItem, status);
+
+                var notMaintainedItemDataSet = new ReceiptItemReportDataSet
+                {
+                    CustomerName = notMaintainedItem.Customer.Name,
+                    CustomerPhoneNumber = notMaintainedItem.Customer.PhoneNumber,
+                    Item = notMaintainedItem.Item,
+                    ItemBarcode = notMaintainedItem.ItemBarcode,
+                    Company = notMaintainedItem.Company,
+                    Date = notMaintainedItem.CreatedAt.ToString("yyyy-MM-dd hh:mm tt"),
+                    Status = status
+                };
+
+                notMaintainedItemsList.Add(notMaintainedItemDataSet);
+            }
+
+            var notMaintainedItemsListOrdered = notMaintainedItemsList.OrderBy(x => x.Date).ToList();
+            return notMaintainedItemsListOrdered;
         }
 
-        private static string GetRequestStatus(ReceiptItem? notMaintainedItem, string status)
+        private static string GetHandReceiptItemRequestStatus(HandReceiptItem? notMaintainedItem, string status)
         {
             switch (notMaintainedItem.MaintenanceRequestStatus)
             {
-                case MaintenanceRequestStatus.WaitingManagerResponse:
-                    status = $"{Messages.WaitingManagerResponse}";
-                    break;
-                case MaintenanceRequestStatus.ManagerApprovedReturn:
-                    status = $"{Messages.ManagerApprovedReturn}";
-                    break;
-                case MaintenanceRequestStatus.ManagerRefusedReturn:
-                    status = $"{Messages.ManagerRefusedReturn}";
-                    break;
-                case MaintenanceRequestStatus.New:
+                case HandReceiptItemRequestStatus.New:
                     status = $"{Messages.New}";
                     break;
-                case MaintenanceRequestStatus.CustomerRefused:
+                case HandReceiptItemRequestStatus.CustomerRefused:
                     status = $"{Messages.CustomerRefused} - {notMaintainedItem.ReasonForRefusingMaintenance}";
+                    break;
+            };
+            return status;
+        }
+
+        private static string GetReturnHandReceiptItemRequestStatus(ReturnHandReceiptItem? notMaintainedItem, string status)
+        {
+            switch (notMaintainedItem.MaintenanceRequestStatus)
+            {
+                case ReturnReceiptItemRequestStatus.WaitingManagerResponse:
+                    status = $"{Messages.WaitingManagerResponse}";
+                    break;
+                case ReturnReceiptItemRequestStatus.ManagerApprovedReturn:
+                    status = $"{Messages.ManagerApprovedReturn}";
+                    break;
+                case ReturnReceiptItemRequestStatus.ManagerRefusedReturn:
+                    status = $"{Messages.ManagerRefusedReturn}";
+                    break;
+                case ReturnReceiptItemRequestStatus.New:
+                    status = $"{Messages.New}";
                     break;
             };
             return status;
@@ -280,33 +370,43 @@ namespace Maintenance.Infrastructure.Services.Reports
 
         public async Task<List<ReceiptItemReportDataSet>> NotDeliveredItemsReport(QueryDto query)
         {
-            var dbQuery = _db.ReceiptItems
+            var handReceiptItemsDbQuery = _db.HandReceiptItems
                 .Include(x => x.Customer)
-                .Where(x => x.MaintenanceRequestStatus == MaintenanceRequestStatus.Completed
-                    || x.MaintenanceRequestStatus == MaintenanceRequestStatus.NotifyCustomerOfMaintenanceEnd)
-                .OrderByDescending(x => x.CreatedAt)
+                .Where(x => x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.Completed
+                    || x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.NotifyCustomerOfMaintenanceEnd)
+                .AsQueryable();
+
+            var returnReceiptItemsDbQuery = _db.ReturnHandReceiptItems
+                .Include(x => x.Customer)
+                .Where(x => x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.Completed
+                    || x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.NotifyCustomerOfMaintenanceEnd)
                 .AsQueryable();
 
             if (query.DateFrom.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+                returnReceiptItemsDbQuery = returnReceiptItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
             }
 
             if (query.DateTo.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+                returnReceiptItemsDbQuery = returnReceiptItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
             }
 
             if (query.BranchId.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.BranchId == query.BranchId);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
+                returnReceiptItemsDbQuery = returnReceiptItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
             }
 
-            var completedItems = await dbQuery
+            var completedHandReceiptItems = await handReceiptItemsDbQuery
+                .ToListAsync();
+            var completedReturnHandReceiptItems = await returnReceiptItemsDbQuery
                 .ToListAsync();
 
             var completedItemsList = new List<ReceiptItemReportDataSet>();
-            foreach (var completedItem in completedItems)
+            foreach (var completedItem in completedHandReceiptItems)
             {
                 var completedItemDataSet = new ReceiptItemReportDataSet
                 {
@@ -321,42 +421,70 @@ namespace Maintenance.Infrastructure.Services.Reports
                 completedItemsList.Add(completedItemDataSet);
             }
 
-            return completedItemsList;
+            foreach (var completedItem in completedReturnHandReceiptItems)
+            {
+                var completedItemDataSet = new ReceiptItemReportDataSet
+                {
+                    CustomerName = completedItem.Customer.Name,
+                    CustomerPhoneNumber = completedItem.Customer.PhoneNumber,
+                    Item = completedItem.Item,
+                    ItemBarcode = completedItem.ItemBarcode,
+                    Company = completedItem.Company,
+                    Date = completedItem.CreatedAt.ToString("yyyy-MM-dd hh:mm tt"),
+                };
+
+                completedItemsList.Add(completedItemDataSet);
+            }
+
+            var completedItemsListOrdered = completedItemsList.OrderByDescending(x => x.Date).ToList();
+            return completedItemsListOrdered;
         }
 
         public async Task<List<ReceiptItemReportDataSet>> DeliveredItemsReportByTechnician(QueryDto query)
         {
-            var dbQuery = _db.ReceiptItems
+            var handReceiptItemsDbQuery = _db.HandReceiptItems
                 .Include(x => x.Customer)
                 .Include(x => x.Technician)
-                .Where(x => x.MaintenanceRequestStatus == MaintenanceRequestStatus.Delivered)
+                .Where(x => x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.Delivered)
+                .AsQueryable();
+
+            var returnHandReceiptItemsDbQuery = _db.ReturnHandReceiptItems
+                .Include(x => x.Customer)
+                .Include(x => x.Technician)
+                .Where(x => x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.Delivered)
                 .AsQueryable();
 
             if (query.DateFrom.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
             }
 
             if (query.DateTo.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
             }
 
             if (query.TechnicianId != null)
             {
-                dbQuery = dbQuery.Where(x => x.TechnicianId != null && x.TechnicianId.Equals(query.TechnicianId));
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.TechnicianId != null && x.TechnicianId.Equals(query.TechnicianId));
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.TechnicianId != null && x.TechnicianId.Equals(query.TechnicianId));
             }
 
             if (query.BranchId.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.BranchId == query.BranchId);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
             }
 
-            var deliveredItems = await dbQuery.OrderByDescending(x => x.CreatedAt)
+            var deliveredHandReceiptItems = await handReceiptItemsDbQuery
+                .ToListAsync();
+            var deliveredReturnHandReceiptItems = await returnHandReceiptItemsDbQuery
                 .ToListAsync();
 
             var deliveredItemsList = new List<ReceiptItemReportDataSet>();
-            foreach (var deliveredItem in deliveredItems)
+            foreach (var deliveredItem in deliveredHandReceiptItems)
             {
                 var deliveredItemDataSet = new ReceiptItemReportDataSet
                 {
@@ -372,15 +500,32 @@ namespace Maintenance.Infrastructure.Services.Reports
                 deliveredItemsList.Add(deliveredItemDataSet);
             }
 
-            return deliveredItemsList;
+            foreach (var deliveredItem in deliveredReturnHandReceiptItems)
+            {
+                var deliveredItemDataSet = new ReceiptItemReportDataSet
+                {
+                    CustomerName = deliveredItem.Customer.Name,
+                    CustomerPhoneNumber = deliveredItem.Customer.PhoneNumber,
+                    Item = deliveredItem.Item,
+                    ItemBarcode = deliveredItem.ItemBarcode,
+                    Company = deliveredItem.Company,
+                    Technician = deliveredItem.Technician.FullName,
+                    Date = deliveredItem.CreatedAt.ToString("yyyy-MM-dd hh:mm tt")
+                };
+
+                deliveredItemsList.Add(deliveredItemDataSet);
+            }
+
+            var deliveredItemsListOrdered = deliveredItemsList.OrderByDescending(x => x.Date).ToList();
+            return deliveredItemsListOrdered;
         }
 
         public async Task<List<ReceiptItemReportDataSet>> CollectedAmountsReport(QueryDto query)
         {
-            var dbQuery = _db.ReceiptItems
+            var dbQuery = _db.HandReceiptItems
                 .Include(x => x.Customer)
                 .Where(x => x.CollectedAmount != null
-                    && x.MaintenanceRequestStatus != MaintenanceRequestStatus.RemovedFromMaintained)
+                    && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained)
                 .AsQueryable();
 
             if (query.DateFrom.HasValue)
@@ -429,10 +574,10 @@ namespace Maintenance.Infrastructure.Services.Reports
 
         public async Task<double> CollectedAmountsReportTotal(QueryDto query)
         {
-            var dbQuery = _db.ReceiptItems
+            var dbQuery = _db.HandReceiptItems
                 .Include(x => x.Customer)
                 .Where(x => x.CollectedAmount != null
-                    && x.MaintenanceRequestStatus != MaintenanceRequestStatus.RemovedFromMaintained)
+                    && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained)
                 .AsQueryable();
 
             if (query.DateFrom.HasValue)
@@ -464,31 +609,41 @@ namespace Maintenance.Infrastructure.Services.Reports
 
         public async Task<List<ReceiptItemReportDataSet>> SuspendedItemsReport(QueryDto query)
         {
-            var dbQuery = _db.ReceiptItems
+            var handReceiptItemsDbQuery = _db.HandReceiptItems
                 .Include(x => x.Customer)
-                .Where(x => x.MaintenanceRequestStatus == MaintenanceRequestStatus.Suspended)
+                .Where(x => x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.Suspended)
+                .AsQueryable();
+
+            var returnHandReceiptItemsDbQuery = _db.ReturnHandReceiptItems
+                .Include(x => x.Customer)
+                .Where(x => x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.Suspended)
                 .AsQueryable();
 
             if (query.DateFrom.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
             }
 
             if (query.DateTo.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
             }
 
             if (query.BranchId.HasValue)
             {
-                dbQuery = dbQuery.Where(x => x.BranchId == query.BranchId);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
             }
 
-            var suspendedItems = await dbQuery.OrderByDescending(x => x.CreatedAt)
+            var suspendedHandReceiptItems = await handReceiptItemsDbQuery
+                .ToListAsync();
+            var suspendedReturnHandReceiptItems = await returnHandReceiptItemsDbQuery
                 .ToListAsync();
 
             var suspendedItemsList = new List<ReceiptItemReportDataSet>();
-            foreach (var suspendedItem in suspendedItems)
+            foreach (var suspendedItem in suspendedHandReceiptItems)
             {
                 var suspendedItemDataSet = new ReceiptItemReportDataSet
                 {
@@ -504,14 +659,31 @@ namespace Maintenance.Infrastructure.Services.Reports
                 suspendedItemsList.Add(suspendedItemDataSet);
             }
 
-            return suspendedItemsList;
+            foreach (var suspendedItem in suspendedReturnHandReceiptItems)
+            {
+                var suspendedItemDataSet = new ReceiptItemReportDataSet
+                {
+                    CustomerName = suspendedItem.Customer.Name,
+                    CustomerPhoneNumber = suspendedItem.Customer.PhoneNumber,
+                    Item = suspendedItem.Item,
+                    ItemBarcode = suspendedItem.ItemBarcode,
+                    Company = suspendedItem.Company,
+                    Date = suspendedItem.CreatedAt.ToString("yyyy-MM-dd hh:mm tt"),
+                    MaintenanceSuspensionReason = suspendedItem.MaintenanceSuspensionReason ?? ""
+                };
+
+                suspendedItemsList.Add(suspendedItemDataSet);
+            }
+
+            var suspendedItemsListOrdered = suspendedItemsList.OrderByDescending(x => x.Date).ToList();
+            return suspendedItemsListOrdered;
         }
 
         public async Task<List<TechnicianFeesReportDataSet>> TechnicianFeesReport(QueryDto query)
         {
             var technicians = await _db.Users
-                .Include(x => x.ReceiptItemsForTechnician.Where(x =>
-                x.MaintenanceRequestStatus != MaintenanceRequestStatus.RemovedFromMaintained
+                .Include(x => x.HandReceiptItems.Where(x =>
+                x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained
                 && (query.DateFrom == null || x.CollectionDate >= query.DateFrom)
                 && (query.DateTo == null || x.CollectionDate <= query.DateTo)))
                 .Where(x => x.UserType == UserType.MaintenanceTechnician)
@@ -521,7 +693,7 @@ namespace Maintenance.Infrastructure.Services.Reports
                 .Select(x => new TechnicianFeesReportDataSet
                 {
                     Technician = x.FullName,
-                    Fees = x.ReceiptItemsForTechnician.Sum(x => x.CollectedAmount) ?? 0
+                    Fees = x.HandReceiptItems.Sum(x => x.CollectedAmount) ?? 0
                 }).ToList();
 
             return technicianFees;

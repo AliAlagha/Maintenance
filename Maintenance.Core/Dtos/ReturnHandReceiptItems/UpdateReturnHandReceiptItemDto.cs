@@ -16,9 +16,9 @@ namespace Maintenance.Core.Dtos
         public string? Description { get; set; }
         public DateTime? DeliveryDate { get; set; }
 
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Messages))]
-        [Display(Name = "Status", ResourceType = typeof(Messages))]
-        public MaintenanceRequestStatus MaintenanceRequestStatus { get; set; }
+        //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Messages))]
+        //[Display(Name = "Status", ResourceType = typeof(Messages))]
+        //public MaintenanceRequestStatus MaintenanceRequestStatus { get; set; }
 
         public string? MaintenanceSuspensionReason { get; set; }
         public string? ReturnReason { get; set; }

@@ -38,7 +38,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
         {
             var dbQuery = _db.HandReceipts
                 .Include(x => x.Customer)
-                .Include(x => x.ReceiptItems)
+                .Include(x => x.HandReceiptItems)
                 .Include(x => x.ReturnHandReceipt)
                 .OrderByDescending(x => x.CreatedAt).AsQueryable();
 
@@ -47,12 +47,12 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                 dbQuery = dbQuery.Where(x => x.Id.ToString().Contains(query.GeneralSearch)
                     || x.Customer.Name.Contains(query.GeneralSearch)
                     || x.Customer.PhoneNumber.Contains(query.GeneralSearch)
-                    || x.ReceiptItems.Any(x => x.ItemBarcode.Contains(query.GeneralSearch)));
+                    || x.HandReceiptItems.Any(x => x.ItemBarcode.Contains(query.GeneralSearch)));
             }
 
             if (!string.IsNullOrWhiteSpace(barcode))
             {
-                dbQuery = dbQuery.Where(x => x.ReceiptItems.Any(x => x.ItemBarcode.Contains(barcode)));
+                dbQuery = dbQuery.Where(x => x.HandReceiptItems.Any(x => x.ItemBarcode.Contains(barcode)));
             }
 
             if (query.CustomerId.HasValue)
@@ -103,7 +103,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
 
             foreach (var itemDto in itemDtos)
             {
-                var handReceiptItem = _mapper.Map<ReceiptItem>(itemDto);
+                var handReceiptItem = _mapper.Map<HandReceiptItem>(itemDto);
 
                 handReceiptItem.HandReceiptId = handReceipt.Id;
                 handReceiptItem.CustomerId = handReceipt.CustomerId;
@@ -114,7 +114,6 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                     handReceiptItem.Color = dbColors.Single(x => x.Id == itemDto.ColorId).Name;
                 }
                 handReceiptItem.ItemBarcode = await GenerateBarcode();
-                handReceiptItem.ReceiptItemType = ReceiptItemType.New;
 
                 if (itemDto.SpecifiedCost != null)
                 {
@@ -129,14 +128,14 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
 
                 handReceiptItem.BranchId = handReceipt.BranchId;
                 handReceiptItem.CreatedBy = userId;
-                handReceipt.ReceiptItems.Add(handReceiptItem);
+                handReceipt.HandReceiptItems.Add(handReceiptItem);
             }
         }
 
         private async Task<string> GenerateBarcode()
         {
             var barcode = RandomDigits(10);
-            var isBarcodeExists = await _db.ReceiptItems.AnyAsync(x => x.ItemBarcode.Equals(barcode));
+            var isBarcodeExists = await _db.HandReceiptItems.AnyAsync(x => x.ItemBarcode.Equals(barcode));
             if (isBarcodeExists)
             {
                 await GenerateBarcode();
@@ -171,7 +170,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
         {
             var handReceipt = await _db.HandReceipts
                 .Include(x => x.Customer)
-                .Include(x => x.ReceiptItems)
+                .Include(x => x.HandReceiptItems)
                 .SingleOrDefaultAsync(x => x.Id == id);
             if (handReceipt == null)
             {
@@ -183,7 +182,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             paramaters.Add("Date", handReceipt.Date.ToString("yyyy-MM-dd hh:mm tt", CultureInfo.InvariantCulture));
             paramaters.Add("CustomerName", handReceipt.Customer.Name);
             paramaters.Add("CustomerPhoneNumber", handReceipt.Customer.PhoneNumber);
-            var totalCollectedAmount = handReceipt.ReceiptItems.Sum(x => x.CollectedAmount);
+            var totalCollectedAmount = handReceipt.HandReceiptItems.Sum(x => x.CollectedAmount);
             paramaters.Add("TotalCollectedMoney", totalCollectedAmount != null ? totalCollectedAmount
                 + " " + Messages.SAR : "0");
 
@@ -192,7 +191,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             paramaters.Add("WebsiteLink", "www.test.com");
 
             var receiptItems = new List<ReceiptItemDataSet>();
-            foreach (var receiptItem in handReceipt.ReceiptItems)
+            foreach (var receiptItem in handReceipt.HandReceiptItems)
             {
                 var receiptItemDataSet = new ReceiptItemDataSet
                 {

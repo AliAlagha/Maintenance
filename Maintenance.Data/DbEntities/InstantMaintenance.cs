@@ -6,20 +6,19 @@ using System.Threading.Tasks;
 
 namespace Maintenance.Data.DbEntities
 {
-    public class HandReceipt : BaseEntity
+    public class InstantMaintenance : BaseEntity
     {
-        public HandReceipt()
+        public InstantMaintenance()
         {
-            HandReceiptItems = new List<HandReceiptItem>();
+            InstantMaintenanceItems = new List<InstantMaintenanceItem>();
         }
 
         public int Id { get; set; }
-        public int CustomerId { get; set; }
-        public Customer Customer { get; set; }
         public DateTime Date { get; set; }
         public int BranchId { get; set; }
         public Branch Branch { get; set; }
-        public List<HandReceiptItem> HandReceiptItems { get; set; }
-        public ReturnHandReceipt ReturnHandReceipt { get; set; }
+        public string TechnicianId { get; set; }
+        public User Technician { get; set; }
+        public List<InstantMaintenanceItem> InstantMaintenanceItems { get; set; }
     }
 }

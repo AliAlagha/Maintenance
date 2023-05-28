@@ -18,6 +18,8 @@ namespace Maintenance.Data.DbEntities
         public string? Notes { get; set; }
         public List<HandReceipt> HandReceipts { get; set; }
         public List<ReturnHandReceipt> ReturnHandReceipts { get; set; }
-        public List<ReceiptItem> ReceiptItems { get; set; }
+        public List<HandReceiptItem> HandReceiptItems { get; set; }
+        public List<ReturnHandReceiptItem> ReturnHandReceiptItems { get; set; }
+
     }
 }

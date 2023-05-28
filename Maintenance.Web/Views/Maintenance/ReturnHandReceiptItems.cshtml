@@ -1,0 +1,318 @@
+﻿@model int
+
+@{
+    ViewData["Title"] = Messages.MaintenanceItems;
+}
+
+<!--begin::Card-->
+<div class="card card-custom">
+    <div class="card-header flex-wrap border-0 pt-6 pb-0">
+        <div class="card-title">
+            <h3 class="card-label">
+                @Messages.MaintenanceItems
+                <span class="d-block text-muted pt-2 font-size-sm">@string.Format(Messages.IndexSubTitle, Messages.MaintenanceItems)</span>
+            </h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <!--begin::Search Form-->
+        <div class="mb-7">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-xl-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-12 my-2 my-md-0">
+                            <div class="input-icon">
+                                <input type="text" class="form-control" placeholder="@Messages.Search" id="kt_datatable_search_query" />
+                                <span>
+                                    <i class="flaticon2-search-1 text-muted"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end: Search Form-->
+        <!--begin: Datatable-->
+        <div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable"></div>
+        <!--end: Datatable-->
+    </div>
+</div>
+
+<!--end::Card-->
+@section Scripts{
+    <script>
+        "use strict";
+        // Class definition
+        var KTDatatableAutoColumnHideDemo = function () {
+            // Private functions
+            // basic demo
+            var demo = function () {
+                var datatable = $('#kt_datatable').KTDatatable({
+                    // datasource definition
+                    data: {
+                        type: 'remote',
+                        source: {
+                            read: {
+                                url: '/Maintenance/GetAll'
+                            },
+                        },
+                        pageSize: 10,
+                        saveState: false,
+                        serverPaging: true,
+                        serverFiltering: true,
+                        serverSorting: true,
+                    },
+                    layout: {
+                        scroll: true,
+                    },
+                    rows: {
+                        autoHide: false
+                    },
+                    // column sorting
+                    sortable: true,
+                    pagination: true,
+                    search: {
+                        input: $('#kt_datatable_search_query'),
+                        key: 'generalSearch'
+                    },
+                    // columns definition
+                    columns: [
+                        {
+                            field: 'item',
+                            title: '@Messages.Item',
+                            sortable: false,
+                            autoHide: false,
+                            width: 100
+                        },
+                        {
+                            field: 'customer.name',
+                            title: '@Messages.CustomerFullName',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'customer.phoneNumber',
+                            title: '@Messages.CustomerPhoneNumber',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'itemBarcode',
+                            title: '@Messages.Barcode',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'company',
+                            title: '@Messages.Company',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'color',
+                            title: '@Messages.Color',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'description',
+                            title: '@Messages.Description',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'specifiedCost',
+                            title: '@Messages.SpecifiedCost',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'notifyCustomerOfTheCost',
+                            title: '@Messages.NotifyCustomerOfTheCost',
+                            sortable: false,
+                            width: 100,
+                            template: function (data) {
+                                if (data.notifyCustomerOfTheCost) {
+                                    return "@Messages.Yes";
+                                } else {
+                                    return "@Messages.No";
+                                }
+                            }
+                        },
+                        {
+                            field: 'costNotifiedToTheCustomer',
+                            title: '@Messages.CostNotifiedToTheCustomer',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'costFrom',
+                            title: '@Messages.From',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'costTo',
+                            title: '@Messages.To',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'urgent',
+                            title: '@Messages.Urgent',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'warrantyDaysNumber',
+                            title: '@Messages.WarrantyDaysNumber',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'returnReason',
+                            title: '@Messages.ReturnReason',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'receiptItemType',
+                            title: '@Messages.NewOrReturned',
+                            sortable: false,
+                            width: 100,
+                            template: function (data) {
+                                if (data.receiptItemType == 1) {
+                                    return "@Messages.NewReceiptItem";
+                                } else if (data.receiptItemType == 2) {
+                                    return "@Messages.Returned";
+                                }
+                            }
+                        },
+                        {
+                            field: 'maintenanceRequestStatusMessage',
+                            title: '@Messages.Status',
+                            sortable: false,
+                            width: 200
+                        },
+                        {
+                            field: 'Actions',
+                            title: '@Messages.Actions',
+                            sortable: false,
+                            width: 160,
+                            overflow: 'visible',
+                            autoHide: false,
+                            template: function (data) {
+                                var result = '';
+                                result = result +
+                                    '<div class="dropdown dropdown-inline">' +
+                                    '    <a href="javascript:;" class="btn btn-sm btn-clean btn-icon mr-2" data-toggle="dropdown">' +
+                                    '        <span class="svg-icon svg-icon-md">' +
+                                    '            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
+                                    '                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
+                                    '                    <rect x="0" y="0" width="24" height="24" />' +
+                                    '                    <path d="M5,8.6862915 L5,5 L8.6862915,5 L11.5857864,2.10050506 L14.4852814,5 L19,5 L19,9.51471863 L21.4852814,12 L19,14.4852814 L19,19 L14.4852814,19 L11.5857864,21.8994949 L8.6862915,19 L5,19 L5,15.3137085 L1.6862915,12 L5,8.6862915 Z M12,15 C13.6568542,15 15,13.6568542 15,12 C15,10.3431458 13.6568542,9 12,9 C10.3431458,9 9,10.3431458 9,12 C9,13.6568542 10.3431458,15 12,15 Z" fill="#000000" />' +
+                                    '                </g>' +
+                                    '            </svg>' +
+                                    '        </span>' +
+                                    '    </a>' +
+                                    '    <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">' +
+                                    '        <ul class="navi flex-column navi-hover py-2">' +
+                                    '            <li class="navi-header font-weight-bolder text-uppercase font-size-xs text-primary pb-2">' +
+                                    '                @Messages.SelectAction:' +
+                                    '            </li>';
+                                if (data.maintenanceRequestStatus == 2 || data.maintenanceRequestStatus == 4) {
+                                    result = result +
+                                        '            </li>' +
+                                        '            <li class="navi-item">' +
+                                        '                <a href="/Maintenance/UpdateStatus?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.CheckItem">' +
+                                        '                    <span class="navi-text">@Messages.CheckItem</span>' +
+                                        '                </a>' +
+                                        '            </li>'
+                                } else if (data.maintenanceRequestStatus == 5) {
+                                    result = result +
+                                        '            <li class="navi-item">'
+                                        +
+                                        '                <a href="/Maintenance/UpdateStatus?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.InformCustomerOfTheCost">' +
+                                        '                    <span class="navi-text">@Messages.InformCustomerOfTheCost</span>' +
+                                        '                </a>' +
+                                        '            </li>';
+                                } else if (data.maintenanceRequestStatus == 6) {
+                                    result = result +
+                                        '            <li class="navi-item">' +
+                                        '                <a href="/Maintenance/UpdateStatus?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.CustomerApproved">' +
+                                        '                    <span class="navi-text">@Messages.CustomerApproved</span>' +
+                                        '                </a>' +
+                                        '            </li>' +
+                                        '            <li class="navi-item">' +
+                                        '                <a href="/Maintenance/CustomerRefuseMaintenance?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="PopUp navi-link" title="@Messages.CustomerRefused">' +
+                                        '                    <span class="navi-text">@Messages.CustomerRefused</span>' +
+                                        '                </a>' +
+                                        '            </li>';
+                                } else if (data.maintenanceRequestStatus == 7 && data.notifyCustomerOfTheCost) {
+                                    result = result +
+                                        '            <li class="navi-item">' +
+                                        '                <a href="/Maintenance/EnterMaintenanceCost?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="PopUp navi-link" title="@Messages.MaintenanceCost">' +
+                                        '                    <span class="navi-text">@Messages.EnterMaintenanceCost</span>' +
+                                        '                </a>' +
+                                        '            </li>';
+                                } else if ((data.maintenanceRequestStatus == 7 && !data.notifyCustomerOfTheCost) || data.maintenanceRequestStatus == 8) {
+                                    result = result +
+                                        '            <li class="navi-item">' +
+                                        '                <a href="/Maintenance/UpdateStatus?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.Completed">' +
+                                        '                    <span class="navi-text">@Messages.Completed</span>' +
+                                        '                </a>' +
+                                        '            </li>';
+                                } else if (data.maintenanceRequestStatus == 9) {
+                                    result = result +
+                                        '            <li class="navi-item">' +
+                                        '                <a href="/Maintenance/UpdateStatus?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.NotifyCustomerOfMaintenanceEnd">' +
+                                        '                    <span class="navi-text">@Messages.NotifyCustomerOfMaintenanceEnd</span>' +
+                                        '                </a>' +
+                                        '            </li>' +
+                                        '        </ul>' +
+                                        '    </div>' +
+                                        '</div>';
+                                }
+
+                                result = result + '</ul>' +
+                                    '    </div>' +
+                                    '</div>';
+
+                                if (data.maintenanceRequestStatus != 13) {
+                                    result = result + '<a href="/Maintenance/SuspenseMaintenance?ReceiptItemId=' + data.id + '" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Suspension">' +
+                                        '    <span class="svg-icon svg-icon-md">' +
+                                        '       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
+                                        '           <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
+                                        '               <rect x="0" y="0" width="24" height="24"/>' +
+                                        '               <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10"/>' +
+                                        '               <path d="M12,16 C12.5522847,16 13,16.4477153 13,17 C13,17.5522847 12.5522847,18 12,18 C11.4477153,18 11,17.5522847 11,17 C11,16.4477153 11.4477153,16 12,16 Z M10.591,14.868 L10.591,13.209 L11.851,13.209 C13.447,13.209 14.602,11.991 14.602,10.395 C14.602,8.799 13.447,7.581 11.851,7.581 C10.234,7.581 9.121,8.799 9.121,10.395 L7.336,10.395 C7.336,7.875 9.31,5.922 11.851,5.922 C14.392,5.922 16.387,7.875 16.387,10.395 C16.387,12.915 14.392,14.868 11.851,14.868 L10.591,14.868 Z" fill="#000000"/>' +
+                                        '           </g>' +
+                                        '       </svg>' +
+                                        '    </span>' +
+                                        '</a>';
+                                }
+
+                                return result;
+                            },
+                        }],
+                });
+            };
+            return {
+                // public functions
+                init: function () {
+                    demo();
+                },
+            };
+        }();
+        jQuery(document).ready(function () {
+            KTDatatableAutoColumnHideDemo.init();
+
+            $(document).on("click", ".Confirm, .PopUp", function () {
+                $(".dropdown-menu").hide();
+            });
+        });
+    </script>
+        }
+
+

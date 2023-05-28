@@ -58,46 +58,46 @@ namespace Maintenance.Infrastructure.AutoMapper
             #region HandReceipts
             CreateMap<HandReceipt, HandReceiptViewModel>()
                 .ForMember(x => x.Date, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")))
-                .ForMember(x => x.TotalCollectedAmount, x => x.MapFrom(x => x.ReceiptItems.Sum(x => x.CollectedAmount)))
-                .ForMember(x => x.IsAllDelivered, x => x.MapFrom(x => x.ReceiptItems.All(x => x.MaintenanceRequestStatus
-                == MaintenanceRequestStatus.Delivered)))
+                .ForMember(x => x.TotalCollectedAmount, x => x.MapFrom(x => x.HandReceiptItems.Sum(x => x.CollectedAmount)))
+                .ForMember(x => x.IsAllDelivered, x => x.MapFrom(x => x.HandReceiptItems.All(x => x.MaintenanceRequestStatus
+                == HandReceiptItemRequestStatus.Delivered)))
                 .ForMember(x => x.ItemBarcodes, x => x.MapFrom(x => string.Join(", "
-                , x.ReceiptItems.Select(x => x.ItemBarcode).ToList())))
+                , x.HandReceiptItems.Select(x => x.ItemBarcode).ToList())))
                 .ForMember(x => x.IsReturnHandReceiptExists, x => x.MapFrom(x => x.ReturnHandReceipt != null
                     ? true : false));
             CreateMap<CreateHandReceiptDto, HandReceipt>();
             #endregion
 
             #region HandReceiptItems
-            CreateMap<ReceiptItem, HandReceiptItemViewModel>()
+            CreateMap<HandReceiptItem, HandReceiptItemViewModel>()
                 .ForMember(x => x.NotifyCustomerOfTheCost, x => x.MapFrom(x => x.NotifyCustomerOfTheCost ? Messages.Yes : Messages.No))
                 .ForMember(x => x.Urgent, x => x.MapFrom(x => x.Urgent ? Messages.Yes : Messages.No))
                 .ForMember(x => x.CollectionDate, x => x.MapFrom(x => x.CollectionDate != null ? x.CollectionDate.Value.ToString("yyyy-MM-dd") : null))
                 .ForMember(x => x.DeliveryDate, x => x.MapFrom(x => x.DeliveryDate != null ? x.DeliveryDate.Value.ToString("yyyy-MM-dd") : null));
-            CreateMap<CreateHandReceiptItemDto, ReceiptItem>();
-            CreateMap<UpdateHandReceiptItemDto, ReceiptItem>();
-            CreateMap<ReceiptItem, UpdateHandReceiptItemDto>();
+            CreateMap<CreateHandReceiptItemDto, HandReceiptItem>();
+            CreateMap<UpdateHandReceiptItemDto, HandReceiptItem>();
+            CreateMap<HandReceiptItem, UpdateHandReceiptItemDto>();
             #endregion
 
             #region ReturnHandReceipts
             CreateMap<ReturnHandReceipt, ReturnHandReceiptViewModel>()
                 .ForMember(x => x.Date, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")))
-                .ForMember(x => x.IsAllDelivered, x => x.MapFrom(x => x.ReceiptItems.All(x => x.MaintenanceRequestStatus
-                == MaintenanceRequestStatus.Delivered)))
+                .ForMember(x => x.IsAllDelivered, x => x.MapFrom(x => x.ReturnHandReceiptItems.All(x => x.MaintenanceRequestStatus
+                == ReturnReceiptItemRequestStatus.Delivered)))
                 .ForMember(x => x.ItemBarcodes, x => x.MapFrom(x => string.Join(", "
-                , x.ReceiptItems.Select(x => x.ItemBarcode).ToList())));
+                , x.ReturnHandReceiptItems.Select(x => x.ItemBarcode).ToList())));
             CreateMap<CreateReturnHandReceiptDto, ReturnHandReceipt>();
             #endregion
 
             #region ReturnHandReceiptItems
-            CreateMap<ReceiptItem, ReturnHandReceiptItemViewModel>()
+            CreateMap<ReturnHandReceiptItem, ReturnHandReceiptItemViewModel>()
                 .ForMember(x => x.DeliveryDate, x => x.MapFrom(x => x.DeliveryDate != null
                 ? x.DeliveryDate.Value.ToString("yyyy-MM-dd")
                 : null));
-            CreateMap<CreateReturnHandReceiptItemDto, ReceiptItem>();
-            CreateMap<ReceiptItem, CreateReturnHandReceiptItemDto>();
-            CreateMap<ReceiptItem, UpdateReturnHandReceiptItemDto>();
-            CreateMap<UpdateReturnHandReceiptItemDto, ReceiptItem>();
+            CreateMap<CreateReturnHandReceiptItemDto, ReturnHandReceiptItem>();
+            CreateMap<ReturnHandReceiptItem, CreateReturnHandReceiptItemDto>();
+            CreateMap<ReturnHandReceiptItem, UpdateReturnHandReceiptItemDto>();
+            CreateMap<UpdateReturnHandReceiptItemDto, ReturnHandReceiptItem>();
             #endregion
 
             #region Branches
@@ -112,8 +112,9 @@ namespace Maintenance.Infrastructure.AutoMapper
             #endregion
 
             #region Maintenance
-            CreateMap<ReceiptItem, ReceiptItemForMaintenanceViewModel>()
+            CreateMap<HandReceiptItem, ReceiptItemForMaintenanceViewModel>()
                 .ForMember(x => x.Urgent, x => x.MapFrom(x => x.Urgent ? Messages.Yes : Messages.No));
+            CreateMap<ReturnHandReceiptItem, ReceiptItemForMaintenanceViewModel>();
             #endregion
 
             #region BranchPhoneNumber

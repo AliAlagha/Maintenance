@@ -31,7 +31,7 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
         public async Task<PagingResultViewModel<HandReceiptItemViewModel>> GetAll(Pagination pagination
             , QueryDto query, int handReceiptId)
         {
-            var dbQuery = _db.ReceiptItems
+            var dbQuery = _db.HandReceiptItems
                 .Where(x => x.HandReceiptId == handReceiptId)
                 .OrderByDescending(x => x.CreatedAt).AsQueryable();
 
@@ -44,7 +44,7 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
             return await ItemsPagedData(dbQuery, pagination);
         }
 
-        private async Task<PagingResultViewModel<HandReceiptItemViewModel>> ItemsPagedData(IQueryable<ReceiptItem> query
+        private async Task<PagingResultViewModel<HandReceiptItemViewModel>> ItemsPagedData(IQueryable<HandReceiptItem> query
             , Pagination dto)
         {
             var pageSize = dto.PerPage;
@@ -78,11 +78,11 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
             };
         }
 
-        private static void ShowWarrantyDays(ReceiptItem? item, HandReceiptItemViewModel itemVm)
+        private static void ShowWarrantyDays(HandReceiptItem? item, HandReceiptItemViewModel itemVm)
         {
             if (item.WarrantyDaysNumber != null)
             {
-                if (item.MaintenanceRequestStatus == MaintenanceRequestStatus.Delivered)
+                if (item.MaintenanceRequestStatus == HandReceiptItemRequestStatus.Delivered)
                 {
                     var warrantyExpiryDate = item.DeliveryDate.Value.AddDays(item.WarrantyDaysNumber.Value);
                     var isWarrantyValid = DateTime.Now.Date <= warrantyExpiryDate.Date;
@@ -96,50 +96,41 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
             }
         }
 
-        private static void ShowRequestStatus(ReceiptItem? item, HandReceiptItemViewModel itemVm)
+        private static void ShowRequestStatus(HandReceiptItem? item, HandReceiptItemViewModel itemVm)
         {
             switch (item.MaintenanceRequestStatus)
             {
-                case MaintenanceRequestStatus.WaitingManagerResponse:
-                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.WaitingManagerResponse}";
-                    break;
-                case MaintenanceRequestStatus.ManagerApprovedReturn:
-                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.ManagerApprovedReturn}";
-                    break;
-                case MaintenanceRequestStatus.ManagerRefusedReturn:
-                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.ManagerRefusedReturn}";
-                    break;
-                case MaintenanceRequestStatus.New:
+                case HandReceiptItemRequestStatus.New:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.New}";
                     break;
-                case MaintenanceRequestStatus.CheckItem:
+                case HandReceiptItemRequestStatus.CheckItem:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.CheckItem}";
                     break;
-                case MaintenanceRequestStatus.InformCustomerOfTheCost:
+                case HandReceiptItemRequestStatus.InformCustomerOfTheCost:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.InformCustomerOfTheCost}";
                     break;
-                case MaintenanceRequestStatus.CustomerApproved:
+                case HandReceiptItemRequestStatus.CustomerApproved:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.CustomerApproved}";
                     break;
-                case MaintenanceRequestStatus.EnterMaintenanceCost:
+                case HandReceiptItemRequestStatus.EnterMaintenanceCost:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.EnterMaintenanceCost}";
                     break;
-                case MaintenanceRequestStatus.Completed:
+                case HandReceiptItemRequestStatus.Completed:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.Completed}";
                     break;
-                case MaintenanceRequestStatus.NotifyCustomerOfMaintenanceEnd:
+                case HandReceiptItemRequestStatus.NotifyCustomerOfMaintenanceEnd:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.NotifyCustomerOfMaintenanceEnd}";
                     break;
-                case MaintenanceRequestStatus.Delivered:
+                case HandReceiptItemRequestStatus.Delivered:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.Delivered}";
                     break;
-                case MaintenanceRequestStatus.CustomerRefused:
+                case HandReceiptItemRequestStatus.CustomerRefused:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.CustomerRefused} - {item.ReasonForRefusingMaintenance}";
                     break;
-                case MaintenanceRequestStatus.Suspended:
+                case HandReceiptItemRequestStatus.Suspended:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.Suspended} - {item.MaintenanceSuspensionReason}";
                     break;
-                case MaintenanceRequestStatus.RemovedFromMaintained:
+                case HandReceiptItemRequestStatus.RemovedFromMaintained:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.RemovedFromMaintained} - {item.RemoveFromMaintainedReason}";
                     break;
             };
@@ -147,7 +138,7 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
 
         public async Task<UpdateHandReceiptItemDto> Get(int handReceiptItemId, int handReceiptId)
         {
-            var handReceiptItem = await _db.ReceiptItems.SingleOrDefaultAsync(x => x.Id == handReceiptItemId
+            var handReceiptItem = await _db.HandReceiptItems.SingleOrDefaultAsync(x => x.Id == handReceiptItemId
             && x.HandReceiptId == handReceiptId);
             if (handReceiptItem == null)
                 throw new EntityNotFoundException();
@@ -157,7 +148,7 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
 
         public async Task<int> Create(CreateHandReceiptItemDto input, string userId)
         {
-            var handReceiptItem = _mapper.Map<ReceiptItem>(input);
+            var handReceiptItem = _mapper.Map<HandReceiptItem>(input);
 
             var handReceipt = await _db.HandReceipts.SingleOrDefaultAsync(x => x.Id == input.HandReceiptId);
             if (handReceipt == null)
@@ -204,9 +195,8 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
             handReceiptItem.Item = item.Name;
             handReceiptItem.Company = company.Name;
             handReceiptItem.ItemBarcode = await GenerateBarcode();
-            handReceiptItem.ReceiptItemType = ReceiptItemType.New;
             handReceiptItem.CreatedBy = userId;
-            await _db.ReceiptItems.AddAsync(handReceiptItem);
+            await _db.HandReceiptItems.AddAsync(handReceiptItem);
             await _db.SaveChangesAsync();
             return handReceiptItem.Id;
         }
@@ -246,7 +236,7 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
         private async Task<string> GenerateBarcode()
         {
             var barcode = RandomDigits(10);
-            var isBarcodeExists = await _db.ReceiptItems.AnyAsync(x => x.ItemBarcode.Equals(barcode));
+            var isBarcodeExists = await _db.HandReceiptItems.AnyAsync(x => x.ItemBarcode.Equals(barcode));
             if (isBarcodeExists)
             {
                 await GenerateBarcode();
@@ -266,7 +256,7 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
 
         public async Task Delete(int handReceiptItemId, int handReceiptId, string userId)
         {
-            var handReceiptItem = await _db.ReceiptItems.SingleOrDefaultAsync(x => x.Id == handReceiptItemId
+            var handReceiptItem = await _db.HandReceiptItems.SingleOrDefaultAsync(x => x.Id == handReceiptItemId
                 && x.HandReceiptId == handReceiptId);
             if (handReceiptItem == null)
                 throw new EntityNotFoundException();
@@ -274,13 +264,13 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
             handReceiptItem.IsDelete = true;
             handReceiptItem.UpdatedAt = DateTime.Now;
             handReceiptItem.UpdatedBy = userId;
-            _db.ReceiptItems.Update(handReceiptItem);
+            _db.HandReceiptItems.Update(handReceiptItem);
             await _db.SaveChangesAsync();
         }
 
         public async Task CollectMoney(CollectMoneyForHandReceiptItemDto dto, string userId)
         {
-            var handReceiptItem = await _db.ReceiptItems
+            var handReceiptItem = await _db.HandReceiptItems
                 .SingleOrDefaultAsync(x => x.Id == dto.HandReceiptItemId
                 && x.HandReceiptId == dto.HandReceiptId && x.FinalCost != null && x.CollectedAmount == null);
             if (handReceiptItem == null)
@@ -297,57 +287,53 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
             handReceiptItem.CollectionDate = DateTime.Now;
             handReceiptItem.UpdatedAt = DateTime.Now;
             handReceiptItem.UpdatedBy = userId;
-            _db.ReceiptItems.Update(handReceiptItem);
+            _db.HandReceiptItems.Update(handReceiptItem);
             await _db.SaveChangesAsync();
         }
 
         public async Task DeliverItem(int handReceiptItemId, int handReceiptId, string userId)
         {
-            var handReceiptItem = await _db.ReceiptItems
+            var handReceiptItem = await _db.HandReceiptItems
                 .SingleOrDefaultAsync(x => x.Id == handReceiptItemId && x.HandReceiptId == handReceiptId
                 && x.TechnicianId != null
                 && x.CollectedAmount != null
-                && x.MaintenanceRequestStatus != MaintenanceRequestStatus.WaitingManagerResponse
-                && x.MaintenanceRequestStatus != MaintenanceRequestStatus.ManagerRefusedReturn
-                && x.MaintenanceRequestStatus != MaintenanceRequestStatus.Delivered
-                && x.MaintenanceRequestStatus != MaintenanceRequestStatus.CustomerRefused
-                && x.MaintenanceRequestStatus != MaintenanceRequestStatus.Suspended
-                && x.MaintenanceRequestStatus != MaintenanceRequestStatus.RemovedFromMaintained);
+                && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.Delivered
+                && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.CustomerRefused
+                && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.Suspended
+                && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained);
             if (handReceiptItem == null)
                 throw new EntityNotFoundException();
 
-            handReceiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.Delivered;
+            handReceiptItem.MaintenanceRequestStatus = HandReceiptItemRequestStatus.Delivered;
             handReceiptItem.DeliveryDate = DateTime.Now;
             handReceiptItem.UpdatedAt = DateTime.Now;
             handReceiptItem.UpdatedBy = userId;
-            _db.ReceiptItems.Update(handReceiptItem);
+            _db.HandReceiptItems.Update(handReceiptItem);
             await _db.SaveChangesAsync();
         }
 
         public async Task DeliveryOfAllItems(int handReceiptId, string userId)
         {
             var handReceipt = await _db.HandReceipts
-                .Include(x => x.ReceiptItems.Where(x =>
+                .Include(x => x.HandReceiptItems.Where(x =>
                     x.TechnicianId != null
                     && x.CollectedAmount != null
-                    && x.MaintenanceRequestStatus != MaintenanceRequestStatus.WaitingManagerResponse
-                    && x.MaintenanceRequestStatus != MaintenanceRequestStatus.ManagerRefusedReturn
-                    && x.MaintenanceRequestStatus != MaintenanceRequestStatus.Delivered
-                    && x.MaintenanceRequestStatus != MaintenanceRequestStatus.CustomerRefused
-                    && x.MaintenanceRequestStatus != MaintenanceRequestStatus.Suspended
-                    && x.MaintenanceRequestStatus != MaintenanceRequestStatus.RemovedFromMaintained))
+                    && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.Delivered
+                    && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.CustomerRefused
+                    && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.Suspended
+                    && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained))
                 .SingleOrDefaultAsync(x => x.Id == handReceiptId
-                && !x.ReceiptItems.All(x => x.MaintenanceRequestStatus == MaintenanceRequestStatus.Delivered));
+                && !x.HandReceiptItems.All(x => x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.Delivered));
             if (handReceipt == null)
                 throw new EntityNotFoundException();
 
-            foreach (var handReceiptItem in handReceipt.ReceiptItems)
+            foreach (var handReceiptItem in handReceipt.HandReceiptItems)
             {
-                handReceiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.Delivered;
+                handReceiptItem.MaintenanceRequestStatus = HandReceiptItemRequestStatus.Delivered;
                 handReceiptItem.DeliveryDate = DateTime.Now;
                 handReceiptItem.UpdatedAt = DateTime.Now;
                 handReceiptItem.UpdatedBy = userId;
-                _db.ReceiptItems.Update(handReceiptItem);
+                _db.HandReceiptItems.Update(handReceiptItem);
             }
 
             await _db.SaveChangesAsync();
@@ -355,7 +341,7 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
 
         public async Task<bool> IsAllItemsCanBeDelivered(int handReceiptId)
         {
-            var returnHandReceipt = await _db.HandReceipts.Include(x => x.ReceiptItems)
+            var returnHandReceipt = await _db.HandReceipts.Include(x => x.HandReceiptItems)
                 .SingleOrDefaultAsync(x => x.Id == handReceiptId);
             if (returnHandReceipt == null)
             {
@@ -363,15 +349,13 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
             }
 
             var isAllItemsCanBeDelivered = false;
-            if (returnHandReceipt.ReceiptItems.Any())
+            if (returnHandReceipt.HandReceiptItems.Any())
             {
-                isAllItemsCanBeDelivered = returnHandReceipt.ReceiptItems.All(x =>
+                isAllItemsCanBeDelivered = returnHandReceipt.HandReceiptItems.All(x =>
                 x.TechnicianId != null
                 && x.CollectedAmount != null
-                && x.MaintenanceRequestStatus != MaintenanceRequestStatus.WaitingManagerResponse
-                && x.MaintenanceRequestStatus != MaintenanceRequestStatus.ManagerRefusedReturn
-                && x.MaintenanceRequestStatus != MaintenanceRequestStatus.CustomerRefused
-                && x.MaintenanceRequestStatus != MaintenanceRequestStatus.Suspended);
+                && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.CustomerRefused
+                && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.Suspended);
             }
 
             return isAllItemsCanBeDelivered;
@@ -379,17 +363,17 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
 
         public async Task RemoveFromMaintained(RemoveHandItemFromMaintainedDto dto, string userId)
         {
-            var handReceiptItem = await _db.ReceiptItems
+            var handReceiptItem = await _db.HandReceiptItems
                 .SingleOrDefaultAsync(x => x.Id == dto.HandReceiptItemId && x.HandReceiptId == dto.HandReceiptId
-                && x.MaintenanceRequestStatus == MaintenanceRequestStatus.Delivered);
+                && x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.Delivered);
             if (handReceiptItem == null)
                 throw new EntityNotFoundException();
 
-            handReceiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.RemovedFromMaintained;
+            handReceiptItem.MaintenanceRequestStatus = HandReceiptItemRequestStatus.RemovedFromMaintained;
             handReceiptItem.RemoveFromMaintainedReason = dto.RemoveFromMaintainedReason;
             handReceiptItem.UpdatedAt = DateTime.Now;
             handReceiptItem.UpdatedBy = userId;
-            _db.ReceiptItems.Update(handReceiptItem);
+            _db.HandReceiptItems.Update(handReceiptItem);
             await _db.SaveChangesAsync();
         }
 

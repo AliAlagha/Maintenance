@@ -27,9 +27,9 @@ namespace Maintenance.Infrastructure.Services.ManagerRequests
         public async Task<PagingResultViewModel<ReceiptItemForMaintenanceViewModel>> GetAllItems(Pagination pagination
             , QueryDto query, string userId)
         {
-            var dbQuery = _db.ReceiptItems
+            var dbQuery = _db.ReturnHandReceiptItems
                 .Include(x => x.Customer)
-                .Where(x => x.MaintenanceRequestStatus == MaintenanceRequestStatus.WaitingManagerResponse)
+                .Where(x => x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.WaitingManagerResponse)
                 .OrderByDescending(x => x.CreatedAt)
                 .AsQueryable();
 
@@ -37,20 +37,17 @@ namespace Maintenance.Infrastructure.Services.ManagerRequests
             {
                 dbQuery = dbQuery.Where(x => x.Item.Contains(query.GeneralSearch)
                     || x.ItemBarcode.Contains(query.GeneralSearch)
-                    || x.HandReceiptId.ToString().Contains(query.GeneralSearch)
                     || x.ReturnHandReceiptId.ToString().Contains(query.GeneralSearch)
                     || x.Customer.Name.Contains(query.GeneralSearch)
                     || x.Customer.PhoneNumber.Contains(query.GeneralSearch)
-                    || x.HandReceipt.ReceiptItems.Any(x => x.ItemBarcode
-                        .Contains(query.GeneralSearch))
-                    || x.ReturnHandReceipt.ReceiptItems.Any(x => x.ItemBarcode
+                    || x.ReturnHandReceipt.ReturnHandReceiptItems.Any(x => x.ItemBarcode
                         .Contains(query.GeneralSearch)));
             }
 
             return await ItemsPagedData(dbQuery, pagination);
         }
 
-        private async Task<PagingResultViewModel<ReceiptItemForMaintenanceViewModel>> ItemsPagedData(IQueryable<ReceiptItem> query
+        private async Task<PagingResultViewModel<ReceiptItemForMaintenanceViewModel>> ItemsPagedData(IQueryable<ReturnHandReceiptItem> query
             , Pagination dto)
         {
             var pageSize = dto.PerPage;
@@ -82,80 +79,41 @@ namespace Maintenance.Infrastructure.Services.ManagerRequests
             };
         }
 
-        private static void ShowRequestStatus(ReceiptItem? item, ReceiptItemForMaintenanceViewModel itemVm)
+        private static void ShowRequestStatus(ReturnHandReceiptItem? item, ReceiptItemForMaintenanceViewModel itemVm)
         {
             switch (item.MaintenanceRequestStatus)
             {
-                case MaintenanceRequestStatus.WaitingManagerResponse:
+                case ReturnReceiptItemRequestStatus.WaitingManagerResponse:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.WaitingManagerResponse}";
-                    break;
-                case MaintenanceRequestStatus.ManagerApprovedReturn:
-                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.ManagerApprovedReturn}";
-                    break;
-                case MaintenanceRequestStatus.ManagerRefusedReturn:
-                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.ManagerRefusedReturn}";
-                    break;
-                case MaintenanceRequestStatus.New:
-                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.New}";
-                    break;
-                case MaintenanceRequestStatus.CheckItem:
-                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.CheckItem}";
-                    break;
-                case MaintenanceRequestStatus.InformCustomerOfTheCost:
-                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.InformCustomerOfTheCost}";
-                    break;
-                case MaintenanceRequestStatus.CustomerApproved:
-                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.CustomerApproved}";
-                    break;
-                case MaintenanceRequestStatus.EnterMaintenanceCost:
-                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.EnterMaintenanceCost}";
-                    break;
-                case MaintenanceRequestStatus.Completed:
-                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.Completed}";
-                    break;
-                case MaintenanceRequestStatus.NotifyCustomerOfMaintenanceEnd:
-                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.NotifyCustomerOfMaintenanceEnd}";
-                    break;
-                case MaintenanceRequestStatus.Delivered:
-                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.Delivered}";
-                    break;
-                case MaintenanceRequestStatus.CustomerRefused:
-                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.CustomerRefused} - {item.ReasonForRefusingMaintenance}";
-                    break;
-                case MaintenanceRequestStatus.Suspended:
-                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.Suspended} - {item.MaintenanceSuspensionReason}";
-                    break;
-                case MaintenanceRequestStatus.RemovedFromMaintained:
-                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.RemovedFromMaintained} - {item.RemoveFromMaintainedReason}";
                     break;
             };
         }
 
-        public async Task UpdateStatus(int receiptItemId, MaintenanceRequestStatus status
+        public async Task UpdateStatus(int receiptItemId, ReturnReceiptItemRequestStatus status
             , string userId)
         {
-            var receiptItem = await _db.ReceiptItems
+            var receiptItem = await _db.ReturnHandReceiptItems
                 .SingleOrDefaultAsync(x => x.Id == receiptItemId);
             if (receiptItem == null)
                 throw new EntityNotFoundException();
 
-            if (receiptItem.MaintenanceRequestStatus != MaintenanceRequestStatus.WaitingManagerResponse)
+            if (receiptItem.MaintenanceRequestStatus != ReturnReceiptItemRequestStatus.WaitingManagerResponse)
             {
                 throw new NoValidityException();
             }
 
-            if (status == MaintenanceRequestStatus.ManagerApprovedReturn)
+            if (status == ReturnReceiptItemRequestStatus.ManagerApprovedReturn)
             {
-                receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.ManagerApprovedReturn;
+                receiptItem.MaintenanceRequestStatus = ReturnReceiptItemRequestStatus.ManagerApprovedReturn;
             }
-            else if (status == MaintenanceRequestStatus.ManagerRefusedReturn)
+            else if (status == ReturnReceiptItemRequestStatus.ManagerRefusedReturn)
             {
-                receiptItem.MaintenanceRequestStatus = MaintenanceRequestStatus.ManagerRefusedReturn;
+                receiptItem.MaintenanceRequestStatus = ReturnReceiptItemRequestStatus.ManagerRefusedReturn;
             }
 
             receiptItem.UpdatedAt = DateTime.Now;
             receiptItem.UpdatedBy = userId;
-            _db.ReceiptItems.Update(receiptItem);
+            _db.ReturnHandReceiptItems.Update(receiptItem);
             await _db.SaveChangesAsync();
         }
     }

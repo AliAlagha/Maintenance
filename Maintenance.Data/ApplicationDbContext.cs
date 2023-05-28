@@ -25,7 +25,11 @@ namespace Maintenance.Data
         public DbSet<Item> Items { get; set; }
         public DbSet<HandReceipt> HandReceipts { get; set; }
         public DbSet<ReturnHandReceipt> ReturnHandReceipts { get; set; }
-        public DbSet<ReceiptItem> ReceiptItems { get; set; }
+        public DbSet<HandReceiptItem> HandReceiptItems { get; set; }
+        public DbSet<ReturnHandReceiptItem> ReturnHandReceiptItems { get; set; }
+        public DbSet<InstantMaintenance> InstantMaintenances { get; set; }
+        public DbSet<InstantMaintenanceItem> InstantMaintenanceItems { get; set; }
+        public DbSet<RecipientMaintenance> RecipientMaintenances { get; set; }
         public DbSet<Branch> Branches { get; set; }
         public DbSet<BranchPhoneNumber> BranchPhoneNumbers { get; set; }
     }
