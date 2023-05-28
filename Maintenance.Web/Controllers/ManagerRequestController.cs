@@ -33,7 +33,7 @@ namespace Maintenance.Web.Controllers
             return Json(response);
         }
 
-        public async Task<IActionResult> UpdateStatus(int receiptItemId, ReturnReceiptItemRequestStatus status)
+        public async Task<IActionResult> UpdateStatus(int receiptItemId, ReturnHandReceiptItemRequestStatus status)
         {
             await _managerRequestService.UpdateStatus(receiptItemId, status, UserId);
             return UpdatedSuccessfully();

@@ -10,7 +10,6 @@ namespace Maintenance.Core.ViewModels
     public class InstantMaintenanceViewModel : IBaseViewModel
     {
         public int Id { get; set; }
-        public DateTime Date { get; set; }
-        public UserViewModel Technician { get; set; }
+        public string Date { get; set; }
     }
 }

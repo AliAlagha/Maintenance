@@ -8,7 +8,7 @@ namespace Maintenance.Infrastructure.Services.ManagerRequests
     {
         Task<PagingResultViewModel<ReceiptItemForMaintenanceViewModel>> GetAllItems(Pagination pagination
             , QueryDto query, string userId);
-        Task UpdateStatus(int receiptItemId, ReturnReceiptItemRequestStatus status
+        Task UpdateStatus(int receiptItemId, ReturnHandReceiptItemRequestStatus status
             , string userId);
     }
 }

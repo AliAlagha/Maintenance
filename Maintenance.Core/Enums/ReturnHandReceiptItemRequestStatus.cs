@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Maintenance.Core.Enums
 {
-    public enum ReturnReceiptItemRequestStatus
+    public enum ReturnHandReceiptItemRequestStatus
     {
         WaitingManagerResponse = 1,
         ManagerApprovedReturn = 2,

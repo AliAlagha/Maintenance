@@ -12,7 +12,7 @@ using Maintenance.Core.Enums;
 using Maintenance.Core.Resources;
 using Maintenance.Infrastructure.Services.Barcodes;
 
-namespace Maintenance.Infrastructure.Services.HandReceiptItems
+namespace Maintenance.Infrastructure.Services.InstantMaintenanceItems
 {
     public class InstantMaintenanceItemService : IInstantMaintenanceItemService
     {
@@ -32,6 +32,7 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
             , QueryDto query, int instantMaintenanceId)
         {
             var dbQuery = _db.InstantMaintenanceItems
+                .Include(x => x.Technician)
                 .Where(x => x.InstantMaintenanceId == instantMaintenanceId)
                 .OrderByDescending(x => x.CreatedAt).AsQueryable();
 
@@ -75,10 +76,10 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
             return instantMaintenanceItem.Id;
         }
 
-        public async Task Delete(int instantMaintenanceItemId, int instantMaintenanceId, string userId)
+        public async Task Delete(int id, string userId)
         {
-            var instantMaintenanceItem = await _db.InstantMaintenanceItems.SingleOrDefaultAsync(x => x.Id == instantMaintenanceItemId
-                && x.InstantMaintenanceId == instantMaintenanceId);
+            var instantMaintenanceItem = await _db.InstantMaintenanceItems
+                .SingleOrDefaultAsync(x => x.Id == id);
             if (instantMaintenanceItem == null)
                 throw new EntityNotFoundException();
 

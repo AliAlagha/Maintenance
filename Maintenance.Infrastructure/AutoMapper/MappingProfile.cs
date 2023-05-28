@@ -83,7 +83,7 @@ namespace Maintenance.Infrastructure.AutoMapper
             CreateMap<ReturnHandReceipt, ReturnHandReceiptViewModel>()
                 .ForMember(x => x.Date, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")))
                 .ForMember(x => x.IsAllDelivered, x => x.MapFrom(x => x.ReturnHandReceiptItems.All(x => x.MaintenanceRequestStatus
-                == ReturnReceiptItemRequestStatus.Delivered)))
+                == ReturnHandReceiptItemRequestStatus.Delivered)))
                 .ForMember(x => x.ItemBarcodes, x => x.MapFrom(x => string.Join(", "
                 , x.ReturnHandReceiptItems.Select(x => x.ItemBarcode).ToList())));
             CreateMap<CreateReturnHandReceiptDto, ReturnHandReceipt>();
@@ -123,6 +123,18 @@ namespace Maintenance.Infrastructure.AutoMapper
             CreateMap<CreateBranchPhoneNumberDto, BranchPhoneNumber>();
             CreateMap<UpdateBranchPhoneNumberDto, BranchPhoneNumber>();
             CreateMap<BranchPhoneNumber, UpdateBranchPhoneNumberDto>();
+            #endregion
+
+            #region InstantMaintenance
+            CreateMap<InstantMaintenance, InstantMaintenanceViewModel>()
+                .ForMember(x => x.Date, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")));
+            CreateMap<CreateInstantMaintenanceDto, InstantMaintenance>();
+            #endregion
+
+            #region InstantMaintenanceItem
+            CreateMap<InstantMaintenanceItem, InstantMaintenanceItemViewModel>();
+            CreateMap<CreateInstantMaintenanceItemDto, InstantMaintenanceItem>();
+            CreateMap<CreateItemForExistsInstantMaintenanceDto, InstantMaintenanceItem>();
             #endregion
         }
     }

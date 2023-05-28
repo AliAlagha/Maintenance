@@ -46,82 +46,82 @@ namespace Maintenance.Web.Controllers
         }
 
         // Hand receipt items
-        public async Task<IActionResult> UpdateStatusForHandReceipt(int receiptItemId)
+        public async Task<IActionResult> UpdateStatusForHandReceiptItem(int receiptItemId)
         {
-            await _maintenanceService.UpdateStatusForHandReceipt(receiptItemId, UserId);
+            await _maintenanceService.UpdateStatusForHandReceiptItem(receiptItemId, UserId);
             return UpdatedSuccessfully();
         }
 
-        public IActionResult CustomerRefuseMaintenanceForHandReceipt(int receiptItemId)
+        public IActionResult CustomerRefuseMaintenanceForHandReceiptItem(int receiptItemId)
         {
             var dto = new CustomerRefuseMaintenanceDto { ReceiptItemId = receiptItemId };
             return View(dto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CustomerRefuseMaintenanceForHandReceipt(CustomerRefuseMaintenanceDto dto)
+        public async Task<IActionResult> CustomerRefuseMaintenanceForHandReceiptItem(CustomerRefuseMaintenanceDto dto)
         {
             if (ModelState.IsValid)
             {
-                await _maintenanceService.CustomerRefuseMaintenanceForHandReceipt(dto, UserId);
+                await _maintenanceService.CustomerRefuseMaintenanceForHandReceiptItem(dto, UserId);
                 return UpdatedSuccessfully();
             }
             return View(dto);
         }
 
-        public IActionResult SuspenseMaintenanceForHandReceipt(int receiptItemId)
+        public IActionResult SuspenseMaintenanceForHandReceiptItem(int receiptItemId)
         {
             var dto = new SuspenseReceiptItemDto { ReceiptItemId = receiptItemId };
             return View(dto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> SuspenseMaintenanceForHandReceipt(SuspenseReceiptItemDto dto)
+        public async Task<IActionResult> SuspenseMaintenanceForHandReceiptItem(SuspenseReceiptItemDto dto)
         {
             if (ModelState.IsValid)
             {
-                await _maintenanceService.SuspenseMaintenanceForHandReceipt(dto, UserId);
+                await _maintenanceService.SuspenseMaintenanceForHandReceiptItem(dto, UserId);
                 return UpdatedSuccessfully();
             }
             return View(dto);
         }
 
-        public IActionResult EnterMaintenanceCostForHandReceipt(int receiptItemId)
+        public IActionResult EnterMaintenanceCostForHandReceiptItem(int receiptItemId)
         {
             var dto = new EnterMaintenanceCostDto { ReceiptItemId = receiptItemId };
-            return View();
+            return View(dto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> EnterMaintenanceCostForHandReceipt(EnterMaintenanceCostDto dto)
+        public async Task<IActionResult> EnterMaintenanceCostForHandReceiptItem(EnterMaintenanceCostDto dto)
         {
             if (ModelState.IsValid)
             {
-                await _maintenanceService.EnterMaintenanceCostForHandReceipt(dto, UserId);
+                await _maintenanceService.EnterMaintenanceCostForHandReceiptItem(dto, UserId);
                 return UpdatedSuccessfully();
             }
             return View(dto);
         }
 
         // Return hand receipt items
-        public async Task<IActionResult> UpdateStatusForReturnHandReceipt(int receiptItemId)
+        public async Task<IActionResult> UpdateStatusForReturnHandReceiptItem(int receiptItemId)
         {
-            await _maintenanceService.UpdateStatusForReturnHandReceipt(receiptItemId, UserId);
+            await _maintenanceService.UpdateStatusForReturnHandReceiptItem(receiptItemId, UserId);
             return UpdatedSuccessfully();
         }
 
-        public IActionResult SuspenseMaintenanceForReturnHandReceipt(int receiptItemId)
+        public IActionResult SuspenseMaintenanceForReturnHandReceiptItem(int receiptItemId)
         {
             var dto = new SuspenseReceiptItemDto { ReceiptItemId = receiptItemId };
             return View(dto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> SuspenseMaintenanceForReturnHandReceipt(SuspenseReceiptItemDto dto)
+        public async Task<IActionResult> SuspenseMaintenanceForReturnHandReceiptItem(SuspenseReceiptItemDto dto)
         {
             if (ModelState.IsValid)
             {
-                await _maintenanceService.SuspenseMaintenanceForReturnHandReceipt(dto, UserId);
+                await _maintenanceService.SuspenseMaintenanceForReturnHandReceiptItem(dto, UserId);
                 return UpdatedSuccessfully();
             }
             return View(dto);

@@ -112,17 +112,17 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                 var handReceiptItem = handReceipt.HandReceiptItems
                     .Single(x => x.Id == returnHandReceiptItem.HandReceiptItemId);
 
-                ReturnReceiptItemRequestStatus status;
+                ReturnHandReceiptItemRequestStatus status;
                 bool isWarrantyValid = false;
                 if (handReceiptItem.WarrantyDaysNumber != null)
                 {
                     var warrantyExpiryDate = handReceiptItem.DeliveryDate.Value.AddDays(handReceiptItem.WarrantyDaysNumber.Value);
                     isWarrantyValid = DateTime.Now.Date <= warrantyExpiryDate.Date;
-                    status = isWarrantyValid ? ReturnReceiptItemRequestStatus.New : ReturnReceiptItemRequestStatus.WaitingManagerResponse;
+                    status = isWarrantyValid ? ReturnHandReceiptItemRequestStatus.New : ReturnHandReceiptItemRequestStatus.WaitingManagerResponse;
                 }
                 else
                 {
-                    status = ReturnReceiptItemRequestStatus.WaitingManagerResponse;
+                    status = ReturnHandReceiptItemRequestStatus.WaitingManagerResponse;
                 }
 
                 var newReturnHandReceiptItem = new ReturnHandReceiptItem
@@ -236,7 +236,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             }
 
             var isAllItemsDelivered = returnHandReceipt.ReturnHandReceiptItems
-                .All(x => x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.Delivered);
+                .All(x => x.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.Delivered);
             if (!isAllItemsDelivered)
             {
                 throw new EntityNotFoundException();

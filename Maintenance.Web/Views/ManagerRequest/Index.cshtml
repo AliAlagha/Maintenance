@@ -177,19 +177,6 @@
                             width: 100
                         },
                         {
-                            field: 'receiptItemType',
-                            title: '@Messages.NewOrReturned',
-                            sortable: false,
-                            width: 100,
-                            template: function (data) {
-                                if (data.receiptItemType == 1) {
-                                    return "@Messages.NewReceiptItem";
-                                } else if (data.receiptItemType == 2) {
-                                    return "@Messages.Returned";
-                                }
-                            }
-                        },
-                        {
                             field: 'maintenanceRequestStatusMessage',
                             title: '@Messages.Status',
                             sortable: false,

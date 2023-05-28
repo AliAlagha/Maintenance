@@ -62,34 +62,34 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
 
                 switch (item.MaintenanceRequestStatus)
                 {
-                    case ReturnReceiptItemRequestStatus.WaitingManagerResponse:
+                    case ReturnHandReceiptItemRequestStatus.WaitingManagerResponse:
                         itemVm.MaintenanceRequestStatusMessage = $"{Messages.WaitingManagerResponse}";
                         break;
-                    case ReturnReceiptItemRequestStatus.ManagerApprovedReturn:
+                    case ReturnHandReceiptItemRequestStatus.ManagerApprovedReturn:
                         itemVm.MaintenanceRequestStatusMessage = $"{Messages.ManagerApprovedReturn}";
                         break;
-                    case ReturnReceiptItemRequestStatus.ManagerRefusedReturn:
+                    case ReturnHandReceiptItemRequestStatus.ManagerRefusedReturn:
                         itemVm.MaintenanceRequestStatusMessage = $"{Messages.ManagerRefusedReturn}";
                         break;
-                    case ReturnReceiptItemRequestStatus.New:
+                    case ReturnHandReceiptItemRequestStatus.New:
                         itemVm.MaintenanceRequestStatusMessage = $"{Messages.New}";
                         break;
-                    case ReturnReceiptItemRequestStatus.CheckItem:
+                    case ReturnHandReceiptItemRequestStatus.CheckItem:
                         itemVm.MaintenanceRequestStatusMessage = $"{Messages.CheckItem}";
                         break;
-                    case ReturnReceiptItemRequestStatus.Completed:
+                    case ReturnHandReceiptItemRequestStatus.Completed:
                         itemVm.MaintenanceRequestStatusMessage = $"{Messages.Completed}";
                         break;
-                    case ReturnReceiptItemRequestStatus.NotifyCustomerOfMaintenanceEnd:
+                    case ReturnHandReceiptItemRequestStatus.NotifyCustomerOfMaintenanceEnd:
                         itemVm.MaintenanceRequestStatusMessage = $"{Messages.NotifyCustomerOfMaintenanceEnd}";
                         break;
-                    case ReturnReceiptItemRequestStatus.Delivered:
+                    case ReturnHandReceiptItemRequestStatus.Delivered:
                         itemVm.MaintenanceRequestStatusMessage = $"{Messages.Delivered}";
                         break;
-                    case ReturnReceiptItemRequestStatus.Suspended:
+                    case ReturnHandReceiptItemRequestStatus.Suspended:
                         itemVm.MaintenanceRequestStatusMessage = $"{Messages.Suspended} - {item.MaintenanceSuspensionReason}";
                         break;
-                    case ReturnReceiptItemRequestStatus.RemovedFromMaintained:
+                    case ReturnHandReceiptItemRequestStatus.RemovedFromMaintained:
                         itemVm.MaintenanceRequestStatusMessage = $"{Messages.RemovedFromMaintained} - {item.RemoveFromMaintainedReason}";
                         break;
                 };
@@ -142,17 +142,17 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
                 throw new InvalidInputException();
             }
 
-            ReturnReceiptItemRequestStatus status;
+            ReturnHandReceiptItemRequestStatus status;
             bool isWarrantyValid = false;
             if (handReceiptItem.WarrantyDaysNumber != null)
             {
                 var warrantyExpiryDate = handReceiptItem.DeliveryDate.Value.AddDays(handReceiptItem.WarrantyDaysNumber.Value);
                 isWarrantyValid = DateTime.Now.Date <= warrantyExpiryDate.Date;
-                status = isWarrantyValid ? ReturnReceiptItemRequestStatus.New : ReturnReceiptItemRequestStatus.WaitingManagerResponse;
+                status = isWarrantyValid ? ReturnHandReceiptItemRequestStatus.New : ReturnHandReceiptItemRequestStatus.WaitingManagerResponse;
             }
             else
             {
-                status = ReturnReceiptItemRequestStatus.WaitingManagerResponse;
+                status = ReturnHandReceiptItemRequestStatus.WaitingManagerResponse;
             }
 
             var newReturnHandReceiptItem = new ReturnHandReceiptItem
@@ -249,15 +249,15 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
                 .SingleOrDefaultAsync(x => x.Id == returnHandReceiptItemId
                 && x.ReturnHandReceiptId == returnHandReceiptId
                 && x.TechnicianId != null
-                && x.MaintenanceRequestStatus != ReturnReceiptItemRequestStatus.WaitingManagerResponse
-                && x.MaintenanceRequestStatus != ReturnReceiptItemRequestStatus.ManagerRefusedReturn
-                && x.MaintenanceRequestStatus != ReturnReceiptItemRequestStatus.Delivered
-                && x.MaintenanceRequestStatus != ReturnReceiptItemRequestStatus.Suspended
-                && x.MaintenanceRequestStatus != ReturnReceiptItemRequestStatus.RemovedFromMaintained);
+                && x.MaintenanceRequestStatus != ReturnHandReceiptItemRequestStatus.WaitingManagerResponse
+                && x.MaintenanceRequestStatus != ReturnHandReceiptItemRequestStatus.ManagerRefusedReturn
+                && x.MaintenanceRequestStatus != ReturnHandReceiptItemRequestStatus.Delivered
+                && x.MaintenanceRequestStatus != ReturnHandReceiptItemRequestStatus.Suspended
+                && x.MaintenanceRequestStatus != ReturnHandReceiptItemRequestStatus.RemovedFromMaintained);
             if (returnHandReceiptItem == null)
                 throw new EntityNotFoundException();
 
-            returnHandReceiptItem.MaintenanceRequestStatus = ReturnReceiptItemRequestStatus.Delivered;
+            returnHandReceiptItem.MaintenanceRequestStatus = ReturnHandReceiptItemRequestStatus.Delivered;
             returnHandReceiptItem.DeliveryDate = DateTime.Now;
             returnHandReceiptItem.UpdatedAt = DateTime.Now;
             returnHandReceiptItem.UpdatedBy = userId;
@@ -270,19 +270,19 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
             var returnHandReceipt = await _db.ReturnHandReceipts
                 .Include(x => x.ReturnHandReceiptItems.Where(x =>
                     x.TechnicianId != null
-                    && x.MaintenanceRequestStatus != ReturnReceiptItemRequestStatus.WaitingManagerResponse
-                    && x.MaintenanceRequestStatus != ReturnReceiptItemRequestStatus.ManagerRefusedReturn
-                    && x.MaintenanceRequestStatus != ReturnReceiptItemRequestStatus.Delivered
-                    && x.MaintenanceRequestStatus != ReturnReceiptItemRequestStatus.Suspended
-                    && x.MaintenanceRequestStatus != ReturnReceiptItemRequestStatus.RemovedFromMaintained))
+                    && x.MaintenanceRequestStatus != ReturnHandReceiptItemRequestStatus.WaitingManagerResponse
+                    && x.MaintenanceRequestStatus != ReturnHandReceiptItemRequestStatus.ManagerRefusedReturn
+                    && x.MaintenanceRequestStatus != ReturnHandReceiptItemRequestStatus.Delivered
+                    && x.MaintenanceRequestStatus != ReturnHandReceiptItemRequestStatus.Suspended
+                    && x.MaintenanceRequestStatus != ReturnHandReceiptItemRequestStatus.RemovedFromMaintained))
                 .SingleOrDefaultAsync(x => x.Id == returnHandReceiptId
-                && !x.ReturnHandReceiptItems.All(x => x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.Delivered));
+                && !x.ReturnHandReceiptItems.All(x => x.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.Delivered));
             if (returnHandReceipt == null)
                 throw new EntityNotFoundException();
 
             foreach (var returnHandReceiptItem in returnHandReceipt.ReturnHandReceiptItems)
             {
-                returnHandReceiptItem.MaintenanceRequestStatus = ReturnReceiptItemRequestStatus.Delivered;
+                returnHandReceiptItem.MaintenanceRequestStatus = ReturnHandReceiptItemRequestStatus.Delivered;
                 returnHandReceiptItem.DeliveryDate = DateTime.Now;
                 returnHandReceiptItem.UpdatedAt = DateTime.Now;
                 returnHandReceiptItem.UpdatedBy = userId;
@@ -306,9 +306,9 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
             {
                 isAllItemsCanBeDelivered = returnHandReceipt.ReturnHandReceiptItems.All(x =>
                 x.TechnicianId != null
-                && x.MaintenanceRequestStatus != ReturnReceiptItemRequestStatus.WaitingManagerResponse
-                && x.MaintenanceRequestStatus != ReturnReceiptItemRequestStatus.ManagerRefusedReturn
-                && x.MaintenanceRequestStatus != ReturnReceiptItemRequestStatus.Suspended);
+                && x.MaintenanceRequestStatus != ReturnHandReceiptItemRequestStatus.WaitingManagerResponse
+                && x.MaintenanceRequestStatus != ReturnHandReceiptItemRequestStatus.ManagerRefusedReturn
+                && x.MaintenanceRequestStatus != ReturnHandReceiptItemRequestStatus.Suspended);
             }
 
             return isAllItemsCanBeDelivered;
@@ -341,11 +341,11 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
         {
             var handReceiptItem = await _db.ReturnHandReceiptItems
                 .SingleOrDefaultAsync(x => x.Id == dto.ReturnHandReceiptItemId && x.ReturnHandReceiptId == dto.ReturnHandReceiptId
-                && x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.Delivered);
+                && x.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.Delivered);
             if (handReceiptItem == null)
                 throw new EntityNotFoundException();
 
-            handReceiptItem.MaintenanceRequestStatus = ReturnReceiptItemRequestStatus.RemovedFromMaintained;
+            handReceiptItem.MaintenanceRequestStatus = ReturnHandReceiptItemRequestStatus.RemovedFromMaintained;
             handReceiptItem.RemoveFromMaintainedReason = dto.RemoveFromMaintainedReason;
             handReceiptItem.UpdatedAt = DateTime.Now;
             handReceiptItem.UpdatedBy = userId;

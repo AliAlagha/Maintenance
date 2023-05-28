@@ -129,6 +129,9 @@
   <data name="Activated" xml:space="preserve">
     <value>فعال</value>
   </data>
+  <data name="AddInstantMaintenanceItemsMsg" xml:space="preserve">
+    <value>قم بإضافة عناصر الصيانة الفورية</value>
+  </data>
   <data name="AddItemsMsg" xml:space="preserve">
     <value>قم بإضافة قطع سند الاستلام</value>
   </data>
@@ -366,6 +369,18 @@
   <data name="InformCustomerOfTheCost" xml:space="preserve">
     <value>إبلاغ العميل بالتكلفة</value>
   </data>
+  <data name="InstantMaintenance" xml:space="preserve">
+    <value>صيانة فورية</value>
+  </data>
+  <data name="InstantMaintenanceItem" xml:space="preserve">
+    <value>عنصر الصيانة الفورية</value>
+  </data>
+  <data name="InstantMaintenanceItems" xml:space="preserve">
+    <value>عناصر الصيانة الفورية</value>
+  </data>
+  <data name="InstantMaintenances" xml:space="preserve">
+    <value>طلبات الصيانة الفورية</value>
+  </data>
   <data name="InvalidEmail" xml:space="preserve">
     <value>البريد الإلكتروني غير صالح</value>
   </data>
@@ -507,6 +522,9 @@
   <data name="ReasonForRefusingMaintenance" xml:space="preserve">
     <value>سبب رفض العميل للصيانة</value>
   </data>
+  <data name="ReceiptItems" xml:space="preserve">
+    <value>العناصر المستلمة</value>
+  </data>
   <data name="ReceiptItemsReport" xml:space="preserve">
     <value>تقرير القطع المستلمة</value>
   </data>
@@ -530,6 +548,9 @@
   </data>
   <data name="Returned" xml:space="preserve">
     <value>معادة</value>
+  </data>
+  <data name="ReturnedItems" xml:space="preserve">
+    <value>العناصر المعادة</value>
   </data>
   <data name="ReturnedItemsReport" xml:space="preserve">
     <value>تقرير القطع المعادة</value>
@@ -587,6 +608,9 @@
   </data>
   <data name="Suspension" xml:space="preserve">
     <value>تعليق الصيانة</value>
+  </data>
+  <data name="Technician" xml:space="preserve">
+    <value>فني الصيانة</value>
   </data>
   <data name="TechnicianFeesReport" xml:space="preserve">
     <value>تقرير عمولات الفنيين</value>

@@ -97,6 +97,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to قم بإضافة عناصر الصيانة الفورية.
+        /// </summary>
+        public static string AddInstantMaintenanceItemsMsg {
+            get {
+                return ResourceManager.GetString("AddInstantMaintenanceItemsMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to قم بإضافة قطع سند الاستلام.
         /// </summary>
         public static string AddItemsMsg {
@@ -808,6 +817,42 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to صيانة فورية.
+        /// </summary>
+        public static string InstantMaintenance {
+            get {
+                return ResourceManager.GetString("InstantMaintenance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to عنصر الصيانة الفورية.
+        /// </summary>
+        public static string InstantMaintenanceItem {
+            get {
+                return ResourceManager.GetString("InstantMaintenanceItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to عناصر الصيانة الفورية.
+        /// </summary>
+        public static string InstantMaintenanceItems {
+            get {
+                return ResourceManager.GetString("InstantMaintenanceItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to طلبات الصيانة الفورية.
+        /// </summary>
+        public static string InstantMaintenances {
+            get {
+                return ResourceManager.GetString("InstantMaintenances", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to البريد الإلكتروني غير صالح.
         /// </summary>
         public static string InvalidEmail {
@@ -1231,6 +1276,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to العناصر المستلمة.
+        /// </summary>
+        public static string ReceiptItems {
+            get {
+                return ResourceManager.GetString("ReceiptItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to تقرير القطع المستلمة.
         /// </summary>
         public static string ReceiptItemsReport {
@@ -1299,6 +1353,15 @@ namespace Maintenance.Core.Resources {
         public static string Returned {
             get {
                 return ResourceManager.GetString("Returned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to العناصر المعادة.
+        /// </summary>
+        public static string ReturnedItems {
+            get {
+                return ResourceManager.GetString("ReturnedItems", resourceCulture);
             }
         }
         
@@ -1470,6 +1533,15 @@ namespace Maintenance.Core.Resources {
         public static string Suspension {
             get {
                 return ResourceManager.GetString("Suspension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to فني الصيانة.
+        /// </summary>
+        public static string Technician {
+            get {
+                return ResourceManager.GetString("Technician", resourceCulture);
             }
         }
         

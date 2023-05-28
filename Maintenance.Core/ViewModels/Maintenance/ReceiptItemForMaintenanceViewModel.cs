@@ -24,7 +24,6 @@ namespace Maintenance.Core.ViewModels
         public string ItemBarcode { get; set; }
         public int? WarrantyDaysNumber { get; set; }
         public string? ReturnReason { get; set; }
-        public ReceiptItemType ReceiptItemType { get; set; }
         public int MaintenanceRequestStatus { get; set; }
         public string MaintenanceRequestStatusMessage { get; set; }
     }

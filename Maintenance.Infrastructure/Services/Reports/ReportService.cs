@@ -93,7 +93,7 @@ namespace Maintenance.Infrastructure.Services.Reports
 
             var returnHandReceiptItemsDbQuery = _db.ReturnHandReceiptItems
                 .Include(x => x.Customer)
-                .Where(x => x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.Delivered)
+                .Where(x => x.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.Delivered)
                 .AsQueryable();
 
             if (query.DateFrom.HasValue)
@@ -262,10 +262,10 @@ namespace Maintenance.Infrastructure.Services.Reports
 
             var returnHandReceiptItemsDbQuery = _db.ReturnHandReceiptItems
                 .Include(x => x.Customer)
-                .Where(x => x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.WaitingManagerResponse
-                    || x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.ManagerApprovedReturn
-                    || x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.ManagerRefusedReturn
-                    || x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.New)
+                .Where(x => x.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.WaitingManagerResponse
+                    || x.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.ManagerApprovedReturn
+                    || x.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.ManagerRefusedReturn
+                    || x.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.New)
                 .AsQueryable();
 
             if (query.DateFrom.HasValue)
@@ -352,16 +352,16 @@ namespace Maintenance.Infrastructure.Services.Reports
         {
             switch (notMaintainedItem.MaintenanceRequestStatus)
             {
-                case ReturnReceiptItemRequestStatus.WaitingManagerResponse:
+                case ReturnHandReceiptItemRequestStatus.WaitingManagerResponse:
                     status = $"{Messages.WaitingManagerResponse}";
                     break;
-                case ReturnReceiptItemRequestStatus.ManagerApprovedReturn:
+                case ReturnHandReceiptItemRequestStatus.ManagerApprovedReturn:
                     status = $"{Messages.ManagerApprovedReturn}";
                     break;
-                case ReturnReceiptItemRequestStatus.ManagerRefusedReturn:
+                case ReturnHandReceiptItemRequestStatus.ManagerRefusedReturn:
                     status = $"{Messages.ManagerRefusedReturn}";
                     break;
-                case ReturnReceiptItemRequestStatus.New:
+                case ReturnHandReceiptItemRequestStatus.New:
                     status = $"{Messages.New}";
                     break;
             };
@@ -378,8 +378,8 @@ namespace Maintenance.Infrastructure.Services.Reports
 
             var returnReceiptItemsDbQuery = _db.ReturnHandReceiptItems
                 .Include(x => x.Customer)
-                .Where(x => x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.Completed
-                    || x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.NotifyCustomerOfMaintenanceEnd)
+                .Where(x => x.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.Completed
+                    || x.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.NotifyCustomerOfMaintenanceEnd)
                 .AsQueryable();
 
             if (query.DateFrom.HasValue)
@@ -451,7 +451,7 @@ namespace Maintenance.Infrastructure.Services.Reports
             var returnHandReceiptItemsDbQuery = _db.ReturnHandReceiptItems
                 .Include(x => x.Customer)
                 .Include(x => x.Technician)
-                .Where(x => x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.Delivered)
+                .Where(x => x.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.Delivered)
                 .AsQueryable();
 
             if (query.DateFrom.HasValue)
@@ -616,7 +616,7 @@ namespace Maintenance.Infrastructure.Services.Reports
 
             var returnHandReceiptItemsDbQuery = _db.ReturnHandReceiptItems
                 .Include(x => x.Customer)
-                .Where(x => x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.Suspended)
+                .Where(x => x.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.Suspended)
                 .AsQueryable();
 
             if (query.DateFrom.HasValue)

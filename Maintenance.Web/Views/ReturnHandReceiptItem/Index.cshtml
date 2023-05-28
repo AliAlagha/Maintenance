@@ -179,8 +179,8 @@
 
                                 if (data.technicianId != null 
                                     && data.maintenanceRequestStatus != 1 && data.maintenanceRequestStatus != 3
-                                    && data.maintenanceRequestStatus != 11 && data.maintenanceRequestStatus != 12
-                                    && data.maintenanceRequestStatus != 13 && data.maintenanceRequestStatus != 14) {
+                                    && data.maintenanceRequestStatus != 4 && data.maintenanceRequestStatus != 8
+                                    && data.maintenanceRequestStatus != 9 && data.maintenanceRequestStatus != 10) {
                                     result = result + '<a href="/ReturnHandReceiptItem/DeliverItem?ReturnHandReceiptItemId=' + data.id + '&ReturnHandReceiptId=@Model" class="btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Delivery">' +
                                         '    <span class="svg-icon svg-icon-md">' +
                                         '        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
@@ -198,7 +198,7 @@
                                 //    result = result + GetPopUpEditAction('/ReturnHandReceiptItem/Edit?ReturnHandReceiptItemId=' + data.id + '&ReturnHandReceiptId=@Model', '@string.Format(Messages.EditTitle, Messages.ReturnHandReceiptItem)');
                                 //}
 
-                                if (data.maintenanceRequestStatus == 11) {
+                                if (data.maintenanceRequestStatus == 8) {
                                     result = result + '<a href="/ReturnHandReceiptItem/RemoveFromMaintained?ReturnHandReceiptItemId=' + data.id + '&ReturnHandReceiptId=@Model" tname="#kt_datatable" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.RemoveFromMaintained">' +
                                         '    <span class="svg-icon svg-icon-md">' +
                                         '        <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo8/dist/../src/media/svg/icons/Code/Error-circle.svg-->' +

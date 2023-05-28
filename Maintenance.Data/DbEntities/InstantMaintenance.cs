@@ -17,8 +17,6 @@ namespace Maintenance.Data.DbEntities
         public DateTime Date { get; set; }
         public int BranchId { get; set; }
         public Branch Branch { get; set; }
-        public string TechnicianId { get; set; }
-        public User Technician { get; set; }
         public List<InstantMaintenanceItem> InstantMaintenanceItems { get; set; }
     }
 }

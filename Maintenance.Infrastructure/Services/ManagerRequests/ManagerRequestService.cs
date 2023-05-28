@@ -29,7 +29,7 @@ namespace Maintenance.Infrastructure.Services.ManagerRequests
         {
             var dbQuery = _db.ReturnHandReceiptItems
                 .Include(x => x.Customer)
-                .Where(x => x.MaintenanceRequestStatus == ReturnReceiptItemRequestStatus.WaitingManagerResponse)
+                .Where(x => x.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.WaitingManagerResponse)
                 .OrderByDescending(x => x.CreatedAt)
                 .AsQueryable();
 
@@ -83,13 +83,13 @@ namespace Maintenance.Infrastructure.Services.ManagerRequests
         {
             switch (item.MaintenanceRequestStatus)
             {
-                case ReturnReceiptItemRequestStatus.WaitingManagerResponse:
+                case ReturnHandReceiptItemRequestStatus.WaitingManagerResponse:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.WaitingManagerResponse}";
                     break;
             };
         }
 
-        public async Task UpdateStatus(int receiptItemId, ReturnReceiptItemRequestStatus status
+        public async Task UpdateStatus(int receiptItemId, ReturnHandReceiptItemRequestStatus status
             , string userId)
         {
             var receiptItem = await _db.ReturnHandReceiptItems
@@ -97,18 +97,18 @@ namespace Maintenance.Infrastructure.Services.ManagerRequests
             if (receiptItem == null)
                 throw new EntityNotFoundException();
 
-            if (receiptItem.MaintenanceRequestStatus != ReturnReceiptItemRequestStatus.WaitingManagerResponse)
+            if (receiptItem.MaintenanceRequestStatus != ReturnHandReceiptItemRequestStatus.WaitingManagerResponse)
             {
                 throw new NoValidityException();
             }
 
-            if (status == ReturnReceiptItemRequestStatus.ManagerApprovedReturn)
+            if (status == ReturnHandReceiptItemRequestStatus.ManagerApprovedReturn)
             {
-                receiptItem.MaintenanceRequestStatus = ReturnReceiptItemRequestStatus.ManagerApprovedReturn;
+                receiptItem.MaintenanceRequestStatus = ReturnHandReceiptItemRequestStatus.ManagerApprovedReturn;
             }
-            else if (status == ReturnReceiptItemRequestStatus.ManagerRefusedReturn)
+            else if (status == ReturnHandReceiptItemRequestStatus.ManagerRefusedReturn)
             {
-                receiptItem.MaintenanceRequestStatus = ReturnReceiptItemRequestStatus.ManagerRefusedReturn;
+                receiptItem.MaintenanceRequestStatus = ReturnHandReceiptItemRequestStatus.ManagerRefusedReturn;
             }
 
             receiptItem.UpdatedAt = DateTime.Now;

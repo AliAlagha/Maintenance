@@ -11,7 +11,7 @@ namespace Maintenance.Data.DbEntities
     {
         public ReturnHandReceiptItem()
         {
-            MaintenanceRequestStatus = ReturnReceiptItemRequestStatus.New;
+            MaintenanceRequestStatus = ReturnHandReceiptItemRequestStatus.New;
         }
 
         public int Id { get; set; }
@@ -29,7 +29,7 @@ namespace Maintenance.Data.DbEntities
         public string ItemBarcodeFilePath { get; set; }
         public bool IsReturnItemWarrantyValid { get; set; }
         public DateTime? DeliveryDate { get; set; }
-        public ReturnReceiptItemRequestStatus MaintenanceRequestStatus { get; set; }
+        public ReturnHandReceiptItemRequestStatus MaintenanceRequestStatus { get; set; }
         public string? RemoveFromMaintainedReason { get; set; }
         public string? MaintenanceSuspensionReason { get; set; }
         public string? ReturnReason { get; set; }

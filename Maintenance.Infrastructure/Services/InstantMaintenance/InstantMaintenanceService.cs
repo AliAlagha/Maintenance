@@ -31,13 +31,11 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             (Pagination pagination, QueryDto query)
         {
             var dbQuery = _db.InstantMaintenances
-                .Include(x => x.Technician)
                 .OrderByDescending(x => x.CreatedAt).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(query.GeneralSearch))
             {
                 dbQuery = dbQuery.Where(x => x.Id.ToString().Contains(query.GeneralSearch)
-                    || x.Technician.FullName.Contains(query.GeneralSearch)
                     || x.InstantMaintenanceItems.Any(x => x.Item.Contains(query.GeneralSearch)));
             }
 

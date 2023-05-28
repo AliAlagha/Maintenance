@@ -7,6 +7,7 @@ using Maintenance.Infrastructure.Services.Customers;
 using Maintenance.Infrastructure.Services.Files;
 using Maintenance.Infrastructure.Services.HandReceiptItems;
 using Maintenance.Infrastructure.Services.HandReceipts;
+using Maintenance.Infrastructure.Services.InstantMaintenanceItems;
 using Maintenance.Infrastructure.Services.Items;
 using Maintenance.Infrastructure.Services.Maintenance;
 using Maintenance.Infrastructure.Services.ManagerRequests;
@@ -43,6 +44,8 @@ namespace Maintenance.Infrastructure.Extensions
             services.AddScoped<IReportPdfService, ReportPdfService>();
             services.AddScoped<IReportExcelService, ReportExcelService>();
             services.AddScoped<IBarcodeService, BarcodeService>();
+            services.AddScoped<IInstantMaintenanceService, InstantMaintenanceService>();
+            services.AddScoped<IInstantMaintenanceItemService, InstantMaintenanceItemService>();
             return services;
         }
     }

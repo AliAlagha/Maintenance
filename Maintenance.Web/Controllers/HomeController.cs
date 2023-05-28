@@ -25,7 +25,7 @@ namespace Maintenance.Web.Controllers
             }
             else if (CurrentUserType == UserType.MaintenanceTechnician)
             {
-                return Redirect("/Maintenance/Index");
+                return Redirect("/Maintenance/HandReceiptItems");
             }
 
             return null;

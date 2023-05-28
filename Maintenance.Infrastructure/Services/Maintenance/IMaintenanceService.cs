@@ -11,13 +11,13 @@ namespace Maintenance.Infrastructure.Services.Maintenance
             , QueryDto query, string userId);
 
         // Hand receipt items
-        Task UpdateStatusForHandReceipt(int receiptItemId, string userId);
-        Task CustomerRefuseMaintenanceForHandReceipt(CustomerRefuseMaintenanceDto dto, string userId);
-        Task SuspenseMaintenanceForHandReceipt(SuspenseReceiptItemDto dto, string userId);
-        Task EnterMaintenanceCostForHandReceipt(EnterMaintenanceCostDto dto, string userId);
+        Task UpdateStatusForHandReceiptItem(int receiptItemId, string userId);
+        Task CustomerRefuseMaintenanceForHandReceiptItem(CustomerRefuseMaintenanceDto dto, string userId);
+        Task SuspenseMaintenanceForHandReceiptItem(SuspenseReceiptItemDto dto, string userId);
+        Task EnterMaintenanceCostForHandReceiptItem(EnterMaintenanceCostDto dto, string userId);
 
         // Return hand receipt items
-        Task UpdateStatusForReturnHandReceipt(int receiptItemId, string userId);
-        Task SuspenseMaintenanceForReturnHandReceipt(SuspenseReceiptItemDto dto, string userId);
+        Task UpdateStatusForReturnHandReceiptItem(int receiptItemId, string userId);
+        Task SuspenseMaintenanceForReturnHandReceiptItem(SuspenseReceiptItemDto dto, string userId);
     }
 }

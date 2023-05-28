@@ -1,7 +1,7 @@
 ﻿@model int
 
 @{
-    ViewData["Title"] = Messages.MaintenanceItems;
+    ViewData["Title"] = Messages.ReturnedItems;
 }
 
 <!--begin::Card-->
@@ -9,8 +9,8 @@
     <div class="card-header flex-wrap border-0 pt-6 pb-0">
         <div class="card-title">
             <h3 class="card-label">
-                @Messages.MaintenanceItems
-                <span class="d-block text-muted pt-2 font-size-sm">@string.Format(Messages.IndexSubTitle, Messages.MaintenanceItems)</span>
+                @Messages.ReturnedItems
+                <span class="d-block text-muted pt-2 font-size-sm">@string.Format(Messages.IndexSubTitle, Messages.ReturnedItems)</span>
             </h3>
         </div>
     </div>
@@ -54,7 +54,7 @@
                         type: 'remote',
                         source: {
                             read: {
-                                url: '/Maintenance/GetAll'
+                                url: '/Maintenance/GetAllReturnHandReceiptItems'
                             },
                         },
                         pageSize: 10,
@@ -177,19 +177,6 @@
                             width: 100
                         },
                         {
-                            field: 'receiptItemType',
-                            title: '@Messages.NewOrReturned',
-                            sortable: false,
-                            width: 100,
-                            template: function (data) {
-                                if (data.receiptItemType == 1) {
-                                    return "@Messages.NewReceiptItem";
-                                } else if (data.receiptItemType == 2) {
-                                    return "@Messages.Returned";
-                                }
-                            }
-                        },
-                        {
                             field: 'maintenanceRequestStatusMessage',
                             title: '@Messages.Status',
                             sortable: false,
@@ -225,7 +212,7 @@
                                     result = result +
                                         '            </li>' +
                                         '            <li class="navi-item">' +
-                                        '                <a href="/Maintenance/UpdateStatus?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.CheckItem">' +
+                                        '                <a href="/Maintenance/UpdateStatusForReturnHandReceiptItem?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.CheckItem">' +
                                         '                    <span class="navi-text">@Messages.CheckItem</span>' +
                                         '                </a>' +
                                         '            </li>'
@@ -233,40 +220,14 @@
                                     result = result +
                                         '            <li class="navi-item">'
                                         +
-                                        '                <a href="/Maintenance/UpdateStatus?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.InformCustomerOfTheCost">' +
-                                        '                    <span class="navi-text">@Messages.InformCustomerOfTheCost</span>' +
+                                        '                <a href="/Maintenance/UpdateStatusForReturnHandReceiptItem?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.InformCustomerOfTheCost">' +
+                                        '                    <span class="navi-text">@Messages.Completed</span>' +
                                         '                </a>' +
                                         '            </li>';
                                 } else if (data.maintenanceRequestStatus == 6) {
                                     result = result +
                                         '            <li class="navi-item">' +
-                                        '                <a href="/Maintenance/UpdateStatus?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.CustomerApproved">' +
-                                        '                    <span class="navi-text">@Messages.CustomerApproved</span>' +
-                                        '                </a>' +
-                                        '            </li>' +
-                                        '            <li class="navi-item">' +
-                                        '                <a href="/Maintenance/CustomerRefuseMaintenance?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="PopUp navi-link" title="@Messages.CustomerRefused">' +
-                                        '                    <span class="navi-text">@Messages.CustomerRefused</span>' +
-                                        '                </a>' +
-                                        '            </li>';
-                                } else if (data.maintenanceRequestStatus == 7 && data.notifyCustomerOfTheCost) {
-                                    result = result +
-                                        '            <li class="navi-item">' +
-                                        '                <a href="/Maintenance/EnterMaintenanceCost?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="PopUp navi-link" title="@Messages.MaintenanceCost">' +
-                                        '                    <span class="navi-text">@Messages.EnterMaintenanceCost</span>' +
-                                        '                </a>' +
-                                        '            </li>';
-                                } else if ((data.maintenanceRequestStatus == 7 && !data.notifyCustomerOfTheCost) || data.maintenanceRequestStatus == 8) {
-                                    result = result +
-                                        '            <li class="navi-item">' +
-                                        '                <a href="/Maintenance/UpdateStatus?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.Completed">' +
-                                        '                    <span class="navi-text">@Messages.Completed</span>' +
-                                        '                </a>' +
-                                        '            </li>';
-                                } else if (data.maintenanceRequestStatus == 9) {
-                                    result = result +
-                                        '            <li class="navi-item">' +
-                                        '                <a href="/Maintenance/UpdateStatus?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.NotifyCustomerOfMaintenanceEnd">' +
+                                        '                <a href="/Maintenance/UpdateStatusForReturnHandReceiptItem?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.NotifyCustomerOfMaintenanceEnd">' +
                                         '                    <span class="navi-text">@Messages.NotifyCustomerOfMaintenanceEnd</span>' +
                                         '                </a>' +
                                         '            </li>' +
@@ -279,8 +240,8 @@
                                     '    </div>' +
                                     '</div>';
 
-                                if (data.maintenanceRequestStatus != 13) {
-                                    result = result + '<a href="/Maintenance/SuspenseMaintenance?ReceiptItemId=' + data.id + '" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Suspension">' +
+                                if (data.maintenanceRequestStatus != 9) {
+                                    result = result + '<a href="/Maintenance/SuspenseMaintenanceForReturnHandReceiptItem?ReceiptItemId=' + data.id + '" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Suspension">' +
                                         '    <span class="svg-icon svg-icon-md">' +
                                         '       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
                                         '           <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
