@@ -12,6 +12,7 @@ using Maintenance.Core.Enums;
 using Maintenance.Core.Resources;
 using System.Globalization;
 using Maintenance.Infrastructure.Services.PdfExportReport;
+using Maintenance.Infrastructure.Services.Barcodes;
 
 namespace Maintenance.Infrastructure.Services.HandReceipts
 {
@@ -19,16 +20,17 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
     {
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
-        private readonly ICustomerService _customerService;
         private readonly IPdfExportReportService _pdfExportReportService;
+        private readonly IBarcodeService _barcodeService;
 
         public HandReceiptService(ApplicationDbContext db, IMapper mapper
-            , ICustomerService customerService, IPdfExportReportService pdfExportReportService)
+            , IPdfExportReportService pdfExportReportService
+            , IBarcodeService barcodeService)
         {
             _db = db;
             _mapper = mapper;
-            _customerService = customerService;
             _pdfExportReportService = pdfExportReportService;
+            _barcodeService = barcodeService;
         }
 
         public async Task<PagingResultViewModel<HandReceiptViewModel>> GetAll
@@ -122,6 +124,8 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                 {
                     handReceiptItem.FinalCost = itemDto.CostTo;
                 }
+
+                handReceiptItem.ItemBarcodeFilePath = _barcodeService.GenerateBarcode(handReceiptItem.ItemBarcode);
 
                 handReceiptItem.BranchId = handReceipt.BranchId;
                 handReceiptItem.CreatedBy = userId;

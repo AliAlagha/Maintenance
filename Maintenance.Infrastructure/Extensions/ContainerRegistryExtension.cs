@@ -1,4 +1,5 @@
-﻿using Maintenance.Infrastructure.Services.Branches;
+﻿using Maintenance.Infrastructure.Services.Barcodes;
+using Maintenance.Infrastructure.Services.Branches;
 using Maintenance.Infrastructure.Services.BranchPhoneNumbers;
 using Maintenance.Infrastructure.Services.Colors;
 using Maintenance.Infrastructure.Services.Companies;
@@ -41,6 +42,7 @@ namespace Maintenance.Infrastructure.Extensions
             services.AddScoped<IManagerRequestService, ManagerRequestService>();
             services.AddScoped<IReportPdfService, ReportPdfService>();
             services.AddScoped<IReportExcelService, ReportExcelService>();
+            services.AddScoped<IBarcodeService, BarcodeService>();
             return services;
         }
     }

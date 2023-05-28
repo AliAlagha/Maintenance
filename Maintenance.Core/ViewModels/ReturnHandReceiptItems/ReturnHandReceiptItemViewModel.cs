@@ -20,5 +20,6 @@ namespace Maintenance.Core.ViewModels
         public MaintenanceRequestStatus MaintenanceRequestStatus { get; set; }
         public string MaintenanceRequestStatusMessage { get; set; }
         public string? TechnicianId { get; set; }
+        public string ItemBarcodeFilePath { get; set; }
     }
 }

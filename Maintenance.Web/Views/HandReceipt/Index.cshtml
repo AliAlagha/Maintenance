@@ -58,10 +58,10 @@
     <script>
         "use strict";
         // Class definition
-        var KTDatatableAutoColumnHideDemo = function() {
+        var KTDatatableAutoColumnHideDemo = function () {
             // Private functions
             // basic demo
-            var demo = function() {
+            var demo = function () {
                 var datatable = $('#kt_datatable').KTDatatable({
                     // datasource definition
                     data: {
@@ -129,7 +129,7 @@
                             title: '@Messages.Delivered',
                             sortable: false,
                             width: 100,
-                            template: function(data) {
+                            template: function (data) {
                                 if (data.isAllDelivered) {
                                     return "@Messages.Yes";
                                 } else {
@@ -150,8 +150,9 @@
                             width: 160,
                             overflow: 'visible',
                             autoHide: false,
-                            template: function(data) {
+                            template: function (data) {
                                 var result = '';
+
                                 result = result + '<a href="/HandReceipt/ExportToPdf/' + data.id + '" class="btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Print">' +
                                     '    <span class="svg-icon svg-icon-md">' +
                                     '        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
@@ -177,7 +178,7 @@
                                     '    </span>' +
                                     '</a>';
 
-                                if (!data.isReturnHandReceiptExists){
+                                if (!data.isReturnHandReceiptExists) {
                                     result = result + '<a href="/ReturnHandReceipt/Create?handReceiptId=' + data.id + '" class="btn btn-sm btn-clean btn-icon mr-2" title="@Messages.ReturnHandReceipt">' +
                                         '    <span class="svg-icon svg-icon-md">' +
                                         '        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
@@ -197,22 +198,32 @@
                         }],
                 });
 
-                $('#SelectCustomerFilter').on('change', function() {
+                $('#SelectCustomerFilter').on('change', function () {
                     datatable.search($(this).val().toLowerCase(), 'CustomerId');
                 });
             };
             return {
                 // public functions
-                init: function() {
+                init: function () {
                     demo();
                 },
             };
         }();
-        jQuery(document).ready(function() {
+        jQuery(document).ready(function () {
             KTDatatableAutoColumnHideDemo.init();
 
             $('#kt_datatable_search_query').val('@ViewBag.Barcode');
         });
+
+        //function DownloadBarcodes(element) {
+        //    var barcodeFiles = element.getAttribute('data-barcodes');
+        //    var files = barcodeFiles.split(",");
+        //    for (let i = 0; i < files.length; i++) {
+        //        var fileName = files[i];
+        //        var filePath = "Images/" + fileName;
+        //        window.open(filePath, "_blank");
+        //    }
+        //}
     </script>
 }
 

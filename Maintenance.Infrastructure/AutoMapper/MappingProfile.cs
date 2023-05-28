@@ -4,6 +4,7 @@ using Maintenance.Core.Enums;
 using Maintenance.Core.Resources;
 using Maintenance.Core.ViewModels;
 using Maintenance.Data.DbEntities;
+using System.Linq;
 
 namespace Maintenance.Infrastructure.AutoMapper
 {

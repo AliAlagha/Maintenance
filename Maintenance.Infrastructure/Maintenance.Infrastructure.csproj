@@ -63,6 +63,7 @@
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="12.0.0" />
 		<PackageReference Include="FirebaseAdmin" Version="2.3.0" />
+		<PackageReference Include="FreeSpire.Barcode" Version="6.6.0" />
 		<PackageReference Include="MailKit" Version="3.6.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
 		<PackageReference Include="ReportViewerCore.NETCore" Version="15.1.15" />

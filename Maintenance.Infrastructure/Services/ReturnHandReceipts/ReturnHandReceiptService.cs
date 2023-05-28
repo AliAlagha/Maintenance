@@ -13,6 +13,7 @@ using Maintenance.Core.Helpers;
 using Maintenance.Core.Resources;
 using System.Globalization;
 using Maintenance.Infrastructure.Services.PdfExportReport;
+using Maintenance.Infrastructure.Services.Barcodes;
 
 namespace Maintenance.Infrastructure.Services.HandReceipts
 {
@@ -21,13 +22,16 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
         private readonly IPdfExportReportService _pdfExportReportService;
+        private readonly IBarcodeService _barcodeService;
 
         public ReturnHandReceiptService(ApplicationDbContext db, IMapper mapper
-            , IPdfExportReportService pdfExportReportService)
+            , IPdfExportReportService pdfExportReportService
+            , IBarcodeService barcodeService)
         {
             _db = db;
             _mapper = mapper;
             _pdfExportReportService = pdfExportReportService;
+            _barcodeService = barcodeService;
         }
 
         public async Task<PagingResultViewModel<ReturnHandReceiptViewModel>> GetAll(Pagination pagination
@@ -138,6 +142,8 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                     BranchId = handReceiptItem.BranchId,
                     IsReturnItemWarrantyExpired = isWarrantyValid ? false : true
                 };
+
+                newReturnHandReceiptItem.ItemBarcodeFilePath = _barcodeService.GenerateBarcode(newReturnHandReceiptItem.ItemBarcode);
 
                 returnHandReceipt.ReceiptItems.Add(newReturnHandReceiptItem);
             }

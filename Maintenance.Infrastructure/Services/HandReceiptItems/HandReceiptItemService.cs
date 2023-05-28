@@ -10,6 +10,7 @@ using Maintenance.Infrastructure.Services.Customers;
 using Maintenance.Data.Extensions;
 using Maintenance.Core.Enums;
 using Maintenance.Core.Resources;
+using Maintenance.Infrastructure.Services.Barcodes;
 
 namespace Maintenance.Infrastructure.Services.HandReceiptItems
 {
@@ -17,11 +18,14 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
     {
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
+        private readonly IBarcodeService _barcodeService;
 
-        public HandReceiptItemService(ApplicationDbContext db, IMapper mapper)
+        public HandReceiptItemService(ApplicationDbContext db, IMapper mapper
+            , IBarcodeService barcodeService)
         {
             _db = db;
             _mapper = mapper;
+            _barcodeService = barcodeService;
         }
 
         public async Task<PagingResultViewModel<HandReceiptItemViewModel>> GetAll(Pagination pagination
@@ -192,6 +196,8 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
             {
                 handReceiptItem.FinalCost = input.CostTo;
             }
+
+            handReceiptItem.ItemBarcodeFilePath = _barcodeService.GenerateBarcode(handReceiptItem.ItemBarcode);
 
             handReceiptItem.BranchId = handReceipt.BranchId;
             handReceiptItem.CustomerId = handReceipt.CustomerId;
