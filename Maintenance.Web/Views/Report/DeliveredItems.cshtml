@@ -193,6 +193,16 @@
             window.open('/ReportExcel/DeliveredItemsReportExcel?DateFrom='
                 + dateFrom + '&DateTo=' + dateTo + '&BranchId=' + branchId, '_blank');
         });
+
+        $.ajax({
+            url: '/Branch/List',
+            dataType: "json",
+            success: function (data) {
+                $(data).each(function (index, value) {
+                    $("#SelectBranch").append($("<option></option>").val(value.id).html(value.name));
+                });
+            }
+        });
     </script>
     }
 

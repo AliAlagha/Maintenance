@@ -188,13 +188,12 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                 handReceiptItem.FinalCost = input.CostTo;
             }
 
-            handReceiptItem.ItemBarcodeFilePath = _barcodeService.GenerateBarcode(handReceiptItem.ItemBarcode);
-
             handReceiptItem.BranchId = handReceipt.BranchId;
             handReceiptItem.CustomerId = handReceipt.CustomerId;
             handReceiptItem.Item = item.Name;
             handReceiptItem.Company = company.Name;
             handReceiptItem.ItemBarcode = await GenerateBarcode();
+            handReceiptItem.ItemBarcodeFilePath = _barcodeService.GenerateBarcode(handReceiptItem.ItemBarcode);
             handReceiptItem.CreatedBy = userId;
             await _db.HandReceiptItems.AddAsync(handReceiptItem);
             await _db.SaveChangesAsync();

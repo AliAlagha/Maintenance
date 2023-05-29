@@ -98,14 +98,14 @@ namespace Maintenance.Infrastructure.Services.Reports
 
             if (query.DateFrom.HasValue)
             {
-                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
-                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.DeliveryDate >= query.DateFrom.Value);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.DeliveryDate >= query.DateFrom.Value);
             }
 
             if (query.DateTo.HasValue)
             {
-                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
-                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.DeliveryDate <= query.DateTo.Value);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.DeliveryDate <= query.DateTo.Value);
             }
 
             if (query.BranchId.HasValue)
@@ -391,13 +391,13 @@ namespace Maintenance.Infrastructure.Services.Reports
             if (query.DateTo.HasValue)
             {
                 handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
-                returnReceiptItemsDbQuery = returnReceiptItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+                returnReceiptItemsDbQuery = returnReceiptItemsDbQuery.Where(x => x.CreatedAt >= query.DateTo.Value);
             }
 
             if (query.BranchId.HasValue)
             {
                 handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
-                returnReceiptItemsDbQuery = returnReceiptItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+                returnReceiptItemsDbQuery = returnReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
             }
 
             var completedHandReceiptItems = await handReceiptItemsDbQuery
@@ -765,15 +765,24 @@ namespace Maintenance.Infrastructure.Services.Reports
                 x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained
                 && (query.DateFrom == null || x.CollectionDate >= query.DateFrom)
                 && (query.DateTo == null || x.CollectionDate <= query.DateTo)))
+                .Include(x => x.InstantMaintenanceItems)
+                .Include(x => x.RecipientMaintenances)
                 .Where(x => x.UserType == UserType.MaintenanceTechnician)
                 .ToListAsync();
 
-            var technicianFees = technicians
-                .Select(x => new TechnicianFeesReportDataSet
-                {
-                    Technician = x.FullName,
-                    Fees = x.HandReceiptItems.Sum(x => x.CollectedAmount) ?? 0
-                }).ToList();
+            var technicianFees = new List<TechnicianFeesReportDataSet>();
+            foreach (var technician in technicians)
+            {
+                var technicianFee = new TechnicianFeesReportDataSet();
+                technicianFee.Technician = technician.FullName;
+
+                var handReceiptItemFees = technician.HandReceiptItems.Sum(x => x.CollectedAmount) ?? 0;
+                var instantMaintenanceItemFees = technician.InstantMaintenanceItems.Sum(x => x.CollectedAmount) ?? 0;
+                var recipientMaintenanceFees = technician.RecipientMaintenances.Sum(x => x.CollectedAmount) ?? 0;
+
+                technicianFee.Fees = handReceiptItemFees + instantMaintenanceItemFees + recipientMaintenanceFees;
+                technicianFees.Add(technicianFee);
+            }
 
             return technicianFees;
         }

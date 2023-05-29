@@ -54,7 +54,7 @@ namespace Maintenance.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Branches");
+                    b.ToTable("Branches", (string)null);
                 });
 
             modelBuilder.Entity("Maintenance.Data.DbEntities.BranchPhoneNumber", b =>
@@ -91,7 +91,7 @@ namespace Maintenance.Data.Migrations
 
                     b.HasIndex("BranchId");
 
-                    b.ToTable("BranchPhoneNumbers");
+                    b.ToTable("BranchPhoneNumbers", (string)null);
                 });
 
             modelBuilder.Entity("Maintenance.Data.DbEntities.Color", b =>
@@ -126,7 +126,7 @@ namespace Maintenance.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Colors");
+                    b.ToTable("Colors", (string)null);
                 });
 
             modelBuilder.Entity("Maintenance.Data.DbEntities.Company", b =>
@@ -167,7 +167,7 @@ namespace Maintenance.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies");
+                    b.ToTable("Companies", (string)null);
                 });
 
             modelBuilder.Entity("Maintenance.Data.DbEntities.Customer", b =>
@@ -215,7 +215,7 @@ namespace Maintenance.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("Maintenance.Data.DbEntities.HandReceipt", b =>
@@ -256,7 +256,7 @@ namespace Maintenance.Data.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("HandReceipts");
+                    b.ToTable("HandReceipts", (string)null);
                 });
 
             modelBuilder.Entity("Maintenance.Data.DbEntities.HandReceiptItem", b =>
@@ -374,7 +374,7 @@ namespace Maintenance.Data.Migrations
 
                     b.HasIndex("TechnicianId");
 
-                    b.ToTable("HandReceiptItems");
+                    b.ToTable("HandReceiptItems", (string)null);
                 });
 
             modelBuilder.Entity("Maintenance.Data.DbEntities.InstantMaintenance", b =>
@@ -410,7 +410,7 @@ namespace Maintenance.Data.Migrations
 
                     b.HasIndex("BranchId");
 
-                    b.ToTable("InstantMaintenances");
+                    b.ToTable("InstantMaintenances", (string)null);
                 });
 
             modelBuilder.Entity("Maintenance.Data.DbEntities.InstantMaintenanceItem", b =>
@@ -464,7 +464,7 @@ namespace Maintenance.Data.Migrations
 
                     b.HasIndex("TechnicianId");
 
-                    b.ToTable("InstantMaintenanceItems");
+                    b.ToTable("InstantMaintenanceItems", (string)null);
                 });
 
             modelBuilder.Entity("Maintenance.Data.DbEntities.Item", b =>
@@ -499,7 +499,7 @@ namespace Maintenance.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Items");
+                    b.ToTable("Items", (string)null);
                 });
 
             modelBuilder.Entity("Maintenance.Data.DbEntities.RecipientMaintenance", b =>
@@ -541,7 +541,7 @@ namespace Maintenance.Data.Migrations
 
                     b.HasIndex("TechnicianId");
 
-                    b.ToTable("RecipientMaintenances");
+                    b.ToTable("RecipientMaintenances", (string)null);
                 });
 
             modelBuilder.Entity("Maintenance.Data.DbEntities.ReturnHandReceipt", b =>
@@ -588,7 +588,7 @@ namespace Maintenance.Data.Migrations
                     b.HasIndex("HandReceiptId")
                         .IsUnique();
 
-                    b.ToTable("ReturnHandReceipts");
+                    b.ToTable("ReturnHandReceipts", (string)null);
                 });
 
             modelBuilder.Entity("Maintenance.Data.DbEntities.ReturnHandReceiptItem", b =>
@@ -682,7 +682,7 @@ namespace Maintenance.Data.Migrations
 
                     b.HasIndex("TechnicianId");
 
-                    b.ToTable("ReturnHandReceiptItems");
+                    b.ToTable("ReturnHandReceiptItems", (string)null);
                 });
 
             modelBuilder.Entity("Maintenance.Data.DbEntities.User", b =>

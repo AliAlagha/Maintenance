@@ -306,6 +306,7 @@ namespace Maintenance.Infrastructure.Services.Maintenance
 
             receiptItem.NotifyCustomerOfTheCost = false;
             receiptItem.CostNotifiedToTheCustomer = dto.CostNotifiedToTheCustomer;
+            receiptItem.FinalCost = dto.CostNotifiedToTheCustomer;
             receiptItem.MaintenanceRequestStatus = HandReceiptItemRequestStatus.EnterMaintenanceCost;
             receiptItem.UpdatedAt = DateTime.Now;
             receiptItem.UpdatedBy = userId;
