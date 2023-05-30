@@ -54,8 +54,8 @@ namespace Maintenance.Infrastructure.Services.Reports
             {
                 var receiptItemDataSet = new ReceiptItemReportDataSet
                 {
-                    CustomerName = receiptItem.Customer.Name,
-                    CustomerPhoneNumber = receiptItem.Customer.PhoneNumber,
+                    CustomerName = receiptItem.Customer != null ? receiptItem.Customer.Name : "",
+                    CustomerPhoneNumber = receiptItem.Customer != null ? receiptItem.Customer.PhoneNumber: "",
                     Item = receiptItem.Item,
                     ItemBarcode = receiptItem.ItemBarcode,
                     Company = receiptItem.Company,
@@ -69,8 +69,8 @@ namespace Maintenance.Infrastructure.Services.Reports
             {
                 var receiptItemDataSet = new ReceiptItemReportDataSet
                 {
-                    CustomerName = receiptItem.Customer.Name,
-                    CustomerPhoneNumber = receiptItem.Customer.PhoneNumber,
+                    CustomerName = receiptItem.Customer != null ? receiptItem.Customer.Name : "",
+                    CustomerPhoneNumber = receiptItem.Customer != null ? receiptItem.Customer.PhoneNumber : "",
                     Item = receiptItem.Item,
                     ItemBarcode = receiptItem.ItemBarcode,
                     Company = receiptItem.Company,
@@ -124,8 +124,8 @@ namespace Maintenance.Infrastructure.Services.Reports
             {
                 var deliveredItemDataSet = new ReceiptItemReportDataSet
                 {
-                    CustomerName = deliveredItem.Customer.Name,
-                    CustomerPhoneNumber = deliveredItem.Customer.PhoneNumber,
+                    CustomerName = deliveredItem.Customer != null ? deliveredItem.Customer.Name : "",
+                    CustomerPhoneNumber = deliveredItem.Customer != null ? deliveredItem.Customer.PhoneNumber : "",
                     Item = deliveredItem.Item,
                     ItemBarcode = deliveredItem.ItemBarcode,
                     Company = deliveredItem.Company,
@@ -140,8 +140,8 @@ namespace Maintenance.Infrastructure.Services.Reports
             {
                 var deliveredItemDataSet = new ReceiptItemReportDataSet
                 {
-                    CustomerName = deliveredItem.Customer.Name,
-                    CustomerPhoneNumber = deliveredItem.Customer.PhoneNumber,
+                    CustomerName = deliveredItem.Customer != null ? deliveredItem.Customer.Name : "",
+                    CustomerPhoneNumber = deliveredItem.Customer != null ? deliveredItem.Customer.PhoneNumber : "",
                     Item = deliveredItem.Item,
                     ItemBarcode = deliveredItem.ItemBarcode,
                     Company = deliveredItem.Company,
@@ -192,8 +192,8 @@ namespace Maintenance.Infrastructure.Services.Reports
             {
                 var returnedItemDataSet = new ReceiptItemReportDataSet
                 {
-                    CustomerName = returnedItem.Customer.Name,
-                    CustomerPhoneNumber = returnedItem.Customer.PhoneNumber,
+                    CustomerName = returnedItem.Customer != null ? returnedItem.Customer.Name : "",
+                    CustomerPhoneNumber = returnedItem.Customer != null ? returnedItem.Customer.PhoneNumber : "",
                     Item = returnedItem.Item,
                     ItemBarcode = returnedItem.ItemBarcode,
                     Company = returnedItem.Company,
@@ -238,8 +238,8 @@ namespace Maintenance.Infrastructure.Services.Reports
             {
                 var urgentItemDataSet = new ReceiptItemReportDataSet
                 {
-                    CustomerName = urgentItem.Customer.Name,
-                    CustomerPhoneNumber = urgentItem.Customer.PhoneNumber,
+                    CustomerName = urgentItem.Customer != null ? urgentItem.Customer.Name : "",
+                    CustomerPhoneNumber = urgentItem.Customer != null ? urgentItem.Customer.PhoneNumber : "",
                     Item = urgentItem.Item,
                     ItemBarcode = urgentItem.ItemBarcode,
                     Company = urgentItem.Company,
@@ -299,8 +299,8 @@ namespace Maintenance.Infrastructure.Services.Reports
 
                 var notMaintainedItemDataSet = new ReceiptItemReportDataSet
                 {
-                    CustomerName = notMaintainedItem.Customer.Name,
-                    CustomerPhoneNumber = notMaintainedItem.Customer.PhoneNumber,
+                    CustomerName = notMaintainedItem.Customer != null ? notMaintainedItem.Customer.Name : "",
+                    CustomerPhoneNumber = notMaintainedItem.Customer != null ? notMaintainedItem.Customer.PhoneNumber : "",
                     Item = notMaintainedItem.Item,
                     ItemBarcode = notMaintainedItem.ItemBarcode,
                     Company = notMaintainedItem.Company,
@@ -318,8 +318,8 @@ namespace Maintenance.Infrastructure.Services.Reports
 
                 var notMaintainedItemDataSet = new ReceiptItemReportDataSet
                 {
-                    CustomerName = notMaintainedItem.Customer.Name,
-                    CustomerPhoneNumber = notMaintainedItem.Customer.PhoneNumber,
+                    CustomerName = notMaintainedItem.Customer != null ? notMaintainedItem.Customer.Name : "",
+                    CustomerPhoneNumber = notMaintainedItem.Customer != null ? notMaintainedItem.Customer.PhoneNumber : "",
                     Item = notMaintainedItem.Item,
                     ItemBarcode = notMaintainedItem.ItemBarcode,
                     Company = notMaintainedItem.Company,
@@ -410,8 +410,8 @@ namespace Maintenance.Infrastructure.Services.Reports
             {
                 var completedItemDataSet = new ReceiptItemReportDataSet
                 {
-                    CustomerName = completedItem.Customer.Name,
-                    CustomerPhoneNumber = completedItem.Customer.PhoneNumber,
+                    CustomerName = completedItem.Customer != null ? completedItem.Customer.Name : "",
+                    CustomerPhoneNumber = completedItem.Customer != null ? completedItem.Customer.PhoneNumber : "",
                     Item = completedItem.Item,
                     ItemBarcode = completedItem.ItemBarcode,
                     Company = completedItem.Company,
@@ -425,8 +425,8 @@ namespace Maintenance.Infrastructure.Services.Reports
             {
                 var completedItemDataSet = new ReceiptItemReportDataSet
                 {
-                    CustomerName = completedItem.Customer.Name,
-                    CustomerPhoneNumber = completedItem.Customer.PhoneNumber,
+                    CustomerName = completedItem.Customer != null ? completedItem.Customer.Name : "",
+                    CustomerPhoneNumber = completedItem.Customer != null ? completedItem.Customer.PhoneNumber : "",
                     Item = completedItem.Item,
                     ItemBarcode = completedItem.ItemBarcode,
                     Company = completedItem.Company,
@@ -488,8 +488,8 @@ namespace Maintenance.Infrastructure.Services.Reports
             {
                 var deliveredItemDataSet = new ReceiptItemReportDataSet
                 {
-                    CustomerName = deliveredItem.Customer.Name,
-                    CustomerPhoneNumber = deliveredItem.Customer.PhoneNumber,
+                    CustomerName = deliveredItem.Customer != null ? deliveredItem.Customer.Name : "",
+                    CustomerPhoneNumber = deliveredItem.Customer != null ? deliveredItem.Customer.PhoneNumber : "",
                     Item = deliveredItem.Item,
                     ItemBarcode = deliveredItem.ItemBarcode,
                     Company = deliveredItem.Company,
@@ -504,8 +504,8 @@ namespace Maintenance.Infrastructure.Services.Reports
             {
                 var deliveredItemDataSet = new ReceiptItemReportDataSet
                 {
-                    CustomerName = deliveredItem.Customer.Name,
-                    CustomerPhoneNumber = deliveredItem.Customer.PhoneNumber,
+                    CustomerName = deliveredItem.Customer != null ? deliveredItem.Customer.Name : "",
+                    CustomerPhoneNumber = deliveredItem.Customer != null ? deliveredItem.Customer.PhoneNumber : "",
                     Item = deliveredItem.Item,
                     ItemBarcode = deliveredItem.ItemBarcode,
                     Company = deliveredItem.Company,
@@ -528,50 +528,28 @@ namespace Maintenance.Infrastructure.Services.Reports
                     && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained)
                 .AsQueryable();
 
-            var instantMaintenanceItemsDbQuery = _db.InstantMaintenanceItems
-               .Include(x => x.Technician)
-               .AsQueryable();
-
-            var recipientMaintenancesDbQuery = _db.RecipientMaintenances
-               .Include(x => x.Technician)
-               .AsQueryable();
-
             if (query.DateFrom.HasValue)
             {
                 handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CollectionDate >= query.DateFrom.Value);
-                instantMaintenanceItemsDbQuery = instantMaintenanceItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
-                recipientMaintenancesDbQuery = recipientMaintenancesDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
             }
 
             if (query.DateTo.HasValue)
             {
                 handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CollectionDate <= query.DateTo.Value);
-                instantMaintenanceItemsDbQuery = instantMaintenanceItemsDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
-                recipientMaintenancesDbQuery = recipientMaintenancesDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
             }
 
             if (query.TechnicianId != null)
             {
-                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.TechnicianId != null 
-                    && x.TechnicianId.Equals(query.TechnicianId));
-                instantMaintenanceItemsDbQuery = instantMaintenanceItemsDbQuery.Where(x => x.TechnicianId != null
-                    && x.TechnicianId.Equals(query.TechnicianId));
-                recipientMaintenancesDbQuery = recipientMaintenancesDbQuery.Where(x => x.TechnicianId != null
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.TechnicianId != null
                     && x.TechnicianId.Equals(query.TechnicianId));
             }
 
             if (query.BranchId.HasValue)
             {
                 handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
-                instantMaintenanceItemsDbQuery = instantMaintenanceItemsDbQuery.Where(x => x.BranchId == query.BranchId);
-                recipientMaintenancesDbQuery = recipientMaintenancesDbQuery.Where(x => x.BranchId == query.BranchId);
             }
 
             var collectedAmountItems = await handReceiptItemsDbQuery
-                .ToListAsync();
-            var instantMaintenanceItems = await instantMaintenanceItemsDbQuery
-                .ToListAsync();
-            var recipientMaintenances = await recipientMaintenancesDbQuery
                 .ToListAsync();
 
             var collectedAmountItemsList = new List<ReceiptItemReportDataSet>();
@@ -579,8 +557,8 @@ namespace Maintenance.Infrastructure.Services.Reports
             {
                 var collectedAmountItemDataSet = new ReceiptItemReportDataSet
                 {
-                    CustomerName = collectedAmountItem.Customer.Name,
-                    CustomerPhoneNumber = collectedAmountItem.Customer.PhoneNumber,
+                    CustomerName = collectedAmountItem.Customer != null ? collectedAmountItem.Customer.Name : "",
+                    CustomerPhoneNumber = collectedAmountItem.Customer != null ? collectedAmountItem.Customer.PhoneNumber : "",
                     Item = collectedAmountItem.Item,
                     ItemBarcode = collectedAmountItem.ItemBarcode,
                     Company = collectedAmountItem.Company,
@@ -592,98 +570,118 @@ namespace Maintenance.Infrastructure.Services.Reports
                 collectedAmountItemsList.Add(collectedAmountItemDataSet);
             }
 
-            foreach (var collectedAmountItem in instantMaintenanceItems)
-            {
-                var collectedAmountItemDataSet = new ReceiptItemReportDataSet
-                {
-                    CustomerName = "---",
-                    CustomerPhoneNumber = "---",
-                    Item = collectedAmountItem.Item,
-                    ItemBarcode = "---",
-                    Company = collectedAmountItem.Company,
-                    CollectionDate = collectedAmountItem.CreatedAt.ToString("yyyy-MM-dd hh:mm tt"),
-                    CollectedAmount = collectedAmountItem.CollectedAmount ?? 0
-                };
-
-                collectedAmountItemsList.Add(collectedAmountItemDataSet);
-            }
-
-            foreach (var collectedAmountItem in recipientMaintenances)
-            {
-                var collectedAmountItemDataSet = new ReceiptItemReportDataSet
-                {
-                    CustomerName = "---",
-                    CustomerPhoneNumber = "---",
-                    Item = "---",
-                    ItemBarcode = "---",
-                    Company = "---",
-                    CollectionDate = collectedAmountItem.CreatedAt.ToString("yyyy-MM-dd hh:mm tt"),
-                    CollectedAmount = collectedAmountItem.CollectedAmount ?? 0
-                };
-
-                collectedAmountItemsList.Add(collectedAmountItemDataSet);
-            }
+            await GetRecipientMaintenanceCollectedAmounts(query, collectedAmountItemsList);
 
             var collectedAmountItemsListOrdered = collectedAmountItemsList.OrderByDescending(x => x.CollectionDate).ToList();
             return collectedAmountItemsListOrdered;
         }
 
+        private async Task GetRecipientMaintenanceCollectedAmounts(QueryDto query, List<ReceiptItemReportDataSet> collectedAmountItemsList)
+        {
+            if (query.TechnicianId == null)
+            {
+                var recipientMaintenancesDbQuery = _db.RecipientMaintenances
+                .AsQueryable();
+
+                if (query.DateFrom.HasValue)
+                {
+                    recipientMaintenancesDbQuery = recipientMaintenancesDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+                }
+
+                if (query.DateTo.HasValue)
+                {
+                    recipientMaintenancesDbQuery = recipientMaintenancesDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+                }
+
+                if (query.BranchId.HasValue)
+                {
+                    recipientMaintenancesDbQuery = recipientMaintenancesDbQuery.Where(x => x.BranchId == query.BranchId);
+                }
+
+                var recipientMaintenances = await recipientMaintenancesDbQuery
+                .ToListAsync();
+                foreach (var collectedAmountItem in recipientMaintenances)
+                {
+                    var collectedAmountItemDataSet = new ReceiptItemReportDataSet
+                    {
+                        CustomerName = "---",
+                        CustomerPhoneNumber = "---",
+                        Item = Messages.RecipientMaintenance,
+                        ItemBarcode = "---",
+                        Company = "---",
+                        CollectionDate = collectedAmountItem.CreatedAt.ToString("yyyy-MM-dd hh:mm tt"),
+                        CollectedAmount = collectedAmountItem.CollectedAmount ?? 0
+                    };
+
+                    collectedAmountItemsList.Add(collectedAmountItemDataSet);
+                }
+            }
+        }
+
         public async Task<double> CollectedAmountsReportTotal(QueryDto query)
         {
             var handReceiptItemsDbQuery = _db.HandReceiptItems
-                .Include(x => x.Customer)
                 .Where(x => x.CollectedAmount != null
                     && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained)
                 .AsQueryable();
 
-            var instantMaintenanceItemsDbQuery = _db.InstantMaintenanceItems
-               .Include(x => x.Technician)
-               .AsQueryable();
-
-            var recipientMaintenancesDbQuery = _db.RecipientMaintenances
-               .Include(x => x.Technician)
-               .AsQueryable();
-
             if (query.DateFrom.HasValue)
             {
                 handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CollectionDate >= query.DateFrom.Value);
-                instantMaintenanceItemsDbQuery = instantMaintenanceItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
-                recipientMaintenancesDbQuery = recipientMaintenancesDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
             }
 
             if (query.DateTo.HasValue)
             {
                 handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CollectionDate <= query.DateTo.Value);
-                instantMaintenanceItemsDbQuery = instantMaintenanceItemsDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
-                recipientMaintenancesDbQuery = recipientMaintenancesDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
             }
 
             if (query.TechnicianId != null)
             {
                 handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.TechnicianId != null
                     && x.TechnicianId.Equals(query.TechnicianId));
-                instantMaintenanceItemsDbQuery = instantMaintenanceItemsDbQuery.Where(x => x.TechnicianId != null
-                    && x.TechnicianId.Equals(query.TechnicianId));
-                recipientMaintenancesDbQuery = recipientMaintenancesDbQuery.Where(x => x.TechnicianId != null
-                    && x.TechnicianId.Equals(query.TechnicianId));
             }
 
             if (query.BranchId.HasValue)
             {
                 handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
-                instantMaintenanceItemsDbQuery = instantMaintenanceItemsDbQuery.Where(x => x.BranchId == query.BranchId);
-                recipientMaintenancesDbQuery = recipientMaintenancesDbQuery.Where(x => x.BranchId == query.BranchId);
             }
 
             var collectedAmountItems = await handReceiptItemsDbQuery
                 .SumAsync(x => x.CollectedAmount) ?? 0;
-            var instantMaintenanceItems = await instantMaintenanceItemsDbQuery
-                .SumAsync(x => x.CollectedAmount) ?? 0;
-            var recipientMaintenances = await recipientMaintenancesDbQuery
-                .SumAsync(x => x.CollectedAmount) ?? 0;
+            var recipientMaintenances = await GetRecipientMaintenanceCollectedAmountsNumber(query);
 
-            var total = collectedAmountItems + instantMaintenanceItems + recipientMaintenances;
+            var total = collectedAmountItems + recipientMaintenances;
             return total;
+        }
+
+        private async Task<double> GetRecipientMaintenanceCollectedAmountsNumber(QueryDto query)
+        {
+            double collectedAmounts = 0;
+            if (query.TechnicianId == null)
+            {
+                var recipientMaintenancesDbQuery = _db.RecipientMaintenances
+                .AsQueryable();
+
+                if (query.DateFrom.HasValue)
+                {
+                    recipientMaintenancesDbQuery = recipientMaintenancesDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+                }
+
+                if (query.DateTo.HasValue)
+                {
+                    recipientMaintenancesDbQuery = recipientMaintenancesDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+                }
+
+                if (query.BranchId.HasValue)
+                {
+                    recipientMaintenancesDbQuery = recipientMaintenancesDbQuery.Where(x => x.BranchId == query.BranchId);
+                }
+
+                collectedAmounts = await recipientMaintenancesDbQuery
+                .SumAsync(x => x.CollectedAmount) ?? 0;
+            }
+
+            return collectedAmounts;
         }
 
         public async Task<List<ReceiptItemReportDataSet>> SuspendedItemsReport(QueryDto query)
@@ -726,8 +724,8 @@ namespace Maintenance.Infrastructure.Services.Reports
             {
                 var suspendedItemDataSet = new ReceiptItemReportDataSet
                 {
-                    CustomerName = suspendedItem.Customer.Name,
-                    CustomerPhoneNumber = suspendedItem.Customer.PhoneNumber,
+                    CustomerName = suspendedItem.Customer != null ? suspendedItem.Customer.Name : "",
+                    CustomerPhoneNumber = suspendedItem.Customer != null ? suspendedItem.Customer.PhoneNumber : "",
                     Item = suspendedItem.Item,
                     ItemBarcode = suspendedItem.ItemBarcode,
                     Company = suspendedItem.Company,
@@ -742,8 +740,8 @@ namespace Maintenance.Infrastructure.Services.Reports
             {
                 var suspendedItemDataSet = new ReceiptItemReportDataSet
                 {
-                    CustomerName = suspendedItem.Customer.Name,
-                    CustomerPhoneNumber = suspendedItem.Customer.PhoneNumber,
+                    CustomerName = suspendedItem.Customer != null ? suspendedItem.Customer.Name : "",
+                    CustomerPhoneNumber = suspendedItem.Customer != null ? suspendedItem.Customer.PhoneNumber : "",
                     Item = suspendedItem.Item,
                     ItemBarcode = suspendedItem.ItemBarcode,
                     Company = suspendedItem.Company,
@@ -765,8 +763,6 @@ namespace Maintenance.Infrastructure.Services.Reports
                 x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained
                 && (query.DateFrom == null || x.CollectionDate >= query.DateFrom)
                 && (query.DateTo == null || x.CollectionDate <= query.DateTo)))
-                .Include(x => x.InstantMaintenanceItems)
-                .Include(x => x.RecipientMaintenances)
                 .Where(x => x.UserType == UserType.MaintenanceTechnician)
                 .ToListAsync();
 
@@ -777,10 +773,8 @@ namespace Maintenance.Infrastructure.Services.Reports
                 technicianFee.Technician = technician.FullName;
 
                 var handReceiptItemFees = technician.HandReceiptItems.Sum(x => x.CollectedAmount) ?? 0;
-                var instantMaintenanceItemFees = technician.InstantMaintenanceItems.Sum(x => x.CollectedAmount) ?? 0;
-                var recipientMaintenanceFees = technician.RecipientMaintenances.Sum(x => x.CollectedAmount) ?? 0;
 
-                technicianFee.Fees = handReceiptItemFees + instantMaintenanceItemFees + recipientMaintenanceFees;
+                technicianFee.Fees = handReceiptItemFees;
                 technicianFees.Add(technicianFee);
             }
 

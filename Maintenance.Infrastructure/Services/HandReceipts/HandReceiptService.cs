@@ -34,12 +34,14 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
         }
 
         public async Task<PagingResultViewModel<HandReceiptViewModel>> GetAll
-            (Pagination pagination, QueryDto query, string? barcode)
+            (Pagination pagination, QueryDto query
+            , MaintenanceType maintenanceType, string? barcode)
         {
             var dbQuery = _db.HandReceipts
                 .Include(x => x.Customer)
                 .Include(x => x.HandReceiptItems)
                 .Include(x => x.ReturnHandReceipt)
+                .Where(x => x.MaintenanceType == maintenanceType)
                 .OrderByDescending(x => x.CreatedAt).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(query.GeneralSearch))
@@ -63,7 +65,8 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             return await dbQuery.ToPagedData<HandReceiptViewModel>(pagination, _mapper);
         }
 
-        public async Task<int?> Create(CreateHandReceiptDto input, string userId)
+        public async Task<int?> Create(CreateHandReceiptDto input, MaintenanceType maintenanceType
+            , string userId)
         {
             var currentUser = await _db.Users.SingleOrDefaultAsync(x => x.Id == userId);
             if (currentUser == null)
@@ -71,10 +74,17 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                 throw new EntityNotFoundException();
             }
 
+            if (maintenanceType == MaintenanceType.Instant)
+            {
+                input.CustomerId = null;
+                input.CustomerInfo = null;
+            }
+
             var handReceipt = _mapper.Map<HandReceipt>(input);
             handReceipt.BranchId = currentUser.BranchId;
             await AddHandReceiptItems(input.Items, handReceipt, userId);
 
+            handReceipt.MaintenanceType = maintenanceType;
             handReceipt.Date = DateTime.Now;
             handReceipt.CreatedBy = userId;
             await _db.HandReceipts.AddAsync(handReceipt);
@@ -180,8 +190,8 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             var paramaters = new Dictionary<string, object>();
             paramaters.Add("HandReceiptNumber", handReceipt.Id);
             paramaters.Add("Date", handReceipt.Date.ToString("yyyy-MM-dd hh:mm tt", CultureInfo.InvariantCulture));
-            paramaters.Add("CustomerName", handReceipt.Customer.Name);
-            paramaters.Add("CustomerPhoneNumber", handReceipt.Customer.PhoneNumber);
+            paramaters.Add("CustomerName", handReceipt.Customer != null ? handReceipt.Customer.Name : "");
+            paramaters.Add("CustomerPhoneNumber", handReceipt.Customer != null ? handReceipt.Customer.PhoneNumber : "");
             var totalCollectedAmount = handReceipt.HandReceiptItems.Sum(x => x.CollectedAmount);
             paramaters.Add("TotalCollectedMoney", totalCollectedAmount != null ? totalCollectedAmount
                 + " " + Messages.SAR : "0");

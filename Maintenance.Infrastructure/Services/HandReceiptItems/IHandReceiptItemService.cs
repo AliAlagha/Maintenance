@@ -1,5 +1,6 @@
 ﻿using Maintenance.Core.Dtos;
 using Maintenance.Core.ViewModels;
+using Maintenance.Data.DbEntities;
 
 namespace Maintenance.Infrastructure.Services.HandReceiptItems
 {
@@ -16,5 +17,6 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
         Task DeliveryOfAllItems(int handReceiptId, string userId);
         Task<bool> IsAllItemsCanBeDelivered(int handReceiptId);
         Task RemoveFromMaintained(RemoveHandItemFromMaintainedDto dto, string userId);
+        Task<HandReceipt> GetHandReceipt(int handReceiptId);
     }
 }

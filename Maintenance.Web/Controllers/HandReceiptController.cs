@@ -36,9 +36,22 @@ namespace Maintenance.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> GetAll(Pagination pagination, QueryDto query, string? barcode)
+        public async Task<JsonResult> GetAllNormalMaintenance(Pagination pagination, QueryDto query, string? barcode)
         {
-            var response = await _handReceiptService.GetAll(pagination, query, barcode);
+            var response = await _handReceiptService.GetAll(pagination, query, MaintenanceType.Normal, barcode);
+            return Json(response);
+        }
+
+        public IActionResult InstantIndex(string? barcode)
+        {
+            ViewBag.Barcode = barcode;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GetAllInstantMaintenance(Pagination pagination, QueryDto query, string? barcode)
+        {
+            var response = await _handReceiptService.GetAll(pagination, query, MaintenanceType.Instant, barcode);
             return Json(response);
         }
 
@@ -69,8 +82,36 @@ namespace Maintenance.Web.Controllers
                     input.CustomerId = await _customerService.Create(createCustomerDto, UserId);
                 }
 
-                await _handReceiptService.Create(input, UserId);
+                await _handReceiptService.Create(input, MaintenanceType.Normal, UserId);
                 return RedirectToAction(nameof(Index));
+            }
+
+            ViewBag.IsFormValid = false;
+            return View(input);
+        }
+
+        public IActionResult CreateInstant()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateInstant(CreateHandReceiptDto input)
+        {
+            if (ModelState.IsValid)
+            {
+                var isFormValid = true;
+                isFormValid = CheckPriceValidity(input);
+
+                if (!isFormValid)
+                {
+                    ModelState.AddModelError("ValidationError", string.Empty);
+                    ViewBag.IsFormValid = false;
+                    return View(input);
+                }
+
+                await _handReceiptService.Create(input, MaintenanceType.Instant, UserId);
+                return RedirectToAction(nameof(InstantIndex));
             }
 
             ViewBag.IsFormValid = false;

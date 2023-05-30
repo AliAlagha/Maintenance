@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Maintenance.Core.Enums
 {
-    public enum ReceiptItemType
+    public enum MaintenanceType
     {
-        New = 1,
-        Returned = 2
+        Normal = 1,
+        Instant = 2
     }
 }

@@ -376,5 +376,15 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
             await _db.SaveChangesAsync();
         }
 
+        public async Task<HandReceipt> GetHandReceipt(int handReceiptId)
+        {
+            var handReceipt = await _db.HandReceipts.SingleOrDefaultAsync(x => x.Id == handReceiptId);
+            if (handReceipt == null)
+            {
+                throw new EntityNotFoundException();
+            }
+
+            return handReceipt;
+        }
     }
 }

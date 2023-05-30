@@ -1,4 +1,6 @@
 ﻿using Maintenance.Core.Dtos;
+using Maintenance.Core.Enums;
+using Maintenance.Core.Resources;
 using Maintenance.Infrastructure.Services.HandReceiptItems;
 using Maintenance.Infrastructure.Services.Users;
 using Microsoft.AspNetCore.Authorization;
@@ -21,6 +23,10 @@ namespace Maintenance.Web.Controllers
         {
             var IsAllItemsCanBeDelivered = await _handReceiptItemService.IsAllItemsCanBeDelivered(handReceiptId);
             ViewBag.IsAllItemsCanBeDelivered = IsAllItemsCanBeDelivered;
+
+            var handReceipt = await _handReceiptItemService.GetHandReceipt(handReceiptId);
+            ViewBag.MaintenanceType = handReceipt.MaintenanceType;
+
             return View(handReceiptId);
         }
 

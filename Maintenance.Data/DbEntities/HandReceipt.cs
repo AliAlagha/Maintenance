@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Maintenance.Core.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,11 +15,12 @@ namespace Maintenance.Data.DbEntities
         }
 
         public int Id { get; set; }
-        public int CustomerId { get; set; }
+        public int? CustomerId { get; set; }
         public Customer Customer { get; set; }
         public DateTime Date { get; set; }
         public int BranchId { get; set; }
         public Branch Branch { get; set; }
+        public MaintenanceType MaintenanceType { get; set; }
         public List<HandReceiptItem> HandReceiptItems { get; set; }
         public ReturnHandReceipt ReturnHandReceipt { get; set; }
     }

@@ -4,6 +4,7 @@ using Maintenance.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Maintenance.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230530071837_RemoveInstantMaintenanceTables")]
+    partial class RemoveInstantMaintenanceTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -236,6 +238,7 @@ namespace Maintenance.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CustomerId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
@@ -302,6 +305,7 @@ namespace Maintenance.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CustomerId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DeliveryDate")
@@ -429,9 +433,6 @@ namespace Maintenance.Data.Migrations
                     b.Property<double?>("CollectedAmount")
                         .HasColumnType("float");
 
-                    b.Property<int>("CollectedAmountFor")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -440,6 +441,10 @@ namespace Maintenance.Data.Migrations
 
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
+
+                    b.Property<string>("TechnicianId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -450,6 +455,8 @@ namespace Maintenance.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BranchId");
+
+                    b.HasIndex("TechnicianId");
 
                     b.ToTable("RecipientMaintenances");
                 });
@@ -472,6 +479,7 @@ namespace Maintenance.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CustomerId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
@@ -526,6 +534,7 @@ namespace Maintenance.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CustomerId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DeliveryDate")
@@ -848,7 +857,8 @@ namespace Maintenance.Data.Migrations
                     b.HasOne("Maintenance.Data.DbEntities.Customer", "Customer")
                         .WithMany("HandReceipts")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Branch");
 
@@ -866,7 +876,8 @@ namespace Maintenance.Data.Migrations
                     b.HasOne("Maintenance.Data.DbEntities.Customer", "Customer")
                         .WithMany("HandReceiptItems")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Maintenance.Data.DbEntities.HandReceipt", "HandReceipt")
                         .WithMany("HandReceiptItems")
@@ -896,7 +907,15 @@ namespace Maintenance.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Maintenance.Data.DbEntities.User", "Technician")
+                        .WithMany("RecipientMaintenances")
+                        .HasForeignKey("TechnicianId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Branch");
+
+                    b.Navigation("Technician");
                 });
 
             modelBuilder.Entity("Maintenance.Data.DbEntities.ReturnHandReceipt", b =>
@@ -910,7 +929,8 @@ namespace Maintenance.Data.Migrations
                     b.HasOne("Maintenance.Data.DbEntities.Customer", "Customer")
                         .WithMany("ReturnHandReceipts")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Maintenance.Data.DbEntities.HandReceipt", "HandReceipt")
                         .WithOne("ReturnHandReceipt")
@@ -936,7 +956,8 @@ namespace Maintenance.Data.Migrations
                     b.HasOne("Maintenance.Data.DbEntities.Customer", "Customer")
                         .WithMany("ReturnHandReceiptItems")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Maintenance.Data.DbEntities.HandReceiptItem", "HandReceiptItem")
                         .WithOne("ReturnHandReceiptItem")
@@ -1078,6 +1099,8 @@ namespace Maintenance.Data.Migrations
             modelBuilder.Entity("Maintenance.Data.DbEntities.User", b =>
                 {
                     b.Navigation("HandReceiptItems");
+
+                    b.Navigation("RecipientMaintenances");
 
                     b.Navigation("ReturnHandReceiptItems");
                 });

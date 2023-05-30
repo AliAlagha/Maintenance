@@ -31,13 +31,11 @@ namespace Maintenance.Infrastructure.Services.RecipientMaintenances
             (Pagination pagination, QueryDto query)
         {
             var dbQuery = _db.RecipientMaintenances
-                .Include(x => x.Technician)
                 .OrderByDescending(x => x.CreatedAt).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(query.GeneralSearch))
             {
-                dbQuery = dbQuery.Where(x => x.Id.ToString().Contains(query.GeneralSearch)
-                    || x.Technician.FullName.Contains(query.GeneralSearch));
+                dbQuery = dbQuery.Where(x => x.Id.ToString().Contains(query.GeneralSearch));
             }
 
             return await dbQuery.ToPagedData<RecipientMaintenanceViewModel>(pagination, _mapper);

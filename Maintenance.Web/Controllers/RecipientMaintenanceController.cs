@@ -1,12 +1,6 @@
 ﻿using AutoMapper;
 using Maintenance.Core.Dtos;
-using Maintenance.Core.Enums;
-using Maintenance.Core.Resources;
-using Maintenance.Data.DbEntities;
-using Maintenance.Infrastructure.Services.Customers;
-using Maintenance.Infrastructure.Services.InstantMaintenanceItems;
 using Maintenance.Infrastructure.Services.RecipientMaintenances;
-using Maintenance.Infrastructure.Services.Reports;
 using Maintenance.Infrastructure.Services.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

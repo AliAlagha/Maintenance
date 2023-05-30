@@ -97,11 +97,17 @@
                             width: 100
                         },
                         {
-                            field: 'technician.fullName',
-                            title: '@Messages.Technician',
+                            field: 'collectedAmountFor',
+                            title: '@Messages.CollectedAmountFor',
                             sortable: false,
-                            autoHide: false,
-                            width: 100
+                            width: 100,
+                            template: function (data) {
+                                if (data.collectedAmountFor == 1){
+                                    return "@Messages.Maintenance";
+                                } else if (data.collectedAmountFor == 2) {
+                                    return "@Messages.SparePart";
+                                }
+                            }
                         },
                         {
                             field: 'Actions',

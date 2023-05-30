@@ -4,6 +4,7 @@ using Maintenance.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Maintenance.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230530072528_MakeCustomerIdOptionalInHandReceipt")]
+    partial class MakeCustomerIdOptionalInHandReceipt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -429,9 +431,6 @@ namespace Maintenance.Data.Migrations
                     b.Property<double?>("CollectedAmount")
                         .HasColumnType("float");
 
-                    b.Property<int>("CollectedAmountFor")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -440,6 +439,10 @@ namespace Maintenance.Data.Migrations
 
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
+
+                    b.Property<string>("TechnicianId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -450,6 +453,8 @@ namespace Maintenance.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BranchId");
+
+                    b.HasIndex("TechnicianId");
 
                     b.ToTable("RecipientMaintenances");
                 });
@@ -896,7 +901,15 @@ namespace Maintenance.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Maintenance.Data.DbEntities.User", "Technician")
+                        .WithMany("RecipientMaintenances")
+                        .HasForeignKey("TechnicianId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Branch");
+
+                    b.Navigation("Technician");
                 });
 
             modelBuilder.Entity("Maintenance.Data.DbEntities.ReturnHandReceipt", b =>
@@ -1078,6 +1091,8 @@ namespace Maintenance.Data.Migrations
             modelBuilder.Entity("Maintenance.Data.DbEntities.User", b =>
                 {
                     b.Navigation("HandReceiptItems");
+
+                    b.Navigation("RecipientMaintenances");
 
                     b.Navigation("ReturnHandReceiptItems");
                 });

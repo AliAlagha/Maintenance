@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Spreadsheet;
+using Maintenance.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Maintenance.Core.ViewModels
     {
         public int Id { get; set; }
         public double? CollectedAmount { get; set; }
-        public UserViewModel Technician { get; set; }
+        public CollectedAmountFor CollectedAmountFor { get; set; }
         public string CreatedAt { get; set; }
     }
 }

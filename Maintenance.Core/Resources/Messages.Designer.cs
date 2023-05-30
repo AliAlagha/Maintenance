@@ -97,7 +97,7 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to قم بإضافة عناصر الصيانة الفورية.
+        ///   Looks up a localized string similar to قم بإضافة قطع الصيانة الفورية.
         /// </summary>
         public static string AddInstantMaintenanceItemsMsg {
             get {
@@ -255,6 +255,15 @@ namespace Maintenance.Core.Resources {
         public static string CollectedAmount {
             get {
                 return ResourceManager.GetString("CollectedAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to المقابل.
+        /// </summary>
+        public static string CollectedAmountFor {
+            get {
+                return ResourceManager.GetString("CollectedAmountFor", resourceCulture);
             }
         }
         
@@ -826,7 +835,7 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to عنصر الصيانة الفورية.
+        ///   Looks up a localized string similar to قطعة صيانة فورية.
         /// </summary>
         public static string InstantMaintenanceItem {
             get {
@@ -835,7 +844,7 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to عناصر الصيانة الفورية.
+        ///   Looks up a localized string similar to قطع الصيانة الفورية.
         /// </summary>
         public static string InstantMaintenanceItems {
             get {
@@ -844,7 +853,7 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to طلبات الصيانة الفورية.
+        ///   Looks up a localized string similar to الصيانة الفورية.
         /// </summary>
         public static string InstantMaintenances {
             get {
@@ -984,6 +993,15 @@ namespace Maintenance.Core.Resources {
         public static string LoginToMaintenanceApp {
             get {
                 return ResourceManager.GetString("LoginToMaintenanceApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to صيانة.
+        /// </summary>
+        public static string Maintenance {
+            get {
+                return ResourceManager.GetString("Maintenance", resourceCulture);
             }
         }
         
@@ -1303,7 +1321,7 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to طلبات صيانة المستلم.
+        ///   Looks up a localized string similar to صيانة المستلم.
         /// </summary>
         public static string RecipientMaintenances {
             get {
@@ -1488,6 +1506,15 @@ namespace Maintenance.Core.Resources {
         public static string SignOut {
             get {
                 return ResourceManager.GetString("SignOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to قطعة غيار.
+        /// </summary>
+        public static string SparePart {
+            get {
+                return ResourceManager.GetString("SparePart", resourceCulture);
             }
         }
         

@@ -8,11 +8,13 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label>@Messages.Technician</label>
-                <select asp-for="TechnicianId" id="SelectTechnician" class="form-control form-control-solid select2">
-                    <option value="">-- @string.Format(Messages.Select, Messages.Technician) --</option>
+                <label>@Messages.CollectedAmountFor</label>
+                <select asp-for="CollectedAmountFor" class="form-control form-control-solid">
+                    <option value="">-- @string.Format(Messages.Select, Messages.CollectedAmountFor) --</option>
+                    <option value="@CollectedAmountFor.Maintenance">@Messages.Maintenance</option>
+                    <option value="@CollectedAmountFor.SparePart">@Messages.SparePart</option>
                 </select>
-                <span asp-validation-for="TechnicianId" class="text-danger"></span>
+                <span asp-validation-for="CollectedAmountFor" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-6">

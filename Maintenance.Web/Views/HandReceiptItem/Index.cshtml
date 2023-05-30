@@ -1,7 +1,21 @@
 ﻿@model int
 
 @{
-    ViewData["Title"] = Messages.HandReceiptItems;
+    var itemsTitle = "";
+    var itemTitle = "";
+    var maintenanceType = ViewBag.MaintenanceType;
+    if (maintenanceType == MaintenanceType.Normal)
+    {
+        ViewData["Title"] = Messages.HandReceiptItems;
+        itemsTitle = Messages.HandReceiptItems;
+        itemTitle = Messages.HandReceiptItem;
+    }
+    else if (maintenanceType == MaintenanceType.Instant)
+    {
+        ViewData["Title"] = Messages.InstantMaintenanceItems;
+        itemsTitle = Messages.InstantMaintenanceItems;
+        itemTitle = Messages.InstantMaintenanceItem;
+    }
 }
 
 <!--begin::Card-->
@@ -9,13 +23,13 @@
     <div class="card-header flex-wrap border-0 pt-6 pb-0">
         <div class="card-title">
             <h3 class="card-label">
-                @Messages.HandReceiptItems
-                <span class="d-block text-muted pt-2 font-size-sm">@string.Format(Messages.IndexSubTitle, Messages.HandReceiptItems)</span>
+                @itemsTitle
+                <span class="d-block text-muted pt-2 font-size-sm">@string.Format(Messages.IndexSubTitle, itemsTitle)</span>
             </h3>
         </div>
         <div class="card-toolbar">
             <!--begin::Button-->
-            <a href="~/HandReceiptItem/Create?HandReceiptId=@Model" title="@string.Format(Messages.CreateTitle, Messages.HandReceiptItem)" class="PopUp btn btn-primary font-weight-bolder mr-2">
+            <a href="~/HandReceiptItem/Create?HandReceiptId=@Model" title="@string.Format(Messages.CreateTitle, itemTitle)" class="PopUp btn btn-primary font-weight-bolder mr-2">
                 <span class="svg-icon svg-icon-md">
                     <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -82,7 +96,7 @@
                                 url: '/HandReceiptItem/GetAll',
                                 params: {
                                     HandReceiptId: @Model
-                                                                                }
+                                                                                                }
                             },
                         },
                         pageSize: 10,
@@ -245,7 +259,7 @@
                                 }
 
                                 if (data.technicianId != null && data.collectedAmount != null
-                                    && data.maintenanceRequestStatus != 1 
+                                    && data.maintenanceRequestStatus != 1
                                     && data.maintenanceRequestStatus != 8 && data.maintenanceRequestStatus != 9
                                     && data.maintenanceRequestStatus != 10 && data.maintenanceRequestStatus != 11) {
                                     result = result + '<a href="/HandReceiptItem/DeliverItem?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model" tname="#kt_datatable" class="btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Delivery">' +

@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Maintenance.Core.Enums;
 using Maintenance.Core.Resources;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace Maintenance.Core.Dtos
         public double? CollectedAmount { get; set; }
 
         [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Messages))]
-        [Display(Name = "Technician", ResourceType = typeof(Messages))]
-        public string TechnicianId { get; set; }
+        [Display(Name = "CollectedAmountFor", ResourceType = typeof(Messages))]
+        public CollectedAmountFor CollectedAmountFor { get; set; }
     }
 }
