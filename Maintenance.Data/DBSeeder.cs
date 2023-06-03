@@ -19,12 +19,12 @@ namespace Maintenance.Data
                 try
                 {
                     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                    context.Database.Migrate();
                     context.SeedBranches();
                     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
                     roleManager.SeedRoles().Wait();
                     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
                     userManager.SeedUsers(context).Wait();
-                    context.Database.Migrate();
                 }
                 catch (Exception ex)
                 {
