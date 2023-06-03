@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Maintenance.Web.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator, MaintenanceManager")]
     public class ColorController : BaseController
     {
         private readonly IColorService _colorService;

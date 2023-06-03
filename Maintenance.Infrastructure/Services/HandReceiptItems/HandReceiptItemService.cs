@@ -106,11 +106,26 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                 case HandReceiptItemRequestStatus.CheckItem:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.CheckItem}";
                     break;
+                case HandReceiptItemRequestStatus.DefineMalfunction:
+                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.DefineMalfunction}";
+                    break;
                 case HandReceiptItemRequestStatus.InformCustomerOfTheCost:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.InformCustomerOfTheCost}";
                     break;
                 case HandReceiptItemRequestStatus.CustomerApproved:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.CustomerApproved}";
+                    break;
+                case HandReceiptItemRequestStatus.CustomerRefused:
+                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.CustomerRefused} - {item.ReasonForRefusingMaintenance}";
+                    break;
+                case HandReceiptItemRequestStatus.NoResponseFromTheCustomer:
+                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.NoResponseFromTheCustomer}";
+                    break;
+                case HandReceiptItemRequestStatus.ItemCannotBeServiced:
+                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.ItemCannotBeServiced}";
+                    break;
+                case HandReceiptItemRequestStatus.NotifyCustomerOfTheInabilityToMaintain:
+                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.NotifyCustomerOfTheInabilityToMaintain}";
                     break;
                 case HandReceiptItemRequestStatus.EnterMaintenanceCost:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.EnterMaintenanceCost}";
@@ -123,9 +138,6 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                     break;
                 case HandReceiptItemRequestStatus.Delivered:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.Delivered}";
-                    break;
-                case HandReceiptItemRequestStatus.CustomerRefused:
-                    itemVm.MaintenanceRequestStatusMessage = $"{Messages.CustomerRefused} - {item.ReasonForRefusingMaintenance}";
                     break;
                 case HandReceiptItemRequestStatus.Suspended:
                     itemVm.MaintenanceRequestStatusMessage = $"{Messages.Suspended} - {item.MaintenanceSuspensionReason}";
@@ -183,9 +195,9 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
             {
                 handReceiptItem.FinalCost = input.SpecifiedCost;
             }
-            else if (input.CostTo != null)
+            else if (input.CostFrom != null || input.CostTo != null)
             {
-                handReceiptItem.FinalCost = input.CostTo;
+                handReceiptItem.NotifyCustomerOfTheCost = true;
             }
 
             handReceiptItem.BranchId = handReceipt.BranchId;
@@ -296,8 +308,11 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                 .SingleOrDefaultAsync(x => x.Id == handReceiptItemId && x.HandReceiptId == handReceiptId
                 && x.TechnicianId != null
                 && x.CollectedAmount != null
-                && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.Delivered
                 && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.CustomerRefused
+                && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.NoResponseFromTheCustomer
+                && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.ItemCannotBeServiced
+                && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.NotifyCustomerOfTheInabilityToMaintain
+                && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.Delivered
                 && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.Suspended
                 && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained);
             if (handReceiptItem == null)
@@ -317,8 +332,11 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                 .Include(x => x.HandReceiptItems.Where(x =>
                     x.TechnicianId != null
                     && x.CollectedAmount != null
-                    && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.Delivered
                     && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.CustomerRefused
+                    && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.NoResponseFromTheCustomer
+                    && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.ItemCannotBeServiced
+                    && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.NotifyCustomerOfTheInabilityToMaintain
+                    && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.Delivered
                     && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.Suspended
                     && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained))
                 .SingleOrDefaultAsync(x => x.Id == handReceiptId
@@ -354,6 +372,9 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                 x.TechnicianId != null
                 && x.CollectedAmount != null
                 && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.CustomerRefused
+                && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.NoResponseFromTheCustomer
+                && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.ItemCannotBeServiced
+                && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.NotifyCustomerOfTheInabilityToMaintain
                 && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.Suspended);
             }
 

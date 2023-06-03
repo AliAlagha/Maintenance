@@ -511,6 +511,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to تحديد العطل.
+        /// </summary>
+        public static string DefineMalfunction {
+            get {
+                return ResourceManager.GetString("DefineMalfunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to حذف.
         /// </summary>
         public static string Delete {
@@ -916,6 +925,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to لا يمكن صيانة القطعة.
+        /// </summary>
+        public static string ItemCannotBeServiced {
+            get {
+                return ResourceManager.GetString("ItemCannotBeServiced", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to تم إنشاء العنصر بنجاح.
         /// </summary>
         public static string ItemCreatedSuccessfully {
@@ -1132,6 +1150,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to لا يوجد رد من العميل.
+        /// </summary>
+        public static string NoResponseFromTheCustomer {
+            get {
+                return ResourceManager.GetString("NoResponseFromTheCustomer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to المبلغ المدخل غير مسموح به.
         /// </summary>
         public static string NotAllowedAmount {
@@ -1173,6 +1200,15 @@ namespace Maintenance.Core.Resources {
         public static string NotifyCustomerOfTheCost {
             get {
                 return ResourceManager.GetString("NotifyCustomerOfTheCost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to إبلاغ العميل بعدم امكانية الصيانة.
+        /// </summary>
+        public static string NotifyCustomerOfTheInabilityToMaintain {
+            get {
+                return ResourceManager.GetString("NotifyCustomerOfTheInabilityToMaintain", resourceCulture);
             }
         }
         

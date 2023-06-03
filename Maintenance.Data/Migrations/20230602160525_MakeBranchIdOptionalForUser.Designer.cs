@@ -4,6 +4,7 @@ using Maintenance.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Maintenance.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230602160525_MakeBranchIdOptionalForUser")]
+    partial class MakeBranchIdOptionalForUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -227,6 +229,7 @@ namespace Maintenance.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int?>("BranchId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
@@ -271,6 +274,7 @@ namespace Maintenance.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int?>("BranchId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<double?>("CollectedAmount")
@@ -424,6 +428,7 @@ namespace Maintenance.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int?>("BranchId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<double?>("CollectedAmount")
@@ -463,6 +468,7 @@ namespace Maintenance.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int?>("BranchId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
@@ -510,6 +516,7 @@ namespace Maintenance.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int?>("BranchId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Color")
@@ -842,7 +849,8 @@ namespace Maintenance.Data.Migrations
                     b.HasOne("Maintenance.Data.DbEntities.Branch", "Branch")
                         .WithMany("HandReceipts")
                         .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Maintenance.Data.DbEntities.Customer", "Customer")
                         .WithMany("HandReceipts")
@@ -859,7 +867,8 @@ namespace Maintenance.Data.Migrations
                     b.HasOne("Maintenance.Data.DbEntities.Branch", "Branch")
                         .WithMany("HandReceiptItems")
                         .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Maintenance.Data.DbEntities.Customer", "Customer")
                         .WithMany("HandReceiptItems")
@@ -891,7 +900,8 @@ namespace Maintenance.Data.Migrations
                     b.HasOne("Maintenance.Data.DbEntities.Branch", "Branch")
                         .WithMany("RecipientMaintenances")
                         .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Branch");
                 });
@@ -901,7 +911,8 @@ namespace Maintenance.Data.Migrations
                     b.HasOne("Maintenance.Data.DbEntities.Branch", "Branch")
                         .WithMany("ReturnHandReceipts")
                         .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Maintenance.Data.DbEntities.Customer", "Customer")
                         .WithMany("ReturnHandReceipts")
@@ -926,7 +937,8 @@ namespace Maintenance.Data.Migrations
                     b.HasOne("Maintenance.Data.DbEntities.Branch", "Branch")
                         .WithMany("ReturnHandReceiptItems")
                         .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Maintenance.Data.DbEntities.Customer", "Customer")
                         .WithMany("ReturnHandReceiptItems")

@@ -129,7 +129,7 @@ namespace Maintenance.Infrastructure.Services.Customers
             return await customers.Select(x => new BaseVm
             {
                 Id = x.Id,
-                Name = x.Name
+                Name = x.Name + " - " + x.PhoneNumber
             }).ToListAsync();
         }
     }

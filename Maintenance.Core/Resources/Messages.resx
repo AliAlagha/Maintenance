@@ -267,6 +267,9 @@
   <data name="DeActivated" xml:space="preserve">
     <value>غير فعال</value>
   </data>
+  <data name="DefineMalfunction" xml:space="preserve">
+    <value>تحديد العطل</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>حذف</value>
   </data>
@@ -402,6 +405,9 @@
   <data name="ItemBarcodes" xml:space="preserve">
     <value>أرقام القطع</value>
   </data>
+  <data name="ItemCannotBeServiced" xml:space="preserve">
+    <value>لا يمكن صيانة القطعة</value>
+  </data>
   <data name="ItemCreatedSuccessfully" xml:space="preserve">
     <value>تم إنشاء العنصر بنجاح</value>
   </data>
@@ -474,6 +480,9 @@
   <data name="No" xml:space="preserve">
     <value>لا</value>
   </data>
+  <data name="NoResponseFromTheCustomer" xml:space="preserve">
+    <value>لا يوجد رد من العميل</value>
+  </data>
   <data name="NotAllowedAmount" xml:space="preserve">
     <value>المبلغ المدخل غير مسموح به</value>
   </data>
@@ -488,6 +497,9 @@
   </data>
   <data name="NotifyCustomerOfTheCost" xml:space="preserve">
     <value>يتطلب إبلاغ العميل بالتكلفة؟</value>
+  </data>
+  <data name="NotifyCustomerOfTheInabilityToMaintain" xml:space="preserve">
+    <value>إبلاغ العميل بعدم امكانية الصيانة</value>
   </data>
   <data name="NotMaintainedItemsReport" xml:space="preserve">
     <value>تقرير القطع التي لم يتم صيانتها</value>

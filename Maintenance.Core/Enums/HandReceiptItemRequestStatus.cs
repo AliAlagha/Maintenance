@@ -10,14 +10,18 @@ namespace Maintenance.Core.Enums
     {
         New = 1,
         CheckItem = 2,
-        InformCustomerOfTheCost = 3,
-        CustomerApproved = 4,
-        EnterMaintenanceCost = 5,
-        Completed = 6,
-        NotifyCustomerOfMaintenanceEnd = 7,
-        Delivered = 8,
-        CustomerRefused = 9,
-        Suspended = 10,
-        RemovedFromMaintained = 11
+        DefineMalfunction = 3,
+        InformCustomerOfTheCost = 4,
+        CustomerApproved = 5,
+        CustomerRefused = 6,
+        NoResponseFromTheCustomer = 7,
+        ItemCannotBeServiced = 8,
+        NotifyCustomerOfTheInabilityToMaintain = 9,
+        EnterMaintenanceCost = 10,
+        Completed = 11,
+        NotifyCustomerOfMaintenanceEnd = 12,
+        Delivered = 13,
+        Suspended = 14,
+        RemovedFromMaintained = 15,
     }
 }

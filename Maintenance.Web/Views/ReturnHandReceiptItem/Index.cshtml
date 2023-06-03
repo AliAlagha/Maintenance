@@ -68,10 +68,10 @@
     <script>
         "use strict";
         // Class definition
-        var KTDatatableAutoColumnHideDemo = function() {
+        var KTDatatableAutoColumnHideDemo = function () {
             // Private functions
             // basic demo
-            var demo = function() {
+            var demo = function () {
                 var datatable = $('#kt_datatable').KTDatatable({
                     // datasource definition
                     data: {
@@ -81,7 +81,7 @@
                                 url: '/ReturnHandReceiptItem/GetAll',
                                 params: {
                                     ReturnHandReceiptId: @Model
-                                                            }
+                                                                            }
                             },
                         },
                         pageSize: 10,
@@ -106,52 +106,10 @@
                     // columns definition
                     columns: [
                         {
-                            field: 'item',
-                            title: '@Messages.Item',
-                            sortable: false,
-                            autoHide: false,
-                            width: 100
-                        },
-                        {
-                            field: 'itemBarcode',
-                            title: '@Messages.Barcode',
-                            sortable: false,
-                            width: 100
-                        },
-                        {
-                            field: 'company',
-                            title: '@Messages.Company',
-                            sortable: false,
-                            width: 100
-                        },
-                        {
-                            field: 'color',
-                            title: '@Messages.Color',
-                            sortable: false,
-                            width: 100
-                        },
-                        {
-                            field: 'description',
-                            title: '@Messages.Description',
-                            sortable: false,
-                            width: 100
-                        },
-                        {
-                            field: 'returnReason',
-                            title: '@Messages.ReturnReason',
-                            sortable: false,
-                            width: 300
-                        },
-                        {
                             field: 'maintenanceRequestStatusMessage',
                             title: '@Messages.Status',
                             sortable: false,
-                            width: 100
-                        },
-                        {
-                            field: 'deliveryDate',
-                            title: '@Messages.DeliveryDate',
-                            sortable: false,
+                            autoHide: false,
                             width: 100
                         },
                         {
@@ -161,7 +119,7 @@
                             width: 120,
                             overflow: 'visible',
                             autoHide: false,
-                            template: function(data) {
+                            template: function (data) {
                                 var result = '';
 
                                 result = result + '<a href="/Barcode/DownloadBarcode?FilePath=' + data.itemBarcodeFilePath + '" class="btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Barcode">' +
@@ -177,7 +135,7 @@
                                     '    </span>' +
                                     '</a>';
 
-                                if (data.technicianId != null 
+                                if (data.technicianId != null
                                     && data.maintenanceRequestStatus != 1 && data.maintenanceRequestStatus != 3
                                     && data.maintenanceRequestStatus != 4 && data.maintenanceRequestStatus != 8
                                     && data.maintenanceRequestStatus != 9 && data.maintenanceRequestStatus != 10) {
@@ -217,17 +175,60 @@
 
                                 return result;
                             },
+                        },
+                        {
+                            field: 'item',
+                            title: '@Messages.Item',
+                            sortable: false,
+                            autoHide: false,
+                            width: 100
+                        },
+                        {
+                            field: 'itemBarcode',
+                            title: '@Messages.Barcode',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'company',
+                            title: '@Messages.Company',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'color',
+                            title: '@Messages.Color',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'description',
+                            title: '@Messages.Description',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'returnReason',
+                            title: '@Messages.ReturnReason',
+                            sortable: false,
+                            width: 300
+                        },
+                        {
+                            field: 'deliveryDate',
+                            title: '@Messages.DeliveryDate',
+                            sortable: false,
+                            width: 100
                         }],
                 });
             };
             return {
                 // public functions
-                init: function() {
+                init: function () {
                     demo();
                 },
             };
         }();
-        jQuery(document).ready(function() {
+        jQuery(document).ready(function () {
             KTDatatableAutoColumnHideDemo.init();
         });
     </script>

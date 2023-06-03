@@ -36,6 +36,13 @@ namespace Maintenance.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (input.UserType != UserType.Administrator
+                    && input.BranchId == null)
+                {
+                    ModelState.AddModelError("RequiredError", "");
+                    return View(input);
+                }
+
                 await _userService.Create(input, UserId);
                 return CreatedSuccessfully();
             }

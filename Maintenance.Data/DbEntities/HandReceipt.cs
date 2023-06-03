@@ -18,7 +18,7 @@ namespace Maintenance.Data.DbEntities
         public int? CustomerId { get; set; }
         public Customer Customer { get; set; }
         public DateTime Date { get; set; }
-        public int BranchId { get; set; }
+        public int? BranchId { get; set; }
         public Branch Branch { get; set; }
         public MaintenanceType MaintenanceType { get; set; }
         public List<HandReceiptItem> HandReceiptItems { get; set; }

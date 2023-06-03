@@ -129,9 +129,9 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                 {
                     handReceiptItem.FinalCost = itemDto.SpecifiedCost;
                 }
-                else if (itemDto.CostTo != null)
+                else if (itemDto.CostFrom != null || itemDto.CostTo != null)
                 {
-                    handReceiptItem.FinalCost = itemDto.CostTo;
+                    handReceiptItem.NotifyCustomerOfTheCost = true;
                 }
 
                 handReceiptItem.ItemBarcodeFilePath = _barcodeService.GenerateBarcode(handReceiptItem.ItemBarcode);

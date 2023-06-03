@@ -79,6 +79,88 @@
                     // columns definition
                     columns: [
                         {
+                            field: 'maintenanceRequestStatusMessage',
+                            title: '@Messages.Status',
+                            sortable: false,
+                            autoHide: false,
+                            width: 200
+                        },
+                        {
+                            field: 'Actions',
+                            title: '@Messages.Actions',
+                            sortable: false,
+                            width: 160,
+                            overflow: 'visible',
+                            autoHide: false,
+                            template: function (data) {
+                                var result = '';
+                                result = result +
+                                    '<div class="dropdown dropdown-inline">' +
+                                    '    <a href="javascript:;" class="btn btn-sm btn-clean btn-icon mr-2" data-toggle="dropdown">' +
+                                    '        <span class="svg-icon svg-icon-md">' +
+                                    '            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
+                                    '                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
+                                    '                    <rect x="0" y="0" width="24" height="24" />' +
+                                    '                    <path d="M5,8.6862915 L5,5 L8.6862915,5 L11.5857864,2.10050506 L14.4852814,5 L19,5 L19,9.51471863 L21.4852814,12 L19,14.4852814 L19,19 L14.4852814,19 L11.5857864,21.8994949 L8.6862915,19 L5,19 L5,15.3137085 L1.6862915,12 L5,8.6862915 Z M12,15 C13.6568542,15 15,13.6568542 15,12 C15,10.3431458 13.6568542,9 12,9 C10.3431458,9 9,10.3431458 9,12 C9,13.6568542 10.3431458,15 12,15 Z" fill="#000000" />' +
+                                    '                </g>' +
+                                    '            </svg>' +
+                                    '        </span>' +
+                                    '    </a>' +
+                                    '    <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">' +
+                                    '        <ul class="navi flex-column navi-hover py-2">' +
+                                    '            <li class="navi-header font-weight-bolder text-uppercase font-size-xs text-primary pb-2">' +
+                                    '                @Messages.SelectAction:' +
+                                    '            </li>';
+                                if (data.maintenanceRequestStatus == 2 || data.maintenanceRequestStatus == 4) {
+                                    result = result +
+                                        '            </li>' +
+                                        '            <li class="navi-item">' +
+                                        '                <a href="/Maintenance/UpdateStatusForReturnHandReceiptItem?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.CheckItem">' +
+                                        '                    <span class="navi-text">@Messages.CheckItem</span>' +
+                                        '                </a>' +
+                                        '            </li>'
+                                } else if (data.maintenanceRequestStatus == 5) {
+                                    result = result +
+                                        '            <li class="navi-item">'
+                                        +
+                                        '                <a href="/Maintenance/UpdateStatusForReturnHandReceiptItem?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.InformCustomerOfTheCost">' +
+                                        '                    <span class="navi-text">@Messages.Completed</span>' +
+                                        '                </a>' +
+                                        '            </li>';
+                                } else if (data.maintenanceRequestStatus == 6) {
+                                    result = result +
+                                        '            <li class="navi-item">' +
+                                        '                <a href="/Maintenance/UpdateStatusForReturnHandReceiptItem?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.NotifyCustomerOfMaintenanceEnd">' +
+                                        '                    <span class="navi-text">@Messages.NotifyCustomerOfMaintenanceEnd</span>' +
+                                        '                </a>' +
+                                        '            </li>' +
+                                        '        </ul>' +
+                                        '    </div>' +
+                                        '</div>';
+                                }
+
+                                result = result + '</ul>' +
+                                    '    </div>' +
+                                    '</div>';
+
+                                if (data.maintenanceRequestStatus != 9) {
+                                    result = result + '<a href="/Maintenance/SuspenseMaintenanceForReturnHandReceiptItem?ReceiptItemId=' + data.id + '" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Suspension">' +
+                                        '    <span class="svg-icon svg-icon-md">' +
+                                        '       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
+                                        '           <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
+                                        '               <rect x="0" y="0" width="24" height="24"/>' +
+                                        '               <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10"/>' +
+                                        '               <path d="M12,16 C12.5522847,16 13,16.4477153 13,17 C13,17.5522847 12.5522847,18 12,18 C11.4477153,18 11,17.5522847 11,17 C11,16.4477153 11.4477153,16 12,16 Z M10.591,14.868 L10.591,13.209 L11.851,13.209 C13.447,13.209 14.602,11.991 14.602,10.395 C14.602,8.799 13.447,7.581 11.851,7.581 C10.234,7.581 9.121,8.799 9.121,10.395 L7.336,10.395 C7.336,7.875 9.31,5.922 11.851,5.922 C14.392,5.922 16.387,7.875 16.387,10.395 C16.387,12.915 14.392,14.868 11.851,14.868 L10.591,14.868 Z" fill="#000000"/>' +
+                                        '           </g>' +
+                                        '       </svg>' +
+                                        '    </span>' +
+                                        '</a>';
+                                }
+
+                                return result;
+                            },
+                        },
+                        {
                             field: 'item',
                             title: '@Messages.Item',
                             sortable: false,
@@ -175,87 +257,6 @@
                             title: '@Messages.ReturnReason',
                             sortable: false,
                             width: 100
-                        },
-                        {
-                            field: 'maintenanceRequestStatusMessage',
-                            title: '@Messages.Status',
-                            sortable: false,
-                            width: 200
-                        },
-                        {
-                            field: 'Actions',
-                            title: '@Messages.Actions',
-                            sortable: false,
-                            width: 160,
-                            overflow: 'visible',
-                            autoHide: false,
-                            template: function (data) {
-                                var result = '';
-                                result = result +
-                                    '<div class="dropdown dropdown-inline">' +
-                                    '    <a href="javascript:;" class="btn btn-sm btn-clean btn-icon mr-2" data-toggle="dropdown">' +
-                                    '        <span class="svg-icon svg-icon-md">' +
-                                    '            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
-                                    '                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
-                                    '                    <rect x="0" y="0" width="24" height="24" />' +
-                                    '                    <path d="M5,8.6862915 L5,5 L8.6862915,5 L11.5857864,2.10050506 L14.4852814,5 L19,5 L19,9.51471863 L21.4852814,12 L19,14.4852814 L19,19 L14.4852814,19 L11.5857864,21.8994949 L8.6862915,19 L5,19 L5,15.3137085 L1.6862915,12 L5,8.6862915 Z M12,15 C13.6568542,15 15,13.6568542 15,12 C15,10.3431458 13.6568542,9 12,9 C10.3431458,9 9,10.3431458 9,12 C9,13.6568542 10.3431458,15 12,15 Z" fill="#000000" />' +
-                                    '                </g>' +
-                                    '            </svg>' +
-                                    '        </span>' +
-                                    '    </a>' +
-                                    '    <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">' +
-                                    '        <ul class="navi flex-column navi-hover py-2">' +
-                                    '            <li class="navi-header font-weight-bolder text-uppercase font-size-xs text-primary pb-2">' +
-                                    '                @Messages.SelectAction:' +
-                                    '            </li>';
-                                if (data.maintenanceRequestStatus == 2 || data.maintenanceRequestStatus == 4) {
-                                    result = result +
-                                        '            </li>' +
-                                        '            <li class="navi-item">' +
-                                        '                <a href="/Maintenance/UpdateStatusForReturnHandReceiptItem?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.CheckItem">' +
-                                        '                    <span class="navi-text">@Messages.CheckItem</span>' +
-                                        '                </a>' +
-                                        '            </li>'
-                                } else if (data.maintenanceRequestStatus == 5) {
-                                    result = result +
-                                        '            <li class="navi-item">'
-                                        +
-                                        '                <a href="/Maintenance/UpdateStatusForReturnHandReceiptItem?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.InformCustomerOfTheCost">' +
-                                        '                    <span class="navi-text">@Messages.Completed</span>' +
-                                        '                </a>' +
-                                        '            </li>';
-                                } else if (data.maintenanceRequestStatus == 6) {
-                                    result = result +
-                                        '            <li class="navi-item">' +
-                                        '                <a href="/Maintenance/UpdateStatusForReturnHandReceiptItem?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.NotifyCustomerOfMaintenanceEnd">' +
-                                        '                    <span class="navi-text">@Messages.NotifyCustomerOfMaintenanceEnd</span>' +
-                                        '                </a>' +
-                                        '            </li>' +
-                                        '        </ul>' +
-                                        '    </div>' +
-                                        '</div>';
-                                }
-
-                                result = result + '</ul>' +
-                                    '    </div>' +
-                                    '</div>';
-
-                                if (data.maintenanceRequestStatus != 9) {
-                                    result = result + '<a href="/Maintenance/SuspenseMaintenanceForReturnHandReceiptItem?ReceiptItemId=' + data.id + '" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Suspension">' +
-                                        '    <span class="svg-icon svg-icon-md">' +
-                                        '       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
-                                        '           <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
-                                        '               <rect x="0" y="0" width="24" height="24"/>' +
-                                        '               <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10"/>' +
-                                        '               <path d="M12,16 C12.5522847,16 13,16.4477153 13,17 C13,17.5522847 12.5522847,18 12,18 C11.4477153,18 11,17.5522847 11,17 C11,16.4477153 11.4477153,16 12,16 Z M10.591,14.868 L10.591,13.209 L11.851,13.209 C13.447,13.209 14.602,11.991 14.602,10.395 C14.602,8.799 13.447,7.581 11.851,7.581 C10.234,7.581 9.121,8.799 9.121,10.395 L7.336,10.395 C7.336,7.875 9.31,5.922 11.851,5.922 C14.392,5.922 16.387,7.875 16.387,10.395 C16.387,12.915 14.392,14.868 11.851,14.868 L10.591,14.868 Z" fill="#000000"/>' +
-                                        '           </g>' +
-                                        '       </svg>' +
-                                        '    </span>' +
-                                        '</a>';
-                                }
-
-                                return result;
-                            },
                         }],
                 });
             };

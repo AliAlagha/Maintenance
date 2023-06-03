@@ -9,7 +9,7 @@ namespace Maintenance.Data.Constraints
         public void Configure(EntityTypeBuilder<RecipientMaintenance> builder)
         {
             builder.HasQueryFilter(x => !x.IsDelete);
-            builder.HasOne(x => x.Branch).WithMany(x => x.RecipientMaintenances).OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(x => x.Branch).WithMany(x => x.RecipientMaintenances).OnDelete(DeleteBehavior.Restrict).IsRequired(false);
         }
     }
 }

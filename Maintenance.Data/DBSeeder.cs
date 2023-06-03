@@ -61,8 +61,7 @@ namespace Maintenance.Data
                         UserType = UserType.Administrator,
                         IsActive = true,
                         EmailConfirmed = true,
-                        PhoneNumberConfirmed = true,
-                        BranchId = branchId
+                        PhoneNumberConfirmed = true
                     },
                     new User
                     {

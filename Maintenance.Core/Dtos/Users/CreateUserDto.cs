@@ -30,9 +30,8 @@ namespace Maintenance.Core.Dtos
         [Display(Name = "UserType", ResourceType = typeof(Messages))]
         public UserType UserType { get; set; }
 
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Messages))]
         [Display(Name = "Branch", ResourceType = typeof(Messages))]
-        public int BranchId { get; set; }
+        public int? BranchId { get; set; }
 
         [Display(Name = "Image", ResourceType = typeof(Messages))] 
         public IFormFile? ImageFile { get; set; }

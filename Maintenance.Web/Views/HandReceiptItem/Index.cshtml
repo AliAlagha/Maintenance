@@ -121,6 +121,114 @@
                     // columns definition
                     columns: [
                         {
+                            field: 'maintenanceRequestStatusMessage',
+                            title: '@Messages.Status',
+                            sortable: false,
+                            autoHide: false,
+                            width: 100
+                        },
+                        {
+                            field: 'Actions',
+                            title: '@Messages.Actions',
+                            sortable: false,
+                            width: 160,
+                            overflow: 'visible',
+                            autoHide: false,
+                            template: function (data) {
+                                var result = '';
+                                //if ('@ViewBag.UserType' == "Administrator") {
+                                //    result = result + GetPopUpEditAction('/HandReceiptItem/Edit?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model'
+                                //        , '@string.Format(Messages.EditTitle, Messages.HandReceiptItem)');
+                                //}
+
+                                result = result + '<a href="/Barcode/DownloadBarcode?FilePath=' + data.itemBarcodeFilePath + '" class="btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Barcode">' +
+                                    '    <span class="svg-icon svg-icon-md">' +
+                                    '            <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo8/dist/../src/media/svg/icons/Shopping/Barcode.svg-->' +
+                                    '            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
+                                    '                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
+                                    '                    <rect x="0" y="0" width="24" height="24" />' +
+                                    '                    <path d="M13,5 L15,5 L15,20 L13,20 L13,5 Z M5,5 L5,20 L3,20 C2.44771525,20 2,19.5522847 2,19 L2,6 C2,5.44771525 2.44771525,5 3,5 L5,5 Z M16,5 L18,5 L18,20 L16,20 L16,5 Z M20,5 L21,5 C21.5522847,5 22,5.44771525 22,6 L22,19 C22,19.5522847 21.5522847,20 21,20 L20,20 L20,5 Z" fill="#000000" />' +
+                                    '                    <polygon fill="#000000" opacity="0.3" points="9 5 9 20 7 20 7 5" />' +
+                                    '                </g>' +
+                                    '            </svg><!--end::Svg Icon-->' +
+                                    '    </span>' +
+                                    '</a>';
+
+                                if (data.collectedAmount == null) {
+                                    result = result + '<a href="/HandReceiptItem/CollectMoney?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model" tname="#kt_datatable" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.CollectingMoney">' +
+                                        '    <span class="svg-icon svg-icon-md">' +
+                                        '        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
+                                        '            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
+                                        '                <rect x="0" y="0" width="24" height="24" />' +
+                                        '                <path d="M2,6 L21,6 C21.5522847,6 22,6.44771525 22,7 L22,17 C22,17.5522847 21.5522847,18 21,18 L2,18 C1.44771525,18 1,17.5522847 1,17 L1,7 C1,6.44771525 1.44771525,6 2,6 Z M11.5,16 C13.709139,16 15.5,14.209139 15.5,12 C15.5,9.790861 13.709139,8 11.5,8 C9.290861,8 7.5,9.790861 7.5,12 C7.5,14.209139 9.290861,16 11.5,16 Z" fill="#000000" opacity="0.3" transform="translate(11.500000, 12.000000) rotate(-345.000000) translate(-11.500000, -12.000000) " />' +
+                                        '                <path d="M2,6 L21,6 C21.5522847,6 22,6.44771525 22,7 L22,17 C22,17.5522847 21.5522847,18 21,18 L2,18 C1.44771525,18 1,17.5522847 1,17 L1,7 C1,6.44771525 1.44771525,6 2,6 Z M11.5,16 C13.709139,16 15.5,14.209139 15.5,12 C15.5,9.790861 13.709139,8 11.5,8 C9.290861,8 7.5,9.790861 7.5,12 C7.5,14.209139 9.290861,16 11.5,16 Z M11.5,14 C12.6045695,14 13.5,13.1045695 13.5,12 C13.5,10.8954305 12.6045695,10 11.5,10 C10.3954305,10 9.5,10.8954305 9.5,12 C9.5,13.1045695 10.3954305,14 11.5,14 Z" fill="#000000" />' +
+                                        '            </g>' +
+                                        '        </svg>' +
+                                        '    </span>' +
+                                        '</a>';
+                                }
+
+                                const StatusEnum = {
+                                    New: 1,
+                                    CheckItem: 2,
+                                    DefineMalfunction: 3,
+                                    InformCustomerOfTheCost: 4,
+                                    CustomerApproved: 5,
+                                    CustomerRefused: 6,
+                                    NoResponseFromTheCustomer: 7,
+                                    ItemCannotBeServiced: 8,
+                                    NotifyCustomerOfTheInabilityToMaintain: 9,
+                                    EnterMaintenanceCost: 10,
+                                    Completed: 11,
+                                    NotifyCustomerOfMaintenanceEnd: 12,
+                                    Delivered: 13,
+                                    Suspended: 14,
+                                    RemovedFromMaintained: 15
+                                }
+
+                                if (data.technicianId != null && data.collectedAmount != null
+                                    && data.maintenanceRequestStatus != StatusEnum.New
+                                    && data.maintenanceRequestStatus != StatusEnum.CustomerRefused 
+                                    && data.maintenanceRequestStatus != StatusEnum.NoResponseFromTheCustomer
+                                    && data.maintenanceRequestStatus != StatusEnum.ItemCannotBeServiced
+                                    && data.maintenanceRequestStatus != StatusEnum.NotifyCustomerOfTheInabilityToMaintain
+                                    && data.maintenanceRequestStatus != StatusEnum.Delivered
+                                    && data.maintenanceRequestStatus != StatusEnum.Suspended
+                                    && data.maintenanceRequestStatus != StatusEnum.RemovedFromMaintained) {
+                                    result = result + '<a href="/HandReceiptItem/DeliverItem?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model" tname="#kt_datatable" class="btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Delivery">' +
+                                        '    <span class="svg-icon svg-icon-md">' +
+                                        '        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
+                                        '            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
+                                        '                <polygon points="0 0 24 0 24 24 0 24" />' +
+                                        '                <path d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z M10.875,15.75 C11.1145833,15.75 11.3541667,15.6541667 11.5458333,15.4625 L15.3791667,11.6291667 C15.7625,11.2458333 15.7625,10.6708333 15.3791667,10.2875 C14.9958333,9.90416667 14.4208333,9.90416667 14.0375,10.2875 L10.875,13.45 L9.62916667,12.2041667 C9.29375,11.8208333 8.67083333,11.8208333 8.2875,12.2041667 C7.90416667,12.5875 7.90416667,13.1625 8.2875,13.5458333 L10.2041667,15.4625 C10.3958333,15.6541667 10.6354167,15.75 10.875,15.75 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />' +
+                                        '                <path d="M10.875,15.75 C10.6354167,15.75 10.3958333,15.6541667 10.2041667,15.4625 L8.2875,13.5458333 C7.90416667,13.1625 7.90416667,12.5875 8.2875,12.2041667 C8.67083333,11.8208333 9.29375,11.8208333 9.62916667,12.2041667 L10.875,13.45 L14.0375,10.2875 C14.4208333,9.90416667 14.9958333,9.90416667 15.3791667,10.2875 C15.7625,10.6708333 15.7625,11.2458333 15.3791667,11.6291667 L11.5458333,15.4625 C11.3541667,15.6541667 11.1145833,15.75 10.875,15.75 Z" fill="#000000" />' +
+                                        '            </g>' +
+                                        '        </svg>' +
+                                        '    </span>' +
+                                        '</a>';
+                                }
+
+                                if (data.maintenanceRequestStatus == StatusEnum.Delivered) {
+                                    result = result + '<a href="/HandReceiptItem/RemoveFromMaintained?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model" tname="#kt_datatable" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.RemoveFromMaintained">' +
+                                        '    <span class="svg-icon svg-icon-md">' +
+                                        '        <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo8/dist/../src/media/svg/icons/Code/Error-circle.svg-->' +
+                                        '        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
+                                        '            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
+                                        '                <rect x="0" y="0" width="24" height="24" />' +
+                                        '                <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10" />' +
+                                        '                <path d="M12.0355339,10.6213203 L14.863961,7.79289322 C15.2544853,7.40236893 15.8876503,7.40236893 16.2781746,7.79289322 C16.6686989,8.18341751 16.6686989,8.81658249 16.2781746,9.20710678 L13.4497475,12.0355339 L16.2781746,14.863961 C16.6686989,15.2544853 16.6686989,15.8876503 16.2781746,16.2781746 C15.8876503,16.6686989 15.2544853,16.6686989 14.863961,16.2781746 L12.0355339,13.4497475 L9.20710678,16.2781746 C8.81658249,16.6686989 8.18341751,16.6686989 7.79289322,16.2781746 C7.40236893,15.8876503 7.40236893,15.2544853 7.79289322,14.863961 L10.6213203,12.0355339 L7.79289322,9.20710678 C7.40236893,8.81658249 7.40236893,8.18341751 7.79289322,7.79289322 C8.18341751,7.40236893 8.81658249,7.40236893 9.20710678,7.79289322 L12.0355339,10.6213203 Z" fill="#000000" />' +
+                                        '            </g>' +
+                                        '        </svg><!--end::Svg Icon-->' +
+                                        '    </span>' +
+                                        '</a>';
+                                }
+
+                                result = result + GetDeleteAction('/HandReceiptItem/Delete?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model');
+
+                                return result;
+                            },
+                        },
+                        {
                             field: 'item',
                             title: '@Messages.Item',
                             sortable: false,
@@ -206,94 +314,10 @@
                             width: 100
                         },
                         {
-                            field: 'maintenanceRequestStatusMessage',
-                            title: '@Messages.Status',
-                            sortable: false,
-                            width: 100
-                        },
-                        {
                             field: 'deliveryDate',
                             title: '@Messages.DeliveryDate',
                             sortable: false,
                             width: 100
-                        },
-                        {
-                            field: 'Actions',
-                            title: '@Messages.Actions',
-                            sortable: false,
-                            width: 160,
-                            overflow: 'visible',
-                            autoHide: false,
-                            template: function (data) {
-                                var result = '';
-                                //if ('@ViewBag.UserType' == "Administrator") {
-                                //    result = result + GetPopUpEditAction('/HandReceiptItem/Edit?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model'
-                                //        , '@string.Format(Messages.EditTitle, Messages.HandReceiptItem)');
-                                //}
-
-                                result = result + '<a href="/Barcode/DownloadBarcode?FilePath=' + data.itemBarcodeFilePath + '" class="btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Barcode">' +
-                                    '    <span class="svg-icon svg-icon-md">' +
-                                    '            <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo8/dist/../src/media/svg/icons/Shopping/Barcode.svg-->' +
-                                    '            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
-                                    '                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
-                                    '                    <rect x="0" y="0" width="24" height="24" />' +
-                                    '                    <path d="M13,5 L15,5 L15,20 L13,20 L13,5 Z M5,5 L5,20 L3,20 C2.44771525,20 2,19.5522847 2,19 L2,6 C2,5.44771525 2.44771525,5 3,5 L5,5 Z M16,5 L18,5 L18,20 L16,20 L16,5 Z M20,5 L21,5 C21.5522847,5 22,5.44771525 22,6 L22,19 C22,19.5522847 21.5522847,20 21,20 L20,20 L20,5 Z" fill="#000000" />' +
-                                    '                    <polygon fill="#000000" opacity="0.3" points="9 5 9 20 7 20 7 5" />' +
-                                    '                </g>' +
-                                    '            </svg><!--end::Svg Icon-->' +
-                                    '    </span>' +
-                                    '</a>';
-
-                                if (data.collectedAmount == null) {
-                                    result = result + '<a href="/HandReceiptItem/CollectMoney?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model" tname="#kt_datatable" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.CollectingMoney">' +
-                                        '    <span class="svg-icon svg-icon-md">' +
-                                        '        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
-                                        '            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
-                                        '                <rect x="0" y="0" width="24" height="24" />' +
-                                        '                <path d="M2,6 L21,6 C21.5522847,6 22,6.44771525 22,7 L22,17 C22,17.5522847 21.5522847,18 21,18 L2,18 C1.44771525,18 1,17.5522847 1,17 L1,7 C1,6.44771525 1.44771525,6 2,6 Z M11.5,16 C13.709139,16 15.5,14.209139 15.5,12 C15.5,9.790861 13.709139,8 11.5,8 C9.290861,8 7.5,9.790861 7.5,12 C7.5,14.209139 9.290861,16 11.5,16 Z" fill="#000000" opacity="0.3" transform="translate(11.500000, 12.000000) rotate(-345.000000) translate(-11.500000, -12.000000) " />' +
-                                        '                <path d="M2,6 L21,6 C21.5522847,6 22,6.44771525 22,7 L22,17 C22,17.5522847 21.5522847,18 21,18 L2,18 C1.44771525,18 1,17.5522847 1,17 L1,7 C1,6.44771525 1.44771525,6 2,6 Z M11.5,16 C13.709139,16 15.5,14.209139 15.5,12 C15.5,9.790861 13.709139,8 11.5,8 C9.290861,8 7.5,9.790861 7.5,12 C7.5,14.209139 9.290861,16 11.5,16 Z M11.5,14 C12.6045695,14 13.5,13.1045695 13.5,12 C13.5,10.8954305 12.6045695,10 11.5,10 C10.3954305,10 9.5,10.8954305 9.5,12 C9.5,13.1045695 10.3954305,14 11.5,14 Z" fill="#000000" />' +
-                                        '            </g>' +
-                                        '        </svg>' +
-                                        '    </span>' +
-                                        '</a>';
-                                }
-
-                                if (data.technicianId != null && data.collectedAmount != null
-                                    && data.maintenanceRequestStatus != 1
-                                    && data.maintenanceRequestStatus != 8 && data.maintenanceRequestStatus != 9
-                                    && data.maintenanceRequestStatus != 10 && data.maintenanceRequestStatus != 11) {
-                                    result = result + '<a href="/HandReceiptItem/DeliverItem?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model" tname="#kt_datatable" class="btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Delivery">' +
-                                        '    <span class="svg-icon svg-icon-md">' +
-                                        '        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
-                                        '            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
-                                        '                <polygon points="0 0 24 0 24 24 0 24" />' +
-                                        '                <path d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z M10.875,15.75 C11.1145833,15.75 11.3541667,15.6541667 11.5458333,15.4625 L15.3791667,11.6291667 C15.7625,11.2458333 15.7625,10.6708333 15.3791667,10.2875 C14.9958333,9.90416667 14.4208333,9.90416667 14.0375,10.2875 L10.875,13.45 L9.62916667,12.2041667 C9.29375,11.8208333 8.67083333,11.8208333 8.2875,12.2041667 C7.90416667,12.5875 7.90416667,13.1625 8.2875,13.5458333 L10.2041667,15.4625 C10.3958333,15.6541667 10.6354167,15.75 10.875,15.75 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />' +
-                                        '                <path d="M10.875,15.75 C10.6354167,15.75 10.3958333,15.6541667 10.2041667,15.4625 L8.2875,13.5458333 C7.90416667,13.1625 7.90416667,12.5875 8.2875,12.2041667 C8.67083333,11.8208333 9.29375,11.8208333 9.62916667,12.2041667 L10.875,13.45 L14.0375,10.2875 C14.4208333,9.90416667 14.9958333,9.90416667 15.3791667,10.2875 C15.7625,10.6708333 15.7625,11.2458333 15.3791667,11.6291667 L11.5458333,15.4625 C11.3541667,15.6541667 11.1145833,15.75 10.875,15.75 Z" fill="#000000" />' +
-                                        '            </g>' +
-                                        '        </svg>' +
-                                        '    </span>' +
-                                        '</a>';
-                                }
-
-                                if (data.maintenanceRequestStatus == 8) {
-                                    result = result + '<a href="/HandReceiptItem/RemoveFromMaintained?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model" tname="#kt_datatable" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.RemoveFromMaintained">' +
-                                        '    <span class="svg-icon svg-icon-md">' +
-                                        '        <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo8/dist/../src/media/svg/icons/Code/Error-circle.svg-->' +
-                                        '        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
-                                        '            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
-                                        '                <rect x="0" y="0" width="24" height="24" />' +
-                                        '                <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10" />' +
-                                        '                <path d="M12.0355339,10.6213203 L14.863961,7.79289322 C15.2544853,7.40236893 15.8876503,7.40236893 16.2781746,7.79289322 C16.6686989,8.18341751 16.6686989,8.81658249 16.2781746,9.20710678 L13.4497475,12.0355339 L16.2781746,14.863961 C16.6686989,15.2544853 16.6686989,15.8876503 16.2781746,16.2781746 C15.8876503,16.6686989 15.2544853,16.6686989 14.863961,16.2781746 L12.0355339,13.4497475 L9.20710678,16.2781746 C8.81658249,16.6686989 8.18341751,16.6686989 7.79289322,16.2781746 C7.40236893,15.8876503 7.40236893,15.2544853 7.79289322,14.863961 L10.6213203,12.0355339 L7.79289322,9.20710678 C7.40236893,8.81658249 7.40236893,8.18341751 7.79289322,7.79289322 C8.18341751,7.40236893 8.81658249,7.40236893 9.20710678,7.79289322 L12.0355339,10.6213203 Z" fill="#000000" />' +
-                                        '            </g>' +
-                                        '        </svg><!--end::Svg Icon-->' +
-                                        '    </span>' +
-                                        '</a>';
-                                }
-
-                                result = result + GetDeleteAction('/HandReceiptItem/Delete?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model');
-
-                                return result;
-                            },
                         }],
                 });
             };

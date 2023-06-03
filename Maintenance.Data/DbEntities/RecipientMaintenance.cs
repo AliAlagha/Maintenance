@@ -15,7 +15,7 @@ namespace Maintenance.Data.DbEntities
         }
 
         public int Id { get; set; }
-        public int BranchId { get; set; }
+        public int? BranchId { get; set; }
         public Branch Branch { get; set; }
         public double? CollectedAmount { get; set; }
         public CollectedAmountFor CollectedAmountFor { get; set; }

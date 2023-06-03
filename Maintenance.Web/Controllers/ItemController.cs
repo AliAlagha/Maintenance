@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Maintenance.Web.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator, MaintenanceManager")]
     public class ItemController : BaseController
     {
         private readonly IItemService _itemService;

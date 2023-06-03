@@ -1,4 +1,5 @@
 ﻿using Maintenance.Core.Dtos;
+using Maintenance.Core.Enums;
 using Maintenance.Infrastructure.Services.Maintenance;
 using Maintenance.Infrastructure.Services.Users;
 using Microsoft.AspNetCore.Authorization;
@@ -42,9 +43,9 @@ namespace Maintenance.Web.Controllers
         }
 
         // Hand receipt items
-        public async Task<IActionResult> UpdateStatusForHandReceiptItem(int receiptItemId)
+        public async Task<IActionResult> UpdateStatusForHandReceiptItem(int receiptItemId, HandReceiptItemRequestStatus? status)
         {
-            await _maintenanceService.UpdateStatusForHandReceiptItem(receiptItemId, UserId);
+            await _maintenanceService.UpdateStatusForHandReceiptItem(receiptItemId, status, UserId);
             return UpdatedSuccessfully();
         }
 
@@ -94,6 +95,23 @@ namespace Maintenance.Web.Controllers
             if (ModelState.IsValid)
             {
                 await _maintenanceService.EnterMaintenanceCostForHandReceiptItem(dto, UserId);
+                return UpdatedSuccessfully();
+            }
+            return View(dto);
+        }
+
+        public IActionResult DefineMalfunctionForHandReceiptItem(int receiptItemId)
+        {
+            var dto = new DefineMalfunctionDto { ReceiptItemId = receiptItemId };
+            return View(dto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DefineMalfunctionForHandReceiptItem(DefineMalfunctionDto dto)
+        {
+            if (ModelState.IsValid)
+            {
+                await _maintenanceService.DefineMalfunctionForHandReceiptItem(dto, UserId);
                 return UpdatedSuccessfully();
             }
             return View(dto);
