@@ -29,7 +29,6 @@ namespace Maintenance.Infrastructure.Services.Branches
         public async Task<PagingResultViewModel<BranchViewModel>> GetAll(Pagination pagination, QueryDto query)
         {
             var dbQuery = _db.Branches
-                .Include(x => x.BranchPhoneNumbers)
                 .OrderByDescending(x => x.CreatedAt).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(query.GeneralSearch))

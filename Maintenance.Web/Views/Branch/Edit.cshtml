@@ -8,11 +8,27 @@
     <input asp-for="Id" type="hidden" />
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="form-group">
                 <label>@Messages.Name</label>
                 <input asp-for="Name" placeholder="@string.Format(Messages.Enter,Messages.Name)" class="form-control form-control-solid" />
                 <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.PhoneNumber</label>
+                <input asp-for="PhoneNumber" placeholder="@string.Format(Messages.Enter,Messages.PhoneNumber)" class="form-control form-control-solid" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@Messages.Address</label>
+                <input asp-for="Address" placeholder="@string.Format(Messages.Enter,Messages.Address)" class="form-control form-control-solid" />
+                <span asp-validation-for="Address" class="text-danger"></span>
             </div>
         </div>
     </div>

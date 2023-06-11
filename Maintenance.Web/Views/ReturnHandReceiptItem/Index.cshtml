@@ -27,15 +27,11 @@
                     <!--end::Svg Icon-->
                 </span>@Messages.Create
             </a>
-
-            @if (ViewBag.IsAllItemsCanBeDelivered)
-            {
                 <!--begin::Button-->
                 <a href="~/ReturnHandReceiptItem/DeliveryOfAllItems?ReturnHandReceiptId=@Model" title="@Messages.DeliverAll" class="btn btn-secondary font-weight-bolder">
                     @Messages.DeliverAll
                 </a>
                 <!--end::Button-->
-            }
         </div>
     </div>
     <div class="card-body">

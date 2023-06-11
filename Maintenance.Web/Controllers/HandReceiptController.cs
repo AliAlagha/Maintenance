@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Wordprocessing;
+using Maintenance.Core.Constants;
 using Maintenance.Core.Dtos;
 using Maintenance.Core.Enums;
 using Maintenance.Core.Resources;
@@ -82,8 +85,10 @@ namespace Maintenance.Web.Controllers
                     input.CustomerId = await _customerService.Create(createCustomerDto, UserId);
                 }
 
-                await _handReceiptService.Create(input, MaintenanceType.Normal, UserId);
-                return RedirectToAction(nameof(Index));
+                var handReceipt = await _handReceiptService.Create(input, MaintenanceType.Normal, UserId);
+                var result = await _handReceiptService.ExportToPdf(handReceipt.Id);
+
+                return GetPdfFileResult(result, $"{handReceipt.Id} - HandReceipt");
             }
 
             ViewBag.IsFormValid = false;

@@ -303,6 +303,12 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
             
             private global::System.Data.DataColumn columnTechnician;
             
+            private global::System.Data.DataColumn columnPrice;
+            
+            private global::System.Data.DataColumn columnColor;
+            
+            private global::System.Data.DataColumn columnDescription;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public ReceiptItemDataSetDataTable() {
@@ -434,6 +440,30 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PriceColumn {
+                get {
+                    return this.columnPrice;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ColorColumn {
+                get {
+                    return this.columnColor;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DescriptionColumn {
+                get {
+                    return this.columnDescription;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -469,7 +499,7 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public ReceiptItemDataSetRow AddReceiptItemDataSetRow(string Item, string ItemBarcode, string Company, string CollectedAmount, string CollectionDate, string CustomerName, string CustomerPhoneNumber, string Date, string ReturnReason, string Status, string MaintenanceSuspensionReason, string Technician) {
+            public ReceiptItemDataSetRow AddReceiptItemDataSetRow(string Item, string ItemBarcode, string Company, string CollectedAmount, string CollectionDate, string CustomerName, string CustomerPhoneNumber, string Date, string ReturnReason, string Status, string MaintenanceSuspensionReason, string Technician, string Price, string Color, string Description) {
                 ReceiptItemDataSetRow rowReceiptItemDataSetRow = ((ReceiptItemDataSetRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Item,
@@ -483,7 +513,10 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
                         ReturnReason,
                         Status,
                         MaintenanceSuspensionReason,
-                        Technician};
+                        Technician,
+                        Price,
+                        Color,
+                        Description};
                 rowReceiptItemDataSetRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowReceiptItemDataSetRow);
                 return rowReceiptItemDataSetRow;
@@ -518,6 +551,9 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
                 this.columnStatus = base.Columns["Status"];
                 this.columnMaintenanceSuspensionReason = base.Columns["MaintenanceSuspensionReason"];
                 this.columnTechnician = base.Columns["Technician"];
+                this.columnPrice = base.Columns["Price"];
+                this.columnColor = base.Columns["Color"];
+                this.columnDescription = base.Columns["Description"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -551,6 +587,12 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
                 base.Columns.Add(this.columnMaintenanceSuspensionReason);
                 this.columnTechnician = new global::System.Data.DataColumn("Technician", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTechnician);
+                this.columnPrice = new global::System.Data.DataColumn("Price", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPrice);
+                this.columnColor = new global::System.Data.DataColumn("Color", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnColor);
+                this.columnDescription = new global::System.Data.DataColumn("Description", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDescription);
                 this.ExtendedProperties.Add("Generator_TablePropName", "_ReceiptItemDataSet");
                 this.ExtendedProperties.Add("Generator_UserTableName", "ReceiptItemDataSet");
             }
@@ -889,6 +931,54 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Price {
+                get {
+                    try {
+                        return ((string)(this[this.tableReceiptItemDataSet.PriceColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Price\' in table \'ReceiptItemDataSet\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReceiptItemDataSet.PriceColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Color {
+                get {
+                    try {
+                        return ((string)(this[this.tableReceiptItemDataSet.ColorColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Color\' in table \'ReceiptItemDataSet\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReceiptItemDataSet.ColorColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Description {
+                get {
+                    try {
+                        return ((string)(this[this.tableReceiptItemDataSet.DescriptionColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Description\' in table \'ReceiptItemDataSet\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReceiptItemDataSet.DescriptionColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsItemNull() {
                 return this.IsNull(this.tableReceiptItemDataSet.ItemColumn);
             }
@@ -1029,6 +1119,42 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetTechnicianNull() {
                 this[this.tableReceiptItemDataSet.TechnicianColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPriceNull() {
+                return this.IsNull(this.tableReceiptItemDataSet.PriceColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPriceNull() {
+                this[this.tableReceiptItemDataSet.PriceColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsColorNull() {
+                return this.IsNull(this.tableReceiptItemDataSet.ColorColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetColorNull() {
+                this[this.tableReceiptItemDataSet.ColorColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDescriptionNull() {
+                return this.IsNull(this.tableReceiptItemDataSet.DescriptionColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDescriptionNull() {
+                this[this.tableReceiptItemDataSet.DescriptionColumn] = global::System.Convert.DBNull;
             }
         }
         

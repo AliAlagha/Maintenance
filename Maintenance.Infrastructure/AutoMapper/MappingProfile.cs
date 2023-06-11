@@ -101,10 +101,7 @@ namespace Maintenance.Infrastructure.AutoMapper
 
             #region Branches
             CreateMap<Branch, BranchViewModel>()
-                .ForMember(x => x.CreatedAt, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")))
-                .ForMember(x => x.BranchPhoneNumbers
-                    , x => x.MapFrom(x => string.Join(", ",
-                    x.BranchPhoneNumbers.Select(x => x.PhoneNumber).ToList())));
+                .ForMember(x => x.CreatedAt, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")));
             CreateMap<CreateBranchDto, Branch>();
             CreateMap<UpdateBranchDto, Branch>();
             CreateMap<Branch, UpdateBranchDto>();
@@ -114,14 +111,6 @@ namespace Maintenance.Infrastructure.AutoMapper
             CreateMap<HandReceiptItem, ReceiptItemForMaintenanceViewModel>()
                 .ForMember(x => x.Urgent, x => x.MapFrom(x => x.Urgent ? Messages.Yes : Messages.No));
             CreateMap<ReturnHandReceiptItem, ReceiptItemForMaintenanceViewModel>();
-            #endregion
-
-            #region BranchPhoneNumber
-            CreateMap<BranchPhoneNumber, BranchPhoneNumberViewModel>()
-                .ForMember(x => x.CreatedAt, x => x.MapFrom(x => x.CreatedAt.ToString("yyyy-MM-dd")));
-            CreateMap<CreateBranchPhoneNumberDto, BranchPhoneNumber>();
-            CreateMap<UpdateBranchPhoneNumberDto, BranchPhoneNumber>();
-            CreateMap<BranchPhoneNumber, UpdateBranchPhoneNumberDto>();
             #endregion
 
             #region RecipientMaintenances

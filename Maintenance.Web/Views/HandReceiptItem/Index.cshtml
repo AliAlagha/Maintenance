@@ -96,7 +96,7 @@
                                 url: '/HandReceiptItem/GetAll',
                                 params: {
                                     HandReceiptId: @Model
-                                                                                                }
+                                                                                                        }
                             },
                         },
                         pageSize: 10,
@@ -188,7 +188,7 @@
 
                                 if (data.technicianId != null && data.collectedAmount != null
                                     && data.maintenanceRequestStatus != StatusEnum.New
-                                    && data.maintenanceRequestStatus != StatusEnum.CustomerRefused 
+                                    && data.maintenanceRequestStatus != StatusEnum.CustomerRefused
                                     && data.maintenanceRequestStatus != StatusEnum.NoResponseFromTheCustomer
                                     && data.maintenanceRequestStatus != StatusEnum.ItemCannotBeServiced
                                     && data.maintenanceRequestStatus != StatusEnum.NotifyCustomerOfTheInabilityToMaintain
@@ -223,7 +223,9 @@
                                         '</a>';
                                 }
 
-                                result = result + GetDeleteAction('/HandReceiptItem/Delete?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model');
+                                if ('@ViewBag.UserType' == '@UserType.Administrator.ToString()') {
+                                    result = result + GetDeleteAction('/HandReceiptItem/Delete?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model');
+                                }
 
                                 return result;
                             },

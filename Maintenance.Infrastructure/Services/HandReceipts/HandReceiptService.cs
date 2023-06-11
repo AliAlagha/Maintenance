@@ -65,7 +65,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             return await dbQuery.ToPagedData<HandReceiptViewModel>(pagination, _mapper);
         }
 
-        public async Task<int?> Create(CreateHandReceiptDto input, MaintenanceType maintenanceType
+        public async Task<HandReceipt> Create(CreateHandReceiptDto input, MaintenanceType maintenanceType
             , string userId)
         {
             var currentUser = await _db.Users.SingleOrDefaultAsync(x => x.Id == userId);
@@ -89,7 +89,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             handReceipt.CreatedBy = userId;
             await _db.HandReceipts.AddAsync(handReceipt);
             await _db.SaveChangesAsync();
-            return handReceipt.Id;
+            return handReceipt;
         }
 
         public async Task AddHandReceiptItems(List<CreateHandReceiptItemDto> itemDtos

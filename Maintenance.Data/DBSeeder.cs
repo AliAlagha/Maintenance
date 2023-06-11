@@ -130,7 +130,9 @@ namespace Maintenance.Data
             {
                 new Branch
                 {
-                    Name = "الفرع 1"
+                    Name = "الفرع 1",
+                    Address = "العنوان",
+                    PhoneNumber = "0511111111"
                 }
             };
 

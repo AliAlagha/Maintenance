@@ -1,6 +1,7 @@
 ﻿using Maintenance.Core.Dtos;
 using Maintenance.Core.Enums;
 using Maintenance.Core.ViewModels;
+using Maintenance.Data.DbEntities;
 
 namespace Maintenance.Infrastructure.Services.HandReceipts
 {
@@ -9,7 +10,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
         Task<PagingResultViewModel<HandReceiptViewModel>> GetAll
             (Pagination pagination, QueryDto query
             , MaintenanceType maintenanceType, string? barcode);
-        Task<int?> Create(CreateHandReceiptDto input, MaintenanceType maintenanceType
+        Task<HandReceipt> Create(CreateHandReceiptDto input, MaintenanceType maintenanceType
             , string userId);
         Task Delete(int id, string userId);
         Task<byte[]> ExportToPdf(int id);

@@ -13,5 +13,8 @@ namespace Maintenance.Core.Dtos
         public string Company { get; set; }
         public string CollectedAmount { get; set; }
         public string CollectionDate { get; set; }
+        public string Price { get; set; }
+        public string Color { get; set; }
+        public string Description { get; set; }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Maintenance.Infrastructure.Services.Barcodes;
 using Maintenance.Infrastructure.Services.Branches;
-using Maintenance.Infrastructure.Services.BranchPhoneNumbers;
 using Maintenance.Infrastructure.Services.Colors;
 using Maintenance.Infrastructure.Services.Companies;
 using Maintenance.Infrastructure.Services.Customers;
@@ -39,7 +38,6 @@ namespace Maintenance.Infrastructure.Extensions
             services.AddScoped<IReturnHandReceiptItemService, ReturnHandReceiptItemService>();
             services.AddScoped<IMaintenanceService, MaintenanceService>();
             services.AddScoped<IPdfExportReportService, PdfExportReportService>();
-            services.AddScoped<IBranchPhoneNumberService, BranchPhoneNumberService>();
             services.AddScoped<IReportService, ReportService>();
             services.AddScoped<IManagerRequestService, ManagerRequestService>();
             services.AddScoped<IReportPdfService, ReportPdfService>();

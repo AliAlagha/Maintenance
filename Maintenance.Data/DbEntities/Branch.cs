@@ -10,14 +10,14 @@ namespace Maintenance.Data.DbEntities
     {
         public Branch()
         {
-            BranchPhoneNumbers = new List<BranchPhoneNumber>();
+
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public string? Address { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Address { get; set; }
         public List<User> Users { get; set; }
-        public List<BranchPhoneNumber> BranchPhoneNumbers { get; set; }
         public List<HandReceipt> HandReceipts { get; set; }
         public List<ReturnHandReceipt> ReturnHandReceipts { get; set; }
         public List<HandReceiptItem> HandReceiptItems { get; set; }
