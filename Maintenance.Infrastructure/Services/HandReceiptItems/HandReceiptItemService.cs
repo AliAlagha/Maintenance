@@ -308,13 +308,13 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                 .SingleOrDefaultAsync(x => x.Id == handReceiptItemId && x.HandReceiptId == handReceiptId
                 && x.TechnicianId != null
                 && x.CollectedAmount != null
-                && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.CustomerRefused
                 && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.NoResponseFromTheCustomer
-                && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.ItemCannotBeServiced
                 && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.NotifyCustomerOfTheInabilityToMaintain
                 && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.Delivered
                 && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.Suspended
-                && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained);
+                && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained
+                || x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.CustomerRefused
+                || x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.ItemCannotBeServiced);
             if (handReceiptItem == null)
                 throw new EntityNotFoundException();
 
@@ -332,13 +332,13 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                 .Include(x => x.HandReceiptItems.Where(x =>
                     x.TechnicianId != null
                     && x.CollectedAmount != null
-                    && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.CustomerRefused
                     && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.NoResponseFromTheCustomer
-                    && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.ItemCannotBeServiced
                     && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.NotifyCustomerOfTheInabilityToMaintain
                     && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.Delivered
                     && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.Suspended
-                    && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained))
+                    && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained
+                    || x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.CustomerRefused 
+                    || x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.ItemCannotBeServiced))
                 .SingleOrDefaultAsync(x => x.Id == handReceiptId
                 && !x.HandReceiptItems.All(x => x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.Delivered));
             if (handReceipt == null)
@@ -375,7 +375,9 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                 && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.NoResponseFromTheCustomer
                 && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.ItemCannotBeServiced
                 && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.NotifyCustomerOfTheInabilityToMaintain
-                && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.Suspended);
+                && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.Suspended
+                || x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.CustomerRefused
+                || x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.ItemCannotBeServiced);
             }
 
             return isAllItemsCanBeDelivered;

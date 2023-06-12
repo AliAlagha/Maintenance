@@ -32,11 +32,9 @@ namespace Maintenance.Infrastructure.Services.Maintenance
             var handReceiptItemsDbQuery = _db.HandReceiptItems
                 .Include(x => x.Customer)
                 .Where(x => x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.CustomerRefused
-                    && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.NoResponseFromTheCustomer
                     && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.NotifyCustomerOfTheInabilityToMaintain
                     && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.NotifyCustomerOfMaintenanceEnd
                     && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.Delivered
-                    && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.Suspended
                     && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained)
                 .OrderBy(x => x.CreatedAt)
                 .AsQueryable();

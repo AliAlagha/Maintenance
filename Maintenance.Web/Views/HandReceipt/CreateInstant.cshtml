@@ -21,6 +21,23 @@
                 </div>
             }
             <form id="CreateHandReceiptForm" asp-action="CreateInstant" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>@Messages.CustomerFullName</label>
+                            <input asp-for="CustomerInfo.Name" placeholder="@string.Format(Messages.Enter,Messages.CustomerFullName)" class="form-control form-control-solid" />
+                            <span asp-validation-for="CustomerInfo.Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>@Messages.CustomerPhoneNumber</label>
+                            <input asp-for="CustomerInfo.PhoneNumber" placeholder="@string.Format(Messages.Enter,Messages.CustomerPhoneNumber)" class="form-control form-control-solid" />
+                            <span asp-validation-for="CustomerInfo.PhoneNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <hr />
                 <div class="row mt-4">
                     <div class="col-md-3">
                         <div class="form-group">
