@@ -165,7 +165,8 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
 
         public async Task Delete(int id, string userId)
         {
-            var handReceipt = await _db.HandReceipts.SingleOrDefaultAsync(x => x.Id == id);
+            var handReceipt = await _db.HandReceipts
+                .SingleOrDefaultAsync(x => x.Id == id);
             if (handReceipt == null)
                 throw new EntityNotFoundException();
 
@@ -181,6 +182,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             var handReceipt = await _db.HandReceipts
                 .Include(x => x.Customer)
                 .Include(x => x.HandReceiptItems)
+                .Include(x => x.Branch)
                 .SingleOrDefaultAsync(x => x.Id == id);
             if (handReceipt == null)
             {
@@ -192,27 +194,42 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             paramaters.Add("Date", handReceipt.Date.ToString("yyyy-MM-dd hh:mm tt", CultureInfo.InvariantCulture));
             paramaters.Add("CustomerName", handReceipt.Customer != null ? handReceipt.Customer.Name : "");
             paramaters.Add("CustomerPhoneNumber", handReceipt.Customer != null ? handReceipt.Customer.PhoneNumber : "");
-            var totalCollectedAmount = handReceipt.HandReceiptItems.Sum(x => x.CollectedAmount);
-            paramaters.Add("TotalCollectedMoney", totalCollectedAmount != null ? totalCollectedAmount
-                + " " + Messages.SAR : "0");
 
-            paramaters.Add("ContactEmail", "test@gmail.com");
-            paramaters.Add("ContactPhoneNumber", "0599854758");
-            paramaters.Add("WebsiteLink", "www.test.com");
+            var branchPhoneNumber = "";
+            var branchAddress = "";
+            if (handReceipt.Branch != null)
+            {
+                branchPhoneNumber = handReceipt.Branch.PhoneNumber;
+				branchAddress = handReceipt.Branch.Address;
+			}
 
-            var receiptItems = new List<ReceiptItemDataSet>();
+			paramaters.Add("BranchPhoneNumber", branchPhoneNumber);
+			paramaters.Add("BranchAddress", branchAddress);
+
+			var receiptItems = new List<ReceiptItemDataSet>();
             foreach (var receiptItem in handReceipt.HandReceiptItems)
             {
-                var receiptItemDataSet = new ReceiptItemDataSet
+				var priceStr = "";
+				if (receiptItem.SpecifiedCost != null)
+				{
+					priceStr = receiptItem.SpecifiedCost.ToString();
+                }
+                else if (receiptItem.CostFrom != null && receiptItem.CostTo != null)
+                {
+					priceStr = $"{Messages.From} {receiptItem.CostFrom} {Messages.To} {receiptItem.CostTo}";
+                }
+                else if (receiptItem.NotifyCustomerOfTheCost)
+                {
+                    priceStr = $"{Messages.NotifyCustomerOfTheCostMsg}";
+                }
+
+				var receiptItemDataSet = new ReceiptItemDataSet
                 {
                     Item = receiptItem.Item,
-                    ItemBarcode = receiptItem.ItemBarcode,
                     Company = receiptItem.Company,
-                    CollectedAmount = receiptItem.CollectedAmount != null ? receiptItem.CollectedAmount
-                        + " " + Messages.SAR : "0",
-                    CollectionDate = receiptItem.CollectionDate != null
-                        ? receiptItem.CollectionDate.Value.ToString("yyyy-MM-dd")
-                        : " - "
+                    Color = receiptItem.Color,
+                    Price = priceStr,
+                    Description = receiptItem.Description
                 };
 
                 receiptItems.Add(receiptItemDataSet);

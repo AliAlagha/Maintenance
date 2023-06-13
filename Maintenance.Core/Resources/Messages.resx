@@ -498,6 +498,9 @@
   <data name="NotifyCustomerOfTheCost" xml:space="preserve">
     <value>يتطلب إبلاغ العميل بالتكلفة؟</value>
   </data>
+  <data name="NotifyCustomerOfTheCostMsg" xml:space="preserve">
+    <value>إبلاغ العميل</value>
+  </data>
   <data name="NotifyCustomerOfTheInabilityToMaintain" xml:space="preserve">
     <value>إبلاغ العميل بعدم امكانية الصيانة</value>
   </data>

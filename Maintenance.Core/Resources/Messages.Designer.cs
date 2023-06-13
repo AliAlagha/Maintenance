@@ -1204,6 +1204,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to إبلاغ العميل.
+        /// </summary>
+        public static string NotifyCustomerOfTheCostMsg {
+            get {
+                return ResourceManager.GetString("NotifyCustomerOfTheCostMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to إبلاغ العميل بعدم امكانية الصيانة.
         /// </summary>
         public static string NotifyCustomerOfTheInabilityToMaintain {

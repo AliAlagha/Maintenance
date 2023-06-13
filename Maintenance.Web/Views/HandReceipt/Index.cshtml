@@ -191,7 +191,9 @@
                                         '</a>';
                                 }
 
-                                result = result + GetDeleteAction('/HandReceipt/Delete/' + data.id);
+                                if ('@ViewBag.UserType' == '@UserType.Administrator.ToString()') {
+                                    result = result + GetDeleteAction('/HandReceipt/Delete/' + data.id);
+                                }
 
                                 return result;
                             },
@@ -215,15 +217,15 @@
             $('#kt_datatable_search_query').val('@ViewBag.Barcode');
         });
 
-        //function DownloadBarcodes(element) {
-        //    var barcodeFiles = element.getAttribute('data-barcodes');
-        //    var files = barcodeFiles.split(",");
-        //    for (let i = 0; i < files.length; i++) {
-        //        var fileName = files[i];
-        //        var filePath = "Images/" + fileName;
-        //        window.open(filePath, "_blank");
-        //    }
-        //}
+                //function DownloadBarcodes(element) {
+                //    var barcodeFiles = element.getAttribute('data-barcodes');
+                //    var files = barcodeFiles.split(",");
+                //    for (let i = 0; i < files.length; i++) {
+                //        var fileName = files[i];
+                //        var filePath = "Images/" + fileName;
+                //        window.open(filePath, "_blank");
+                //    }
+                //}
     </script>
 }
 
