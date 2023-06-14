@@ -83,6 +83,12 @@ namespace Maintenance.Web.Controllers
             return View(dto);
         }
 
+        public async Task<IActionResult> ReOpenMaintenanceForHandReceiptItem(int receiptItemId)
+        {
+            await _maintenanceService.ReOpenMaintenanceForHandReceiptItem(receiptItemId, UserId);
+            return UpdatedSuccessfully();
+        }
+
         public IActionResult EnterMaintenanceCostForHandReceiptItem(int receiptItemId)
         {
             var dto = new EnterMaintenanceCostDto { ReceiptItemId = receiptItemId };

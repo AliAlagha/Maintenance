@@ -27,11 +27,11 @@
                     <!--end::Svg Icon-->
                 </span>@Messages.Create
             </a>
-                <!--begin::Button-->
-                <a href="~/ReturnHandReceiptItem/DeliveryOfAllItems?ReturnHandReceiptId=@Model" title="@Messages.DeliverAll" class="btn btn-secondary font-weight-bolder">
-                    @Messages.DeliverAll
-                </a>
-                <!--end::Button-->
+            <!--begin::Button-->
+            <a href="~/ReturnHandReceiptItem/DeliveryOfAllItems?ReturnHandReceiptId=@Model" title="@Messages.DeliverAll" class="btn btn-secondary font-weight-bolder">
+                @Messages.DeliverAll
+            </a>
+            <!--end::Button-->
         </div>
     </div>
     <div class="card-body">
@@ -77,7 +77,7 @@
                                 url: '/ReturnHandReceiptItem/GetAll',
                                 params: {
                                     ReturnHandReceiptId: @Model
-                                                                            }
+                                                                                    }
                             },
                         },
                         pageSize: 10,
@@ -167,8 +167,9 @@
                                         '</a>';
                                 }
 
-                                result = result + GetDeleteAction('/ReturnHandReceiptItem/Delete?ReturnHandReceiptItemId=' + data.id + '&ReturnHandReceiptId=@Model');
-
+                                if ('@ViewBag.UserType' == '@UserType.Administrator.ToString()') {
+                                    result = result + GetDeleteAction('/ReturnHandReceiptItem/Delete?ReturnHandReceiptItemId=' + data.id + '&ReturnHandReceiptId=@Model');
+                                }
                                 return result;
                             },
                         },

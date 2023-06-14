@@ -45,7 +45,7 @@
         "use strict";
         // Class definition
 
-        var KTDatatableRecordSelectionDemo = function() {
+        var KTDatatableRecordSelectionDemo = function () {
             // Private functions
 
             var options = {
@@ -116,10 +116,70 @@
                     title: '@Messages.ReturnReason',
                     sortable: false,
                     autoHide: false,
-                    width: 400,
-                    template: function(data) {
+                    width: 200,
+                    template: function (data) {
                         var res = '';
-                        res = res + '<input type="text" name="Items[' + data.Index + '].ReturnReason" placeholder="@string.Format(Messages.Enter,Messages.ReturnReason)" class="form-control" />';
+                        res = res + '<input type="text" name="Items[' + data.Index + '].ReturnReason" class="form-control" />';
+                        return res;
+                    }
+                },
+                {
+                    field: 'SpecifiedCostInput',
+                    title: '@Messages.SpecifiedCost',
+                    sortable: false,
+                    autoHide: false,
+                    width: 100,
+                    template: function (data) {
+                        var res = '';
+                        res = res + '<input type="number" name="Items[' + data.Index + '].SpecifiedCost" class="form-control specified-cost index-' + data.Index + '" min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />';
+                        return res;
+                    }
+                },
+                {
+                    field: 'CostFromInput',
+                    title: '@Messages.From',
+                    sortable: false,
+                    autoHide: false,
+                    width: 100,
+                    template: function (data) {
+                        var res = '';
+                        res = res + '<input type="number" name="Items[' + data.Index + '].CostFrom" class="form-control cost-from index-' + data.Index + '" min = "0" onkeypress = "return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" /> ';
+                        return res;
+                    }
+                },
+                {
+                    field: 'CostToInput',
+                    title: '@Messages.To',
+                    sortable: false,
+                    autoHide: false,
+                    width: 100,
+                    template: function (data) {
+                        var res = '';
+                        res = res + '<input type="number" name="Items[' + data.Index + '].CostTo" class="form-control cost-to index-' + data.Index + '" min = "0" onkeypress = "return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" /> ';
+                        return res;
+                    }
+                },
+                {
+                    field: 'NotifyCustomerOfTheCostInput',
+                    title: '@Messages.NotifyCustomerOfTheCost',
+                    sortable: false,
+                    autoHide: false,
+                    width: 100,
+                    template: function (data) {
+                        var res = '';
+                        res = res + '<input type="checkbox" name="Items[' + data.Index + '].NotifyCustomerOfTheCost" class="form-control notify-customer index-' + data.Index + '" />';
+                        return res;
+                    }
+                },
+                {
+                    field: 'UrgentInput',
+                    title: '@Messages.Urgent',
+                    sortable: false,
+                    autoHide: false,
+                    width: 100,
+                    template: function (data) {
+                        var res = '';
+                        res = res + '<input type="checkbox" name="Items[' + data.Index + '].Urgent" class="form-control urgent index-' + data.Index + '" />'
                         res = res + '<input type="hidden" name="Items[' + data.Index + '].HandReceiptItemId" value="' + data.Id + '" />';
                         res = res + '<input id="is-selected-' + data.Id + '" type="hidden" name="Items[' + data.Index + '].IsSelected" value="false" />';
                         return res;
@@ -128,7 +188,7 @@
             };
 
             // basic demo
-            var localSelectorDemo = function() {
+            var localSelectorDemo = function () {
                 // enable extension
                 options.extensions = {
                     // boolean or object (extension options)
@@ -144,11 +204,11 @@
 
                 datatable.on(
                     'datatable-on-check datatable-on-uncheck',
-                    function(e) {
+                    function (e) {
                         var ids = datatable.rows('.datatable-row-active').
                             nodes().
                             find('.checkbox > [type="checkbox"]').
-                            map(function(i, chk) {
+                            map(function (i, chk) {
                                 var selectedItemId = $(chk).val();
                                 $('#is-selected-' + selectedItemId).val('true');
                             });
@@ -157,14 +217,57 @@
 
             return {
                 // public functions
-                init: function() {
+                init: function () {
                     localSelectorDemo();
                 },
             };
         }();
 
-        jQuery(document).ready(function() {
+        jQuery(document).ready(function () {
             KTDatatableRecordSelectionDemo.init();
+
+            $('.specified-cost, .cost-from, .cost-to, .notify-customer').change(function () {
+                alert("changed");
+
+                var classVal = $(this).attr("class");
+                var indexClassIndex = classVal.indexOf("index");
+                var indexClass = classVal.substring(indexClassIndex);
+                var dashIndex = indexClass.indexOf("-");
+                var rowIndex = indexClass.substring(dashIndex + 1);
+
+                alert(rowIndex);
+
+                var specifiedCostElement = '.specified-cost-' + index;
+                var costFromElement = '.cost-from-' + index;
+                var costToElement = '.cost-to-' + index;
+                var notifyCustomerElement = '.notify-customer-' + index;
+
+                var specifiedCostVal = $(specifiedCostElement).val();
+                var costFromVal = $(costFromElement).val();
+                var costToVal = $(costToElement).val();
+                var notifyCustomerValToVal = $(notifyCustomerElement).val();
+
+                if (specifiedCostVal) {
+                    $(costFromElement).prop('disabled', true);
+                    $(costToElement).prop('disabled', true);
+                    $(notifyCustomerElement).prop('disabled', true);
+                } else if (costFromElement) {
+                    $(specifiedCostElement).prop('disabled', true);
+                    $(notifyCustomerElement).prop('disabled', true);
+                } else if (costToElement) {
+                    $(specifiedCostElement).prop('disabled', true);
+                    $(notifyCustomerElement).prop('disabled', true);
+                } else if (notifyCustomerValToVal == 'true') {
+                    $(specifiedCostElement).prop('disabled', true);
+                    $(costFromElement).prop('disabled', true);
+                    $(costToElement).prop('disabled', true);
+                } else {
+                    $(specifiedCostElement).prop('disabled', false);
+                    $(costFromElement).prop('disabled', false);
+                    $(costToElement).prop('disabled', false);
+                    $(notifyCustomerElement).prop('disabled', false);
+                }
+            });
         });
 
     </script>

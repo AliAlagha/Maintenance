@@ -31,8 +31,7 @@ namespace Maintenance.Infrastructure.Services.Maintenance
         {
             var handReceiptItemsDbQuery = _db.HandReceiptItems
                 .Include(x => x.Customer)
-                .Where(x => x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.CustomerRefused
-                    && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.NotifyCustomerOfTheInabilityToMaintain
+                .Where(x => x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.NotifyCustomerOfTheInabilityToMaintain
                     && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.NotifyCustomerOfMaintenanceEnd
                     && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.Delivered
                     && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained)
@@ -263,6 +262,10 @@ namespace Maintenance.Infrastructure.Services.Maintenance
             {
                 StatusAfterInformCustomer(status, receiptItem);
             }
+            else if (receiptItem.MaintenanceRequestStatus == HandReceiptItemRequestStatus.NoResponseFromTheCustomer)
+            {
+                receiptItem.MaintenanceRequestStatus = HandReceiptItemRequestStatus.CustomerApproved;
+            }
             else if (receiptItem.MaintenanceRequestStatus == HandReceiptItemRequestStatus.ItemCannotBeServiced)
             {
                 receiptItem.MaintenanceRequestStatus = HandReceiptItemRequestStatus.NotifyCustomerOfTheInabilityToMaintain;
@@ -329,8 +332,25 @@ namespace Maintenance.Infrastructure.Services.Maintenance
             if (receiptItem == null)
                 throw new EntityNotFoundException();
 
+            receiptItem.StatusBeforeSuspense = receiptItem.MaintenanceRequestStatus;
             receiptItem.MaintenanceRequestStatus = HandReceiptItemRequestStatus.Suspended;
             receiptItem.MaintenanceSuspensionReason = dto.MaintenanceSuspensionReason;
+            receiptItem.TechnicianId = userId;
+            receiptItem.UpdatedAt = DateTime.Now;
+            receiptItem.UpdatedBy = userId;
+            _db.HandReceiptItems.Update(receiptItem);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task ReOpenMaintenanceForHandReceiptItem(int receiptItemId, string userId)
+        {
+            var receiptItem = await _db.HandReceiptItems
+                .SingleOrDefaultAsync(x => x.Id == receiptItemId
+                && x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.Suspended);
+            if (receiptItem == null)
+                throw new EntityNotFoundException();
+
+            receiptItem.MaintenanceRequestStatus = receiptItem.StatusBeforeSuspense.Value;
             receiptItem.TechnicianId = userId;
             receiptItem.UpdatedAt = DateTime.Now;
             receiptItem.UpdatedBy = userId;

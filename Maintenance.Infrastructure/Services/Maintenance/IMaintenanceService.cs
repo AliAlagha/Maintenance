@@ -15,6 +15,7 @@ namespace Maintenance.Infrastructure.Services.Maintenance
         Task UpdateStatusForHandReceiptItem(int receiptItemId, HandReceiptItemRequestStatus? status, string userId);
         Task CustomerRefuseMaintenanceForHandReceiptItem(CustomerRefuseMaintenanceDto dto, string userId);
         Task SuspenseMaintenanceForHandReceiptItem(SuspenseReceiptItemDto dto, string userId);
+        Task ReOpenMaintenanceForHandReceiptItem(int receiptItemId, string userId);
         Task EnterMaintenanceCostForHandReceiptItem(EnterMaintenanceCostDto dto, string userId);
         Task DefineMalfunctionForHandReceiptItem(DefineMalfunctionDto dto, string userId);
 

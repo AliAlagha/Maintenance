@@ -74,12 +74,6 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                 throw new EntityNotFoundException();
             }
 
-            if (maintenanceType == MaintenanceType.Instant)
-            {
-                input.CustomerId = null;
-                input.CustomerInfo = null;
-            }
-
             var handReceipt = _mapper.Map<HandReceipt>(input);
             handReceipt.BranchId = currentUser.BranchId;
             await AddHandReceiptItems(input.Items, handReceipt, userId);

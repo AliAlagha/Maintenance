@@ -183,14 +183,15 @@
                                     RemovedFromMaintained: 15
                                 }
 
-                                if ((data.technicianId != null && data.collectedAmount != null
-                                    && data.maintenanceRequestStatus != StatusEnum.New
-                                    && data.maintenanceRequestStatus != StatusEnum.NoResponseFromTheCustomer
-                                    && data.maintenanceRequestStatus != StatusEnum.NotifyCustomerOfTheInabilityToMaintain
+                                if (data.technicianId != null 
+                                    && ((data.collectedAmount != null
                                     && data.maintenanceRequestStatus != StatusEnum.Delivered
                                     && data.maintenanceRequestStatus != StatusEnum.Suspended
                                     && data.maintenanceRequestStatus != StatusEnum.RemovedFromMaintained)
-                                    || (data.maintenanceRequestStatus == StatusEnum.CustomerRefused || data.maintenanceRequestStatus == StatusEnum.ItemCannotBeServiced)) {
+                                        || data.maintenanceRequestStatus == StatusEnum.CustomerRefused 
+                                        || data.maintenanceRequestStatus == StatusEnum.NoResponseFromTheCustomer
+                                        || data.maintenanceRequestStatus == StatusEnum.ItemCannotBeServiced
+                                        || data.maintenanceRequestStatus == StatusEnum.NotifyCustomerOfTheInabilityToMaintain)) {
                                     result = result + '<a href="/HandReceiptItem/DeliverItem?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model" tname="#kt_datatable" class="btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Delivery">' +
                                         '    <span class="svg-icon svg-icon-md">' +
                                         '        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +

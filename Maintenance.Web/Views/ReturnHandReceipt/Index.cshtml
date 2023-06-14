@@ -162,7 +162,10 @@
                                     '        </svg>' +
                                     '    </span>' +
                                     '</a>';
-                                result = result + GetDeleteAction('/ReturnHandReceipt/Delete/' + data.id);
+
+                                if ('@ViewBag.UserType' == '@UserType.Administrator.ToString()') {
+                                    result = result + GetDeleteAction('/ReturnHandReceipt/Delete/' + data.id);
+                                }
 
                                 return result;
                             },

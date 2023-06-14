@@ -115,6 +115,13 @@ namespace Maintenance.Web.Controllers
                     return View(input);
                 }
 
+                if (input.CustomerInfo != null)
+                {
+                    var createCustomerDto = _mapper.Map<CreateCustomerForHandReceiptDto
+                        , CreateCustomerDto>(input.CustomerInfo);
+                    input.CustomerId = await _customerService.Create(createCustomerDto, UserId);
+                }
+
                 await _handReceiptService.Create(input, MaintenanceType.Instant, UserId);
                 return RedirectToAction(nameof(InstantIndex));
             }

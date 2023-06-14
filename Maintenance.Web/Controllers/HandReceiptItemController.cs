@@ -21,8 +21,8 @@ namespace Maintenance.Web.Controllers
 
         public async Task<IActionResult> Index(int handReceiptId)
         {
-            var IsAllItemsCanBeDelivered = await _handReceiptItemService.IsAllItemsCanBeDelivered(handReceiptId);
-            ViewBag.IsAllItemsCanBeDelivered = IsAllItemsCanBeDelivered;
+            //var IsAllItemsCanBeDelivered = await _handReceiptItemService.IsAllItemsCanBeDelivered(handReceiptId);
+            //ViewBag.IsAllItemsCanBeDelivered = IsAllItemsCanBeDelivered;
 
             var handReceipt = await _handReceiptItemService.GetHandReceipt(handReceiptId);
             ViewBag.MaintenanceType = handReceipt.MaintenanceType;
