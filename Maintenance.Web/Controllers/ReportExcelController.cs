@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Maintenance.Web.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator, MaintenanceManager")]
     public class ReportExcelController : BaseController
     {
         private readonly IReportExcelService _reportExcelService;
@@ -59,6 +59,7 @@ namespace Maintenance.Web.Controllers
             return GetExcelFileResult(result, "DeliveredItemsReportByTechnician");
         }
 
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> CollectedAmountsReportExcel(DateTime? dateFrom, DateTime? dateTo
             , string? technicianId, int? branchId)
         {
@@ -72,10 +73,18 @@ namespace Maintenance.Web.Controllers
             return GetExcelFileResult(result, "SuspendedItems");
         }
 
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> TechnicianFeesReportExcel(DateTime? dateFrom, DateTime? dateTo)
         {
             var result = await _reportExcelService.TechnicianFeesReportExcel(dateFrom, dateTo);
             return GetExcelFileResult(result, "TechnicianFees");
+        }
+
+        public async Task<IActionResult> RemovedFromMaintainedItemsReportExcel(DateTime? dateFrom, DateTime? dateTo
+            , string? technicianId, int? branchId)
+        {
+            var result = await _reportExcelService.RemovedFromMaintainedItemsReportExcel(dateFrom, dateTo, technicianId, branchId);
+            return GetExcelFileResult(result, "RemovedFromMaintainedItems");
         }
     }
 }

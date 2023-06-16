@@ -230,7 +230,7 @@ namespace Maintenance.Infrastructure.Services.Reports
                 dbQuery = dbQuery.Where(x => x.BranchId == query.BranchId);
             }
 
-            var urgentItems = await dbQuery.OrderByDescending(x => x.CreatedAt)
+            var urgentItems = await dbQuery.OrderBy(x => x.CreatedAt)
                 .ToListAsync();
 
             var urgentItemsList = new List<ReceiptItemReportDataSet>();
@@ -756,29 +756,188 @@ namespace Maintenance.Infrastructure.Services.Reports
             return suspendedItemsListOrdered;
         }
 
-        public async Task<List<TechnicianFeesReportDataSet>> TechnicianFeesReport(QueryDto query)
+        public async Task<List<ReceiptItemReportDataSet>> TechnicianFeesReport(QueryDto query)
         {
-            var technicians = await _db.Users
-                .Include(x => x.HandReceiptItems.Where(x =>
-                x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained
-                && (query.DateFrom == null || x.CollectionDate >= query.DateFrom)
-                && (query.DateTo == null || x.CollectionDate <= query.DateTo)))
-                .Where(x => x.UserType == UserType.MaintenanceTechnician)
-                .ToListAsync();
+            var handReceiptItemsDbQuery = _db.HandReceiptItems
+                .Include(x => x.Customer)
+                .Include(x => x.Technician)
+                .Where(x => x.CollectedAmount != null)
+                .AsQueryable();
 
-            var technicianFees = new List<TechnicianFeesReportDataSet>();
-            foreach (var technician in technicians)
+            var returnHandReceiptItemsDbQuery = _db.ReturnHandReceiptItems
+                .Include(x => x.Customer)
+                .Include(x => x.HandReceiptItem)
+                .ThenInclude(x => x.Technician)
+                .AsQueryable();
+
+            //if (query.DateFrom.HasValue)
+            //{
+            //    handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CollectionDate >= query.DateFrom.Value);
+            //    returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CollectionDate >= query.DateFrom.Value);
+            //}
+
+            //if (query.DateTo.HasValue)
+            //{
+            //    handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CollectionDate <= query.DateTo.Value);
+            //    returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CollectionDate <= query.DateTo.Value);
+            //}
+
+            if (query.TechnicianId != null)
             {
-                var technicianFee = new TechnicianFeesReportDataSet();
-                technicianFee.Technician = technician.FullName;
-
-                var handReceiptItemFees = technician.HandReceiptItems.Sum(x => x.CollectedAmount) ?? 0;
-
-                technicianFee.Fees = handReceiptItemFees;
-                technicianFees.Add(technicianFee);
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.TechnicianId != null
+                    && x.TechnicianId.Equals(query.TechnicianId));
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.TechnicianId != null
+                    && x.TechnicianId.Equals(query.TechnicianId));
             }
 
-            return technicianFees;
+            var handReceiptItems = await handReceiptItemsDbQuery
+                .ToListAsync();
+            var returnHandReceiptItems = await returnHandReceiptItemsDbQuery
+                .ToListAsync();
+
+            var items = new List<ReceiptItemReportDataSet>();
+            foreach (var item in handReceiptItems)
+            {
+                var itemDataSet = new ReceiptItemReportDataSet
+                {
+                    CustomerName = item.Customer != null ? item.Customer.Name : "",
+                    CustomerPhoneNumber = item.Customer != null ? item.Customer.PhoneNumber : "",
+                    Item = item.Item,
+                    ItemBarcode = item.ItemBarcode,
+                    Company = item.Company,
+                    CollectionDate = item.CollectionDate != null
+                    ? item.CollectionDate.Value.ToString("yyyy-MM-dd hh:mm tt") : "",
+                    CollectedAmount = item.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained ? item.CollectedAmount.Value : -item.CollectedAmount.Value,
+                    Technician = item.Technician != null ? item.Technician.FullName : "",
+                    Type = item.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained ? "تم صيانتها" : "مسترجعة"
+                };
+
+                items.Add(itemDataSet);
+            }
+
+            //foreach (var item in returnHandReceiptItems)
+            //{
+            //    var itemDataSet = new ReceiptItemReportDataSet
+            //    {
+            //        CustomerName = item.Customer != null ? item.Customer.Name : "",
+            //        CustomerPhoneNumber = item.Customer != null ? item.Customer.PhoneNumber : "",
+            //        Item = item.Item,
+            //        ItemBarcode = item.ItemBarcode,
+            //        Company = item.Company,
+            //        CollectionDate = item.CollectionDate != null
+            //        ? item.CollectionDate.Value.ToString("yyyy-MM-dd hh:mm tt") : "",
+            //        CollectedAmount = item.CollectedAmount ?? 0,
+            //        Technician = item.HandReceiptItem.Technician != null ? item.HandReceiptItem.Technician.FullName
+            //        : "",
+            //        Type = "معادة"
+            //    };
+
+            //    items.Add(itemDataSet);
+            //}
+
+            var collectedAmountItemsListOrdered = items.OrderByDescending(x => x.CollectionDate).ToList();
+            return collectedAmountItemsListOrdered;
         }
+
+        public async Task<double> TechnicianFeesReportTotal(QueryDto query)
+        {
+            var handReceiptItemsDbQuery = _db.HandReceiptItems
+                .Include(x => x.Customer)
+                .Include(x => x.Technician)
+                .Where(x => x.CollectedAmount != null)
+                .AsQueryable();
+
+            var returnHandReceiptItemsDbQuery = _db.ReturnHandReceiptItems
+                .Include(x => x.Customer)
+                .Include(x => x.HandReceiptItem)
+                .ThenInclude(x => x.Technician)
+                .AsQueryable();
+
+            //if (query.DateFrom.HasValue)
+            //{
+            //    handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CollectionDate >= query.DateFrom.Value);
+            //    returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CollectionDate >= query.DateFrom.Value);
+            //}
+
+            //if (query.DateTo.HasValue)
+            //{
+            //    handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CollectionDate <= query.DateTo.Value);
+            //    returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CollectionDate <= query.DateTo.Value);
+            //}
+
+            if (query.TechnicianId != null)
+            {
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.TechnicianId != null
+                    && x.TechnicianId.Equals(query.TechnicianId));
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.TechnicianId != null
+                    && x.TechnicianId.Equals(query.TechnicianId));
+            }
+
+            var handReceiptItems = await handReceiptItemsDbQuery
+                .ToListAsync();
+            var returnHandReceiptItems = await returnHandReceiptItemsDbQuery
+                .ToListAsync();
+
+            var removedFromMaintained = handReceiptItems
+                .Where(x => x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.RemovedFromMaintained).ToList();
+            var maintained = handReceiptItems
+                .Where(x => x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained).ToList();
+
+            //var total = maintained.Sum(x => x.CollectedAmount) + returnHandReceiptItems.Sum(x => x.CollectedAmount)
+            //    - removedFromMaintained.Sum(x => x.CollectedAmount);
+            return 0;
+        }
+
+        public async Task<List<ReceiptItemReportDataSet>> RemovedFromMaintainedItemsReport(QueryDto query)
+        {
+            var dbQuery = _db.HandReceiptItems
+                .Include(x => x.Customer)
+                .Include(x => x.Technician)
+                .Where(x => x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.RemovedFromMaintained)
+                .AsQueryable();
+
+            if (query.DateFrom.HasValue)
+            {
+                dbQuery = dbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+            }
+
+            if (query.DateTo.HasValue)
+            {
+                dbQuery = dbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+            }
+
+            if (query.TechnicianId != null)
+            {
+                dbQuery = dbQuery.Where(x => x.TechnicianId != null && x.TechnicianId.Equals(query.TechnicianId));
+            }
+
+            if (query.BranchId.HasValue)
+            {
+                dbQuery = dbQuery.Where(x => x.BranchId == query.BranchId);
+            }
+
+            var items = await dbQuery.OrderByDescending(x => x.CreatedAt)
+                .ToListAsync();
+
+            var itemsList = new List<ReceiptItemReportDataSet>();
+            foreach (var item in items)
+            {
+                var itemDataSet = new ReceiptItemReportDataSet
+                {
+                    CustomerName = item.Customer != null ? item.Customer.Name : "",
+                    CustomerPhoneNumber = item.Customer != null ? item.Customer.PhoneNumber : "",
+                    Item = item.Item,
+                    ItemBarcode = item.ItemBarcode,
+                    Company = item.Company,
+                    Date = item.CreatedAt.ToString("yyyy-MM-dd hh:mm tt"),
+                    Technician = item.Technician != null ? item.Technician.FullName : ""
+                };
+
+                itemsList.Add(itemDataSet);
+            }
+
+            return itemsList;
+        }
+
     }
 }

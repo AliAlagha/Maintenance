@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Maintenance.Web.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator, MaintenanceManager")]
     public class ReportController : BaseController
     {
         private readonly IReportService _reportService;
@@ -94,17 +94,20 @@ namespace Maintenance.Web.Controllers
             return Json(result);
         }
 
+        [Authorize(Roles = "Administrator")]
         public IActionResult CollectedAmounts()
         {
             return View();
         }
 
+        [Authorize(Roles = "Administrator")]
         public async Task<JsonResult> CollectedAmountsReport(QueryDto query)
         {
             var result = await _reportService.CollectedAmountsReport(query);
             return Json(result);
         }
 
+        [Authorize(Roles = "Administrator")]
         public async Task<double> CollectedAmountsReportTotal(QueryDto query)
         {
             var result = await _reportService.CollectedAmountsReportTotal(query);
@@ -122,14 +125,34 @@ namespace Maintenance.Web.Controllers
             return Json(result);
         }
 
+        [Authorize(Roles = "Administrator")]
         public IActionResult TechnicianFees()
         {
             return View();
         }
 
+        [Authorize(Roles = "Administrator")]
         public async Task<JsonResult> TechnicianFeesReport(QueryDto query)
         {
             var result = await _reportService.TechnicianFeesReport(query);
+            return Json(result);
+        }
+
+        [Authorize(Roles = "Administrator")]
+        public async Task<double> TechnicianFeesReportTotal(QueryDto query)
+        {
+            var result = await _reportService.TechnicianFeesReportTotal(query);
+            return result;
+        }
+
+        public IActionResult RemovedFromMaintainedItems()
+        {
+            return View();
+        }
+
+        public async Task<JsonResult> RemovedFromMaintainedItemsReport(QueryDto query)
+        {
+            var result = await _reportService.RemovedFromMaintainedItemsReport(query);
             return Json(result);
         }
     }

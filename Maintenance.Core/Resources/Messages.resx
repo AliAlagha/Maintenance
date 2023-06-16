@@ -561,6 +561,9 @@
   <data name="RemovedFromMaintained" xml:space="preserve">
     <value>تم الإسترجاع</value>
   </data>
+  <data name="RemovedFromMaintainedItemsReport" xml:space="preserve">
+    <value>تقرير القطع المسترجعة</value>
+  </data>
   <data name="RemoveFromMaintained" xml:space="preserve">
     <value>استرجاع</value>
   </data>

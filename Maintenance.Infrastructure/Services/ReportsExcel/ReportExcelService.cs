@@ -320,16 +320,86 @@ namespace Maintenance.Infrastructure.Services.ReportsExcel
             var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo };
             var technicianFees = await _reportService.TechnicianFeesReport(query);
 
+            var rows = new List<ExcelRow>();
+            foreach (var item in technicianFees)
+            {
+                var row = new ExcelRow
+                {
+                    Values = new Dictionary<string, string>
+                    {
+                        {"Customer Name", item.CustomerName},
+                        {"Customer Phone Number", item.CustomerPhoneNumber},
+                        {"Item",item.Item},
+                        {"Status", item.Status.ToString()},
+                        {"Technician", item.Technician.ToString()},
+                        {"Collection Date", item.CollectionDate},
+                        {"Fees", item.CollectedAmount.ToString()}
+                    }
+                };
+
+                rows.Add(row);
+            }
+
+            var totalCollectedMoneyRow = new ExcelRow
+            {
+                Values = new Dictionary<string, string>
+                    {
+                        {"Customer Name", ""},
+                        {"Customer Phone Number", ""},
+                        {"Item",""},
+                        {"Status", ""},
+                        {"Technician", ""},
+                        {"Collection Date", ""},
+                        {"Fees", technicianFees.Sum(x => x.CollectedAmount).ToString()}                    
+                }
+            };
+
+            rows.Add(totalCollectedMoneyRow);
+
             return ExcelHelpers.ToExcel(new Dictionary<string, ExcelColumn>
             {
-                {"Technician", new ExcelColumn("Technician", 0)},
-                {"Fees", new ExcelColumn("Fees", 1)}
-            }, new List<ExcelRow>(technicianFees.Select(e => new ExcelRow
+                {"Customer Name", new ExcelColumn("Customer Name", 0)},
+                {"Customer Phone Number", new ExcelColumn("Customer Phone Number", 1)},
+                {"Item", new ExcelColumn("Item", 2)},
+                {"Status", new ExcelColumn("Status", 3)},
+                {"Technician", new ExcelColumn("Technician", 4)},
+                {"Collection Date", new ExcelColumn("Collection Date", 5)},
+                {"Fees", new ExcelColumn("Fees", 6)}
+            }, rows);
+        }
+
+        public async Task<byte[]> RemovedFromMaintainedItemsReportExcel(DateTime? dateFrom, DateTime? dateTo
+            , string? technicianId, int? branchId)
+        {
+            var query = new QueryDto
+            {
+                DateFrom = dateFrom,
+                DateTo = dateTo,
+                TechnicianId = technicianId,
+                BranchId = branchId
+            };
+            var itemsList = await _reportService.RemovedFromMaintainedItemsReport(query);
+
+            return ExcelHelpers.ToExcel(new Dictionary<string, ExcelColumn>
+            {
+                {"Customer Name", new ExcelColumn("Customer Name", 0)},
+                {"Customer Phone Number", new ExcelColumn("Customer Phone Number", 1)},
+                {"Item", new ExcelColumn("Item", 2)},
+                {"Item Barcode", new ExcelColumn("Item Barcode", 3)},
+                {"Company", new ExcelColumn("Company", 4)},
+                {"Date", new ExcelColumn("Date", 5)},
+                {"Technician", new ExcelColumn("Technician", 6)}
+            }, new List<ExcelRow>(itemsList.Select(e => new ExcelRow
             {
                 Values = new Dictionary<string, string>
                 {
-                    {"Technician", e.Technician},
-                    {"Fees", e.Fees.ToString()}
+                    {"Customer Name", e.CustomerName},
+                    {"Customer Phone Number", e.CustomerPhoneNumber},
+                    {"Item",e.Item},
+                    {"Item Barcode", e.ItemBarcode},
+                    {"Company", e.Company},
+                    {"Date", e.Date},
+                    {"Technician", e.Technician}
                 }
             })));
         }

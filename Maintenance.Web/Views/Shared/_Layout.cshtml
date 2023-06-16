@@ -293,7 +293,7 @@
                                 </li>
                             }
 
-                            @if (ViewBag.UserType == "Administrator")
+                            @if (ViewBag.UserType == "Administrator" || ViewBag.UserType == "MaintenanceManager")
                             {
                                 var subMenuClass = sideMenuHelper.GetSubMenuClass(
                                 new List<string> { "Report" });
@@ -346,6 +346,14 @@
                                                     <span class="menu-text">@Messages.ReturnedItemsReport</span>
                                                 </a>
                                             </li>
+                                            <li class="@sideMenuHelper.GetMenuItemClass("Report", "RemovedFromMaintainedItems")" aria-haspopup="true">
+                                                <a href="~/Report/RemovedFromMaintainedItems" class="menu-link">
+                                                    <i class="menu-bullet menu-bullet-dot">
+                                                        <span></span>
+                                                    </i>
+                                                    <span class="menu-text">@Messages.RemovedFromMaintainedItemsReport</span>
+                                                </a>
+                                            </li>
                                             <li class="@sideMenuHelper.GetMenuItemClass("Report", "UrgentItems")" aria-haspopup="true">
                                                 <a href="~/Report/UrgentItems" class="menu-link">
                                                     <i class="menu-bullet menu-bullet-dot">
@@ -375,15 +383,7 @@
                                                     <i class="menu-bullet menu-bullet-dot">
                                                         <span></span>
                                                     </i>
-                                                    <span class="menu-text">@Messages.DeliveredItemsReportByTechnician</span>
-                                                </a>
-                                            </li>
-                                            <li class="@sideMenuHelper.GetMenuItemClass("Report", "CollectedAmounts")" aria-haspopup="true">
-                                                <a href="~/Report/CollectedAmounts" class="menu-link">
-                                                    <i class="menu-bullet menu-bullet-dot">
-                                                        <span></span>
-                                                    </i>
-                                                    <span class="menu-text">@Messages.CollectedAmountsReport</span>
+                                                    <span class="menu-text">@Messages.DeliveredItemsReport</span>
                                                 </a>
                                             </li>
                                             <li class="@sideMenuHelper.GetMenuItemClass("Report", "SuspendedItems")" aria-haspopup="true">
@@ -394,14 +394,25 @@
                                                     <span class="menu-text">@Messages.SuspendedItemsReport</span>
                                                 </a>
                                             </li>
-                                            <li class="@sideMenuHelper.GetMenuItemClass("Report", "TechnicianFees")" aria-haspopup="true">
-                                                <a href="~/Report/TechnicianFees" class="menu-link">
-                                                    <i class="menu-bullet menu-bullet-dot">
-                                                        <span></span>
-                                                    </i>
-                                                    <span class="menu-text">@Messages.TechnicianFeesReport</span>
-                                                </a>
-                                            </li>
+                                            @if (ViewBag.UserType == "Administrator")
+                                            {
+                                                <li class="@sideMenuHelper.GetMenuItemClass("Report", "CollectedAmounts")" aria-haspopup="true">
+                                                    <a href="~/Report/CollectedAmounts" class="menu-link">
+                                                        <i class="menu-bullet menu-bullet-dot">
+                                                            <span></span>
+                                                        </i>
+                                                        <span class="menu-text">@Messages.CollectedAmountsReport</span>
+                                                    </a>
+                                                </li>
+                                                <li class="@sideMenuHelper.GetMenuItemClass("Report", "TechnicianFees")" aria-haspopup="true">
+                                                    <a href="~/Report/TechnicianFees" class="menu-link">
+                                                        <i class="menu-bullet menu-bullet-dot">
+                                                            <span></span>
+                                                        </i>
+                                                        <span class="menu-text">@Messages.TechnicianFeesReport</span>
+                                                    </a>
+                                                </li>
+                                            }
                                         </ul>
                                     </div>
                                 </li>

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Maintenance.Web.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator, MaintenanceManager")]
     public class ReportPdfController : BaseController
     {
         private readonly IReportPdfService _reportPdfService;
@@ -60,6 +60,7 @@ namespace Maintenance.Web.Controllers
             return GetPdfFileResult(result, "DeliveredItemsReportByTechnician");
         }
 
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> CollectedAmountsReportPdf(DateTime? dateFrom, DateTime? dateTo
             , string? technicianId, int? branchId)
         {
@@ -73,10 +74,18 @@ namespace Maintenance.Web.Controllers
             return GetPdfFileResult(result, "SuspendedItemsReport");
         }
 
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> TechnicianFeesReportPdf(DateTime? dateFrom, DateTime? dateTo)
         {
             var result = await _reportPdfService.TechnicianFeesReportPdf(dateFrom, dateTo);
             return GetPdfFileResult(result, "TechnicianFees");
+        }
+
+        public async Task<IActionResult> RemovedFromMaintainedItemsReportPdf(DateTime? dateFrom, DateTime? dateTo
+            , string? technicianId, int? branchId)
+        {
+            var result = await _reportPdfService.RemovedFromMaintainedItemsReportPdf(UserId, dateFrom, dateTo, technicianId, branchId);
+            return GetPdfFileResult(result, "RemovedFromMaintainedItems");
         }
     }
 }

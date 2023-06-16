@@ -20,5 +20,6 @@ namespace Maintenance.Core.Dtos
         public string CollectionDate { get; set; }
         public string MaintenanceSuspensionReason { get; set; }
         public string Technician { get; set; }
+        public string Type { get; set; }
     }
 }

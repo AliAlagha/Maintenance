@@ -21,12 +21,14 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
     {
         private readonly IPdfExportReportService _pdfExportReportService;
         private readonly IReportService _reportService;
+        private readonly ApplicationDbContext _db;
 
         public ReportPdfService(IPdfExportReportService pdfExportReportService
-            , IReportService reportService)
+            , IReportService reportService, ApplicationDbContext db)
         {
             _pdfExportReportService = pdfExportReportService;
             _reportService = reportService;
+            _db = db;
         }
 
         public async Task<byte[]> ReceiptItemsReportPdf(DateTime? dateFrom, DateTime? dateTo, int? branchId)
@@ -206,6 +208,43 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "TechnicianFeesReportDataSet", Data = technicianFees } };
             var result = _pdfExportReportService.GeneratePdf("TechnicianFees.rdlc", dataSets, paramaters);
             return result;
+        }
+
+        public async Task<byte[]> RemovedFromMaintainedItemsReportPdf(string userId, DateTime? dateFrom, DateTime? dateTo
+            , string? technicianId, int? branchId)
+        {
+            var paramaters = new Dictionary<string, object>();
+            paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd hh:mm tt"));
+            paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
+            paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
+
+            var branchName = await GetBranchName(userId);
+            paramaters.Add("BranchName", branchName);
+
+            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, TechnicianId = technicianId, BranchId = branchId };
+            var itemsList = await _reportService.RemovedFromMaintainedItemsReport(query);
+
+            var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = itemsList } };
+            var result = _pdfExportReportService.GeneratePdf("RemovedFromMaintainedItems.rdlc", dataSets, paramaters);
+            return result;
+        }
+
+        private async Task<string> GetBranchName(string userId)
+        {
+            var user = await _db.Users.Include(x => x.Branch)
+                .SingleOrDefaultAsync(x => x.Id == userId);
+            if (user == null)
+            {
+                throw new EntityNotFoundException();
+            }
+
+            var branchName = "";
+            if (user.Branch != null)
+            {
+                branchName = user.Branch.Name;
+            }
+
+            return branchName;
         }
 
     }

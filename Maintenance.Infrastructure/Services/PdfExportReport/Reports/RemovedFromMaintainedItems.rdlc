@@ -61,6 +61,10 @@
           <DataField>MaintenanceSuspensionReason</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Technician">
+          <DataField>Technician</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>ReceiptItemDataSet</rd:DataSetName>
@@ -80,25 +84,28 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>3.14744cm</Width>
+                  <Width>3.33475cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.38794cm</Width>
+                  <Width>2.5cm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>2.5cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>2.74908cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.66494cm</Width>
+                  <Width>2.21515cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>3.33985cm</Width>
+                  <Width>2.2593cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.53994cm</Width>
+                  <Width>2.00333cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>3.16518cm</Width>
+                  <Width>2.43277cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -114,7 +121,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>التاريخ</Value>
+                                  <Value>سبب الإرجاع</Value>
                                   <Style>
                                     <FontSize>12pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -146,6 +153,45 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox2">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>الفني</Value>
+                                  <Style>
+                                    <FontSize>12pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <TextDecoration>None</TextDecoration>
+                                    <Color>#fafafa</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox2</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                            </Border>
+                            <BackgroundColor>#1995ad</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.5cm</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Textbox3">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -153,7 +199,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>المبلغ</Value>
+                                  <Value>التاريخ</Value>
                                   <Style>
                                     <FontSize>12pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -385,14 +431,14 @@
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="CollectionDate">
+                        <Textbox Name="ReturnReason">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!CollectionDate.Value</Value>
+                                  <Value>=Fields!ReturnReason.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -401,7 +447,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>CollectionDate</rd:DefaultName>
+                          <rd:DefaultName>ReturnReason</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -423,14 +469,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="CollectedAmount">
+                        <Textbox Name="Technician">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!CollectedAmount.Value</Value>
+                                  <Value>=Fields!Technician.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -439,7 +485,45 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>CollectedAmount</rd:DefaultName>
+                          <rd:DefaultName>Technician</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>#394032</Color>
+                              <Style>Solid</Style>
+                              <Width>0.3pt</Width>
+                            </BottomBorder>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.5cm</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Date">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Date.Value</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Date</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -662,6 +746,7 @@
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -679,10 +764,10 @@
             <RepeatColumnHeaders>true</RepeatColumnHeaders>
             <RepeatRowHeaders>true</RepeatRowHeaders>
             <DataSetName>ReceiptItemReportDataSet</DataSetName>
-            <Top>6.4682cm</Top>
+            <Top>7.4207cm</Top>
             <Left>0.00001cm</Left>
             <Height>1.87012cm</Height>
-            <Width>19.99437cm</Width>
+            <Width>19.99438cm</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -709,10 +794,10 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox3</rd:DefaultName>
-            <Top>3.68035cm</Top>
-            <Left>7.15196cm</Left>
+            <Top>4.95035cm</Top>
+            <Left>5.83477cm</Left>
             <Height>0.61725cm</Height>
-            <Width>9.34608cm</Width>
+            <Width>10.66327cm</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -744,10 +829,10 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox3</rd:DefaultName>
-            <Top>4.2976cm</Top>
-            <Left>7.15196cm</Left>
+            <Top>5.5676cm</Top>
+            <Left>5.83477cm</Left>
             <Height>0.61725cm</Height>
-            <Width>9.34609cm</Width>
+            <Width>10.66328cm</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -766,7 +851,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>تقرير الإنجاز</Value>
+                    <Value>تقرير القطع المسترجعة</Value>
                     <Style>
                       <FontSize>16pt</FontSize>
                       <FontWeight>Bold</FontWeight>
@@ -781,10 +866,10 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox3</rd:DefaultName>
-            <Top>2.77031cm</Top>
-            <Left>0.49979cm</Left>
-            <Height>0.73365cm</Height>
-            <Width>19.00462cm</Width>
+            <Top>3.72281cm</Top>
+            <Left>0.5096cm</Left>
+            <Height>0.83948cm</Height>
+            <Width>18.99482cm</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>
@@ -817,7 +902,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox3</rd:DefaultName>
-            <Top>3.68035cm</Top>
+            <Top>4.95035cm</Top>
             <Left>16.49804cm</Left>
             <Height>0.61725cm</Height>
             <Width>3.00638cm</Width>
@@ -853,7 +938,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox3</rd:DefaultName>
-            <Top>4.2976cm</Top>
+            <Top>5.5676cm</Top>
             <Left>16.49804cm</Left>
             <Height>0.61725cm</Height>
             <Width>3.00638cm</Width>
@@ -888,10 +973,10 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox3</rd:DefaultName>
-            <Top>4.91485cm</Top>
-            <Left>7.15195cm</Left>
+            <Top>6.18485cm</Top>
+            <Left>5.83476cm</Left>
             <Height>0.61725cm</Height>
-            <Width>9.34609cm</Width>
+            <Width>10.66328cm</Width>
             <ZIndex>6</ZIndex>
             <Style>
               <Border>
@@ -924,7 +1009,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox3</rd:DefaultName>
-            <Top>4.91485cm</Top>
+            <Top>6.18485cm</Top>
             <Left>16.49803cm</Left>
             <Height>0.61725cm</Height>
             <Width>3.00638cm</Width>
@@ -933,81 +1018,6 @@
               <Border>
                 <Style>None</Style>
               </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
-          <Textbox Name="Textbox77">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>:المجموع</Value>
-                    <Style>
-                      <FontSize>12pt</FontSize>
-                      <FontWeight>Bold</FontWeight>
-                      <TextDecoration>None</TextDecoration>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style>
-                  <TextAlign>Center</TextAlign>
-                </Style>
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox3</rd:DefaultName>
-            <Top>8.33832cm</Top>
-            <Left>14.28926cm</Left>
-            <Height>1.06691cm</Height>
-            <Width>5.70512cm</Width>
-            <ZIndex>8</ZIndex>
-            <Style>
-              <Border />
-              <BottomBorder>
-                <Style>None</Style>
-              </BottomBorder>
-              <VerticalAlign>Middle</VerticalAlign>
-              <PaddingLeft>0.5cm</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
-          <Textbox Name="ProductAmount7">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>=Parameters!TotalCollectedMoney.Value</Value>
-                    <Style>
-                      <FontWeight>Bold</FontWeight>
-                      <TextDecoration>None</TextDecoration>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style>
-                  <TextAlign>Center</TextAlign>
-                </Style>
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>ProductAmount1</rd:DefaultName>
-            <Top>8.33832cm</Top>
-            <Left>3.14745cm</Left>
-            <Height>1.06691cm</Height>
-            <Width>2.38794cm</Width>
-            <ZIndex>9</ZIndex>
-            <Style>
-              <Border>
-                <Color>LightGrey</Color>
-                <Style>None</Style>
-              </Border>
-              <VerticalAlign>Middle</VerticalAlign>
               <PaddingLeft>2pt</PaddingLeft>
               <PaddingRight>2pt</PaddingRight>
               <PaddingTop>2pt</PaddingTop>
@@ -1036,11 +1046,11 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox3</rd:DefaultName>
-            <Top>0.18659cm</Top>
+            <Top>0.50409cm</Top>
             <Left>12.96445cm</Left>
             <Height>1.47448cm</Height>
             <Width>6.53015cm</Width>
-            <ZIndex>10</ZIndex>
+            <ZIndex>8</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1055,11 +1065,11 @@
             <Source>Embedded</Source>
             <Value>amry_logo_full</Value>
             <Sizing>FitProportional</Sizing>
-            <Top>0.18659cm</Top>
+            <Top>0.50409cm</Top>
             <Left>0.49979cm</Left>
             <Height>1.47448cm</Height>
             <Width>5.13845cm</Width>
-            <ZIndex>11</ZIndex>
+            <ZIndex>9</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1087,11 +1097,11 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox3</rd:DefaultName>
-            <Top>1.83746cm</Top>
+            <Top>2.15496cm</Top>
             <Left>12.93086cm</Left>
-            <Height>0.70719cm</Height>
+            <Height>0.73365cm</Height>
             <Width>5.06066cm</Width>
-            <ZIndex>12</ZIndex>
+            <ZIndex>10</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1123,11 +1133,11 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox3</rd:DefaultName>
-            <Top>1.83746cm</Top>
+            <Top>2.15496cm</Top>
             <Left>17.99152cm</Left>
             <Height>0.70719cm</Height>
             <Width>1.50307cm</Width>
-            <ZIndex>13</ZIndex>
+            <ZIndex>11</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1139,7 +1149,7 @@
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>8.83571in</Height>
+        <Height>4.73154in</Height>
         <Style>
           <Border>
             <Color>#979797</Color>
@@ -1151,16 +1161,15 @@
           </BottomBorder>
         </Style>
       </Body>
-      <Width>7.8718in</Width>
+      <Width>7.87181in</Width>
       <Page>
         <PageFooter>
-          <Height>1.42558cm</Height>
+          <Height>0.18037cm</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
             <Rectangle Name="Rectangle33">
               <KeepTogether>true</KeepTogether>
-              <Top>1.24521cm</Top>
               <Left>0.00001cm</Left>
               <Height>0.18037cm</Height>
               <Width>19.99437cm</Width>
@@ -1173,141 +1182,6 @@
                 <BackgroundColor>#1995ad</BackgroundColor>
               </Style>
             </Rectangle>
-            <Image Name="Image4">
-              <Source>Embedded</Source>
-              <Value>email1</Value>
-              <Sizing>FitProportional</Sizing>
-              <Top>0.38326cm</Top>
-              <Left>19.01935cm</Left>
-              <Height>0.47625cm</Height>
-              <Width>0.48507cm</Width>
-              <ZIndex>1</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-            </Image>
-            <Image Name="Image5">
-              <Source>Embedded</Source>
-              <Value>call1</Value>
-              <Sizing>FitProportional</Sizing>
-              <Top>0.38326cm</Top>
-              <Left>11.79416cm</Left>
-              <Height>0.47625cm</Height>
-              <Width>0.48507cm</Width>
-              <ZIndex>2</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-            </Image>
-            <Textbox Name="Textbox43">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Parameters!ContactEmail.Value</Value>
-                      <Style>
-                        <TextDecoration>None</TextDecoration>
-                        <Color>#1995ad</Color>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Right</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox3</rd:DefaultName>
-              <Top>0.38326cm</Top>
-              <Left>12.45562cm</Left>
-              <Height>0.47625cm</Height>
-              <Width>6.38734cm</Width>
-              <ZIndex>3</ZIndex>
-              <Style>
-                <Border />
-                <VerticalAlign>Middle</VerticalAlign>
-              </Style>
-            </Textbox>
-            <Textbox Name="Textbox53">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Parameters!ContactPhoneNumber.Value</Value>
-                      <Style>
-                        <TextDecoration>None</TextDecoration>
-                        <Color>#1995ad</Color>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Right</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox3</rd:DefaultName>
-              <Top>0.38326cm</Top>
-              <Left>7.81342cm</Left>
-              <Height>0.47625cm</Height>
-              <Width>3.80435cm</Width>
-              <ZIndex>4</ZIndex>
-              <Style>
-                <Border />
-                <VerticalAlign>Middle</VerticalAlign>
-              </Style>
-            </Textbox>
-            <Image Name="Image6">
-              <Source>Embedded</Source>
-              <Value>earth_east1</Value>
-              <Sizing>FitProportional</Sizing>
-              <Top>0.38326cm</Top>
-              <Left>7.15196cm</Left>
-              <Height>0.47625cm</Height>
-              <Width>0.48507cm</Width>
-              <ZIndex>5</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-            </Image>
-            <Textbox Name="Textbox54">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Parameters!WebsiteLink.Value</Value>
-                      <Style>
-                        <TextDecoration>None</TextDecoration>
-                        <Color>#1995ad</Color>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Right</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox3</rd:DefaultName>
-              <Top>0.38326cm</Top>
-              <Left>0.5096cm</Left>
-              <Height>0.47625cm</Height>
-              <Width>6.46597cm</Width>
-              <ZIndex>6</ZIndex>
-              <Style>
-                <Border />
-                <VerticalAlign>Middle</VerticalAlign>
-              </Style>
-            </Textbox>
           </ReportItems>
           <Style>
             <Border>
@@ -1355,12 +1229,6 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
-    <ReportParameter Name="TotalCollectedMoney">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>ReportParameter1</Prompt>
-    </ReportParameter>
     <ReportParameter Name="BranchName">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
@@ -1391,11 +1259,6 @@
         <CellDefinition>
           <ColumnIndex>3</ColumnIndex>
           <RowIndex>1</RowIndex>
-          <ParameterName>TotalCollectedMoney</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
-          <RowIndex>2</RowIndex>
           <ParameterName>BranchName</ParameterName>
         </CellDefinition>
       </CellDefinitions>

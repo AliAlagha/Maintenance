@@ -1393,6 +1393,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to تقرير القطع المسترجعة.
+        /// </summary>
+        public static string RemovedFromMaintainedItemsReport {
+            get {
+                return ResourceManager.GetString("RemovedFromMaintainedItemsReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to استرجاع.
         /// </summary>
         public static string RemoveFromMaintained {
