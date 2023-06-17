@@ -25,12 +25,23 @@ namespace Maintenance.Data.DbEntities
         public string Company { get; set; }
         public string? Color { get; set; }
         public string? Description { get; set; }
+        public double? SpecifiedCost { get; set; }
+        public bool NotifyCustomerOfTheCost { get; set; }
+        public double? CostNotifiedToTheCustomer { get; set; }
+        public double? CostFrom { get; set; }
+        public double? CostTo { get; set; }
+        public double? FinalCost { get; set; }
+        public bool Urgent { get; set; }
         public string ItemBarcode { get; set; }
         public string ItemBarcodeFilePath { get; set; }
         public bool IsReturnItemWarrantyValid { get; set; }
+        public double? CollectedAmount { get; set; }
+        public DateTime? CollectionDate { get; set; }
         public DateTime? DeliveryDate { get; set; }
         public ReturnHandReceiptItemRequestStatus MaintenanceRequestStatus { get; set; }
+        public HandReceiptItemRequestStatus? StatusBeforeSuspense { get; set; }
         public string? RemoveFromMaintainedReason { get; set; }
+        public string? ReasonForRefusingMaintenance { get; set; }
         public string? MaintenanceSuspensionReason { get; set; }
         public string? ReturnReason { get; set; }
         public string? TechnicianId { get; set; }

@@ -81,7 +81,7 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceipts
                 throw new EntityNotFoundException();
             }
 
-            var selectedReturnHandReceiptItems_dto = input.Items.Where(x => x.IsSelected)
+            var selectedReturnHandReceiptItems_dto = input.Items
                 .DistinctBy(x => x.HandReceiptItemId).ToList();
             var selectedReturnHandReceiptItemIds = selectedReturnHandReceiptItems_dto
                 .Select(x => x.HandReceiptItemId).ToList();
@@ -195,6 +195,7 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceipts
                     Item = handReceiptItem.Item,
                     ItemBarcode = handReceiptItem.ItemBarcode,
                     Company = handReceiptItem.Company,
+                    Color = handReceiptItem.Color,
                     DeliveryDate = handReceiptItem.DeliveryDate != null
                         ? handReceiptItem.DeliveryDate.Value.ToString("yyyy-MM-dd")
                         : null,

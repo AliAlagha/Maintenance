@@ -77,6 +77,30 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
                     case ReturnHandReceiptItemRequestStatus.CheckItem:
                         itemVm.MaintenanceRequestStatusMessage = $"{Messages.CheckItem}";
                         break;
+                    case ReturnHandReceiptItemRequestStatus.DefineMalfunction:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.DefineMalfunction}";
+                        break;
+                    case ReturnHandReceiptItemRequestStatus.InformCustomerOfTheCost:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.InformCustomerOfTheCost}";
+                        break;
+                    case ReturnHandReceiptItemRequestStatus.CustomerApproved:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.CustomerApproved}";
+                        break;
+                    case ReturnHandReceiptItemRequestStatus.CustomerRefused:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.CustomerRefused} - {item.ReasonForRefusingMaintenance}";
+                        break;
+                    case ReturnHandReceiptItemRequestStatus.NoResponseFromTheCustomer:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.NoResponseFromTheCustomer}";
+                        break;
+                    case ReturnHandReceiptItemRequestStatus.ItemCannotBeServiced:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.ItemCannotBeServiced}";
+                        break;
+                    case ReturnHandReceiptItemRequestStatus.NotifyCustomerOfTheInabilityToMaintain:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.NotifyCustomerOfTheInabilityToMaintain}";
+                        break;
+                    case ReturnHandReceiptItemRequestStatus.EnterMaintenanceCost:
+                        itemVm.MaintenanceRequestStatusMessage = $"{Messages.EnterMaintenanceCost}";
+                        break;
                     case ReturnHandReceiptItemRequestStatus.Completed:
                         itemVm.MaintenanceRequestStatusMessage = $"{Messages.Completed}";
                         break;
@@ -168,7 +192,8 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
                 HandReceiptItemId = handReceiptItem.Id,
                 MaintenanceRequestStatus = status,
                 BranchId = returnHandReceipt.BranchId,
-                IsReturnItemWarrantyValid = isWarrantyValid 
+                IsReturnItemWarrantyValid = isWarrantyValid,
+                
             };
 
             newReturnHandReceiptItem.ItemBarcodeFilePath = _barcodeService.GenerateBarcode(newReturnHandReceiptItem.ItemBarcode);

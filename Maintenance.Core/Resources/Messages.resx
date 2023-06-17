@@ -138,6 +138,9 @@
   <data name="Address" xml:space="preserve">
     <value>العنوان</value>
   </data>
+  <data name="AddReturnItemsMsg" xml:space="preserve">
+    <value>قم بإضافة قطع معادة</value>
+  </data>
   <data name="Administrator" xml:space="preserve">
     <value>مدير النظام</value>
   </data>

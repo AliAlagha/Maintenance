@@ -21,7 +21,9 @@ namespace Maintenance.Infrastructure.Services.Barcodes
             var bs = new BarcodeSettings
             {
                 Type = BarCodeType.Code39,
-                Data = barcode
+                Data = barcode,
+                BottomText = "Ali Alagha",
+                ShowBottomText = true
             };
 
             var bg = new BarCodeGenerator(bs);

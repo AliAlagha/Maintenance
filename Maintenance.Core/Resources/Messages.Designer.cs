@@ -124,6 +124,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to قم بإضافة قطع معادة.
+        /// </summary>
+        public static string AddReturnItemsMsg {
+            get {
+                return ResourceManager.GetString("AddReturnItemsMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to مدير النظام.
         /// </summary>
         public static string Administrator {

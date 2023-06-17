@@ -3,6 +3,7 @@
     ViewData["Title"] = Messages.ReturnHandReceipts;
 
     var handReceiptItemsJson = JsonConvert.SerializeObject(ViewBag.HandReceiptItems);
+    var itemsSelectList = new SelectList(ViewBag.HandReceiptItems, "Id", "Item");
 }
 
 <div class="card card-custom">
@@ -25,12 +26,58 @@
             <form id="CreateForm" asp-action="Create" method="post" enctype="multipart/form-data">
                 <input asp-for="HandReceiptId" type="hidden" />
 
-                <!--begin: Datatable-->
-                <div class="datatable datatable-head-custom" id="kt_datatable"></div>
-                <!--end: Datatable-->
+                <div class="row mt-4">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>@Messages.ReturnHandReceiptItems</label>
+                        </div>
+                    </div>
+                    <div class="col-md-9 text-right">
+                        <!--begin::Button-->
+                        <button type="button" class="btn btn-primary font-weight-bolder mr-2" data-toggle="modal" data-target="#AddItemModal">
+                            <span class="svg-icon svg-icon-md">
+                                <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24" />
+                                        <circle fill="#000000" cx="9" cy="15" r="6" />
+                                        <path d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z" fill="#000000" opacity="0.3" />
+                                    </g>
+                                </svg>
+                                <!--end::Svg Icon-->
+                            </span>@Messages.Create
+                        </button>
+                        <!--end::Button-->
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table id="ItemsTable" class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">@Messages.Item</th>
+                                        <th scope="col">@Messages.Company</th>
+                                        <th scope="col">@Messages.Color</th>
+                                        <th scope="col">@Messages.Description</th>
+                                        <th scope="col">@Messages.SpecifiedCost</th>
+                                        <th scope="col">@Messages.NotifyCustomerOfTheCost</th>
+                                        <th scope="col">@Messages.From</th>
+                                        <th scope="col">@Messages.To</th>
+                                        <th scope="col">@Messages.Urgent</th>
+                                        <th scope="col">@Messages.Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ItemsTableBody">
+                                </tbody>
+                            </table>
+                            <p id="AddItemsMsg">@Messages.AddReturnItemsMsg</p>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
+                    <button id="SubmitBtn" type="submit" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
                     <button href="/ReturnHandReceipt/Index" class="btn btn-light-primary font-weight-bold">@Messages.Cancel</button>
                 </div>
             </form>
@@ -38,236 +85,332 @@
     </div>
 </div>
 
+<div class="modal fade" data-toggle="PopUp" data-target="modal" id="AddItemModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Messages.Create</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="AddItemForm">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <label>@Messages.Item</label>
+                                <select asp-items="itemsSelectList" id="SelectItem" name="ItemId" class="form-control form-control-solid" style="width: 300px;">
+                                    <option value="">-- @string.Format(Messages.Select, Messages.Item) --</option>
+                                </select>
+                                <span id="ItemAlreadyExistsMsg" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>@Messages.Description</label>
+                                <textarea id="Description" placeholder="@string.Format(Messages.Enter,Messages.Description)" class="form-control form-control-solid"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>@Messages.ReturnReason</label>
+                                <textarea id="ReturnReason" placeholder="@string.Format(Messages.Enter,Messages.ReturnReason)" class="form-control form-control-solid"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>@Messages.SpecifiedCost</label>
+                                <input type="number" id="SpecifiedCost" placeholder="@string.Format(Messages.Enter,Messages.SpecifiedCost)" class="form-control form-control-solid"
+                                       min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>@Messages.From</label>
+                                <input type="number" id="CostFrom" placeholder="@string.Format(Messages.Enter,Messages.From)" class="form-control form-control-solid"
+                                       min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>@Messages.To</label>
+                                <input type="number" id="CostTo" placeholder="@string.Format(Messages.Enter,Messages.To)" class="form-control form-control-solid"
+                                       min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>@Messages.NotifyCustomerOfTheCost</label>
+                                <input id="NotifyCustomerOfTheCost" type="checkbox" value="false" placeholder="@string.Format(Messages.Enter,Messages.NotifyCustomerOfTheCost)" class="form-control form-control-solid" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>@Messages.Urgent</label>
+                                <input id="Urgent" type="checkbox" value="false" placeholder="@string.Format(Messages.Enter,Messages.Urgent)" class="form-control form-control-solid" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="AddItemBtn" type="button" class="btn btn-primary font-weight-bold mr-2">@Messages.Submit</button>
+                        <button type="button" data-dismiss="modal" class="btn btn-light-primary font-weight-bold">@Messages.Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
+          PageLoadActions();
+
         var handReceiptItems = JSON.parse('@Html.Raw(handReceiptItemsJson)');
+        var addedItemIds = [];
 
-        "use strict";
+        function GetDataFromModal() {
+            var itemId = $('#SelectItem').val();
+            var isItemAlreadyExists = addedItemIds.includes(itemId);
+            if(isItemAlreadyExists){
+                $('#ItemAlreadyExistsMsg').text('@Html.Raw(@Messages.EntityAlreadyExists)');
+                return;
+            }else{
+                $('#ItemAlreadyExistsMsg').text('');
+            }
+
+            var itemObj = handReceiptItems.find(obj => {
+                return obj.Id == itemId;
+            });
+
+            var description = $('#Description').val();
+            var returnReason = $('#ReturnReason').val();
+            var specifiedCost = $('#SpecifiedCost').val();
+            var costFrom = $('#CostFrom').val();
+            var costTo = $('#CostTo').val();
+            var notifyCustomerOfTheCost = $('#NotifyCustomerOfTheCost').val();
+            var urgent = $('#Urgent').val();
+
+            var handReceiptItem =
+            {
+                itemId: itemId,
+                item: itemObj.Item,
+                company: itemObj.Company,
+                color: itemObj.Color,
+                description: description,
+                returnReason: returnReason,
+                specifiedCost: specifiedCost,
+                costFrom: costFrom,
+                costTo: costTo,
+                notifyCustomerOfTheCost: notifyCustomerOfTheCost,
+                urgent: urgent
+            }
+
+            AddRow(handReceiptItem);
+            $("#AddItemModal").modal("hide");
+
+            $("#AddItemForm").resetForm();
+            $("#SpecifiedCost").prop('disabled', false);
+            $("#CostFrom").prop('disabled', false);
+            $("#CostTo").prop('disabled', false);
+            $("#NotifyCustomerOfTheCost").prop('disabled', false);
+            $('#SelectItem').select2({
+                placeholder: "-- اختر القطعة --",
+            });
+
+            $("#Urgent").attr('value', 'false');
+            $("#NotifyCustomerOfTheCost").attr('value', 'false');
+        }
+
+        function AddRow(itemObj) {
+            $('#AddItemsMsg').hide();
+            var newRowIndex = $('#ItemsTable > tbody > tr').length;
+
+            var notifyCustomerOfTheCost = '';
+            if (itemObj.notifyCustomerOfTheCost == 'true') {
+                notifyCustomerOfTheCost = '@Messages.Yes';
+            } else {
+                notifyCustomerOfTheCost = '@Messages.No';
+            }
+
+            var urgent = '';
+            if (itemObj.urgent == 'true') {
+                urgent = '@Messages.Yes';
+            } else {
+                urgent = '@Messages.No';
+            }
+
+            row = '';
+            row += '<tr class="item-row">';
+            row += '<td>' + itemObj.item + '<input type="hidden" name="Items[' + newRowIndex + '].HandReceiptItemId" value="' + itemObj.itemId + '" class="item"></td>';
+            row += '<td>' + itemObj.company + '</td>';
+            row += '<td>' + itemObj.color + '</td>';
+            row += '<td>' + itemObj.description + '<input type="hidden" name="Items[' + newRowIndex + '].Description" value="' + itemObj.description + '" class="description"></td>';
+                        row += '<td>' + itemObj.returnReason + '<input type="hidden" name="Items[' + newRowIndex + '].ReturnReason" value="' + itemObj.description + '" class="return-reason"></td>';
+            row += '<td>' + itemObj.specifiedCost + '<input type="hidden" name="Items[' + newRowIndex + '].SpecifiedCost" value="' + itemObj.specifiedCost + '" class="specified-cost"';
+            row += ' min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"></td>';
+            row += '<td>' + notifyCustomerOfTheCost + '<input type="hidden" name="Items[' + newRowIndex + '].NotifyCustomerOfTheCost" value="' + itemObj.notifyCustomerOfTheCost + '" class="notify-customer"></td>';
+            row += '<td>' + itemObj.costFrom + '<input type="hidden" name="Items[' + newRowIndex + '].CostFrom" value="' + itemObj.costFrom + '" class="cost-from"';
+            row += ' min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"></td>';
+            row += '<td>' + itemObj.costTo + '<input type="hidden" name="Items[' + newRowIndex + '].CostTo" value="' + itemObj.costTo + '" class="cost-to"';
+            row += ' min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"></td>';
+            row += '<td>' + urgent + '<input type="hidden" name="Items[' + newRowIndex + '].Urgent" value="' + itemObj.urgent + '" class="urgent"></td>';
+            row += '<td><button type="button" class="btn btn-danger font-weight-bold delete-row delete-row-' + newRowIndex + '">@Messages.Delete</button></td>';
+            row += '</tr>';
+
+            $("#ItemsTableBody").append(row);
+            addedItemIds.push(itemObj.itemId);
+
+            $(".delete-row").click(function () {
+                var rowCount = $('#ItemsTable > tbody > tr').length;
+                $(this).closest("tr").remove();
+
+                const index = addedItemIds.indexOf(itemObj.itemId);
+                if (index > -1) { // only splice array when item is found
+                    addedItemIds.splice(index, 1); // 2nd parameter means remove one item only
+                }
+
+                if (rowCount == 1) {
+                    $('#AddItemsMsg').show();
+                }
+            });
+        }
+
+        $(":checkbox").on('change', function () {
+            if ($(this).is(':checked')) {
+                $(this).attr('value', 'true');
+            } else {
+                $(this).attr('value', 'false');
+            }
+        });
+
         // Class definition
-
-        var KTDatatableRecordSelectionDemo = function () {
+        var KTFormControls = function () {
             // Private functions
+            var _initDemo1 = function () {
+                var validator = FormValidation.formValidation(
+                    document.getElementById('AddItemForm'),
+                    {
+                        fields: {
+                            ItemId: {
+                                validators: {
+                                    notEmpty: {
+                                        message: '@string.Format(Messages.RequiredField, Messages.Item)'
+                                    }
+                                }
+                            }
+                        },
 
-            var options = {
-                // datasource definition
-                data: {
-                    type: 'local',
-                    source: handReceiptItems,
-                },
-
-                // layout definition
-                layout: {
-                    scroll: true, // enable/disable datatable scroll both horizontal and
-                    footer: false // display/hide footer
-                },
-                rows: {
-                    autoHide: false
-                },
-
-                // column sorting
-                sortable: true,
-
-                pagination: false,
-
-                // columns definition
-                columns: [{
-                    field: 'Id',
-                    title: '#',
-                    sortable: false,
-                    autoHide: false,
-                    width: 20,
-                    selector: true,
-                    textAlign: 'center',
-                },
-                {
-                    field: 'Item',
-                    title: '@Messages.Item',
-                    sortable: false,
-                    autoHide: false,
-                    width: 100
-                },
-                {
-                    field: 'ItemBarcode',
-                    title: '@Messages.Barcode',
-                    sortable: false,
-                    autoHide: false,
-                    width: 100
-                },
-                {
-                    field: 'Company',
-                    title: '@Messages.Company',
-                    sortable: false,
-                    width: 100
-                },
-                {
-                    field: 'WarrantyDaysNumber',
-                    title: '@Messages.WarrantyDaysNumber',
-                    sortable: false,
-                    width: 100
-                },
-                {
-                    field: 'DeliveryDate',
-                    title: '@Messages.DeliveryDate',
-                    sortable: false,
-                    width: 100
-                },
-                {
-                    field: 'ReturnReasonInput',
-                    title: '@Messages.ReturnReason',
-                    sortable: false,
-                    autoHide: false,
-                    width: 200,
-                    template: function (data) {
-                        var res = '';
-                        res = res + '<input type="text" name="Items[' + data.Index + '].ReturnReason" class="form-control" />';
-                        return res;
+                        plugins: { //Learn more: https://formvalidation.io/guide/plugins
+                            trigger: new FormValidation.plugins.Trigger(),
+                            // Bootstrap Framework Integration
+                            bootstrap: new FormValidation.plugins.Bootstrap(),
+                            // Validate fields when clicking the Submit button
+                            //submitButton: new FormValidation.plugins.SubmitButton(),
+                            // Submit the form when all fields are valid
+                            //defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
+                        }
                     }
-                },
-                {
-                    field: 'SpecifiedCostInput',
-                    title: '@Messages.SpecifiedCost',
-                    sortable: false,
-                    autoHide: false,
-                    width: 100,
-                    template: function (data) {
-                        var res = '';
-                        res = res + '<input type="number" name="Items[' + data.Index + '].SpecifiedCost" class="form-control specified-cost index-' + data.Index + '" min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />';
-                        return res;
-                    }
-                },
-                {
-                    field: 'CostFromInput',
-                    title: '@Messages.From',
-                    sortable: false,
-                    autoHide: false,
-                    width: 100,
-                    template: function (data) {
-                        var res = '';
-                        res = res + '<input type="number" name="Items[' + data.Index + '].CostFrom" class="form-control cost-from index-' + data.Index + '" min = "0" onkeypress = "return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" /> ';
-                        return res;
-                    }
-                },
-                {
-                    field: 'CostToInput',
-                    title: '@Messages.To',
-                    sortable: false,
-                    autoHide: false,
-                    width: 100,
-                    template: function (data) {
-                        var res = '';
-                        res = res + '<input type="number" name="Items[' + data.Index + '].CostTo" class="form-control cost-to index-' + data.Index + '" min = "0" onkeypress = "return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" /> ';
-                        return res;
-                    }
-                },
-                {
-                    field: 'NotifyCustomerOfTheCostInput',
-                    title: '@Messages.NotifyCustomerOfTheCost',
-                    sortable: false,
-                    autoHide: false,
-                    width: 100,
-                    template: function (data) {
-                        var res = '';
-                        res = res + '<input type="checkbox" name="Items[' + data.Index + '].NotifyCustomerOfTheCost" class="form-control notify-customer index-' + data.Index + '" />';
-                        return res;
-                    }
-                },
-                {
-                    field: 'UrgentInput',
-                    title: '@Messages.Urgent',
-                    sortable: false,
-                    autoHide: false,
-                    width: 100,
-                    template: function (data) {
-                        var res = '';
-                        res = res + '<input type="checkbox" name="Items[' + data.Index + '].Urgent" class="form-control urgent index-' + data.Index + '" />'
-                        res = res + '<input type="hidden" name="Items[' + data.Index + '].HandReceiptItemId" value="' + data.Id + '" />';
-                        res = res + '<input id="is-selected-' + data.Id + '" type="hidden" name="Items[' + data.Index + '].IsSelected" value="false" />';
-                        return res;
-                    }
-                }],
-            };
+                );
 
-            // basic demo
-            var localSelectorDemo = function () {
-                // enable extension
-                options.extensions = {
-                    // boolean or object (extension options)
-                    checkbox: true,
-                };
+                // Add button handler
+                const addItemBtn = document.getElementById('AddItemBtn');
+                addItemBtn.addEventListener('click', function (e) {
+                    // Prevent default button action
+                    e.preventDefault();
 
-                options.search = {
-                    input: $('#kt_datatable_search_query'),
-                    key: 'generalSearch'
-                };
+                    // Validate form before submit
+                    if (validator) {
+                        validator.validate().then(function (status) {
+                            console.log('validated!');
 
-                var datatable = $('#kt_datatable').KTDatatable(options);
-
-                datatable.on(
-                    'datatable-on-check datatable-on-uncheck',
-                    function (e) {
-                        var ids = datatable.rows('.datatable-row-active').
-                            nodes().
-                            find('.checkbox > [type="checkbox"]').
-                            map(function (i, chk) {
-                                var selectedItemId = $(chk).val();
-                                $('#is-selected-' + selectedItemId).val('true');
-                            });
-                    });
-            };
+                            if (status == 'Valid') {
+                                GetDataFromModal();
+                            }
+                        });
+                    }
+                });
+            }
 
             return {
                 // public functions
                 init: function () {
-                    localSelectorDemo();
-                },
+                    _initDemo1();
+                }
             };
         }();
 
-        jQuery(document).ready(function () {
-            KTDatatableRecordSelectionDemo.init();
-
-            $('.specified-cost, .cost-from, .cost-to, .notify-customer').change(function () {
-                alert("changed");
-
-                var classVal = $(this).attr("class");
-                var indexClassIndex = classVal.indexOf("index");
-                var indexClass = classVal.substring(indexClassIndex);
-                var dashIndex = indexClass.indexOf("-");
-                var rowIndex = indexClass.substring(dashIndex + 1);
-
-                alert(rowIndex);
-
-                var specifiedCostElement = '.specified-cost-' + index;
-                var costFromElement = '.cost-from-' + index;
-                var costToElement = '.cost-to-' + index;
-                var notifyCustomerElement = '.notify-customer-' + index;
-
-                var specifiedCostVal = $(specifiedCostElement).val();
-                var costFromVal = $(costFromElement).val();
-                var costToVal = $(costToElement).val();
-                var notifyCustomerValToVal = $(notifyCustomerElement).val();
-
-                if (specifiedCostVal) {
-                    $(costFromElement).prop('disabled', true);
-                    $(costToElement).prop('disabled', true);
-                    $(notifyCustomerElement).prop('disabled', true);
-                } else if (costFromElement) {
-                    $(specifiedCostElement).prop('disabled', true);
-                    $(notifyCustomerElement).prop('disabled', true);
-                } else if (costToElement) {
-                    $(specifiedCostElement).prop('disabled', true);
-                    $(notifyCustomerElement).prop('disabled', true);
-                } else if (notifyCustomerValToVal == 'true') {
-                    $(specifiedCostElement).prop('disabled', true);
-                    $(costFromElement).prop('disabled', true);
-                    $(costToElement).prop('disabled', true);
-                } else {
-                    $(specifiedCostElement).prop('disabled', false);
-                    $(costFromElement).prop('disabled', false);
-                    $(costToElement).prop('disabled', false);
-                    $(notifyCustomerElement).prop('disabled', false);
-                }
+        // Add button handler
+        const submitBtn = document.getElementById('SubmitBtn');
+        submitBtn.addEventListener('click', function (e) {
+            $('.item-row').each(function (i, obj) {
+                $(this).find('.item').attr('name', 'Items[' + i + '].HandReceiptItemId');
+                $(this).find('.description').attr('name', 'Items[' + i + '].Description');
+                $(this).find('.return-reason').attr('name', 'Items[' + i + '].ReturnReason');
+                $(this).find('.specified-cost').attr('name', 'Items[' + i + '].SpecifiedCost');
+                $(this).find('.notify-customer').attr('name', 'Items[' + i + '].NotifyCustomerOfTheCost');
+                $(this).find('.cost-from').attr('name', 'Items[' + i + '].CostFrom');
+                $(this).find('.cost-to').attr('name', 'Items[' + i + '].CostTo');
+                $(this).find('.urgent').attr('name', 'Items[' + i + '].Urgent');
             });
+
+            form.submit(); // Submit form
+        });
+
+        // Class definition
+        var KTSelect2 = function () {
+            // Private functions
+            var demos = function () {
+                // basic
+                $('#SelectItem').select2();
+            }
+
+            // Public functions
+            return {
+                init: function () {
+                    demos();
+                }
+            };
+        }();
+
+        // Initialization
+        jQuery(document).ready(function () {
+            KTFormControls.init();
+            KTSelect2.init();
+        });
+
+        $('#SpecifiedCost, #CostFrom, #CostTo, #NotifyCustomerOfTheCost').change(function () {
+            var specifiedCostVal = $('#SpecifiedCost').val();
+            var costFromVal = $('#CostFrom').val();
+            var costToVal = $('#CostTo').val();
+            var notifyCustomerValToVal = $('#NotifyCustomerOfTheCost').val();
+
+            if (specifiedCostVal) {
+                $("#CostFrom").prop('disabled', true);
+                $("#CostTo").prop('disabled', true);
+                $("#NotifyCustomerOfTheCost").prop('disabled', true);
+            } else if (costFromVal) {
+                $("#SpecifiedCost").prop('disabled', true);
+                $("#NotifyCustomerOfTheCost").prop('disabled', true);
+            } else if (costToVal) {
+                $("#SpecifiedCost").prop('disabled', true);
+                $("#NotifyCustomerOfTheCost").prop('disabled', true);
+            } else if (notifyCustomerValToVal == 'true') {
+                $("#SpecifiedCost").prop('disabled', true);
+                $("#CostFrom").prop('disabled', true);
+                $("#CostTo").prop('disabled', true);
+            } else {
+                $("#SpecifiedCost").prop('disabled', false);
+                $("#CostFrom").prop('disabled', false);
+                $("#CostTo").prop('disabled', false);
+                $("#NotifyCustomerOfTheCost").prop('disabled', false);
+            }
         });
 
     </script>

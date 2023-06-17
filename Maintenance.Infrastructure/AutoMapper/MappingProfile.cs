@@ -90,9 +90,10 @@ namespace Maintenance.Infrastructure.AutoMapper
 
             #region ReturnHandReceiptItems
             CreateMap<ReturnHandReceiptItem, ReturnHandReceiptItemViewModel>()
-                .ForMember(x => x.DeliveryDate, x => x.MapFrom(x => x.DeliveryDate != null
-                ? x.DeliveryDate.Value.ToString("yyyy-MM-dd")
-                : null));
+                .ForMember(x => x.NotifyCustomerOfTheCost, x => x.MapFrom(x => x.NotifyCustomerOfTheCost ? Messages.Yes : Messages.No))
+                .ForMember(x => x.Urgent, x => x.MapFrom(x => x.Urgent ? Messages.Yes : Messages.No))
+                .ForMember(x => x.CollectionDate, x => x.MapFrom(x => x.CollectionDate != null ? x.CollectionDate.Value.ToString("yyyy-MM-dd") : null))
+                .ForMember(x => x.DeliveryDate, x => x.MapFrom(x => x.DeliveryDate != null ? x.DeliveryDate.Value.ToString("yyyy-MM-dd") : null));
             CreateMap<CreateReturnHandReceiptItemDto, ReturnHandReceiptItem>();
             CreateMap<ReturnHandReceiptItem, CreateReturnHandReceiptItemDto>();
             CreateMap<ReturnHandReceiptItem, UpdateReturnHandReceiptItemDto>();

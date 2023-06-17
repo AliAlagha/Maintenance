@@ -56,17 +56,6 @@ namespace Maintenance.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (input.Items.All(x => !x.IsSelected))
-                {
-                    ModelState.AddModelError("Required", string.Empty);
-
-                    var itemsList = await _returnHandReceiptService.GetHandReceiptItemsForReturn(input.HandReceiptId);
-                    ViewBag.HandReceiptItems = itemsList;
-
-                    ViewBag.IsFormValid = false;
-                    return View(input);
-                }
-
                 await _returnHandReceiptService.Create(input, UserId);
                 return RedirectToAction(nameof(Index));
             }
