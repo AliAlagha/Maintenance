@@ -75,6 +75,7 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceipts
 
             var handReceipt = await _db.HandReceipts
                 .Include(x => x.HandReceiptItems)
+                .Include(x => x.Customer)
                 .SingleOrDefaultAsync(x => x.Id == input.HandReceiptId);
             if (handReceipt == null)
             {
@@ -154,7 +155,9 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceipts
                     newReturnHandReceiptItem.NotifyCustomerOfTheCost = true;
                 }
 
-                newReturnHandReceiptItem.ItemBarcodeFilePath = _barcodeService.GenerateBarcode(newReturnHandReceiptItem.ItemBarcode);
+                newReturnHandReceiptItem.ItemBarcodeFilePath = _barcodeService
+                    .GenerateBarcode(newReturnHandReceiptItem.ItemBarcode
+                    , handReceipt.Customer.Name);
 
                 returnHandReceipt.ReturnHandReceiptItems.Add(newReturnHandReceiptItem);
             }

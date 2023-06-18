@@ -138,6 +138,7 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
             var returnHandReceipt = await _db.ReturnHandReceipts
                 .Include(x => x.HandReceipt)
                 .ThenInclude(x => x.HandReceiptItems)
+                .Include(x => x.Customer)
                 .SingleOrDefaultAsync(x => x.Id == dto.ReturnHandReceiptId);
             if (returnHandReceipt == null)
             {
@@ -208,7 +209,9 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
                 newReturnHandReceiptItem.NotifyCustomerOfTheCost = true;
             }
 
-            newReturnHandReceiptItem.ItemBarcodeFilePath = _barcodeService.GenerateBarcode(newReturnHandReceiptItem.ItemBarcode);
+            newReturnHandReceiptItem.ItemBarcodeFilePath = _barcodeService
+                .GenerateBarcode(newReturnHandReceiptItem.ItemBarcode
+                , returnHandReceipt.Customer.Name);
 
             newReturnHandReceiptItem.CreatedBy = userId;
             await _db.ReturnHandReceiptItems.AddAsync(newReturnHandReceiptItem);
