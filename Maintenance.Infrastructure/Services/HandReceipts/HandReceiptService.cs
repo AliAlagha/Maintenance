@@ -74,9 +74,15 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                 throw new EntityNotFoundException();
             }
 
+            var customer = await _db.Customers.SingleOrDefaultAsync(x => x.Id == input.CustomerId);
+            if (customer == null)
+            {
+                throw new EntityNotFoundException();
+            }
+
             var handReceipt = _mapper.Map<HandReceipt>(input);
             handReceipt.BranchId = currentUser.BranchId;
-            await AddHandReceiptItems(input.Items, handReceipt, userId);
+            await AddHandReceiptItems(input.Items, handReceipt, customer, userId);
 
             handReceipt.MaintenanceType = maintenanceType;
             handReceipt.Date = DateTime.Now;
@@ -87,7 +93,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
         }
 
         public async Task AddHandReceiptItems(List<CreateHandReceiptItemDto> itemDtos
-            , HandReceipt handReceipt, string userId)
+            , HandReceipt handReceipt, Customer customer, string userId)
         {
             var dtoItemIds = itemDtos.Select(x => x.ItemId).ToList();
             var dbItems = await _db.Items.Where(x => dtoItemIds.Contains(x.Id))
@@ -128,7 +134,8 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                     handReceiptItem.NotifyCustomerOfTheCost = true;
                 }
 
-                handReceiptItem.ItemBarcodeFilePath = _barcodeService.GenerateBarcode(handReceiptItem.ItemBarcode);
+                handReceiptItem.ItemBarcodeFilePath = _barcodeService.GenerateBarcode(handReceiptItem.ItemBarcode
+                    , customer.Name);
 
                 handReceiptItem.BranchId = handReceipt.BranchId;
                 handReceiptItem.CreatedBy = userId;

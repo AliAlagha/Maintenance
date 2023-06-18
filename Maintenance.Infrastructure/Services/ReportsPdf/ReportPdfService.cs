@@ -14,6 +14,7 @@ using System.Globalization;
 using Maintenance.Infrastructure.Services.PdfExportReport;
 using Maintenance.Infrastructure.Services.HandReceipts;
 using Maintenance.Infrastructure.Services.Reports;
+using Microsoft.CodeAnalysis.Operations;
 
 namespace Maintenance.Infrastructure.Services.ReportsPdf
 {
@@ -38,9 +39,16 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
             paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
 
-            paramaters.Add("ContactEmail", "test@gmail.com");
-            paramaters.Add("ContactPhoneNumber", "0599854758");
-            paramaters.Add("WebsiteLink", "www.test.com");
+            if (branchId != null)
+            {
+                var branch = await _db.Branches.SingleOrDefaultAsync(x => x.Id == branchId);
+                if (branch == null)
+                {
+                    throw new EntityNotFoundException();
+                }
+
+                paramaters.Add("BranchName", branch.Name);
+            }
 
             var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo , BranchId = branchId };
             var receiptItemsList = await _reportService.ReceiptItemsReport(query);
@@ -57,9 +65,16 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
             paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
 
-            paramaters.Add("ContactEmail", "test@gmail.com");
-            paramaters.Add("ContactPhoneNumber", "0599854758");
-            paramaters.Add("WebsiteLink", "www.test.com");
+            if (branchId != null)
+            {
+                var branch = await _db.Branches.SingleOrDefaultAsync(x => x.Id == branchId);
+                if (branch == null)
+                {
+                    throw new EntityNotFoundException();
+                }
+
+                paramaters.Add("BranchName", branch.Name);
+            }
 
             var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo , BranchId = branchId };
             var deliveredItemsList = await _reportService.DeliveredItemsReport(query);
@@ -77,9 +92,16 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
             paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
 
-            paramaters.Add("ContactEmail", "test@gmail.com");
-            paramaters.Add("ContactPhoneNumber", "0599854758");
-            paramaters.Add("WebsiteLink", "www.test.com");
+            if (branchId != null)
+            {
+                var branch = await _db.Branches.SingleOrDefaultAsync(x => x.Id == branchId);
+                if (branch == null)
+                {
+                    throw new EntityNotFoundException();
+                }
+
+                paramaters.Add("BranchName", branch.Name);
+            }
 
             var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, TechnicianId = technicianId , BranchId = branchId };
             var returnedItemsList = await _reportService.ReturnedItemsReport(query);
@@ -96,9 +118,16 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
             paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
 
-            paramaters.Add("ContactEmail", "test@gmail.com");
-            paramaters.Add("ContactPhoneNumber", "0599854758");
-            paramaters.Add("WebsiteLink", "www.test.com");
+            if (branchId != null)
+            {
+                var branch = await _db.Branches.SingleOrDefaultAsync(x => x.Id == branchId);
+                if (branch == null)
+                {
+                    throw new EntityNotFoundException();
+                }
+
+                paramaters.Add("BranchName", branch.Name);
+            }
 
             var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, BranchId = branchId };
             var urgentItemsList = await _reportService.UrgentItemsReport(query);
@@ -115,9 +144,16 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
             paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
 
-            paramaters.Add("ContactEmail", "test@gmail.com");
-            paramaters.Add("ContactPhoneNumber", "0599854758");
-            paramaters.Add("WebsiteLink", "www.test.com");
+            if (branchId != null)
+            {
+                var branch = await _db.Branches.SingleOrDefaultAsync(x => x.Id == branchId);
+                if (branch == null)
+                {
+                    throw new EntityNotFoundException();
+                }
+
+                paramaters.Add("BranchName", branch.Name);
+            }
 
             var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo , BranchId = branchId };
             var motMaintainedItemsList = await _reportService.NotMaintainedItemsReport(query);
@@ -134,9 +170,16 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
             paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
 
-            paramaters.Add("ContactEmail", "test@gmail.com");
-            paramaters.Add("ContactPhoneNumber", "0599854758");
-            paramaters.Add("WebsiteLink", "www.test.com");
+            if (branchId != null)
+            {
+                var branch = await _db.Branches.SingleOrDefaultAsync(x => x.Id == branchId);
+                if (branch == null)
+                {
+                    throw new EntityNotFoundException();
+                }
+
+                paramaters.Add("BranchName", branch.Name);
+            }
 
             var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, BranchId = branchId };
             var completedItemsList = await _reportService.NotDeliveredItemsReport(query);
@@ -154,6 +197,17 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
             paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
 
+            if (branchId != null)
+            {
+                var branch = await _db.Branches.SingleOrDefaultAsync(x => x.Id == branchId);
+                if (branch == null)
+                {
+                    throw new EntityNotFoundException();
+                }
+
+                paramaters.Add("BranchName", branch.Name);
+            }
+
             var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, TechnicianId = technicianId , BranchId = branchId };
             var deliveredItems = await _reportService.DeliveredItemsReportByTechnician(query);
 
@@ -169,6 +223,17 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd hh:mm tt"));
             paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
             paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
+
+            if (branchId != null)
+            {
+                var branch = await _db.Branches.SingleOrDefaultAsync(x => x.Id == branchId);
+                if (branch == null)
+                {
+                    throw new EntityNotFoundException();
+                }
+
+                paramaters.Add("BranchName", branch.Name);
+            }
 
             var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, TechnicianId = technicianId , BranchId = branchId };
             var collectedAmountItems = await _reportService.CollectedAmountsReport(query);
@@ -186,6 +251,17 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd hh:mm tt"));
             paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
             paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
+
+            if (branchId != null)
+            {
+                var branch = await _db.Branches.SingleOrDefaultAsync(x => x.Id == branchId);
+                if (branch == null)
+                {
+                    throw new EntityNotFoundException();
+                }
+
+                paramaters.Add("BranchName", branch.Name);
+            }
 
             var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo , BranchId = branchId };
             var suspendedItems = await _reportService.SuspendedItemsReport(query);
@@ -218,8 +294,16 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
             paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
 
-            var branchName = await GetBranchName(userId);
-            paramaters.Add("BranchName", branchName);
+            if (branchId != null)
+            {
+                var branch = await _db.Branches.SingleOrDefaultAsync(x => x.Id == branchId);
+                if (branch == null)
+                {
+                    throw new EntityNotFoundException();
+                }
+
+                paramaters.Add("BranchName", branch.Name);
+            }
 
             var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, TechnicianId = technicianId, BranchId = branchId };
             var itemsList = await _reportService.RemovedFromMaintainedItemsReport(query);
@@ -227,24 +311,6 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = itemsList } };
             var result = _pdfExportReportService.GeneratePdf("RemovedFromMaintainedItems.rdlc", dataSets, paramaters);
             return result;
-        }
-
-        private async Task<string> GetBranchName(string userId)
-        {
-            var user = await _db.Users.Include(x => x.Branch)
-                .SingleOrDefaultAsync(x => x.Id == userId);
-            if (user == null)
-            {
-                throw new EntityNotFoundException();
-            }
-
-            var branchName = "";
-            if (user.Branch != null)
-            {
-                branchName = user.Branch.Name;
-            }
-
-            return branchName;
         }
 
     }

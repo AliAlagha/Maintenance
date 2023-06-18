@@ -16,13 +16,13 @@ namespace Maintenance.Infrastructure.Services.Barcodes
             _mapper = mapper;
         }
 
-        public string GenerateBarcode(string barcode)
+        public string GenerateBarcode(string barcode, string customerName)
         {
             var bs = new BarcodeSettings
             {
                 Type = BarCodeType.Code39,
                 Data = barcode,
-                BottomText = "Ali Alagha",
+                BottomText = customerName,
                 ShowBottomText = true
             };
 

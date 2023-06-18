@@ -358,7 +358,7 @@
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Right</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
@@ -1069,7 +1069,6 @@
             <RepeatRowHeaders>true</RepeatRowHeaders>
             <DataSetName>ReceiptItemDataSet</DataSetName>
             <Top>6.57784cm</Top>
-            <Left>0cm</Left>
             <Height>1.87012cm</Height>
             <Width>19.99437cm</Width>
             <ZIndex>11</ZIndex>
@@ -1170,13 +1169,12 @@
       <Width>7.8718in</Width>
       <Page>
         <PageFooter>
-          <Height>1.42558cm</Height>
+          <Height>0.18037cm</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
             <Rectangle Name="Rectangle33">
               <KeepTogether>true</KeepTogether>
-              <Top>1.24521cm</Top>
               <Left>0.00001cm</Left>
               <Height>0.18037cm</Height>
               <Width>19.99437cm</Width>

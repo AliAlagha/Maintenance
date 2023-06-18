@@ -875,7 +875,7 @@
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Right</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
@@ -998,13 +998,12 @@
       <Width>7.8718in</Width>
       <Page>
         <PageFooter>
-          <Height>1.42558cm</Height>
+          <Height>0.18037cm</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
             <Rectangle Name="Rectangle33">
               <KeepTogether>true</KeepTogether>
-              <Top>1.24521cm</Top>
               <Left>0.00001cm</Left>
               <Height>0.18037cm</Height>
               <Width>19.99437cm</Width>
@@ -1017,141 +1016,6 @@
                 <BackgroundColor>#1995ad</BackgroundColor>
               </Style>
             </Rectangle>
-            <Image Name="Image4">
-              <Source>Embedded</Source>
-              <Value>email1</Value>
-              <Sizing>FitProportional</Sizing>
-              <Top>0.38326cm</Top>
-              <Left>19.01935cm</Left>
-              <Height>0.47625cm</Height>
-              <Width>0.48507cm</Width>
-              <ZIndex>1</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-            </Image>
-            <Image Name="Image5">
-              <Source>Embedded</Source>
-              <Value>call1</Value>
-              <Sizing>FitProportional</Sizing>
-              <Top>0.38326cm</Top>
-              <Left>11.79416cm</Left>
-              <Height>0.47625cm</Height>
-              <Width>0.48507cm</Width>
-              <ZIndex>2</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-            </Image>
-            <Textbox Name="Textbox43">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Parameters!ContactEmail.Value</Value>
-                      <Style>
-                        <TextDecoration>None</TextDecoration>
-                        <Color>#1995ad</Color>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Right</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox3</rd:DefaultName>
-              <Top>0.38326cm</Top>
-              <Left>12.45562cm</Left>
-              <Height>0.47625cm</Height>
-              <Width>6.38734cm</Width>
-              <ZIndex>3</ZIndex>
-              <Style>
-                <Border />
-                <VerticalAlign>Middle</VerticalAlign>
-              </Style>
-            </Textbox>
-            <Textbox Name="Textbox53">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Parameters!ContactPhoneNumber.Value</Value>
-                      <Style>
-                        <TextDecoration>None</TextDecoration>
-                        <Color>#1995ad</Color>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Right</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox3</rd:DefaultName>
-              <Top>0.38326cm</Top>
-              <Left>7.81342cm</Left>
-              <Height>0.47625cm</Height>
-              <Width>3.80435cm</Width>
-              <ZIndex>4</ZIndex>
-              <Style>
-                <Border />
-                <VerticalAlign>Middle</VerticalAlign>
-              </Style>
-            </Textbox>
-            <Image Name="Image6">
-              <Source>Embedded</Source>
-              <Value>earth_east1</Value>
-              <Sizing>FitProportional</Sizing>
-              <Top>0.38326cm</Top>
-              <Left>7.15196cm</Left>
-              <Height>0.47625cm</Height>
-              <Width>0.48507cm</Width>
-              <ZIndex>5</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-            </Image>
-            <Textbox Name="Textbox54">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Parameters!WebsiteLink.Value</Value>
-                      <Style>
-                        <TextDecoration>None</TextDecoration>
-                        <Color>#1995ad</Color>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Right</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox3</rd:DefaultName>
-              <Top>0.38326cm</Top>
-              <Left>0.5096cm</Left>
-              <Height>0.47625cm</Height>
-              <Width>6.46597cm</Width>
-              <ZIndex>6</ZIndex>
-              <Style>
-                <Border />
-                <VerticalAlign>Middle</VerticalAlign>
-              </Style>
-            </Textbox>
           </ReportItems>
           <Style>
             <Border>
@@ -1199,24 +1063,6 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
-    <ReportParameter Name="WebsiteLink">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>ReportParameter1</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ContactEmail">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>ReportParameter1</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ContactPhoneNumber">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>ReportParameter1</Prompt>
-    </ReportParameter>
     <ReportParameter Name="BranchName">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
@@ -1243,21 +1089,6 @@
           <ColumnIndex>3</ColumnIndex>
           <RowIndex>0</RowIndex>
           <ParameterName>DateTo</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
-          <RowIndex>1</RowIndex>
-          <ParameterName>WebsiteLink</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>1</ColumnIndex>
-          <RowIndex>1</RowIndex>
-          <ParameterName>ContactEmail</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>2</ColumnIndex>
-          <RowIndex>1</RowIndex>
-          <ParameterName>ContactPhoneNumber</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>3</ColumnIndex>

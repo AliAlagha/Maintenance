@@ -124,10 +124,27 @@ namespace Maintenance.Web.Controllers
         }
 
         // Return hand receipt items
-        public async Task<IActionResult> UpdateStatusForReturnHandReceiptItem(int receiptItemId)
+        public async Task<IActionResult> UpdateStatusForReturnHandReceiptItem(int receiptItemId, ReturnHandReceiptItemRequestStatus? status)
         {
-            await _maintenanceService.UpdateStatusForReturnHandReceiptItem(receiptItemId, UserId);
+            await _maintenanceService.UpdateStatusForReturnHandReceiptItem(receiptItemId, status, UserId);
             return UpdatedSuccessfully();
+        }
+
+        public IActionResult CustomerRefuseMaintenanceForReturnHandReceiptItem(int receiptItemId)
+        {
+            var dto = new CustomerRefuseMaintenanceDto { ReceiptItemId = receiptItemId };
+            return View(dto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CustomerRefuseMaintenanceForReturnHandReceiptItem(CustomerRefuseMaintenanceDto dto)
+        {
+            if (ModelState.IsValid)
+            {
+                await _maintenanceService.CustomerRefuseMaintenanceForReturnHandReceiptItem(dto, UserId);
+                return UpdatedSuccessfully();
+            }
+            return View(dto);
         }
 
         public IActionResult SuspenseMaintenanceForReturnHandReceiptItem(int receiptItemId)
@@ -142,6 +159,46 @@ namespace Maintenance.Web.Controllers
             if (ModelState.IsValid)
             {
                 await _maintenanceService.SuspenseMaintenanceForReturnHandReceiptItem(dto, UserId);
+                return UpdatedSuccessfully();
+            }
+            return View(dto);
+        }
+
+        public async Task<IActionResult> ReOpenMaintenanceForReturnHandReceiptItem(int receiptItemId)
+        {
+            await _maintenanceService.ReOpenMaintenanceForReturnHandReceiptItem(receiptItemId, UserId);
+            return UpdatedSuccessfully();
+        }
+
+        public IActionResult EnterMaintenanceCostForReturnHandReceiptItem(int receiptItemId)
+        {
+            var dto = new EnterMaintenanceCostDto { ReceiptItemId = receiptItemId };
+            return View(dto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EnterMaintenanceCostForReturnHandReceiptItem(EnterMaintenanceCostDto dto)
+        {
+            if (ModelState.IsValid)
+            {
+                await _maintenanceService.EnterMaintenanceCostForReturnHandReceiptItem(dto, UserId);
+                return UpdatedSuccessfully();
+            }
+            return View(dto);
+        }
+
+        public IActionResult DefineMalfunctionForReturnHandReceiptItem(int receiptItemId)
+        {
+            var dto = new DefineMalfunctionDto { ReceiptItemId = receiptItemId };
+            return View(dto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DefineMalfunctionForReturnHandReceiptItem(DefineMalfunctionDto dto)
+        {
+            if (ModelState.IsValid)
+            {
+                await _maintenanceService.DefineMalfunctionForReturnHandReceiptItem(dto, UserId);
                 return UpdatedSuccessfully();
             }
             return View(dto);

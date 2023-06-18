@@ -6,7 +6,7 @@ namespace Maintenance.Core.Dtos
     public class CollectMoneyForReutrnItemDto
     {
         public int ReturnHandReceiptItemId { get; set; }
-        public int ReturnReceiptId { get; set; }
+        public int ReturnHandReceiptId { get; set; }
 
         [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Messages))]
         [Display(Name = "CollectedAmount", ResourceType = typeof(Messages))]

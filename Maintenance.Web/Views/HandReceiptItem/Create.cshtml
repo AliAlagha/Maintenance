@@ -7,36 +7,36 @@
 <form asp-action="Create" method="post" class="ajaxForm" tname="#kt_datatable" enctype="multipart/form-data">
     <input type="hidden" asp-for="@Model.HandReceiptId" />
     <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
+                    <div class="form-group">
+        <div class="col-md-8">
                 <label>@Messages.Item</label>
-                <select asp-for="ItemId" id="SelectItem" class="form-control form-control-solid">
+                <select asp-for="ItemId" id="SelectItem" class="form-control form-control-solid" style="width: 180px;">
                     <option value="">-- @string.Format(Messages.Select, Messages.Item) --</option>
                 </select>
                 <span asp-validation-for="ItemId" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="form-group">
+                    <div class="form-group">
+        <div class="col-md-8">
                 <label>@Messages.Company</label>
-                <select asp-for="CompanyId" id="SelectCompany" class="form-control form-control-solid">
+                <select asp-for="CompanyId" id="SelectCompany" class="form-control form-control-solid" style="width: 180px;">
                     <option value="">-- @string.Format(Messages.Select, Messages.Company) --</option>
                 </select>
                 <span asp-validation-for="CompanyId" class="text-danger"></span>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
+                            <div class="form-group">
+        <div class="col-md-8">
                 <label>@Messages.Color</label>
-                <select asp-for="ColorId" id="SelectColor" class="form-control form-control-solid">
+                <select asp-for="ColorId" id="SelectColor" class="form-control form-control-solid" style="width: 180px;">
                     <option value="">-- @string.Format(Messages.Select, Messages.Color) --</option>
                 </select>
                 <span asp-validation-for="ColorId" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-6">
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <div class="form-group">
                 <label>@Messages.Description</label>
                 <textarea asp-for="Description" placeholder="@string.Format(Messages.Enter,Messages.Description)" class="form-control form-control-solid"></textarea>

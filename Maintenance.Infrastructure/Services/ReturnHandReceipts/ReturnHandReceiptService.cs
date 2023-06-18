@@ -107,10 +107,10 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceipts
         private async Task AddReturnHandReceiptItems(List<CreateReturnHandReceiptItemDto>
             selectedReturnHandReceiptItems_dto, HandReceipt? handReceipt, ReturnHandReceipt returnHandReceipt)
         {
-            foreach (var returnHandReceiptItem in selectedReturnHandReceiptItems_dto)
+            foreach (var returnHandReceiptItemDto in selectedReturnHandReceiptItems_dto)
             {
                 var handReceiptItem = handReceipt.HandReceiptItems
-                    .Single(x => x.Id == returnHandReceiptItem.HandReceiptItemId);
+                    .Single(x => x.Id == returnHandReceiptItemDto.HandReceiptItemId);
 
                 ReturnHandReceiptItemRequestStatus status;
                 bool isWarrantyValid = false;
@@ -131,15 +131,28 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceipts
                     ReturnHandReceiptId = returnHandReceipt.Id,
                     Item = handReceiptItem.Item,
                     Color = handReceiptItem.Color,
-                    Description = handReceiptItem.Description,
+                    Description = returnHandReceiptItemDto.Description,
                     Company = handReceiptItem.Company,
                     ItemBarcode = await GenerateBarcode(),
-                    ReturnReason = returnHandReceiptItem.ReturnReason,
+                    ReturnReason = returnHandReceiptItemDto.ReturnReason,
                     HandReceiptItemId = handReceiptItem.Id,
                     MaintenanceRequestStatus = status,
                     BranchId = handReceiptItem.BranchId,
-                    IsReturnItemWarrantyValid = isWarrantyValid
+                    IsReturnItemWarrantyValid = isWarrantyValid,
+                    SpecifiedCost = returnHandReceiptItemDto.SpecifiedCost,
+                    CostFrom = returnHandReceiptItemDto.CostFrom,
+                    CostTo = returnHandReceiptItemDto.CostTo,
+                    NotifyCustomerOfTheCost = returnHandReceiptItemDto.NotifyCustomerOfTheCost
                 };
+
+                if (returnHandReceiptItemDto.SpecifiedCost != null)
+                {
+                    newReturnHandReceiptItem.FinalCost = returnHandReceiptItemDto.SpecifiedCost;
+                }
+                else if (returnHandReceiptItemDto.CostFrom != null || returnHandReceiptItemDto.CostTo != null)
+                {
+                    newReturnHandReceiptItem.NotifyCustomerOfTheCost = true;
+                }
 
                 newReturnHandReceiptItem.ItemBarcodeFilePath = _barcodeService.GenerateBarcode(newReturnHandReceiptItem.ItemBarcode);
 
@@ -149,14 +162,15 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceipts
 
         public async Task Delete(int id, string userId)
         {
-            var returnHandReceipt = await _db.ReturnHandReceipts.SingleOrDefaultAsync(x => x.Id == id);
+            var returnHandReceipt = await _db.ReturnHandReceipts
+                .Include(x => x.ReturnHandReceiptItems).SingleOrDefaultAsync(x => x.Id == id);
             if (returnHandReceipt == null)
                 throw new EntityNotFoundException();
 
-            returnHandReceipt.IsDelete = true;
-            returnHandReceipt.UpdatedAt = DateTime.Now;
-            returnHandReceipt.UpdatedBy = userId;
-            _db.ReturnHandReceipts.Update(returnHandReceipt);
+            _db.ReturnHandReceiptItems.RemoveRange(returnHandReceipt.ReturnHandReceiptItems);
+            await _db.SaveChangesAsync();
+
+            _db.ReturnHandReceipts.Remove(returnHandReceipt);
             await _db.SaveChangesAsync();
         }
 
@@ -230,6 +244,7 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceipts
             var returnHandReceipt = await _db.ReturnHandReceipts
                 .Include(x => x.Customer)
                 .Include(x => x.ReturnHandReceiptItems)
+                .Include(x => x.Branch)
                 .SingleOrDefaultAsync(x => x.Id == id);
             if (returnHandReceipt == null)
             {
@@ -256,18 +271,41 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceipts
                 paramaters.Add("Notes", Messages.WarrantyExpiredNote);
             }
 
-            paramaters.Add("ContactEmail", "test@gmail.com");
-            paramaters.Add("ContactPhoneNumber", "0599854758");
-            paramaters.Add("WebsiteLink", "www.test.com");
+            var branchPhoneNumber = "";
+            var branchAddress = "";
+            if (returnHandReceipt.Branch != null)
+            {
+                branchPhoneNumber = returnHandReceipt.Branch.PhoneNumber;
+                branchAddress = returnHandReceipt.Branch.Address;
+            }
+
+            paramaters.Add("BranchPhoneNumber", branchPhoneNumber);
+            paramaters.Add("BranchAddress", branchAddress);
 
             var receiptItems = new List<ReceiptItemDataSet>();
             foreach (var receiptItem in returnHandReceipt.ReturnHandReceiptItems)
             {
+                var priceStr = "";
+                if (receiptItem.SpecifiedCost != null)
+                {
+                    priceStr = receiptItem.SpecifiedCost.ToString();
+                }
+                else if (receiptItem.CostFrom != null && receiptItem.CostTo != null)
+                {
+                    priceStr = $"{Messages.From} {receiptItem.CostFrom} {Messages.To} {receiptItem.CostTo}";
+                }
+                else if (receiptItem.NotifyCustomerOfTheCost)
+                {
+                    priceStr = $"{Messages.NotifyCustomerOfTheCostMsg}";
+                }
+
                 var receiptItemDataSet = new ReceiptItemDataSet
                 {
                     Item = receiptItem.Item,
-                    ItemBarcode = receiptItem.ItemBarcode,
-                    Company = receiptItem.Company
+                    Company = receiptItem.Company,
+                    Color = receiptItem.Color,
+                    Price = priceStr,
+                    Description = receiptItem.Description
                 };
 
                 receiptItems.Add(receiptItemDataSet);

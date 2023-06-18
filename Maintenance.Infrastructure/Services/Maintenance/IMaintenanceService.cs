@@ -20,7 +20,11 @@ namespace Maintenance.Infrastructure.Services.Maintenance
         Task DefineMalfunctionForHandReceiptItem(DefineMalfunctionDto dto, string userId);
 
         // Return hand receipt items
-        Task UpdateStatusForReturnHandReceiptItem(int receiptItemId, string userId);
+        Task UpdateStatusForReturnHandReceiptItem(int receiptItemId, ReturnHandReceiptItemRequestStatus? status, string userId);
+        Task CustomerRefuseMaintenanceForReturnHandReceiptItem(CustomerRefuseMaintenanceDto dto, string userId);
         Task SuspenseMaintenanceForReturnHandReceiptItem(SuspenseReceiptItemDto dto, string userId);
+        Task ReOpenMaintenanceForReturnHandReceiptItem(int receiptItemId, string userId);
+        Task EnterMaintenanceCostForReturnHandReceiptItem(EnterMaintenanceCostDto dto, string userId);
+        Task DefineMalfunctionForReturnHandReceiptItem(DefineMalfunctionDto dto, string userId);
     }
 }

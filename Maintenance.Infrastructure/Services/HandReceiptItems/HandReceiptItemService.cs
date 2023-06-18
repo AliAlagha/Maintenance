@@ -162,7 +162,8 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
         {
             var handReceiptItem = _mapper.Map<HandReceiptItem>(input);
 
-            var handReceipt = await _db.HandReceipts.SingleOrDefaultAsync(x => x.Id == input.HandReceiptId);
+            var handReceipt = await _db.HandReceipts.Include(x => x.Customer)
+                .SingleOrDefaultAsync(x => x.Id == input.HandReceiptId);
             if (handReceipt == null)
             {
                 throw new EntityNotFoundException();
@@ -205,7 +206,8 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
             handReceiptItem.Item = item.Name;
             handReceiptItem.Company = company.Name;
             handReceiptItem.ItemBarcode = await GenerateBarcode();
-            handReceiptItem.ItemBarcodeFilePath = _barcodeService.GenerateBarcode(handReceiptItem.ItemBarcode);
+            handReceiptItem.ItemBarcodeFilePath = _barcodeService.GenerateBarcode(handReceiptItem.ItemBarcode
+                , handReceipt.Customer.Name);
             handReceiptItem.CreatedBy = userId;
             await _db.HandReceiptItems.AddAsync(handReceiptItem);
             await _db.SaveChangesAsync();

@@ -62,6 +62,27 @@
 <!--end::Card-->
 @section Scripts{
     <script>
+        const StatusEnum = {
+            WaitingManagerResponse: 1,
+            ManagerApprovedReturn:2,
+            ManagerRefusedReturn:3,
+                                    New: 4,
+                                    CheckItem: 5,
+                                    DefineMalfunction: 6,
+                                    InformCustomerOfTheCost: 7,
+                                    CustomerApproved: 8,
+                                    CustomerRefused: 9,
+                                    NoResponseFromTheCustomer: 10,
+                                    ItemCannotBeServiced: 11,
+                                    NotifyCustomerOfTheInabilityToMaintain: 12,
+                                    EnterMaintenanceCost: 13,
+                                    Completed: 14,
+                                    NotifyCustomerOfMaintenanceEnd: 15,
+                                    Delivered: 16,
+                                    Suspended: 17,
+                                    RemovedFromMaintained: 18
+                                }
+
         "use strict";
         // Class definition
         var KTDatatableAutoColumnHideDemo = function () {
@@ -131,10 +152,28 @@
                                     '    </span>' +
                                     '</a>';
 
-                                if (data.technicianId != null
-                                    && data.maintenanceRequestStatus != 1 && data.maintenanceRequestStatus != 3
-                                    && data.maintenanceRequestStatus != 4 && data.maintenanceRequestStatus != 8
-                                    && data.maintenanceRequestStatus != 9 && data.maintenanceRequestStatus != 10) {
+                                    if (data.collectedAmount == null) {
+                                    result = result + '<a href="/HandReceiptItem/CollectMoney?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model" tname="#kt_datatable" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.CollectingMoney">' +
+                                        '    <span class="svg-icon svg-icon-md">' +
+                                        '        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
+                                        '            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
+                                        '                <rect x="0" y="0" width="24" height="24" />' +
+                                        '                <path d="M2,6 L21,6 C21.5522847,6 22,6.44771525 22,7 L22,17 C22,17.5522847 21.5522847,18 21,18 L2,18 C1.44771525,18 1,17.5522847 1,17 L1,7 C1,6.44771525 1.44771525,6 2,6 Z M11.5,16 C13.709139,16 15.5,14.209139 15.5,12 C15.5,9.790861 13.709139,8 11.5,8 C9.290861,8 7.5,9.790861 7.5,12 C7.5,14.209139 9.290861,16 11.5,16 Z" fill="#000000" opacity="0.3" transform="translate(11.500000, 12.000000) rotate(-345.000000) translate(-11.500000, -12.000000) " />' +
+                                        '                <path d="M2,6 L21,6 C21.5522847,6 22,6.44771525 22,7 L22,17 C22,17.5522847 21.5522847,18 21,18 L2,18 C1.44771525,18 1,17.5522847 1,17 L1,7 C1,6.44771525 1.44771525,6 2,6 Z M11.5,16 C13.709139,16 15.5,14.209139 15.5,12 C15.5,9.790861 13.709139,8 11.5,8 C9.290861,8 7.5,9.790861 7.5,12 C7.5,14.209139 9.290861,16 11.5,16 Z M11.5,14 C12.6045695,14 13.5,13.1045695 13.5,12 C13.5,10.8954305 12.6045695,10 11.5,10 C10.3954305,10 9.5,10.8954305 9.5,12 C9.5,13.1045695 10.3954305,14 11.5,14 Z" fill="#000000" />' +
+                                        '            </g>' +
+                                        '        </svg>' +
+                                        '    </span>' +
+                                        '</a>';
+                                }
+
+                                if (data.technicianId != null 
+                                    && ((data.maintenanceRequestStatus != StatusEnum.Delivered
+                                    && data.maintenanceRequestStatus != StatusEnum.Suspended
+                                    && data.maintenanceRequestStatus != StatusEnum.RemovedFromMaintained)
+                                        || data.maintenanceRequestStatus == StatusEnum.CustomerRefused 
+                                        || data.maintenanceRequestStatus == StatusEnum.NoResponseFromTheCustomer
+                                        || data.maintenanceRequestStatus == StatusEnum.ItemCannotBeServiced
+                                        || data.maintenanceRequestStatus == StatusEnum.NotifyCustomerOfTheInabilityToMaintain)) {
                                     result = result + '<a href="/ReturnHandReceiptItem/DeliverItem?ReturnHandReceiptItemId=' + data.id + '&ReturnHandReceiptId=@Model" class="btn btn-sm btn-clean btn-icon mr-2" title="@Messages.Delivery">' +
                                         '    <span class="svg-icon svg-icon-md">' +
                                         '        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
@@ -152,7 +191,7 @@
                                 //    result = result + GetPopUpEditAction('/ReturnHandReceiptItem/Edit?ReturnHandReceiptItemId=' + data.id + '&ReturnHandReceiptId=@Model', '@string.Format(Messages.EditTitle, Messages.ReturnHandReceiptItem)');
                                 //}
 
-                                if (data.maintenanceRequestStatus == 8) {
+                                if (data.maintenanceRequestStatus == StatusEnum.Delivered) {
                                     result = result + '<a href="/ReturnHandReceiptItem/RemoveFromMaintained?ReturnHandReceiptItemId=' + data.id + '&ReturnHandReceiptId=@Model" tname="#kt_datatable" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.RemoveFromMaintained">' +
                                         '    <span class="svg-icon svg-icon-md">' +
                                         '        <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo8/dist/../src/media/svg/icons/Code/Error-circle.svg-->' +

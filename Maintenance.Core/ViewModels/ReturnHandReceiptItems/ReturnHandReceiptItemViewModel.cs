@@ -25,7 +25,7 @@ namespace Maintenance.Core.ViewModels
         public double? CollectedAmount { get; set; }
         public string? CollectionDate { get; set; }
         public string? DeliveryDate { get; set; }
-        public HandReceiptItemRequestStatus MaintenanceRequestStatus { get; set; }
+        public ReturnHandReceiptItemRequestStatus MaintenanceRequestStatus { get; set; }
         public string MaintenanceRequestStatusMessage { get; set; }
         public string? TechnicianId { get; set; }
         public string ItemBarcodeFilePath { get; set; }

@@ -26,9 +26,9 @@ namespace Maintenance.Web.Controllers
             return View();
         }
 
-        public IActionResult GenerateBarcode(string barcode)
+        public IActionResult GenerateBarcode(string barcode, string customerName)
         {
-            _barcodeService.GenerateBarcode(barcode);
+            _barcodeService.GenerateBarcode(barcode, customerName);
             return Ok();
         }
 

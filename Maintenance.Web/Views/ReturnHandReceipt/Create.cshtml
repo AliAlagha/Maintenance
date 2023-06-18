@@ -60,6 +60,7 @@
                                         <th scope="col">@Messages.Company</th>
                                         <th scope="col">@Messages.Color</th>
                                         <th scope="col">@Messages.Description</th>
+                                        <th scope="col">@Messages.ReturnReason</th>
                                         <th scope="col">@Messages.SpecifiedCost</th>
                                         <th scope="col">@Messages.NotifyCustomerOfTheCost</th>
                                         <th scope="col">@Messages.From</th>
@@ -197,12 +198,17 @@
             var notifyCustomerOfTheCost = $('#NotifyCustomerOfTheCost').val();
             var urgent = $('#Urgent').val();
 
+            var color = "";
+            if(itemObj.Color){
+                color = itemObj.Color;
+            }
+
             var handReceiptItem =
             {
                 itemId: itemId,
                 item: itemObj.Item,
                 company: itemObj.Company,
-                color: itemObj.Color,
+                color: color,
                 description: description,
                 returnReason: returnReason,
                 specifiedCost: specifiedCost,

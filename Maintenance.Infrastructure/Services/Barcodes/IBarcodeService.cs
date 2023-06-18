@@ -7,6 +7,6 @@ namespace Maintenance.Infrastructure.Services.Barcodes
 {
     public interface IBarcodeService
     {
-        string GenerateBarcode(string barcode);
+        string GenerateBarcode(string barcode, string customerName);
     }
 }
