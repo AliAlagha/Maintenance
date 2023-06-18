@@ -84,6 +84,26 @@ namespace Maintenance.Web.Controllers
             return DeletedSuccessfully();
         }
 
+        public IActionResult CollectMoney(int returnHandReceiptItemId, int returnHandReceiptId)
+        {
+            var dto = new CollectMoneyForReutrnItemDto
+            {
+                ReturnHandReceiptItemId = returnHandReceiptItemId,
+                ReturnHandReceiptId = returnHandReceiptId
+            };
+            return View(dto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CollectMoney(CollectMoneyForReutrnItemDto input)
+        {
+            if (ModelState.IsValid)
+            {
+                await _returnHandReceiptItemService.CollectMoney(input, UserId);
+                return UpdatedSuccessfully();
+            }
+            return View(input);
+        }
         public async Task<IActionResult> DeliverItem(int returnHandReceiptItemId
             , int returnHandReceiptId)
         {

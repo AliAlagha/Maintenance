@@ -15,6 +15,7 @@ using Maintenance.Infrastructure.Services.PdfExportReport;
 using Maintenance.Infrastructure.Services.HandReceipts;
 using Maintenance.Infrastructure.Services.Reports;
 using Microsoft.CodeAnalysis.Operations;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace Maintenance.Infrastructure.Services.ReportsPdf
 {
@@ -281,7 +282,10 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo };
             var technicianFees = await _reportService.TechnicianFeesReport(query);
 
-            var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "TechnicianFeesReportDataSet", Data = technicianFees } };
+            var totalVal = await _reportService.TechnicianFeesReportTotal(query);
+            paramaters.Add("TotalTechnicianFees", totalVal);
+
+            var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = technicianFees } };
             var result = _pdfExportReportService.GeneratePdf("TechnicianFees.rdlc", dataSets, paramaters);
             return result;
         }

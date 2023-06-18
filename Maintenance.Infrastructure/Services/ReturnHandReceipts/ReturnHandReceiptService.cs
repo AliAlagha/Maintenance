@@ -143,16 +143,13 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceipts
                     SpecifiedCost = returnHandReceiptItemDto.SpecifiedCost,
                     CostFrom = returnHandReceiptItemDto.CostFrom,
                     CostTo = returnHandReceiptItemDto.CostTo,
-                    NotifyCustomerOfTheCost = returnHandReceiptItemDto.NotifyCustomerOfTheCost
+                    NotifyCustomerOfTheCost = returnHandReceiptItemDto.NotifyCustomerOfTheCost,
+                    Urgent = returnHandReceiptItemDto.Urgent,
                 };
 
                 if (returnHandReceiptItemDto.SpecifiedCost != null)
                 {
                     newReturnHandReceiptItem.FinalCost = returnHandReceiptItemDto.SpecifiedCost;
-                }
-                else if (returnHandReceiptItemDto.CostFrom != null || returnHandReceiptItemDto.CostTo != null)
-                {
-                    newReturnHandReceiptItem.NotifyCustomerOfTheCost = true;
                 }
 
                 newReturnHandReceiptItem.ItemBarcodeFilePath = _barcodeService
@@ -250,13 +247,6 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceipts
                 .Include(x => x.Branch)
                 .SingleOrDefaultAsync(x => x.Id == id);
             if (returnHandReceipt == null)
-            {
-                throw new EntityNotFoundException();
-            }
-
-            var isAllItemsDelivered = returnHandReceipt.ReturnHandReceiptItems
-                .All(x => x.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.Delivered);
-            if (!isAllItemsDelivered)
             {
                 throw new EntityNotFoundException();
             }

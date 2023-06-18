@@ -111,7 +111,8 @@ namespace Maintenance.Infrastructure.AutoMapper
             #region Maintenance
             CreateMap<HandReceiptItem, ReceiptItemForMaintenanceViewModel>()
                 .ForMember(x => x.Urgent, x => x.MapFrom(x => x.Urgent ? Messages.Yes : Messages.No));
-            CreateMap<ReturnHandReceiptItem, ReceiptItemForMaintenanceViewModel>();
+            CreateMap<ReturnHandReceiptItem, ReceiptItemForMaintenanceViewModel>()
+                .ForMember(x => x.Urgent, x => x.MapFrom(x => x.Urgent ? Messages.Yes : Messages.No));
             #endregion
 
             #region RecipientMaintenances

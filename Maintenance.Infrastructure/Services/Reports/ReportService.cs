@@ -55,7 +55,7 @@ namespace Maintenance.Infrastructure.Services.Reports
                 var receiptItemDataSet = new ReceiptItemReportDataSet
                 {
                     CustomerName = receiptItem.Customer != null ? receiptItem.Customer.Name : "",
-                    CustomerPhoneNumber = receiptItem.Customer != null ? receiptItem.Customer.PhoneNumber: "",
+                    CustomerPhoneNumber = receiptItem.Customer != null ? receiptItem.Customer.PhoneNumber : "",
                     Item = receiptItem.Item,
                     ItemBarcode = receiptItem.ItemBarcode,
                     Company = receiptItem.Company,
@@ -770,17 +770,17 @@ namespace Maintenance.Infrastructure.Services.Reports
                 .ThenInclude(x => x.Technician)
                 .AsQueryable();
 
-            //if (query.DateFrom.HasValue)
-            //{
-            //    handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CollectionDate >= query.DateFrom.Value);
-            //    returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CollectionDate >= query.DateFrom.Value);
-            //}
+            if (query.DateFrom.HasValue)
+            {
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CollectionDate >= query.DateFrom.Value);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CollectionDate >= query.DateFrom.Value);
+            }
 
-            //if (query.DateTo.HasValue)
-            //{
-            //    handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CollectionDate <= query.DateTo.Value);
-            //    returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CollectionDate <= query.DateTo.Value);
-            //}
+            if (query.DateTo.HasValue)
+            {
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CollectionDate <= query.DateTo.Value);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CollectionDate <= query.DateTo.Value);
+            }
 
             if (query.TechnicianId != null)
             {
@@ -809,31 +809,45 @@ namespace Maintenance.Infrastructure.Services.Reports
                     ? item.CollectionDate.Value.ToString("yyyy-MM-dd hh:mm tt") : "",
                     CollectedAmount = item.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained ? item.CollectedAmount.Value : -item.CollectedAmount.Value,
                     Technician = item.Technician != null ? item.Technician.FullName : "",
-                    Type = item.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained ? "تم صيانتها" : "مسترجعة"
+                    Type = item.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained
+                    ? "تم صيانتها" : "مسترجعة"
                 };
 
                 items.Add(itemDataSet);
             }
 
-            //foreach (var item in returnHandReceiptItems)
-            //{
-            //    var itemDataSet = new ReceiptItemReportDataSet
-            //    {
-            //        CustomerName = item.Customer != null ? item.Customer.Name : "",
-            //        CustomerPhoneNumber = item.Customer != null ? item.Customer.PhoneNumber : "",
-            //        Item = item.Item,
-            //        ItemBarcode = item.ItemBarcode,
-            //        Company = item.Company,
-            //        CollectionDate = item.CollectionDate != null
-            //        ? item.CollectionDate.Value.ToString("yyyy-MM-dd hh:mm tt") : "",
-            //        CollectedAmount = item.CollectedAmount ?? 0,
-            //        Technician = item.HandReceiptItem.Technician != null ? item.HandReceiptItem.Technician.FullName
-            //        : "",
-            //        Type = "معادة"
-            //    };
+            foreach (var item in returnHandReceiptItems)
+            {
+                var itemDataSet = new ReceiptItemReportDataSet
+                {
+                    CustomerName = item.Customer != null ? item.Customer.Name : "",
+                    CustomerPhoneNumber = item.Customer != null ? item.Customer.PhoneNumber : "",
+                    Item = item.Item,
+                    ItemBarcode = item.ItemBarcode,
+                    Company = item.Company,
+                    CollectionDate = item.CollectionDate != null
+                    ? item.CollectionDate.Value.ToString("yyyy-MM-dd hh:mm tt") : "",
+                    Technician = item.HandReceiptItem.Technician != null ? item.HandReceiptItem.Technician.FullName
+                    : "",
+                    Type = item.MaintenanceRequestStatus != ReturnHandReceiptItemRequestStatus.RemovedFromMaintained
+                    ? "معادة" : "مسترجعة"
+                };
 
-            //    items.Add(itemDataSet);
-            //}
+
+                if (item.CollectedAmount != null)
+                {
+                    if (item.MaintenanceRequestStatus != ReturnHandReceiptItemRequestStatus.RemovedFromMaintained)
+                    {
+                        itemDataSet.CollectedAmount = item.CollectedAmount.Value;
+                    }
+                    else
+                    {
+                        itemDataSet.CollectedAmount = -item.CollectedAmount.Value;
+                    }
+                }
+
+                items.Add(itemDataSet);
+            }
 
             var collectedAmountItemsListOrdered = items.OrderByDescending(x => x.CollectionDate).ToList();
             return collectedAmountItemsListOrdered;
@@ -853,17 +867,17 @@ namespace Maintenance.Infrastructure.Services.Reports
                 .ThenInclude(x => x.Technician)
                 .AsQueryable();
 
-            //if (query.DateFrom.HasValue)
-            //{
-            //    handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CollectionDate >= query.DateFrom.Value);
-            //    returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CollectionDate >= query.DateFrom.Value);
-            //}
+            if (query.DateFrom.HasValue)
+            {
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CollectionDate >= query.DateFrom.Value);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CollectionDate >= query.DateFrom.Value);
+            }
 
-            //if (query.DateTo.HasValue)
-            //{
-            //    handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CollectionDate <= query.DateTo.Value);
-            //    returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CollectionDate <= query.DateTo.Value);
-            //}
+            if (query.DateTo.HasValue)
+            {
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CollectionDate <= query.DateTo.Value);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CollectionDate <= query.DateTo.Value);
+            }
 
             if (query.TechnicianId != null)
             {
@@ -883,9 +897,9 @@ namespace Maintenance.Infrastructure.Services.Reports
             var maintained = handReceiptItems
                 .Where(x => x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained).ToList();
 
-            //var total = maintained.Sum(x => x.CollectedAmount) + returnHandReceiptItems.Sum(x => x.CollectedAmount)
-            //    - removedFromMaintained.Sum(x => x.CollectedAmount);
-            return 0;
+            var total = maintained.Sum(x => x.CollectedAmount) + returnHandReceiptItems.Sum(x => x.CollectedAmount)
+                - removedFromMaintained.Sum(x => x.CollectedAmount);
+            return total ?? 0;
         }
 
         public async Task<List<ReceiptItemReportDataSet>> RemovedFromMaintainedItemsReport(QueryDto query)

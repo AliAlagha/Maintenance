@@ -309,6 +309,8 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
             
             private global::System.Data.DataColumn columnDescription;
             
+            private global::System.Data.DataColumn columnType;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public ReceiptItemDataSetDataTable() {
@@ -464,6 +466,14 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn TypeColumn {
+                get {
+                    return this.columnType;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -499,7 +509,23 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public ReceiptItemDataSetRow AddReceiptItemDataSetRow(string Item, string ItemBarcode, string Company, string CollectedAmount, string CollectionDate, string CustomerName, string CustomerPhoneNumber, string Date, string ReturnReason, string Status, string MaintenanceSuspensionReason, string Technician, string Price, string Color, string Description) {
+            public ReceiptItemDataSetRow AddReceiptItemDataSetRow(
+                        string Item, 
+                        string ItemBarcode, 
+                        string Company, 
+                        string CollectedAmount, 
+                        string CollectionDate, 
+                        string CustomerName, 
+                        string CustomerPhoneNumber, 
+                        string Date, 
+                        string ReturnReason, 
+                        string Status, 
+                        string MaintenanceSuspensionReason, 
+                        string Technician, 
+                        string Price, 
+                        string Color, 
+                        string Description, 
+                        string Type) {
                 ReceiptItemDataSetRow rowReceiptItemDataSetRow = ((ReceiptItemDataSetRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Item,
@@ -516,7 +542,8 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
                         Technician,
                         Price,
                         Color,
-                        Description};
+                        Description,
+                        Type};
                 rowReceiptItemDataSetRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowReceiptItemDataSetRow);
                 return rowReceiptItemDataSetRow;
@@ -554,6 +581,7 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
                 this.columnPrice = base.Columns["Price"];
                 this.columnColor = base.Columns["Color"];
                 this.columnDescription = base.Columns["Description"];
+                this.columnType = base.Columns["Type"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -593,6 +621,8 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
                 base.Columns.Add(this.columnColor);
                 this.columnDescription = new global::System.Data.DataColumn("Description", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDescription);
+                this.columnType = new global::System.Data.DataColumn("Type", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnType);
                 this.ExtendedProperties.Add("Generator_TablePropName", "_ReceiptItemDataSet");
                 this.ExtendedProperties.Add("Generator_UserTableName", "ReceiptItemDataSet");
             }
@@ -979,6 +1009,22 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Type {
+                get {
+                    try {
+                        return ((string)(this[this.tableReceiptItemDataSet.TypeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Type\' in table \'ReceiptItemDataSet\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReceiptItemDataSet.TypeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsItemNull() {
                 return this.IsNull(this.tableReceiptItemDataSet.ItemColumn);
             }
@@ -1155,6 +1201,18 @@ namespace Maintenance.Infrastructure.Services.PdfExportReport.Reports.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetDescriptionNull() {
                 this[this.tableReceiptItemDataSet.DescriptionColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTypeNull() {
+                return this.IsNull(this.tableReceiptItemDataSet.TypeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTypeNull() {
+                this[this.tableReceiptItemDataSet.TypeColumn] = global::System.Convert.DBNull;
             }
         }
         

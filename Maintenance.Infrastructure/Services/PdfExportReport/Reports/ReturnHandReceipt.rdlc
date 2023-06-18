@@ -65,6 +65,18 @@
           <DataField>Technician</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Price">
+          <DataField>Price</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Color">
+          <DataField>Color</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Description">
+          <DataField>Description</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>ReceiptItemDataSet</rd:DataSetName>
@@ -1037,7 +1049,6 @@
             <RepeatRowHeaders>true</RepeatRowHeaders>
             <DataSetName>ReceiptItemDataSet</DataSetName>
             <Top>7.27004cm</Top>
-            <Left>0cm</Left>
             <Height>1.87012cm</Height>
             <Width>19.99437cm</Width>
             <ZIndex>15</ZIndex>

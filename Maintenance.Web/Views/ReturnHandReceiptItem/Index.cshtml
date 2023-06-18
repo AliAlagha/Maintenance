@@ -133,7 +133,7 @@
                             field: 'Actions',
                             title: '@Messages.Actions',
                             sortable: false,
-                            width: 120,
+                            width: 160,
                             overflow: 'visible',
                             autoHide: false,
                             template: function (data) {
@@ -153,7 +153,7 @@
                                     '</a>';
 
                                     if (data.collectedAmount == null) {
-                                    result = result + '<a href="/HandReceiptItem/CollectMoney?HandReceiptItemId=' + data.id + '&HandReceiptId=@Model" tname="#kt_datatable" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.CollectingMoney">' +
+                                    result = result + '<a href="/ReturnHandReceiptItem/CollectMoney?ReturnHandReceiptItemId=' + data.id + '&ReturnHandReceiptId=@Model" tname="#kt_datatable" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="@Messages.CollectingMoney">' +
                                         '    <span class="svg-icon svg-icon-md">' +
                                         '        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">' +
                                         '            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +

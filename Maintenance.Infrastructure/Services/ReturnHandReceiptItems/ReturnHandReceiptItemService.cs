@@ -197,16 +197,13 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
                 SpecifiedCost = dto.SpecifiedCost,
                 CostFrom = dto.CostFrom,
                 CostTo = dto.CostTo,
-                NotifyCustomerOfTheCost = dto.NotifyCustomerOfTheCost
+                NotifyCustomerOfTheCost = dto.NotifyCustomerOfTheCost,
+                Urgent = dto.Urgent
             };
 
             if (dto.SpecifiedCost != null)
             {
                 newReturnHandReceiptItem.FinalCost = dto.SpecifiedCost;
-            }
-            else if (dto.CostFrom != null || dto.CostTo != null)
-            {
-                newReturnHandReceiptItem.NotifyCustomerOfTheCost = true;
             }
 
             newReturnHandReceiptItem.ItemBarcodeFilePath = _barcodeService
@@ -284,9 +281,10 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
         {
             var returnHandReceiptItem = await _db.ReturnHandReceiptItems
                 .SingleOrDefaultAsync(x => x.Id == dto.ReturnHandReceiptItemId
-                && x.ReturnHandReceiptId == dto.ReturnHandReceiptId && x.FinalCost != null && x.CollectedAmount == null);
+                && x.ReturnHandReceiptId == dto.ReturnHandReceiptId && x.CollectedAmount == null
+                && x.TechnicianId != null && x.FinalCost != null);
             if (returnHandReceiptItem == null)
-                throw new EntityNotFoundException();
+                throw new CustomMessageException("لا يمكن التحصيل");
 
             var optionalDiscount = returnHandReceiptItem.FinalCost * 0.1;
             var finalCostAfterOptionalDiscount = returnHandReceiptItem.FinalCost - optionalDiscount;
@@ -318,7 +316,7 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceiptItems
                         || x.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.ItemCannotBeServiced
                         || x.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.NotifyCustomerOfTheInabilityToMaintain));
             if (returnHandReceiptItem == null)
-                throw new EntityNotFoundException();
+                throw new CustomMessageException("لا يمكن التسليم");
 
             returnHandReceiptItem.MaintenanceRequestStatus = ReturnHandReceiptItemRequestStatus.Delivered;
             returnHandReceiptItem.DeliveryDate = DateTime.Now;

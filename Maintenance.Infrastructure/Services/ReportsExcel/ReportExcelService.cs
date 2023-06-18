@@ -330,7 +330,7 @@ namespace Maintenance.Infrastructure.Services.ReportsExcel
                         {"Customer Name", item.CustomerName},
                         {"Customer Phone Number", item.CustomerPhoneNumber},
                         {"Item",item.Item},
-                        {"Status", item.Status.ToString()},
+                        {"Status", item.Type.ToString()},
                         {"Technician", item.Technician.ToString()},
                         {"Collection Date", item.CollectionDate},
                         {"Fees", item.CollectedAmount.ToString()}

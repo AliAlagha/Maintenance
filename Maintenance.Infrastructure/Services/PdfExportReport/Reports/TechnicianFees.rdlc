@@ -11,7 +11,7 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="ReceiptItemDataSet">
+    <DataSet Name="ReceiptItemReportDataSet">
       <Query>
         <DataSourceName>ReceiptItemDataSet</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
@@ -75,6 +75,10 @@
         </Field>
         <Field Name="Description">
           <DataField>Description</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Type">
+          <DataField>Type</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -812,14 +816,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Status">
+                        <Textbox Name="Type">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Status.Value</Value>
+                                  <Value>=Fields!Type.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -828,7 +832,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Status</rd:DefaultName>
+                          <rd:DefaultName>Type</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1067,7 +1071,7 @@
             </TablixRowHierarchy>
             <RepeatColumnHeaders>true</RepeatColumnHeaders>
             <RepeatRowHeaders>true</RepeatRowHeaders>
-            <DataSetName>ReceiptItemDataSet</DataSetName>
+            <DataSetName>ReceiptItemReportDataSet</DataSetName>
             <Top>6.57784cm</Top>
             <Height>1.87012cm</Height>
             <Width>19.99437cm</Width>

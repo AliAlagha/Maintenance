@@ -75,10 +75,6 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             }
 
             var customer = await _db.Customers.SingleOrDefaultAsync(x => x.Id == input.CustomerId);
-            if (customer == null)
-            {
-                throw new EntityNotFoundException();
-            }
 
             var handReceipt = _mapper.Map<HandReceipt>(input);
             handReceipt.BranchId = currentUser.BranchId;
@@ -134,8 +130,18 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
                     handReceiptItem.NotifyCustomerOfTheCost = true;
                 }
 
+                var customerName = "";
+                if (customer != null)
+                {
+                    customerName = customer.Name;
+                }
+                else
+                {
+                    customerName = "صيانة فورية";
+                }
+
                 handReceiptItem.ItemBarcodeFilePath = _barcodeService.GenerateBarcode(handReceiptItem.ItemBarcode
-                    , customer.Name);
+                    , customerName);
 
                 handReceiptItem.BranchId = handReceipt.BranchId;
                 handReceiptItem.CreatedBy = userId;

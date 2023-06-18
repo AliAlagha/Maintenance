@@ -115,7 +115,8 @@ namespace Maintenance.Web.Controllers
                     return View(input);
                 }
 
-                if (input.CustomerInfo != null)
+                if (input.CustomerInfo != null && input.CustomerInfo.Name != null
+                    && input.CustomerInfo.PhoneNumber != null)
                 {
                     var createCustomerDto = _mapper.Map<CreateCustomerForHandReceiptDto
                         , CreateCustomerDto>(input.CustomerInfo);

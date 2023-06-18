@@ -285,9 +285,10 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
         {
             var handReceiptItem = await _db.HandReceiptItems
                 .SingleOrDefaultAsync(x => x.Id == dto.HandReceiptItemId
-                && x.HandReceiptId == dto.HandReceiptId && x.FinalCost != null && x.CollectedAmount == null);
+                && x.HandReceiptId == dto.HandReceiptId && x.FinalCost != null && x.CollectedAmount == null
+                && x.TechnicianId != null);
             if (handReceiptItem == null)
-                throw new EntityNotFoundException();
+                throw new CustomMessageException("لا يمكن التحصيل قبل البدء بالصيانة");
 
             var optionalDiscount = handReceiptItem.FinalCost * 0.1;
             var finalCostAfterOptionalDiscount = handReceiptItem.FinalCost - optionalDiscount;
@@ -318,7 +319,7 @@ namespace Maintenance.Infrastructure.Services.HandReceiptItems
                         || x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.ItemCannotBeServiced
                         || x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.NotifyCustomerOfTheInabilityToMaintain));
             if (handReceiptItem == null)
-                throw new EntityNotFoundException();
+                throw new CustomMessageException("لا يمكن التسليم");
 
             handReceiptItem.MaintenanceRequestStatus = HandReceiptItemRequestStatus.Delivered;
             handReceiptItem.DeliveryDate = DateTime.Now;
