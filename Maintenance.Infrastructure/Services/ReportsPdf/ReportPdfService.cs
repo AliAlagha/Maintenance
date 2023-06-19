@@ -272,14 +272,26 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             return result;
         }
 
-        public async Task<byte[]> TechnicianFeesReportPdf(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<byte[]> TechnicianFeesReportPdf(DateTime? dateFrom, DateTime? dateTo
+            , string? technicianId, int? branchId)
         {
             var paramaters = new Dictionary<string, object>();
             paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd hh:mm tt"));
             paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
             paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
 
-            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo };
+            if (branchId != null)
+            {
+                var branch = await _db.Branches.SingleOrDefaultAsync(x => x.Id == branchId);
+                if (branch == null)
+                {
+                    throw new EntityNotFoundException();
+                }
+
+                paramaters.Add("BranchName", branch.Name);
+            }
+
+            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, TechnicianId = technicianId, BranchId = branchId };
             var technicianFees = await _reportService.TechnicianFeesReport(query);
 
             var totalVal = await _reportService.TechnicianFeesReportTotal(query);

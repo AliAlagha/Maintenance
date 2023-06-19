@@ -74,9 +74,9 @@ namespace Maintenance.Web.Controllers
         }
 
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> TechnicianFeesReportExcel(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<IActionResult> TechnicianFeesReportExcel(DateTime? dateFrom, DateTime? dateTo, string? technicianId, int? branchId)
         {
-            var result = await _reportExcelService.TechnicianFeesReportExcel(dateFrom, dateTo);
+            var result = await _reportExcelService.TechnicianFeesReportExcel(dateFrom, dateTo, technicianId, branchId);
             return GetExcelFileResult(result, "TechnicianFees");
         }
 

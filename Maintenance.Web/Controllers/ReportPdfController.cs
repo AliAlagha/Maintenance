@@ -75,9 +75,9 @@ namespace Maintenance.Web.Controllers
         }
 
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> TechnicianFeesReportPdf(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<IActionResult> TechnicianFeesReportPdf(DateTime? dateFrom, DateTime? dateTo, string? technicianId, int? branchId)
         {
-            var result = await _reportPdfService.TechnicianFeesReportPdf(dateFrom, dateTo);
+            var result = await _reportPdfService.TechnicianFeesReportPdf(dateFrom, dateTo, technicianId, branchId);
             return GetPdfFileResult(result, "TechnicianFees");
         }
 

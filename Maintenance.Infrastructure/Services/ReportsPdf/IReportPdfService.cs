@@ -17,7 +17,7 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
         Task<byte[]> CollectedAmountsReportPdf(DateTime? dateFrom, DateTime? dateTo
             , string? technicianId, int? branchId);
         Task<byte[]> SuspendedItemsReportPdf(DateTime? dateFrom, DateTime? dateTo, int? branchId);
-        Task<byte[]> TechnicianFeesReportPdf(DateTime? dateFrom, DateTime? dateTo);
+        Task<byte[]> TechnicianFeesReportPdf(DateTime? dateFrom, DateTime? dateTo, string? technicianId, int? branchId);
         Task<byte[]> RemovedFromMaintainedItemsReportPdf(string userId, DateTime? dateFrom, DateTime? dateTo
             , string? technicianId, int? branchId);
     }

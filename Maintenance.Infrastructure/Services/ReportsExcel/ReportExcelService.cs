@@ -315,9 +315,9 @@ namespace Maintenance.Infrastructure.Services.ReportsExcel
             })));
         }
 
-        public async Task<byte[]> TechnicianFeesReportExcel(DateTime? dateFrom, DateTime? dateTo)
+        public async Task<byte[]> TechnicianFeesReportExcel(DateTime? dateFrom, DateTime? dateTo, string? technicianId, int? branchId)
         {
-            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo };
+            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, TechnicianId = technicianId, BranchId = branchId };
             var technicianFees = await _reportService.TechnicianFeesReport(query);
 
             var rows = new List<ExcelRow>();

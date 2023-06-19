@@ -790,6 +790,12 @@ namespace Maintenance.Infrastructure.Services.Reports
                     && x.TechnicianId.Equals(query.TechnicianId));
             }
 
+            if (query.BranchId.HasValue)
+            {
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
+            }
+
             var handReceiptItems = await handReceiptItemsDbQuery
                 .ToListAsync();
             var returnHandReceiptItems = await returnHandReceiptItemsDbQuery
@@ -885,6 +891,12 @@ namespace Maintenance.Infrastructure.Services.Reports
                     && x.TechnicianId.Equals(query.TechnicianId));
                 returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.TechnicianId != null
                     && x.TechnicianId.Equals(query.TechnicianId));
+            }
+
+            if (query.BranchId.HasValue)
+            {
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
             }
 
             var handReceiptItems = await handReceiptItemsDbQuery
