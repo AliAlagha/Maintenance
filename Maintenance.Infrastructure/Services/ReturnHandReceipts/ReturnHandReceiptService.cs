@@ -134,7 +134,7 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceipts
                     Color = handReceiptItem.Color,
                     Description = returnHandReceiptItemDto.Description,
                     Company = handReceiptItem.Company,
-                    ItemBarcode = await GenerateBarcode(),
+                    ItemBarcode = handReceiptItem.ItemBarcode,
                     ReturnReason = returnHandReceiptItemDto.ReturnReason,
                     HandReceiptItemId = handReceiptItem.Id,
                     MaintenanceRequestStatus = status,
@@ -145,16 +145,13 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceipts
                     CostTo = returnHandReceiptItemDto.CostTo,
                     NotifyCustomerOfTheCost = returnHandReceiptItemDto.NotifyCustomerOfTheCost,
                     Urgent = returnHandReceiptItemDto.Urgent,
+                    ItemBarcodeFilePath = handReceiptItem.ItemBarcodeFilePath
                 };
 
                 if (returnHandReceiptItemDto.SpecifiedCost != null)
                 {
                     newReturnHandReceiptItem.FinalCost = returnHandReceiptItemDto.SpecifiedCost;
                 }
-
-                newReturnHandReceiptItem.ItemBarcodeFilePath = _barcodeService
-                    .GenerateBarcode(newReturnHandReceiptItem.ItemBarcode
-                    , handReceipt.Customer.Name);
 
                 returnHandReceipt.ReturnHandReceiptItems.Add(newReturnHandReceiptItem);
             }
@@ -307,28 +304,6 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceipts
             var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemDataSet", Data = receiptItems } };
             var result = _pdfExportReportService.GeneratePdf("ReturnHandReceipt.rdlc", dataSets, paramaters);
             return result;
-        }
-
-        // Heplers
-        private async Task<string> GenerateBarcode()
-        {
-            var barcode = RandomDigits(10);
-            var isBarcodeExists = await _db.ReturnHandReceiptItems.AnyAsync(x => x.ItemBarcode.Equals(barcode));
-            if (isBarcodeExists)
-            {
-                await GenerateBarcode();
-            }
-
-            return barcode;
-        }
-
-        private string RandomDigits(int length)
-        {
-            var random = new Random();
-            string s = string.Empty;
-            for (int i = 0; i < length; i++)
-                s = string.Concat(s, random.Next(10).ToString());
-            return s;
         }
 
     }

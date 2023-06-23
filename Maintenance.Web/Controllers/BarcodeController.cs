@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Maintenance.Web.Controllers
 {
-    [Authorize(Roles = "Administrator, MaintenanceManager")]
+    [Authorize(Roles = "Administrator, MaintenanceTechnician")]
     public class BarcodeController : BaseController
     {
         private readonly IBarcodeService _barcodeService;

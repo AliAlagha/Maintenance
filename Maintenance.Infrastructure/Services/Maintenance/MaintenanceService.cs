@@ -27,14 +27,15 @@ namespace Maintenance.Infrastructure.Services.Maintenance
 
         // Hand receipt items
         public async Task<PagingResultViewModel<ReceiptItemForMaintenanceViewModel>> GetAllHandReceiptItems(Pagination pagination
-            , QueryDto query, string userId)
+            , QueryDto query, string barcode, string userId)
         {
             var handReceiptItemsDbQuery = _db.HandReceiptItems
                 .Include(x => x.Customer)
                 .Where(x => x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.NotifyCustomerOfTheInabilityToMaintain
                     && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.NotifyCustomerOfMaintenanceEnd
                     && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.Delivered
-                    && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained)
+                    && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.RemovedFromMaintained
+                    && x.MaintenanceRequestStatus != HandReceiptItemRequestStatus.CustomerRefused)
                 .OrderBy(x => x.CreatedAt)
                 .AsQueryable();
 
@@ -44,9 +45,11 @@ namespace Maintenance.Infrastructure.Services.Maintenance
                     || x.ItemBarcode.Contains(query.GeneralSearch)
                     || x.HandReceiptId.ToString().Contains(query.GeneralSearch)
                     || x.Customer.Name.Contains(query.GeneralSearch)
-                    || x.Customer.PhoneNumber.Contains(query.GeneralSearch)
-                    || x.HandReceipt.HandReceiptItems.Any(x => x.ItemBarcode
-                        .Contains(query.GeneralSearch)));
+                    || x.Customer.PhoneNumber.Contains(query.GeneralSearch));
+            }
+            else if (barcode != null)
+            {
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.ItemBarcode.Equals(barcode));
             }
 
             return await HandReceiptItemsPagedData(handReceiptItemsDbQuery, pagination);
@@ -138,14 +141,15 @@ namespace Maintenance.Infrastructure.Services.Maintenance
 
         // Return hand receipt items
         public async Task<PagingResultViewModel<ReceiptItemForMaintenanceViewModel>> GetAllReturnHandReceiptItems(Pagination pagination
-            , QueryDto query, string userId)
+            , QueryDto query, string barcode, string userId)
         {
             var returnHandReceiptItemsDbQuery = _db.ReturnHandReceiptItems
                 .Include(x => x.Customer)
                 .Where(x => x.MaintenanceRequestStatus != ReturnHandReceiptItemRequestStatus.NotifyCustomerOfTheInabilityToMaintain
                     && x.MaintenanceRequestStatus != ReturnHandReceiptItemRequestStatus.NotifyCustomerOfMaintenanceEnd
                     && x.MaintenanceRequestStatus != ReturnHandReceiptItemRequestStatus.Delivered
-                    && x.MaintenanceRequestStatus != ReturnHandReceiptItemRequestStatus.RemovedFromMaintained)
+                    && x.MaintenanceRequestStatus != ReturnHandReceiptItemRequestStatus.RemovedFromMaintained
+                    && x.MaintenanceRequestStatus != ReturnHandReceiptItemRequestStatus.CustomerRefused)
                 .OrderBy(x => x.CreatedAt)
                 .AsQueryable();
 
@@ -155,9 +159,11 @@ namespace Maintenance.Infrastructure.Services.Maintenance
                     || x.ItemBarcode.Contains(query.GeneralSearch)
                     || x.ReturnHandReceiptId.ToString().Contains(query.GeneralSearch)
                     || x.Customer.Name.Contains(query.GeneralSearch)
-                    || x.Customer.PhoneNumber.Contains(query.GeneralSearch)
-                    || x.ReturnHandReceipt.ReturnHandReceiptItems.Any(x => x.ItemBarcode
-                        .Contains(query.GeneralSearch)));
+                    || x.Customer.PhoneNumber.Contains(query.GeneralSearch));
+            }
+            else if (barcode != null)
+            {
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.ItemBarcode.Equals(barcode));
             }
 
             return await ReturnHandReceiptItemsPagedData(returnHandReceiptItemsDbQuery, pagination);
@@ -293,7 +299,7 @@ namespace Maintenance.Infrastructure.Services.Maintenance
             {
                 receiptItem.MaintenanceRequestStatus = HandReceiptItemRequestStatus.NotifyCustomerOfTheInabilityToMaintain;
             }
-            else if ((receiptItem.MaintenanceRequestStatus == HandReceiptItemRequestStatus.CustomerApproved 
+            else if ((receiptItem.MaintenanceRequestStatus == HandReceiptItemRequestStatus.CustomerApproved
                 && !receiptItem.NotifyCustomerOfTheCost)
                 || receiptItem.MaintenanceRequestStatus == HandReceiptItemRequestStatus.EnterMaintenanceCost)
             {

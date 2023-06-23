@@ -344,6 +344,15 @@ namespace Maintenance.Infrastructure.Services.Reports
                 case HandReceiptItemRequestStatus.CustomerRefused:
                     status = $"{Messages.CustomerRefused} - {notMaintainedItem.ReasonForRefusingMaintenance}";
                     break;
+                case HandReceiptItemRequestStatus.Completed:
+                    status = $"{Messages.Completed}";
+                    break;
+                case HandReceiptItemRequestStatus.NotifyCustomerOfMaintenanceEnd:
+                    status = $"{Messages.NotifyCustomerOfMaintenanceEnd}";
+                    break;
+                case HandReceiptItemRequestStatus.Delivered:
+                    status = $"{Messages.Delivered}";
+                    break;
             };
             return status;
         }
@@ -363,6 +372,15 @@ namespace Maintenance.Infrastructure.Services.Reports
                     break;
                 case ReturnHandReceiptItemRequestStatus.New:
                     status = $"{Messages.New}";
+                    break;
+                case ReturnHandReceiptItemRequestStatus.Completed:
+                    status = $"{Messages.Completed}";
+                    break;
+                case ReturnHandReceiptItemRequestStatus.NotifyCustomerOfMaintenanceEnd:
+                    status = $"{Messages.NotifyCustomerOfMaintenanceEnd}";
+                    break;
+                case ReturnHandReceiptItemRequestStatus.Delivered:
+                    status = $"{Messages.Delivered}";
                     break;
             };
             return status;
@@ -963,6 +981,96 @@ namespace Maintenance.Infrastructure.Services.Reports
             }
 
             return itemsList;
+        }
+
+        public async Task<List<ReceiptItemReportDataSet>> MaintainedItemsReport(QueryDto query)
+        {
+            var handReceiptItemsDbQuery = _db.HandReceiptItems
+                .Include(x => x.Customer)
+                .Where(x => x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.Completed
+                    || x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.NotifyCustomerOfMaintenanceEnd
+                    || x.MaintenanceRequestStatus == HandReceiptItemRequestStatus.Delivered)
+                .AsQueryable();
+
+            var returnHandReceiptItemsDbQuery = _db.ReturnHandReceiptItems
+                .Include(x => x.Customer)
+                .Where(x => x.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.Completed
+                    || x.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.NotifyCustomerOfMaintenanceEnd
+                    || x.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.Delivered)
+                .AsQueryable();
+
+            if (query.DateFrom.HasValue)
+            {
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CreatedAt >= query.DateFrom.Value);
+            }
+
+            if (query.DateTo.HasValue)
+            {
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.CreatedAt <= query.DateTo.Value);
+            }
+
+            if (query.TechnicianId != null)
+            {
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.TechnicianId != null
+                    && x.TechnicianId.Equals(query.TechnicianId));
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.TechnicianId != null
+                    && x.TechnicianId.Equals(query.TechnicianId));
+            }
+
+            if (query.BranchId.HasValue)
+            {
+                handReceiptItemsDbQuery = handReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
+                returnHandReceiptItemsDbQuery = returnHandReceiptItemsDbQuery.Where(x => x.BranchId == query.BranchId);
+            }
+
+            var notMaintainedHandReceiptItems = await handReceiptItemsDbQuery
+                .ToListAsync();
+            var notMaintainedReturnHandReceiptItems = await returnHandReceiptItemsDbQuery
+                .ToListAsync();
+
+            var notMaintainedItemsList = new List<ReceiptItemReportDataSet>();
+            foreach (var notMaintainedItem in notMaintainedHandReceiptItems)
+            {
+                var status = "";
+                status = GetHandReceiptItemRequestStatus(notMaintainedItem, status);
+
+                var notMaintainedItemDataSet = new ReceiptItemReportDataSet
+                {
+                    CustomerName = notMaintainedItem.Customer != null ? notMaintainedItem.Customer.Name : "",
+                    CustomerPhoneNumber = notMaintainedItem.Customer != null ? notMaintainedItem.Customer.PhoneNumber : "",
+                    Item = notMaintainedItem.Item,
+                    ItemBarcode = notMaintainedItem.ItemBarcode,
+                    Company = notMaintainedItem.Company,
+                    Date = notMaintainedItem.CreatedAt.ToString("yyyy-MM-dd hh:mm tt"),
+                    Status = status
+                };
+
+                notMaintainedItemsList.Add(notMaintainedItemDataSet);
+            }
+
+            foreach (var notMaintainedItem in notMaintainedReturnHandReceiptItems)
+            {
+                var status = "";
+                status = GetReturnHandReceiptItemRequestStatus(notMaintainedItem, status);
+
+                var notMaintainedItemDataSet = new ReceiptItemReportDataSet
+                {
+                    CustomerName = notMaintainedItem.Customer != null ? notMaintainedItem.Customer.Name : "",
+                    CustomerPhoneNumber = notMaintainedItem.Customer != null ? notMaintainedItem.Customer.PhoneNumber : "",
+                    Item = notMaintainedItem.Item,
+                    ItemBarcode = notMaintainedItem.ItemBarcode,
+                    Company = notMaintainedItem.Company,
+                    Date = notMaintainedItem.CreatedAt.ToString("yyyy-MM-dd hh:mm tt"),
+                    Status = status
+                };
+
+                notMaintainedItemsList.Add(notMaintainedItemDataSet);
+            }
+
+            var notMaintainedItemsListOrdered = notMaintainedItemsList.OrderByDescending(x => x.Date).ToList();
+            return notMaintainedItemsListOrdered;
         }
 
     }

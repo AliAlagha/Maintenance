@@ -7,9 +7,9 @@ namespace Maintenance.Infrastructure.Services.Maintenance
     public interface IMaintenanceService
     {
         Task<PagingResultViewModel<ReceiptItemForMaintenanceViewModel>> GetAllHandReceiptItems(Pagination pagination
-            , QueryDto query, string userId);
+            , QueryDto query, string barcode, string userId);
         Task<PagingResultViewModel<ReceiptItemForMaintenanceViewModel>> GetAllReturnHandReceiptItems(Pagination pagination
-            , QueryDto query, string userId);
+            , QueryDto query, string barcode, string userId);
 
         // Hand receipt items
         Task UpdateStatusForHandReceiptItem(int receiptItemId, HandReceiptItemRequestStatus? status, string userId);

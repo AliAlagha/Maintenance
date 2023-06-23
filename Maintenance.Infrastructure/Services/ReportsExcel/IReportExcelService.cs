@@ -20,5 +20,7 @@ namespace Maintenance.Infrastructure.Services.ReportsExcel
         Task<byte[]> TechnicianFeesReportExcel(DateTime? dateFrom, DateTime? dateTo, string? technicianId, int? branchId);
         Task<byte[]> RemovedFromMaintainedItemsReportExcel(DateTime? dateFrom, DateTime? dateTo
             , string? technicianId, int? branchId);
+        Task<byte[]> MaintainedItemsReportExcel(DateTime? dateFrom, DateTime? dateTo
+            , string? technicianId, int? branchId);
     }
 }

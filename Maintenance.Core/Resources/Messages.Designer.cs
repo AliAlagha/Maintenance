@@ -1024,6 +1024,15 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to تقرير القطع التي تم صيانتها.
+        /// </summary>
+        public static string MaintainedItemsReport {
+            get {
+                return ResourceManager.GetString("MaintainedItemsReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to صيانة.
         /// </summary>
         public static string Maintenance {
@@ -1096,7 +1105,7 @@ namespace Maintenance.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to طلبات مدير الصيانة.
+        ///   Looks up a localized string similar to طلبات الموافقة على الصيانة.
         /// </summary>
         public static string ManagerRequests {
             get {

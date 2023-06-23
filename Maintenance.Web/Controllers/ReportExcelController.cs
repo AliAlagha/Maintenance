@@ -86,6 +86,13 @@ namespace Maintenance.Web.Controllers
             var result = await _reportExcelService.RemovedFromMaintainedItemsReportExcel(dateFrom, dateTo, technicianId, branchId);
             return GetExcelFileResult(result, "RemovedFromMaintainedItems");
         }
+
+        public async Task<IActionResult> MaintainedItemsReportExcel(DateTime? dateFrom, DateTime? dateTo
+            , string? technicianId, int? branchId)
+        {
+            var result = await _reportExcelService.MaintainedItemsReportExcel(dateFrom, dateTo, technicianId, branchId);
+            return GetExcelFileResult(result, "MaintainedItems");
+        }
     }
 }
 

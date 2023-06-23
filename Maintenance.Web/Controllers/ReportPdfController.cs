@@ -87,6 +87,13 @@ namespace Maintenance.Web.Controllers
             var result = await _reportPdfService.RemovedFromMaintainedItemsReportPdf(UserId, dateFrom, dateTo, technicianId, branchId);
             return GetPdfFileResult(result, "RemovedFromMaintainedItems");
         }
+
+        public async Task<IActionResult> MaintainedItemsReportPdf(DateTime? dateFrom, DateTime? dateTo
+            , string? technicianId, int? branchId)
+        {
+            var result = await _reportPdfService.MaintainedItemsReportPdf(dateFrom, dateTo, technicianId, branchId);
+            return GetPdfFileResult(result, "MaintainedItems");
+        }
     }
 }
 

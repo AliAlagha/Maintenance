@@ -155,6 +155,17 @@ namespace Maintenance.Web.Controllers
             var result = await _reportService.RemovedFromMaintainedItemsReport(query);
             return Json(result);
         }
+
+        public IActionResult MaintainedItems()
+        {
+            return View();
+        }
+
+        public async Task<JsonResult> MaintainedItemsReport(QueryDto query)
+        {
+            var result = await _reportService.MaintainedItemsReport(query);
+            return Json(result);
+        }
     }
 }
 

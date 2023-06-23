@@ -404,5 +404,36 @@ namespace Maintenance.Infrastructure.Services.ReportsExcel
             })));
         }
 
+        public async Task<byte[]> MaintainedItemsReportExcel(DateTime? dateFrom, DateTime? dateTo
+            , string? technicianId, int? branchId)
+        {
+            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, TechnicianId = technicianId
+                , BranchId = branchId };
+            var motMaintainedItemsList = await _reportService.MaintainedItemsReport(query);
+
+            return ExcelHelpers.ToExcel(new Dictionary<string, ExcelColumn>
+            {
+                {"Customer Name", new ExcelColumn("Customer Name", 0)},
+                {"Customer Phone Number", new ExcelColumn("Customer Phone Number", 1)},
+                {"Item", new ExcelColumn("Item", 2)},
+                {"Item Barcode", new ExcelColumn("Item Barcode", 3)},
+                {"Company", new ExcelColumn("Company", 4)},
+                {"Date", new ExcelColumn("Date", 5)},
+                {"Status", new ExcelColumn("Status", 6)}
+            }, new List<ExcelRow>(motMaintainedItemsList.Select(e => new ExcelRow
+            {
+                Values = new Dictionary<string, string>
+                {
+                    {"Customer Name", e.CustomerName},
+                    {"Customer Phone Number", e.CustomerPhoneNumber},
+                    {"Item",e.Item},
+                    {"Item Barcode", e.ItemBarcode},
+                    {"Company", e.Company},
+                    {"Date", e.Date},
+                    {"Status", e.Status}
+                }
+            })));
+        }
+
     }
 }

@@ -8,8 +8,7 @@ namespace Maintenance.Core.Enums
 {
     public enum BarcodeSearchType
     {
-        HandReceipt = 1,
-        ReturnHandReceipt = 2,
-        Both = 3
+        HandReceiptItem = 1,
+        ReturnHandReceiptItem = 2,
     }
 }

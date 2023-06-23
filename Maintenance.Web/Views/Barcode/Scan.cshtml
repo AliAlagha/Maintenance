@@ -17,23 +17,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.4/html5-qrcode.min.js" integrity="sha512-k/KAe4Yff9EUdYI5/IAHlwUswqeipP+Cp5qnrsUjTPCgl51La2/JhyyjNciztD7mWNKLSXci48m7cctATKfLlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 }
 
-    <!--begin::Card-->
-    <div class="card card-custom">
-        <div class="card-header flex-wrap border-0 pt-6 pb-0">
-            <div class="card-title">
-                <h3 class="card-label">
-                    @Messages.ScanBarcode
-                    <span class="d-block text-muted pt-2 font-size-sm">@string.Format(Messages.IndexSubTitle, Messages.ScanBarcode)</span>
-                </h3>
-            </div>
+<!--begin::Card-->
+<div class="card card-custom">
+    <div class="card-header flex-wrap border-0 pt-6 pb-0">
+        <div class="card-title">
+            <h3 class="card-label">
+                @Messages.ScanBarcode
+                <span class="d-block text-muted pt-2 font-size-sm">@string.Format(Messages.IndexSubTitle, Messages.ScanBarcode)</span>
+            </h3>
         </div>
-        <div class="card-body">
-            <main>
-                <div id="reader"></div>
-                <div id="result"></div>
-            </main>
+    </div>
+    <div class="card-body">
+        <main>
+            <div id="reader"></div>
+            <div id="result"></div>
+        </main>
 
-            <script>
+        <script>
+            console.log('@ViewBag.BarcodeSearchType');
                 const scanner = new Html5QrcodeScanner('reader', {
                     qrbox: {
                         width: 250,
@@ -45,15 +46,15 @@
                 function success(result) {
                     scanner.clear();
                     document.getElementById('reader').remove();
-                    if ('@ViewBag.BarcodeSearchType' == "HandReceipt") {
-                        location.replace("/HandReceipt/Index?Barcode=" + result);
-                    } else if ('@ViewBag.BarcodeSearchType' == "ReturnHandReceipt") {
-                        location.replace("/ReturnHandReceipt/Index?Barcode=" + result);
+                    if ('@ViewBag.BarcodeSearchType' == "HandReceiptItem") {
+                        location.replace("/Maintenance/HandReceiptItems?Barcode=" + result);
+                    } else if ('@ViewBag.BarcodeSearchType' == "ReturnHandReceiptItem") {
+                        location.replace("/Maintenance/ReturnHandReceiptItems?Barcode=" + result);
                     }
                 }
                 function error(err) {
-                    console.error(err);
+                    //console.error(err);
                 }
-            </script>
-        </div>
+        </script>
     </div>
+</div>

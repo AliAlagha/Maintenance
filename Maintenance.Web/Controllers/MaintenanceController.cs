@@ -18,27 +18,29 @@ namespace Maintenance.Web.Controllers
             _maintenanceService = maintenanceService;
         }
 
-        public IActionResult HandReceiptItems()
+        public IActionResult HandReceiptItems(string barcode)
         {
+            ViewBag.Barcode = barcode;
             return View();
         }
 
         [HttpPost]
-        public async Task<JsonResult> GetAllHandReceiptItems(Pagination pagination, QueryDto query)
+        public async Task<JsonResult> GetAllHandReceiptItems(Pagination pagination, QueryDto query, string barcode)
         {
-            var response = await _maintenanceService.GetAllHandReceiptItems(pagination, query, UserId);
+            var response = await _maintenanceService.GetAllHandReceiptItems(pagination, query, barcode, UserId);
             return Json(response);
         }
 
-        public IActionResult ReturnHandReceiptItems()
+        public IActionResult ReturnHandReceiptItems(string barcode)
         {
+            ViewBag.Barcode = barcode;
             return View();
         }
 
         [HttpPost]
-        public async Task<JsonResult> GetAllReturnHandReceiptItems(Pagination pagination, QueryDto query)
+        public async Task<JsonResult> GetAllReturnHandReceiptItems(Pagination pagination, QueryDto query, string barcode)
         {
-            var response = await _maintenanceService.GetAllReturnHandReceiptItems(pagination, query, UserId);
+            var response = await _maintenanceService.GetAllReturnHandReceiptItems(pagination, query, barcode, UserId);
             return Json(response);
         }
 

@@ -329,5 +329,32 @@ namespace Maintenance.Infrastructure.Services.ReportsPdf
             return result;
         }
 
+        public async Task<byte[]> MaintainedItemsReportPdf(DateTime? dateFrom, DateTime? dateTo
+            , string? technicianId, int? branchId)
+        {
+            var paramaters = new Dictionary<string, object>();
+            paramaters.Add("ReportDate", DateTime.Now.ToString("yyyy-MM-dd hh:mm tt"));
+            paramaters.Add("DateFrom", dateFrom != null ? dateFrom.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
+            paramaters.Add("DateTo", dateTo != null ? dateTo.Value.ToString("yyyy-MM-dd hh:mm tt") : "");
+
+            if (branchId != null)
+            {
+                var branch = await _db.Branches.SingleOrDefaultAsync(x => x.Id == branchId);
+                if (branch == null)
+                {
+                    throw new EntityNotFoundException();
+                }
+
+                paramaters.Add("BranchName", branch.Name);
+            }
+
+            var query = new QueryDto { DateFrom = dateFrom, DateTo = dateTo, TechnicianId = technicianId, BranchId = branchId };
+            var itemsList = await _reportService.MaintainedItemsReport(query);
+
+            var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemReportDataSet", Data = itemsList } };
+            var result = _pdfExportReportService.GeneratePdf("MaintainedItems.rdlc", dataSets, paramaters);
+            return result;
+        }
+
     }
 }

@@ -438,6 +438,9 @@
   <data name="LoginToMaintenanceApp" xml:space="preserve">
     <value>تسجيل الدخول إلى نظام الصيانة</value>
   </data>
+  <data name="MaintainedItemsReport" xml:space="preserve">
+    <value>تقرير القطع التي تم صيانتها</value>
+  </data>
   <data name="Maintenance" xml:space="preserve">
     <value>صيانة</value>
   </data>
@@ -463,7 +466,7 @@
     <value>رفض المدير</value>
   </data>
   <data name="ManagerRequests" xml:space="preserve">
-    <value>طلبات مدير الصيانة</value>
+    <value>طلبات الموافقة على الصيانة</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>الإسم</value>

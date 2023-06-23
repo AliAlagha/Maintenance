@@ -1,0 +1,253 @@
+﻿@{
+    ViewData["Title"] = Messages.MaintainedItemsReport;
+}
+
+<!--begin::Card-->
+<div class="card card-custom">
+    <div class="card-header flex-wrap border-0 pt-6 pb-0">
+        <div class="card-title">
+            <h3 class="card-label">
+                @Messages.MaintainedItemsReport
+                <span class="d-block text-muted pt-2 font-size-sm">@string.Format(Messages.IndexSubTitle, Messages.MaintainedItemsReport)</span>
+            </h3>
+        </div>
+        <div class="card-toolbar">
+            <a id="PdfBtn" title="@string.Format(Messages.ExportToPdf)" class="btn btn-primary font-weight-bolder mr-2">
+                @Messages.ExportToPdf
+            </a>
+            <a id="ExcelBtn" title="@string.Format(Messages.ExportToExcel)" class="btn btn-secondary font-weight-bolder">
+                @Messages.ExportToExcel
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <!--begin::Search Form-->
+        <div class="mb-7">
+            <div class="row align-items-center">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>@Messages.From</label>
+                        <input type="datetime-local" id="DateFrom" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>@Messages.To</label>
+                        <input type="datetime-local" id="DateTo" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>@Messages.MaintenanceTechnician</label>
+                        <select name="TechnicianId" id="SelectTechnician" class="form-control select2">
+                            <option value="">-- @string.Format(Messages.Select, Messages.MaintenanceTechnician) --</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>@Messages.Branch</label>
+                        <select id="SelectBranch" class="form-control select2">
+                            <option value="">-- @string.Format(Messages.Select, Messages.Branch) --</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!--end: Search Form-->
+            <!--begin: Datatable-->
+            <div class="datatable table-striped datatable-head-custom" id="kt_datatable"></div>
+            <!--end: Datatable-->
+        </div>
+    </div>
+</div>
+<!--end::Card-->
+@section Scripts{
+    <script>
+        "use strict";
+        // Class definition
+        var KTDatatableAutoColumnHideDemo = function () {
+            // Private functions
+            // basic demo
+            var demo = function () {
+                var datatable = $('#kt_datatable').KTDatatable({
+                    // datasource definition
+                    data: {
+                        type: 'remote',
+                        source: {
+                            read: {
+                                url: '/Report/MaintainedItemsReport',
+                            },
+                        },
+                        pageSize: 10,
+                        saveState: false,
+                        serverFiltering: true,
+                    },
+                    layout: {
+                        scroll: false
+                    },
+                    // column sorting
+                    sortable: true,
+                    pagination: false,
+                    search: {
+                        input: $('#kt_datatable_search_query'),
+                        key: 'generalSearch'
+                    },
+                    // columns definition
+                    columns: [
+                        {
+                            field: 'customerName',
+                            title: '@Messages.CustomerFullName',
+                            sortable: false,
+                            autoHide: false,
+                            width: 150
+                        },
+                        {
+                            field: 'customerPhoneNumber',
+                            title: '@Messages.CustomerPhoneNumber',
+                            sortable: false,
+                            width: 150
+                        },
+                        {
+                            field: 'item',
+                            title: '@Messages.Item',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'itemBarcode',
+                            title: '@Messages.Barcode',
+                            sortable: false,
+                            width: 150
+                        },
+                        {
+                            field: 'company',
+                            title: '@Messages.Company',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'date',
+                            title: '@Messages.Date',
+                            sortable: false,
+                            width: 100
+                        },
+                        {
+                            field: 'status',
+                            title: '@Messages.Status',
+                            sortable: false,
+                            width: 200
+                        }],
+                });
+
+                $('#DateFrom').on('change', function () {
+                    datatable.search($(this).val().toLowerCase(), 'DateFrom');
+                });
+
+                $('#DateTo').on('change', function () {
+                    datatable.search($(this).val().toLowerCase(), 'DateTo');
+                });
+
+                $('#SelectTechnician').on('change', function () {
+                    datatable.search($(this).val().toLowerCase(), 'TechnicianId');
+                });
+
+                $('#SelectBranch').on('change', function () {
+                    datatable.search($(this).val().toLowerCase(), 'BranchId');
+                });
+            };
+            return {
+                // public functions
+                init: function () {
+                    demo();
+                },
+            };
+        }();
+        jQuery(document).ready(function () {
+            KTDatatableAutoColumnHideDemo.init();
+        });
+
+        $("#PdfBtn").click(function () {
+            var dateFrom = "";
+            var dateFromVal = $('#DateFrom').val();
+            if (dateFromVal) {
+                dateFrom = dateFromVal;
+            }
+
+            var dateTo = "";
+            var dateToVal = $('#DateTo').val();
+            if (dateToVal) {
+                dateTo = dateToVal;
+            }
+
+            var technicianId = "";
+            var technicianIdVal = $('#SelectTechnician').val();
+            if (technicianIdVal) {
+                technicianId = technicianIdVal;
+            }
+
+            var branchId = "";
+            var branchIdVal = $('#SelectBranch').val();
+            if (branchIdVal) {
+                branchId = branchIdVal;
+            }
+
+            window.open('/ReportPdf/MaintainedItemsReportPdf?DateFrom='
+                + dateFrom + '&DateTo=' + '&TechnicianId=' + technicianId + '&BranchId=' + branchId, '_blank');
+        });
+
+        $("#ExcelBtn").click(function () {
+            var dateFrom = "";
+            var dateFromVal = $('#DateFrom').val();
+            if (dateFromVal) {
+                dateFrom = dateFromVal;
+            }
+
+            var dateTo = "";
+            var dateToVal = $('#DateTo').val();
+            if (dateToVal) {
+                dateTo = dateToVal;
+            }
+
+            var technicianId = "";
+            var technicianIdVal = $('#SelectTechnician').val();
+            if (technicianIdVal) {
+                technicianId = technicianIdVal;
+            }
+
+            var branchId = "";
+            var branchIdVal = $('#SelectBranch').val();
+            if (branchIdVal) {
+                branchId = branchIdVal;
+            }
+
+            window.open('/ReportExcel/MaintainedItemsReportExcel?DateFrom='
+                + dateFrom + '&DateTo=' + dateTo + '&TechnicianId=' + technicianId + '&BranchId=' + branchId, '_blank');
+        });
+
+        $.ajax({
+            url: '/User/List',
+            dataType: "json",
+            data: {
+                UserType: 3
+            },
+            success: function (data) {
+                $(data).each(function (index, value) {
+                    $("#SelectTechnician").append($("<option></option>").val(value.id).html(value.name));
+                });
+            }
+        });
+
+        $.ajax({
+            url: '/Branch/List',
+            dataType: "json",
+            success: function (data) {
+                $(data).each(function (index, value) {
+                    $("#SelectBranch").append($("<option></option>").val(value.id).html(value.name));
+                });
+            }
+        });
+    </script>
+    }
+
+
+
