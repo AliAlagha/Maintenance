@@ -283,9 +283,15 @@ namespace Maintenance.Infrastructure.Services.Maintenance
             {
                 receiptItem.MaintenanceRequestStatus = HandReceiptItemRequestStatus.ItemCannotBeServiced;
             }
-            else if (receiptItem.MaintenanceRequestStatus == HandReceiptItemRequestStatus.DefineMalfunction)
+            else if (receiptItem.MaintenanceRequestStatus == HandReceiptItemRequestStatus.DefineMalfunction
+                && receiptItem.NotifyCustomerOfTheCost)
             {
                 receiptItem.MaintenanceRequestStatus = HandReceiptItemRequestStatus.InformCustomerOfTheCost;
+            }
+            else if (receiptItem.MaintenanceRequestStatus == HandReceiptItemRequestStatus.DefineMalfunction
+                && !receiptItem.NotifyCustomerOfTheCost)
+            {
+                receiptItem.MaintenanceRequestStatus = HandReceiptItemRequestStatus.Completed;
             }
             else if (receiptItem.MaintenanceRequestStatus == HandReceiptItemRequestStatus.InformCustomerOfTheCost)
             {
@@ -453,9 +459,15 @@ namespace Maintenance.Infrastructure.Services.Maintenance
             {
                 receiptItem.MaintenanceRequestStatus = ReturnHandReceiptItemRequestStatus.ItemCannotBeServiced;
             }
-            else if (receiptItem.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.DefineMalfunction)
+            else if (receiptItem.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.DefineMalfunction
+                && receiptItem.NotifyCustomerOfTheCost)
             {
                 receiptItem.MaintenanceRequestStatus = ReturnHandReceiptItemRequestStatus.InformCustomerOfTheCost;
+            }
+            else if (receiptItem.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.DefineMalfunction
+                && !receiptItem.NotifyCustomerOfTheCost)
+            {
+                receiptItem.MaintenanceRequestStatus = ReturnHandReceiptItemRequestStatus.Completed;
             }
             else if (receiptItem.MaintenanceRequestStatus == ReturnHandReceiptItemRequestStatus.InformCustomerOfTheCost)
             {
