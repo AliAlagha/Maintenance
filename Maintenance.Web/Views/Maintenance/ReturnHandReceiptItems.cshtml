@@ -28,6 +28,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-2">
                                 <a href="/Barcode/Scan?type=@BarcodeSearchType.ReturnHandReceiptItem" class="btn btn-sm btn-clean btn-icon mr-2" title="@Messages.ScanBarcode">
                     <span class="svg-icon svg-icon-md">
                         <span class="svg-icon svg-icon-primary svg-icon-2x">
@@ -43,6 +44,7 @@
                         </span>
                     </span>
                 </a>
+            </div>
             </div>
         </div>
         <!--end: Search Form-->
@@ -174,12 +176,22 @@
                                             '                    <span class="navi-text">@Messages.ItemCannotBeServiced</span>' +
                                             '                </a>' +
                                             '            </li>';
-                                    } else if (data.maintenanceRequestStatus == StatusEnum.DefineMalfunction) {
+                                    } else if (data.maintenanceRequestStatus == StatusEnum.DefineMalfunction
+                                        && data.notifyCustomerOfTheCost) {
                                         result = result +
                                             '            </li>' +
                                             '            <li class="navi-item">' +
                                             '                <a href="/Maintenance/UpdateStatusForReturnHandReceiptItem?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.InformCustomerOfTheCost">' +
                                             '                    <span class="navi-text">@Messages.InformCustomerOfTheCost</span>' +
+                                            '                </a>' +
+                                            '            </li>';
+                                    } else if (data.maintenanceRequestStatus == StatusEnum.DefineMalfunction
+                                        && !data.notifyCustomerOfTheCost) {
+                                        result = result +
+                                            '            </li>' +
+                                            '            <li class="navi-item">' +
+                                            '                <a href="/Maintenance/UpdateStatusForReturnHandReceiptItem?ReceiptItemId=' + data.id + '" tname="#kt_datatable" class="Confirm navi-link" title="@Messages.InformCustomerOfTheCost">' +
+                                            '                    <span class="navi-text">@Messages.Completed</span>' +
                                             '                </a>' +
                                             '            </li>';
                                     } else if (data.maintenanceRequestStatus == StatusEnum.InformCustomerOfTheCost) {

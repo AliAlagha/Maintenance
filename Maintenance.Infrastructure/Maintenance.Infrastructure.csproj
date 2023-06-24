@@ -74,6 +74,7 @@
 		<PackageReference Include="FreeSpire.Barcode" Version="6.6.0" />
 		<PackageReference Include="MailKit" Version="3.6.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+		<PackageReference Include="Polybioz.HtmlRenderer.PdfSharp.Core" Version="1.0.0" />
 		<PackageReference Include="ReportViewerCore.NETCore" Version="15.1.15" />
 	</ItemGroup>
 

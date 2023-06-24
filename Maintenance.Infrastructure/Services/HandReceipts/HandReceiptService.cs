@@ -6,13 +6,15 @@ using Maintenance.Data;
 using Maintenance.Data.DbEntities;
 using Maintenance.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Maintenance.Infrastructure.Services.Customers;
-using Maintenance.Data.Extensions;
 using Maintenance.Core.Enums;
 using Maintenance.Core.Resources;
 using System.Globalization;
 using Maintenance.Infrastructure.Services.PdfExportReport;
 using Maintenance.Infrastructure.Services.Barcodes;
+using PdfSharpCore.Pdf;
+using TheArtOfDev.HtmlRenderer.PdfSharp;
+using PdfSharpCore;
+using PdfSharpCore.Drawing;
 
 namespace Maintenance.Infrastructure.Services.HandReceipts
 {
@@ -245,6 +247,31 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemDataSet", Data = receiptItems } };
             var result = _pdfExportReportService.GeneratePdf("HandReceipt.rdlc", dataSets, paramaters);
             return result;
+        }
+
+        public byte[] GenPDFwithImage()
+        {
+            var document = new PdfDocument();
+            string htmlelement = "<div style='width:100%' text-align>";
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"
+                , "Images", "1533cc4abaf24343a9357c56c319242a.png");
+            htmlelement += "<span style='display: block; margin-right: auto; margin-left: auto;'>5485265897</span>";
+            htmlelement += "<img style='display: block; margin-right: auto; margin-left: auto;' width='100' src='" + filePath + "'   />";
+            htmlelement += "<span style='display: block; margin-right: auto; margin-left: auto;'>Ali Ali Ali</span>";
+            htmlelement += "</div>";
+            PdfGenerator.AddPdfPages(document, htmlelement, new PdfGenerateConfig
+            {
+                ManualPageSize = new XSize(110, 75)
+            });
+
+            byte[] response = null;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                document.Save(ms);
+                response = ms.ToArray();
+            }
+
+            return response;
         }
 
     }

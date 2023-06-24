@@ -12,6 +12,7 @@ using Maintenance.Infrastructure.Services.Reports;
 using Maintenance.Infrastructure.Services.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
 
 namespace Maintenance.Web.Controllers
 {
@@ -214,6 +215,12 @@ namespace Maintenance.Web.Controllers
         {
             var result = await _handReceiptService.ExportToPdf(id);
             return GetPdfFileResult(result, $"{id} - HandReceipt");
+        }
+
+        public IActionResult ExportBarcodeToPdf(int id)
+        {
+            var result = _handReceiptService.GenPDFwithImage();
+            return GetPdfFileResult(result, $"{id} - Barcodes");
         }
     }
 }

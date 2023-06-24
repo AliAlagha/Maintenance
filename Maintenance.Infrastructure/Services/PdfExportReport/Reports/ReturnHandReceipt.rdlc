@@ -168,7 +168,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>معلومات سند القطع المعادة</Value>
+                    <Value>سند القطع المعادة</Value>
                     <Style>
                       <FontSize>16pt</FontSize>
                       <FontWeight>Bold</FontWeight>
@@ -178,7 +178,7 @@
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Right</TextAlign>
+                  <TextAlign>Center</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
