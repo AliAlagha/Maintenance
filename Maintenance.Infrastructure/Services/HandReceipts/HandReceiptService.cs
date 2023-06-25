@@ -269,16 +269,18 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
 
             foreach (var item in handReceipt.HandReceiptItems)
             {
-                string htmlelement = "<div style='width:100%' style='text-align: center;'>";
+                string htmlelement = "<div style='width:100%;' style='text-align: center; padding-top: 4px;'>";
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"
                     , "Images", item.ItemBarcodeFilePath);
-                htmlelement += "<p>"+item.ItemBarcode+"</p>";
-                htmlelement += "<img width='100' src='" + filePath + "'   />";
-                htmlelement += "<p>"+ customerName + "</p>";
+                var ruler = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"
+                    , "AppImages", "ruler.png");
+                htmlelement += "<span style='font-size: 8px; height: 8px;'>"+item.ItemBarcode+"</span>";
+                htmlelement += "<img width='80' src='" + filePath + "'   />";
+                htmlelement += "<span style='font-size: 8px; height: 15px;'>" + customerName + "</span>";
                 htmlelement += "</div>";
                 PdfGenerator.AddPdfPages(document, htmlelement, new PdfGenerateConfig
                 {
-                    ManualPageSize = new XSize(110, 75)
+                    ManualPageSize = new XSize(80, 55)
                 });
             }
 

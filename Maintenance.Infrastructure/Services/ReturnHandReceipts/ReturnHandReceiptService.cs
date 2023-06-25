@@ -14,6 +14,9 @@ using Maintenance.Core.Resources;
 using System.Globalization;
 using Maintenance.Infrastructure.Services.PdfExportReport;
 using Maintenance.Infrastructure.Services.Barcodes;
+using PdfSharpCore.Drawing;
+using PdfSharpCore.Pdf;
+using TheArtOfDev.HtmlRenderer.PdfSharp;
 
 namespace Maintenance.Infrastructure.Services.ReturnHandReceipts
 {
@@ -304,6 +307,52 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceipts
             var dataSets = new List<DataSetDto>() { new DataSetDto { Name = "ReceiptItemDataSet", Data = receiptItems } };
             var result = _pdfExportReportService.GeneratePdf("ReturnHandReceipt.rdlc", dataSets, paramaters);
             return result;
+        }
+
+        public async Task<byte[]> ExportBarcodesToPdf(int id)
+        {
+            var handReceipt = await _db.ReturnHandReceipts
+                .Include(x => x.Customer)
+                .Include(x => x.ReturnHandReceiptItems)
+                .SingleOrDefaultAsync(x => x.Id == id);
+            if (handReceipt == null)
+            {
+                throw new EntityNotFoundException();
+            }
+
+            var document = new PdfDocument();
+
+            var customerName = "";
+            if (handReceipt.Customer != null)
+            {
+                customerName = handReceipt.Customer.Name;
+            }
+
+            foreach (var item in handReceipt.ReturnHandReceiptItems)
+            {
+                string htmlelement = "<div style='width:100%;' style='text-align: center; padding-top: 4px;'>";
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"
+                    , "Images", item.ItemBarcodeFilePath);
+                var ruler = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"
+                    , "AppImages", "ruler.png");
+                htmlelement += "<span style='font-size: 8px; height: 8px;'>" + item.ItemBarcode + "</span>";
+                htmlelement += "<img width='80' src='" + filePath + "'   />";
+                htmlelement += "<span style='font-size: 8px; height: 15px;'>" + customerName + "</span>";
+                htmlelement += "</div>";
+                PdfGenerator.AddPdfPages(document, htmlelement, new PdfGenerateConfig
+                {
+                    ManualPageSize = new XSize(80, 55)
+                });
+            }
+
+            byte[] response = null;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                document.Save(ms);
+                response = ms.ToArray();
+            }
+
+            return response;
         }
 
     }

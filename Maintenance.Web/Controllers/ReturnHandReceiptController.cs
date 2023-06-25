@@ -79,6 +79,12 @@ namespace Maintenance.Web.Controllers
             return GetPdfFileResult(result, $"{id} - ReturnHandReceipt");
         }
 
+        public async Task<IActionResult> ExportBarcodesToPdf(int id)
+        {
+            var result = await _returnHandReceiptService.ExportBarcodesToPdf(id);
+            return GetPdfFileResult(result, $"{id} - Barcodes");
+        }
+
     }
 }
 

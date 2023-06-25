@@ -12,5 +12,6 @@ namespace Maintenance.Infrastructure.Services.ReturnHandReceipts
         Task<List<HandReceiptItemForReturnViewModel>> GetHandReceiptItemsForReturn(int id);
         Task IsReturnReceiptAlradyExists(int handReceiptId);
         Task<byte[]> ExportToPdf(int id);
+        Task<byte[]> ExportBarcodesToPdf(int id);
     }
 }
