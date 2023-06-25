@@ -14,6 +14,6 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             , string userId);
         Task Delete(int id, string userId);
         Task<byte[]> ExportToPdf(int id);
-        byte[] GenPDFwithImage();
+        Task<byte[]> ExportBarcodesToPdf(int id);
     }
 }

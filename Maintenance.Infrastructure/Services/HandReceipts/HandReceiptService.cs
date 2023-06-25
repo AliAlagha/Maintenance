@@ -13,7 +13,6 @@ using Maintenance.Infrastructure.Services.PdfExportReport;
 using Maintenance.Infrastructure.Services.Barcodes;
 using PdfSharpCore.Pdf;
 using TheArtOfDev.HtmlRenderer.PdfSharp;
-using PdfSharpCore;
 using PdfSharpCore.Drawing;
 
 namespace Maintenance.Infrastructure.Services.HandReceipts
@@ -249,20 +248,39 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
             return result;
         }
 
-        public byte[] GenPDFwithImage()
+        public async Task<byte[]> ExportBarcodesToPdf(int id)
         {
-            var document = new PdfDocument();
-            string htmlelement = "<div style='width:100%' text-align>";
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"
-                , "Images", "1533cc4abaf24343a9357c56c319242a.png");
-            htmlelement += "<span style='display: block; margin-right: auto; margin-left: auto;'>5485265897</span>";
-            htmlelement += "<img style='display: block; margin-right: auto; margin-left: auto;' width='100' src='" + filePath + "'   />";
-            htmlelement += "<span style='display: block; margin-right: auto; margin-left: auto;'>Ali Ali Ali</span>";
-            htmlelement += "</div>";
-            PdfGenerator.AddPdfPages(document, htmlelement, new PdfGenerateConfig
+            var handReceipt = await _db.HandReceipts
+                .Include(x => x.Customer)
+                .Include(x => x.HandReceiptItems)
+                .SingleOrDefaultAsync(x => x.Id == id);
+            if (handReceipt == null)
             {
-                ManualPageSize = new XSize(110, 75)
-            });
+                throw new EntityNotFoundException();
+            }
+
+            var document = new PdfDocument();
+
+            var customerName = "";
+            if (handReceipt.Customer != null)
+            {
+                customerName = handReceipt.Customer.Name;
+            }
+
+            foreach (var item in handReceipt.HandReceiptItems)
+            {
+                string htmlelement = "<div style='width:100%' style='text-align: center;'>";
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"
+                    , "Images", item.ItemBarcodeFilePath);
+                htmlelement += "<p>"+item.ItemBarcode+"</p>";
+                htmlelement += "<img width='100' src='" + filePath + "'   />";
+                htmlelement += "<p>"+ customerName + "</p>";
+                htmlelement += "</div>";
+                PdfGenerator.AddPdfPages(document, htmlelement, new PdfGenerateConfig
+                {
+                    ManualPageSize = new XSize(110, 75)
+                });
+            }
 
             byte[] response = null;
             using (MemoryStream ms = new MemoryStream())

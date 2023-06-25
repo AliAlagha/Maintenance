@@ -217,9 +217,9 @@ namespace Maintenance.Web.Controllers
             return GetPdfFileResult(result, $"{id} - HandReceipt");
         }
 
-        public IActionResult ExportBarcodeToPdf(int id)
+        public async Task<IActionResult> ExportBarcodesToPdf(int id)
         {
-            var result = _handReceiptService.GenPDFwithImage();
+            var result = await _handReceiptService.ExportBarcodesToPdf(id);
             return GetPdfFileResult(result, $"{id} - Barcodes");
         }
     }

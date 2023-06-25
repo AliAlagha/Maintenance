@@ -22,8 +22,7 @@ namespace Maintenance.Infrastructure.Services.Barcodes
             {
                 Type = BarCodeType.Code39,
                 Data = barcode,
-                BottomText = customerName,
-                ShowBottomText = true
+                ShowText = false,
             };
 
             var bg = new BarCodeGenerator(bs);
