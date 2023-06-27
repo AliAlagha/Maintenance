@@ -2,6 +2,7 @@
 using Maintenance.Core.Constants;
 using Maintenance.Data;
 using Spire.Barcode;
+using System.Drawing;
 
 namespace Maintenance.Infrastructure.Services.Barcodes
 {
@@ -20,9 +21,14 @@ namespace Maintenance.Infrastructure.Services.Barcodes
         {
             var bs = new BarcodeSettings
             {
-                Type = BarCodeType.Code39,
+                Type = BarCodeType.Code128,
                 Data = barcode,
-                ShowText = false,
+                ShowText = true,
+                ShowBottomText = true,
+                BottomText = customerName,
+                BottomTextFont = new Font("Arial", 18, FontStyle.Bold),
+                TextFont = new Font("Arial", 18, FontStyle.Bold),
+                TopTextFont = new Font("Arial", 18, FontStyle.Bold)
             };
 
             var bg = new BarCodeGenerator(bs);

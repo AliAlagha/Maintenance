@@ -152,7 +152,7 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
 
         private async Task<string> GenerateBarcode()
         {
-            var barcode = RandomDigits(10);
+            var barcode = RandomDigits(6);
             var isBarcodeExists = await _db.HandReceiptItems.AnyAsync(x => x.ItemBarcode.Equals(barcode));
             if (isBarcodeExists)
             {
@@ -269,14 +269,10 @@ namespace Maintenance.Infrastructure.Services.HandReceipts
 
             foreach (var item in handReceipt.HandReceiptItems)
             {
-                string htmlelement = "<div style='width:100%;' style='text-align: center; padding-top: 4px;'>";
+                string htmlelement = "<div style='width:100%;' style='text-align: center;'>";
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"
                     , "Images", item.ItemBarcodeFilePath);
-                var ruler = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"
-                    , "AppImages", "ruler.png");
-                htmlelement += "<span style='font-size: 8px; height: 8px;'>"+item.ItemBarcode+"</span>";
-                htmlelement += "<img width='80' src='" + filePath + "'   />";
-                htmlelement += "<span style='font-size: 8px; height: 15px;'>" + customerName + "</span>";
+                htmlelement += "<img height='50' src='" + filePath + "'   />";
                 htmlelement += "</div>";
                 PdfGenerator.AddPdfPages(document, htmlelement, new PdfGenerateConfig
                 {
